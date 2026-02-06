@@ -1,0 +1,2 @@
+composer require laravel/sanctum
+npm run dev
