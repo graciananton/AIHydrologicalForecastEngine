@@ -5,8 +5,11 @@ import pprint
 #unread_threads = ezgmail.unread() # returns a GmailThread object of all unread threads
 #ezgmail.summary(unread_threads) #gives a summary for every thread
 
-threads = ezgmail.search('after:2026/02/01 before:2026/02/06')
+threads = ezgmail.search('after:2026/02/01 AND before:2026/02/07')
+print(len(threads))
 for thread in threads:
-    print("THREAD:", thread.messages[0].snippet)
-
+    for msg in thread.messages:
+        print(msg.timestamp,end='')
+        print(msg.subject,end='')
+    print()
 #print(ezgmail.summary(threads))
