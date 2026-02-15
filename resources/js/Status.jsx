@@ -8,7 +8,7 @@ export default function Status({ data }) {
   const status = data[2];
   return (
     <div id='status' className="container-fluid">
-      <div className='row'>
+      <div className='row' style={{border:"1px solid red"}}>
         <div className='col-md-10 col-sm-10 col-lg-10' id='welcome'>
           <span style={{ fontSize: "2rem",marginBottom:"0.3rem" }}>Welcome Admin</span>
         </div>
@@ -31,7 +31,7 @@ export default function Status({ data }) {
                 <td>hourly</td>
                 <td>{weather?.latestDateTime}</td>
                 <td>{weather?.nextDateTime}</td>
-                <td><a href="http://localhost/laravel/public/weather_sync">Run</a></td>
+                <td><a href="/laravel/public/weather_sync">Run</a></td>
               </tr>
               <tr>
                 <td>Readings</td>
@@ -39,7 +39,7 @@ export default function Status({ data }) {
                 <td>daily</td>
                 <td>{readings?.latestDateTime}</td>
                 <td>{readings?.nextDateTime}</td>
-                <td><a href="http://localhost/laravel/public/readings_sync">Run</a></td>
+                <td><a href="/laravel/public/readings_sync">Run</a></td>
               </tr>
               <tr>
                 <td>Status</td>
@@ -47,10 +47,16 @@ export default function Status({ data }) {
                 <td>monthly</td>
                 <td>{status?.latestDateTime}</td>
                 <td>{status?.nextDateTime}</td>
-                <td><a href="http://localhost/laravel/public/delete_records">Run</a></td>
+                <td><a href="/laravel/public/delete_records">Run</a></td>
               </tr>
             </tbody>
           </table>
+        </div>
+        <div className="col-md-10 col-sm-10 col-lg-10" style={{border:"1px solid red"}}>
+            <div className="col-md-6 col-sm-6 col-lg-6" style={{border:"1px solid blue"}}>
+              kk<br/>
+              ,kk<br/>
+            </div>
         </div>
       </div>
     </div>
