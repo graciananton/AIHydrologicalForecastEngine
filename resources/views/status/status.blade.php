@@ -9,10 +9,12 @@
 </head>
 <body>
     <script>
-        console.log(@json($readings))
-        console.log(@json($weather))
-        console.log(@json($status))
-        window.__REACT_DATA__ = @json([$readings,$weather,$status,'req'=>'status']);
+        console.log(@json($readings));
+        console.log(@json($weather));
+        console.log(@json($status));
+        console.log(@json($req));
+        
+        window.__REACT_DATA__ = @json(['readings' => $readings,'status' =>$status, 'req' => $req]);
     </script>
     @if(session('success'))
         <div id='success'>

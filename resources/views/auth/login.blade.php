@@ -29,8 +29,8 @@
 <body>
     <script>
     window.__REACT_DATA__ = @json([
-                    'error'=>session('error'),
-                    'req' => 'login'
+                    ['error'=>session('error')],
+                    ['req'  => 'login']
                     ]);
     </script>
     <meta name="csrf-token" content="{{ csrf_token() }}">

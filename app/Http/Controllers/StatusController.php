@@ -13,11 +13,11 @@ class StatusController extends Controller
     }
     public function process(){
        $recentDateTimes = $this->StatusService->getDateTimes();
-       $recentDateTimes['status']['loggedIn'] = true;
        return view("status.status", [
             "readings" => $recentDateTimes['readings'],
             "weather"  => $recentDateTimes['weather'],
-            "status"   => $recentDateTimes['status']
+            "status"   => $recentDateTimes['status'],
+            "req" => ['req'=>'status']
         ]);
     }
     public function deleteRecords(){
