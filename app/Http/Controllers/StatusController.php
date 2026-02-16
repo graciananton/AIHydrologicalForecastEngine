@@ -17,7 +17,7 @@ class StatusController extends Controller
        return view("status.status", [
             "readings" => $recentDateTimes['readings'],
             "weather"  => $recentDateTimes['weather'],
-            "status"   => $recentDateTimes['status'],
+            "status"   => $recentDateTimes['status']
         ]);
     }
     public function deleteRecords(){

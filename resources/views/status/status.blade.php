@@ -12,7 +12,7 @@
         console.log(@json($readings))
         console.log(@json($weather))
         console.log(@json($status))
-        window.__REACT_DATA__ = @json([$readings,$weather,$status]);
+        window.__REACT_DATA__ = @json([$readings,$weather,$status,'req'=>'status']);
     </script>
     @if(session('success'))
         <div id='success'>

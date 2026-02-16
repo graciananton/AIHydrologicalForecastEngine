@@ -1,4 +1,5 @@
 import React from "react";
+import { useState } from "react";
 import '../css/Status.css';
 
 export default function Status({ data }) {
@@ -8,11 +9,11 @@ export default function Status({ data }) {
   const status = data[2];
   return (
     <div id='status' className="container-fluid">
-      <div className='row' style={{border:"1px solid red"}}>
-        <div className='col-md-10 col-sm-10 col-lg-10' id='welcome'>
-          <span style={{ fontSize: "2rem",marginBottom:"0.3rem" }}>Welcome Admin</span>
+      <div className='row'>
+        <div className='col-md-12 col-sm-12 col-lg-12' id='welcome'>
+          <span>Welcome Admin</span>
         </div>
-        <div className='col-md-10 col-sm-10 col-lg-10'>
+        <div className='col-md-12 col-sm-12 col-lg-12' id='scheduler'>
           <table>
             <thead>
               <tr>
@@ -52,13 +53,24 @@ export default function Status({ data }) {
             </tbody>
           </table>
         </div>
-        <div className="col-md-10 col-sm-10 col-lg-10" style={{border:"1px solid red"}}>
-            <div className="col-md-6 col-sm-6 col-lg-6" style={{border:"1px solid blue"}}>
-              kk<br/>
-              ,kk<br/>
+        <div className="col-md-12 col-sm-12 col-lg-12" id='logs'>
+            <div className="col-md-9 col-sm-9 col-lg-9" style={{border:"1px solid red"}}>
+              
+            </div>
+            <div className="col-md-3 col-sm-3 col-lg-3" style={{border:"1px solid orange"}} id='settings'>
+                <div className='form-group' style={{border:"1px solid red",padding:"0.4rem"}}>
+                  <label htmlFor='numberOfLogs'>Number of Previous Logs:</label>
+                  <input id='numberOfLogs' name="numberOfLogs" type="number" min='0' defaultValue='10' style={{backgroundColor:"white",borderRadius:"5px",color:"black",paddingLeft:"0.3rem"}}/>
+                </div>
+                <div className='form-group' style={{padding:"0.4rem"}}>
+                  <button onclick={fetchLogs()} style={{backgroundColor:"white",color:"black",padding:"0.4rem",borderRadius:"6px"}}>Get Logs</button>
+                </div>
             </div>
         </div>
       </div>
     </div>
   );
+}
+function fetchLogs(){
+  
 }

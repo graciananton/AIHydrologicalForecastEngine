@@ -19,10 +19,23 @@
   justify-content:center;
   align-items:center;
 }
-#status #welcome{
+#status .row{
+  display:flex; 
+  flex-direction:column;
+  align-items:center;
+}
+#status .row #welcome{
   display:flex;
   justify-content:center;
   
+}
+#status .row #welcome span{
+  font-size: 2rem;
+  margin-bottom:0.3rem;
+}
+#status .row #logs{
+  display:flex;
+  flex-direction:row;
 }
 #status #title{
   font-size:2rem;
@@ -41,4 +54,7 @@
 #status .row table tr td:last-child{
   font-weight:bold;
   font-size:1.1rem;
+}
+#status .row #logs{
+  margin-top:0.7rem;
 }
