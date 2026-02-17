@@ -13,11 +13,13 @@ class AuthController extends Controller
         return view("auth.login");
     }
     public function login_submit(Request $request){
+        Log::channel('laravel')->info("processing request");
         $credentials = $request->validate([
             'email' => 'required|email',
             'password' => 'required'
         ]);
         if(Auth::attempt($credentials)){
+            Log::channel('laravel')->info("Attempting login");
             $request->session()->regenerate();
             $token = $this->create_token($request);
             session(['api_token'=>$token]);
