@@ -3,7 +3,6 @@ import { useState } from "react";
 import '../css/Status.css';
 
 export default function Status({ data }) {
-  console.log(data)
   const weather = data[1];
   const readings = data[0];
   const status = data[2];
@@ -54,23 +53,21 @@ export default function Status({ data }) {
           </table>
         </div>
         <div className="col-md-12 col-sm-12 col-lg-12" id='logs'>
-            <div className="col-md-9 col-sm-9 col-lg-9" style={{border:"1px solid red"}}>
+            <div className="col-md-8 col-sm-8 col-lg-8" style={{border:"1px solid red"}}>
               
             </div>
-            <div className="col-md-3 col-sm-3 col-lg-3" style={{border:"1px solid orange"}} id='settings'>
-                <div className='form-group' style={{border:"1px solid red",padding:"0.4rem"}}>
-                  <label htmlFor='numberOfLogs'>Number of Previous Logs:</label>
-                  <input id='numberOfLogs' name="numberOfLogs" type="number" min='0' defaultValue='10' style={{backgroundColor:"white",borderRadius:"5px",color:"black",paddingLeft:"0.3rem"}}/>
-                </div>
-                <div className='form-group' style={{padding:"0.4rem"}}>
-                  <button onclick={fetchLogs()} style={{backgroundColor:"white",color:"black",padding:"0.4rem",borderRadius:"6px"}}>Get Logs</button>
-                </div>
+            <div className="col-md-4 col-sm-4 col-lg-4" style={{border:"1px solid orange"}}>
+              {Input()}
             </div>
         </div>
       </div>
     </div>
   );
 }
-function fetchLogs(){
-  
+function Input(){
+  const [inputNumber,setInputNumber] = React.useState("0")
+  return(
+  <input type='number' default='0' min='0' onChange={} />
+  )
 }
+
