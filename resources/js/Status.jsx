@@ -1,8 +1,10 @@
 import React from "react";
 import { useState } from "react";
 import '../css/Status.css';
+import { useEffect } from "react";
 
 export default function Status({ data }) {
+
   const weather = data[1];
   const readings = data[0];
   const status = data[2];
@@ -64,10 +66,39 @@ export default function Status({ data }) {
     </div>
   );
 }
-function Input(){
-  const [inputNumber,setInputNumber] = React.useState("0")
-  return(
-  <input type='number' default='0' min='0' onChange={} />
-  )
-}
+function Input() {
+  const [value, setValue] = React.useState("");
 
+  function handleChange(e) {
+    setValue(e.target.value);
+    console.log(e.target.value);
+  }
+
+  return (
+    <>
+      <input
+        type="number"
+        min="0"
+        default="0"
+        value={value}
+        onChange={handleChange}
+      />
+
+      <Logs number={value} />
+    </>
+  );
+}
+function Logs({ number }) {
+  console.log("retrieving data");
+  console.log(number);
+  const [logs, setLogs] = React.useState("");
+  React.useEffect(() => {
+    fetch(`http://127.0.0.1:8000/api/logs?numberOfLogs={number}`)
+      .then(res => res.json())
+      .then(data => {
+        console.log(data);
+        setLogs(data)
+      });
+  }, [number]); // 🔥 re-run when number changes
+  return (<pre>{logs}</pre>);
+}
