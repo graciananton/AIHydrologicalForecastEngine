@@ -35,6 +35,29 @@
     </script>
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <div id="react-root"></div>
+<!--
+
+<div id="login_page">
+    <div id="login" class="container-fluid">
+        <div id="title">Login</div>
+
+        <form method="POST" action="{{ url('/login_submit') }}">
+            @csrf
+            <div class="form-group">
+                <label for="email">Email:</label><br/>
+                <input type="email" id="email" name="email" required>
+            </div>
+
+            <div class="form-group">
+                <label for="password">Password:</label><br/>
+                <input type="password" id="password" name="password" required>
+            </div>
+
+            <button type="submit">Submit</button>
+        </form>
+    </div>
+</div>
 </body>
 </html>
+
 

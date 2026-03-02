@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Log;
 class AuthController extends Controller
 {
     public function login(){
+        Log::channel('laravel')->info("Rendering Login Form");
         return view("auth.login");
     }
     public function login_submit(Request $request){
@@ -21,11 +22,12 @@ class AuthController extends Controller
         if(Auth::attempt($credentials)){
             Log::channel('laravel')->info("Attempting login");
             $request->session()->regenerate();
-            $token = $this->create_token($request);
-            session(['api_token'=>$token]);
+            //$token = $this->create_token($request);
+            //session(['api_token'=>$token]);
             return redirect('/status');
         }
         else{
+            Log::channel('laravel')->info("Invalid login credentials");
             return redirect()->back()->with('error', 'Unsuccessful Login Attempt');
         }
     }
