@@ -16,4 +16,20 @@ require __DIR__.'/../vendor/autoload.php';
 /** @var Application $app */
 
 $app = require_once __DIR__.'/../bootstrap/app.php';
+
+$request = Request::capture();
+
+echo "<pre>";
+var_dump([
+    'method' => $request->method(),
+    'uri' => $request->getRequestUri(),
+    'full_url' => $request->fullUrl(),
+    'path' => $request->path(),
+    'input' => $request->all(),
+    'cookies' => $request->cookies->all(),
+    'headers' => $request->headers->all(),
+]);
+echo "</pre>";
+
+
 $app->handleRequest(Request::capture());

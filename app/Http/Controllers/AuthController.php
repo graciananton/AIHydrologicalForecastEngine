@@ -14,7 +14,7 @@ class AuthController extends Controller
         return view("auth.login");
     }
     public function login_submit(Request $request){
-        Log::channel('laravel')->info("processing request");
+        Log::channel('laravel')->info("Loggin In");
         $credentials = $request->validate([
             'email' => 'required|email',
             'password' => 'required'
