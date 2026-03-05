@@ -16,9 +16,11 @@ require __DIR__.'/../vendor/autoload.php';
 /** @var Application $app */
 
 $app = require_once __DIR__.'/../bootstrap/app.php';
+//dd(env('TEST_VAR'));
+//dd(app()->environment());
 
 $request = Request::capture();
-
+/*
 echo "<pre>";
 var_dump([
     'method' => $request->method(),
@@ -29,7 +31,6 @@ var_dump([
     'cookies' => $request->cookies->all(),
     'headers' => $request->headers->all(),
 ]);
-echo "</pre>";
-
+echo "</pre>";*/
 
 $app->handleRequest(Request::capture());
