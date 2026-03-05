@@ -30,7 +30,7 @@
     <script>
     window.__REACT_DATA__ = @json([
                     ['error'=>session('error')],
-                    ['req'  => 'login']
+                    ['request'  => 'login']
                     ]);
     </script>
     <meta name="csrf-token" content="{{ csrf_token() }}">

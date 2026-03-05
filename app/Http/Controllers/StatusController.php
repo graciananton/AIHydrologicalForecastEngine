@@ -14,11 +14,12 @@ class StatusController extends Controller
     public function process(){
        $recentDateTimes = $this->StatusService->getDateTimes();
        return view("status.status", [
-            "readings" => $recentDateTimes['readings'],
-            "weather"  => $recentDateTimes['weather'],
-            "status"   => $recentDateTimes['status'],
-            "req" => ['req'=>'status']
-        ]);
+        "weather" => $recentDateTimes['weather'],
+        "readings" => $recentDateTimes['readings'],
+        "status" => $recentDateTimes['status'],
+        "request" => ['request' => 'status']
+        ]
+       );
     }
     public function deleteRecords(){
         if($this->StatusService->deleteRecords() & $this->StatusService->updateStatus("deleted records beyond one month")){

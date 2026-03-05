@@ -4,9 +4,9 @@ import '../css/Status.css';
 
 export default function Status({ data }) {
 
-  const weather = data[1];
-  const readings = data[0];
-  const status = data[2];
+  const weather = data.weather;
+  const readings = data.readings;
+  const status = data.status;
   return (
     <div id='status' className="container-fluid">
       <div className='row'>

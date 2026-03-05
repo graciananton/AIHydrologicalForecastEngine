@@ -8,8 +8,9 @@ import "../css/app.css";
 
 export default function App() {
   const data = window.__REACT_DATA__ || {};
+  
   const values = Object.values(data);
-  var req = getReq(values);
+  var req = getRequest(values);
   return (
     <>
     {req === 'workflow' && <Workflow /> }
@@ -18,14 +19,13 @@ export default function App() {
     </>
   );
 }
-function getReq(values){
+function getRequest(values){
   for(var i=0;i<values.length;i++){
       const value = values[i];
-      if('req' in value){
-          var req = value.req;
+      if('request' in value){
+          var req = value.request;
       }
   }
-  console.log(req);
   return req;
 }
 createRoot(document.getElementById("react-root")).render(
