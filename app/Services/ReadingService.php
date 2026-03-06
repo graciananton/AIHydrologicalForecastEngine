@@ -19,8 +19,6 @@ class ReadingService
             $response = file_get_contents($url);
             $station = json_decode($response,true);
 
-            Log::channel('weather')->info('inside station in ReadingService '.$stationId);
-
             $records = $station['features'];
             
             for($j=0;$j<count($records);$j++){

@@ -10,24 +10,20 @@ use Illuminate\Support\Facades\Log;
 class AuthController extends Controller
 {
     public function login(){
-        Log::channel('weather')->info("Rendering Login Form");
         return view("auth.login");
     }
     public function login_submit(Request $request){
-        Log::channel('weather')->info("Loggin In");
         $credentials = $request->validate([
             'email' => 'required|email',
             'password' => 'required'
         ]);
         if(Auth::attempt($credentials)){
-            Log::channel('weather')->info("Attempting login");
             $request->session()->regenerate();
             //$token = $this->create_token($request);
             //session(['api_token'=>$token]);
             return redirect('/status');
         }
         else{
-            Log::channel('weather')->info("Invalid login credentials");
             return redirect()->back()->with('error', 'Unsuccessful Login Attempt');
         }
     }
