@@ -1,7 +1,7 @@
 import React from "react";
 import '../css/Login.css';
 export default function Login({ data }){
-    console.log(data);
+    console.log("Login page");
     return (
         <div id='login_page'>
             <div id='login' className='container-fluid'>

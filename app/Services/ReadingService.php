@@ -28,6 +28,7 @@ class ReadingService
 
                 try{
                     // need to make this more efficient by just inserting, updating does nothing
+    
                     $query->updateOrCreate(
                         # checks duplicate unique values
                         [
