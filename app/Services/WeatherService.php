@@ -63,8 +63,8 @@ class WeatherService {
                                 'stationId'  => $stationId,
                                 'weather'    => $weatherData,
                                 'measuredAt' => $time,
-                                'created_at' => Carbon::now(),
-                                'updated_at' => Carbon::now(),
+                                'created_at' => Carbon::now('America/Toronto'),
+                                'updated_at' => Carbon::now('America/Toronto'),
                             ]
                         ],
                         ['stationId','measuredAt'],              // unique key
