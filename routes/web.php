@@ -5,11 +5,14 @@ use App\Http\Controllers\StatusController;
 use App\Http\Controllers\WeatherController;
 use App\Http\Controllers\ReadingsController;
 use App\Http\Controllers\WorkflowController;
+use App\Http\Controllers\HomeController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 
 //echo request()->path();
-Route::get('/',[WorkflowController::class,'process']);
+Route::get('/',[HomeController::class,'process']);
+
+Route::get('/workflow',[WorkflowController::class,'process']);
 
 Route::get('/login',[AuthController::class,'login'])->name('login');
 

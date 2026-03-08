@@ -58,7 +58,7 @@ export default function Status({ data }) {
               <div id='title'>Resources</div>
               <div id='links'>
                 <ul>
-                  <li><a href='../public'>Hydrological Engine Explanation</a></li>
+                  <li><a href='../public/workflow'>Hydrological Engine Explanation</a></li>
                   <li><a href='../logTail.php'>Log Tails</a></li>
                 </ul>
               </div>

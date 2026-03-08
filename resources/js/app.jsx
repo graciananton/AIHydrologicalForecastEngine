@@ -3,6 +3,7 @@ import { createRoot } from "react-dom/client";
 import Status from "./Status";
 import Login  from "./Login";
 import Workflow from "./Workflow";
+import Home from "./Home";
 
 import "../css/app.css";
 
@@ -16,6 +17,7 @@ export default function App() {
     {req === 'workflow' && <Workflow /> }
     {req == "status" && <Status data={data} />}
     {req == "login" && <Login data={data} />}
+    {req == "home" && <Home />}
     </>
   );
 }
