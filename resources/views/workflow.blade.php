@@ -9,7 +9,7 @@
 </head>
 <body>
     <script>
-        window.__REACT_DATA__ = @json([['req' => 'workflow']]);
+        window.__REACT_DATA__ = @json([['request' => 'workflow']]);
     </script>
     <div id="react-root"></div>
 </body>

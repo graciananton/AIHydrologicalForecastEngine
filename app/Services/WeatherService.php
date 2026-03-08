@@ -30,8 +30,7 @@ class WeatherService {
                 if($data['hourly']['time'][$j] == $formatted){
                     $index = $j;
                 }
-            }
-            
+            }  
             $hours = [];
             for($z=$index;$z<$index+$interval+1;$z++){
                 $hours[] = $z;

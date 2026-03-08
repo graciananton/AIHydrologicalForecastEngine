@@ -7,13 +7,10 @@ import Workflow from "./Workflow";
 import "../css/app.css";
 
 export default function App() {
-  console.log("Inside App");
   const data = window.__REACT_DATA__ || {};
-  console.log(data);
   const values = Object.values(data);
-  console.log(values);
   var req = getRequest(values);
-  console.log(req);
+  console.log(data);
   return (
     <>
     {req === 'workflow' && <Workflow /> }

@@ -45,14 +45,10 @@ class StatusService{
 
     }
     public function updateStatus(string $description):bool{
-        Log::channel('weather')->info('Updating status for status service');
-        try {
-            Log::channel("weather")->info("Trying to update status");
-            
+        try {            
             Status::create([
                 'description' => $description,
             ]);
-
             Log::channel('weather')->info('Successfully updated status');
             return true;
         } catch (\Throwable $e) {

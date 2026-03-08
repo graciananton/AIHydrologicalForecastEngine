@@ -58,3 +58,9 @@
 #status .row #logs{
   margin-top:0.7rem;
 }
+#status #resources #title{
+  font-size:1.5rem;
+}
+#status #resources #links ul li a{
+  color:white;
+}

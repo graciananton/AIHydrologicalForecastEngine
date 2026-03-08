@@ -10,6 +10,7 @@ class WeatherScheduler extends Command
     protected $signature = 'weather:scheduler';
     public function handle(WeatherService $weatherService)
     {
+
         $weatherService->sync();
     }
 }

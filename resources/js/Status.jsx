@@ -53,6 +53,17 @@ export default function Status({ data }) {
             </tbody>
           </table>
         </div>
+        <div className='col-md-12 col-sm-12 col-lg-12' id='resources'>
+            <div className='col-md-6 col-sm-6 col-lg-6'>
+              <div id='title'>Resources</div>
+              <div id='links'>
+                <ul>
+                  <li><a href='../public'>Hydrological Engine Explanation</a></li>
+                  <li><a href='../logTail.php'>Log Tails</a></li>
+                </ul>
+              </div>
+            </div>
+        </div>
       </div>
     </div>
   );

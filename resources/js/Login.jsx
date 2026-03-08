@@ -1,12 +1,11 @@
 import React from "react";
 import '../css/Login.css';
 export default function Login({ data }){
-    console.log("Login page");
     return (
         <div id='login_page'>
             <div id='login' className='container-fluid'>
-                {data?.error && (
-                <div id='error'>{data.error}</div>
+                {data[0]?.error && (
+                <div id='error'>{data[0].error}</div>
                 )}
                 <div id='title'>Login</div>
                 <form method="POST" action='/laravel/public/login_submit'>

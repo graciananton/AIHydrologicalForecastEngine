@@ -22,16 +22,16 @@ class StatusController extends Controller
        );
     }
     public function deleteRecords(){
-        if($this->StatusService->deleteRecords() & $this->StatusService->updateStatus("deleted records beyond one month")){
+        if($this->StatusService->deleteRecords() && $this->StatusService->updateStatus("deleted records beyond one month")){
             return redirect()->back()->with(
                 'success',
-                'Status not updated'
+                'Status updated'
             );
         }
         else{
             return redirect()->back()->with(
                 'error',
-                'Status updated'
+                'Status not updated'
             );
         }  
     }
