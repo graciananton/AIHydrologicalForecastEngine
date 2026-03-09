@@ -4,6 +4,7 @@ import Status from "./Status";
 import Login  from "./Login";
 import Workflow from "./Workflow";
 import Home from "./Home";
+import Header from "./Header";
 
 import "../css/app.css";
 

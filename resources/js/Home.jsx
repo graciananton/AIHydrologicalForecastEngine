@@ -1,8 +1,12 @@
 import React from "react";
+import Header from "./Header";
+import "../css/home.css";
+
+
 export default function Home(){
     return (
-        <div>
-        Inside Home.jsx for rendering page components
+        <div class='home'>
+        <Header />
         </div>
     );
 }

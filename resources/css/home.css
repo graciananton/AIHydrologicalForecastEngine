@@ -1,0 +1,11 @@
+.home{
+    display:flex;
+}
+.home header{
+    max-width:100%;
+}
+header nav ul li{
+    display:inline;
+    padding:5px;
+    border:1px solid black;
+}
