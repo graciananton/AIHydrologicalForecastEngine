@@ -9,10 +9,19 @@ client = OpenAI(
     api_key=os.environ["OPENAI_API_KEY"]
 )
 
-vector_stores = client.vector_stores.list()
+while True:
+    vector_stores = client.vector_stores.list(limit=100)
+    print(vector_stores)
 
-for vs in vector_stores.data:
-    print(vs.id, vs.name)
+    if not vector_stores.data:
+        break
+
+    for vs in vector_stores.data:
+        print(f"Deleting {vs.id}...")
+        client.vector_stores.delete(vs.id)
+
+
+print("All vector stores deleted.")
 
 """
 tools = [
