@@ -62,6 +62,16 @@ class AuthController extends Controller
         }
     }
     public function request_verify_otp(Request $request){
-        
+        // checks if user otp and saved otp match
+        if($this->OtpMailService->verify_otp($request->email_address,$request->otp)){
+            return response()->json([
+                'success' => true
+            ]);
+        }
+        else{
+            return response()->json([
+                'success' => false
+            ]);
+        }
     }
 }
