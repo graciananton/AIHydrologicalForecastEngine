@@ -1,5 +1,20 @@
 import requests
+from openai import OpenAI
+from dotenv import load_dotenv
+import os
 
+load_dotenv()
+
+client = OpenAI(
+    api_key=os.environ["OPENAI_API_KEY"]
+)
+
+vector_stores = client.vector_stores.list()
+
+for vs in vector_stores.data:
+    print(vs.id, vs.name)
+
+"""
 tools = [
     # each of these are functions
     {
@@ -58,3 +73,4 @@ def verify_otp(verification_code:str)->str:
     else:
         return f"Account unsuccessfully created."
 
+"""
