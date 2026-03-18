@@ -1,0 +1,18 @@
+Pseudocode:
+If email address is not in table email column
+	=> sets new email address 
+	=> sets otp 
+	=> sets expired_at time
+	=> sets verified = false (until the user confirms it)
+	
+If email address is in table email column
+	=> if otp not expired, do not update existing otp
+		- if user entered verification code already:
+			- increase attempts counter (attempts += 1)
+		- if user did not enter verification code already:
+			- do not increase attempts counter (attempts += 0)
+
+	=> if otp expired, create new otp 
+		- attempts counter should be set to 0
+		- set new expired_at time
+ 

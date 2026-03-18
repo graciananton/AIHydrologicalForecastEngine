@@ -62,6 +62,6 @@ class AuthController extends Controller
         }
     }
     public function request_verify_otp(Request $request){
-
+        
     }
 }
