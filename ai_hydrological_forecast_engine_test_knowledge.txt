@@ -1,0 +1,147 @@
+# AI Hydrological Forecast Engine — Knowledge File (Testing)
+
+**System name:** AI Hydrological Forecast Engine  
+**Region covered:** Gatineau–Ottawa area (Ottawa River corridor, Canada)  
+**Audience:** Public-facing platform for residents who live near flood-prone areas (especially seasonal flooding around March–May).
+
+---
+
+## 1 What this system does
+
+The AI Hydrological Forecast Engine monitors recent water levels from hydrometric stations and combines them with near-term weather forecasts to **predict future water levels up to ~24 hours ahead** for the Ottawa/Gatineau region.
+
+Users receive **daily email summaries** that include:
+- predicted water level trends for their area/station(s)
+- a flood risk category
+- (planned) guidance/notes related to flooding impacts and preparedness
+
+---
+
+## 2 Where the data comes from
+
+### Hydrometric (water level) data
+- **Source:** Environment Canada Hydrometric API (Water Survey of Canada real-time feeds)
+- **What is collected:** historical and near-real-time **water levels** per hydrometric station
+- **Update frequency:** stations update approximately **every 5 minutes**
+
+### Weather forecast data
+- **Source:** Open-Meteo API (used as the weather forecast provider)
+- **What is collected (examples):**
+  - temperature (forecast)
+  - precipitation (forecast)
+  - wind-related variables
+  - humidity
+  - snowmelt-related signals (if available via the chosen endpoint/variables)
+- **Update frequency:** approximately **hourly**
+- **Forecast horizon used:** **up to 24 hours** ahead
+
+---
+
+## 3 Forecasting approach (ML)
+
+The forecasting component uses a **Linear Regression model** (multi-feature regression) built with:
+- **Python**
+- **scikit-learn**
+- **pandas**
+- **NumPy**
+
+### Inputs (high-level)
+- past water level readings (station time series)
+- weather forecast variables (e.g., precipitation, temperature, wind, humidity, snowmelt-related factors)
+
+### Output
+- predicted future water levels for the next ~24 hours for a given station/area
+
+> Note: The platform is designed so forecasts are tied to known station coordinates (latitude/longitude) and station identifiers.
+
+---
+
+## 4 High-level system workflow
+
+1. **Scheduled cron jobs** run ingestion tasks.
+2. The system pulls:
+   - water level readings from Environment Canada Hydrometric API (5-min cadence)
+   - weather forecast data from Open-Meteo (hourly cadence)
+3. Data is stored in a **MySQL** database.
+4. The forecasting pipeline uses stored historical readings + forecast weather features to produce predictions.
+5. Users receive **daily email notifications** based on their location / chosen station(s).
+
+---
+
+## 5 Database schema (from `laravel.sql`)
+
+The backend uses MySQL and includes the following core tables:
+
+### `stations`
+Hydrometric station metadata (including coordinates).
+- `id` (PK, auto-increment)
+- `stationId` (string)
+- `name` (string)
+- `province` (string)
+- `latitude` (string)
+- `longitude` (string)
+
+### `readings`
+Hydrometric water level readings per station.
+- `id` (PK, auto-increment)
+- `stationId` (string)
+- `level` (string)
+- `measuredAt` (datetime(6))
+- `created_at`, `updated_at`
+- Unique constraint: (`stationId`, `measuredAt`) to prevent duplicates for the same timestamp.
+
+### `weather`
+Weather payloads stored per station and timestamp.
+- `id` (PK, auto-increment)
+- `stationId` (string)
+- `weather` (mediumtext; serialized JSON payload)
+- `measuredAt` (datetime(6))
+- `created_at`, `updated_at`
+- Unique constraint: (`stationId`, `measuredAt`)
+
+### `users`
+Standard user accounts (Laravel style).
+- `id` (PK, bigint)
+- `name`
+- `email`
+- `email_verified_at`
+- `password` (hashed)
+- `remember_token`
+- `created_at`, `updated_at`
+
+### `status`
+General status messages/logging (app-defined).
+- `id` (PK)
+- `description`
+- `created_at`, `updated_at`
+
+---
+
+## 6 User onboarding (planned/agentic)
+
+Instead of a traditional “fill a form and submit” flow, users can sign up via an **agentic workflow** that:
+- guides the user through the signup steps conversationally
+- collects required profile/location information
+- confirms consent for notifications
+
+*(You told me to de-emphasize signup details for now — so this is a high-level note only.)*
+
+---
+
+## 7 Example questions this file should answer
+
+- “Where does the water level data come from?”
+- “How often are station readings updated?”
+- “What weather data do you use and how often is it refreshed?”
+- “What model do you use to forecast water levels?”
+- “What region does this system cover?”
+- “What database tables store station locations and readings?”
+- “What do daily email notifications include?”
+
+---
+
+## 8 Terminology
+
+- **Hydrometric station:** A monitoring site that measures water level (and sometimes other variables) at a known latitude/longitude.
+- **MeasuredAt:** Timestamp for the observation/forecast record.
+- **Forecast horizon:** How far ahead predictions are made (here: ~24 hours).

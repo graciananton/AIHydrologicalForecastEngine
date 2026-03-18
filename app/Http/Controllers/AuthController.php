@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Hash;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
+use App\Services\OtpMailService;
 
 class AuthController extends Controller
 {
@@ -33,20 +34,34 @@ class AuthController extends Controller
         $token = $user->createToken('api-token')->plainTextToken;
         return $token;
     }
-    public function signup(){
-        return view("auth.signup");
-    }
-    public function signup_submit(Request $request){
+    /*public function signup_submit(Request $request){
         $request->validate([
             'name' => 'string|required|max:255',
             'email' => 'string|required|email|unique:users,email',
-            'password' => 'string|required|min:4|confirmed'
+            'password' => 'string|required|min:4|confirmed',
+            'role' => 'string|required|min:4'
         ]);
         $user = User::create([
             'name' => $request->name,
             'email' => $request->email,
             'password' => Hash::make($request->password),
+            'role' => 'user'
         ]);
         return redirect('/login')->with('success','Account created successfully! \n Now re-login');
+    }*/
+    public function request_otp(Request $request){
+        if($this->OtpMailService->send_otp($request->email_address)){
+            return response()->json([
+                'success' => true
+            ]);
+        }
+        else{
+            return response()->json([
+                'success' => false
+            ]);
+        }
+    }
+    public function request_verify_otp(Request $request){
+
     }
 }

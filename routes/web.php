@@ -24,9 +24,10 @@ Route::post('/login_submit',[AuthController::class,'login_submit']);
 
 Route::get('/status', [StatusController::class, 'process'])->middleware('auth');
 
-Route::get('/signup',[AuthController::class,'signup'])->name('register');
+Route::post('/send_otp',[AuthController::class,'send_otp']);
 
-Route::post('/signup_submit',[AuthController::class,'signup_submit']);
+Route::post('/verify_otp',[AuthController::class,'verify_otp']);
+
 
 Route::get('/weather_sync',[WeatherController::class,'sync'])->middleware('auth');
 

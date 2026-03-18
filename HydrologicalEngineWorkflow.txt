@@ -1,0 +1,63 @@
+A1.
+Class: a bespoken type of data (variables) and operations on that data (methods)
+Object: a specific creation of a class with data values and operations on that data, executed at runtime
+A2.
+== compares the object reference equality
+.equals(...) compares the object content equality
+
+.equals(...) may return true if two different objects have the same content but have different references. For example,
+Animal a = new Dog('bob') and Animal b = new Dog('bob). In this case, a does not equal b but a.equals(b) is true
+
+A3.
+Abstraction hides unnecessary information while preserving what is important. It allows the client code to be blissfully ignorant about the implementation 
+while only knowing the capabilities/purpose of those capabilities. It's goal is not secrecy but clarity.
+A4.
+Differences:
+A subclass can inherit only one abstract class
+A abstract class can contain unimplemented methods, attributes, and implemented methods
+An abstract class is inherited from a subclass using the 'extends' keyword
+A class can implement multiple interfaces.
+A interface can contain only unimplemented method signatures.
+A interface can be implemented using the 'implements' keyword.
+Similarities:
+Both an abstract class and interface can contain unimplemented method signatures.
+
+A5.
+An Abstract Data Type (ADT) defines what operations are available, not how they are implemented
+Coding to an ADT improves flexibility by changing the implementation without affecting clients.
+
+B1.
+Advantage of Design A:
+Since DeliveryDrone "is a" Vehicle, it models a strong inheritance relationship.
+Therefore, many of the methods in Vehicle can be used by the DeliveryDrone. This helps avoid duplicated logic.
+Advantage of Design B:
+Trackable can model methods that Delivery Drone can use. This models a strong "can-be" relationship since 
+DeliveryDrone can be Trackable (it is delivering items, therefore, it's location should be known (i.e. Trackable)). 
+For example, DeliveryDrone may have a "getLocation() method". This method 
+models a capability that DeliveryDrone must implement.
+Disadvantage of Desing A:
+Delivery Drone may not model all the capabilities of a Vehicle, for example, getNumberOfPassengers() may be a 
+method within vehicle that DeliveryDrone may not be able to implement.
+B2.
+a.) Set
+b.)A list allows duplicate elements; whereas a set only allows unique elements.
+c.)If we wanted to know the order of which user logged in, a list may be preferable considering that a list orders elements.
+d.) Using an ADT we can focus more on modeling capabilities over implementation. We can focus more on design (e.g. choosing which ADT is best)
+than coding the implementing of the methods (e.g. get(i), push, peek, etc.)
+C1.
+a.) 
+
+https://mysuccess.carleton.ca/myAccount/career/postings.htm
+HR@wilan.com
+
+
+
+
+
+
+
+
+
+which courses ran in Spring (May–June)
+
+which ran in Summer (July–August)
