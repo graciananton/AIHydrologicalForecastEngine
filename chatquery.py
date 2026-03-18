@@ -2,6 +2,7 @@ import requests
 from openai import OpenAI
 from dotenv import load_dotenv
 import os
+import json
 
 load_dotenv()
 
@@ -9,21 +10,6 @@ client = OpenAI(
     api_key=os.environ["OPENAI_API_KEY"]
 )
 
-while True:
-    vector_stores = client.vector_stores.list(limit=100)
-    print(vector_stores)
-
-    if not vector_stores.data:
-        break
-
-    for vs in vector_stores.data:
-        print(f"Deleting {vs.id}...")
-        client.vector_stores.delete(vs.id)
-
-
-print("All vector stores deleted.")
-
-"""
 tools = [
     # each of these are functions
     {
@@ -58,20 +44,48 @@ tools = [
     }
 ]
 
-def send_otp(email_address:str)->str:
-    url="/laravel/public/send_otp"
-    data = {
-        "email_address":email_address
-    }
-    response = requests.post(url, data=data)
 
+def generate_response(query):
+    input_list = [
+        {"role":"user","content":query}
+    ]
+
+    response = client.responses.create(
+        model="gpt-5",
+        tools=tools,
+        input=input_list,
+    )
+
+    input_list += response.output
+    print("Input List with AI response (possibly tools)")
+    print(input_list)
+    
+    for item in response.output:
+        if item.type == "function_call":
+            if item.name == "send_otp":
+                opt_output = send_otp(json.loads(item.arguments))
+                
+                input_list.append({
+                    "type": "function_output",
+                    "call_id": item.call_id,
+                    "output": json.dumps({
+                                "otp_output": opt_output
+                              })
+                })
+
+
+def send_otp(email_address:str)->str:
+    url="http://localhost/laravel/api/request_otp"
+    response = requests.post(url)
+    print(response)
     if response:
         return f"Your verification code was sent to {email_address}. Enter the verification code here (expires: 30 sec.)"
     else:
         return f"Your verification code was not sent to {email_address}. Re-enter correct email address"
 
+
 def verify_otp(verification_code:str)->str:
-    url="/laravel/public/verify_otp"
+    url="http://localhost/laravel/ap/request_verify_otp"
     data = {
         "verification_code":verification_code
     }
@@ -82,4 +96,7 @@ def verify_otp(verification_code:str)->str:
     else:
         return f"Account unsuccessfully created."
 
-"""
+if __name__ == "__main__":
+    print("Entering main")
+    query = "My email address is basil_anton@yahoo.ca"
+    generate_response(query)

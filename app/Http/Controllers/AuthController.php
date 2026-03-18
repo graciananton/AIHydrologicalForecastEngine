@@ -49,8 +49,12 @@ class AuthController extends Controller
         ]);
         return redirect('/login')->with('success','Account created successfully! \n Now re-login');
     }*/
-    public function request_otp(Request $request){
-        if($this->OtpMailService->send_otp($request->email_address)){
+    public function request_otp(){
+        return response()->json([
+            'success'=>true
+        ]);
+
+        if($this->OtpMailService->send_otp("basil_anton@yahoo.ca")){
             return response()->json([
                 'success' => true
             ]);
