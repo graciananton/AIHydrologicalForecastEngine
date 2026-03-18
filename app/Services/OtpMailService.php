@@ -3,16 +3,23 @@ namespace App\Services;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\OtpMail;
 
 class OtpMailService{
     public function send_otp(string $email):bool{
+        Log::channel('laravel')->info("Sending OTP verification code");
         $otp = random_int(100000, 999999);
         $this->save_otp($otp, $email);
         try{
+            Log::channel("laravel")->info("Trying Mailing");
             Mail::to($email)->send(new OtpMail($otp));
+            Log::channel("laravel")->info("Sent Mail");
             return true;
         }
         catch(\Exception $e){
+            Log::channel('laravel')->info("Mail incorrect $e");
             return false;
         }
     }
