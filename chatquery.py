@@ -81,7 +81,7 @@ class ChatQuery():
                 if item.type == "function_call"
             ]
 
-            pprint(tool_calls)
+            #pprint(tool_calls)
 
             if not tool_calls:
                 messages.append({
@@ -102,7 +102,7 @@ class ChatQuery():
                         data['id'] = self.id
                         result = self.verify_otp(data)
 
-                    print(result)
+                    #print(result)
                     
                     tool_outputs.append({
                         "type": "function_call_output",
