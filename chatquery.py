@@ -76,15 +76,13 @@ class ChatQuery():
                 input=messages
             )
 
-            # tool call includes function_call, it doesn't include file_search
-            # file_search is called by the model's tool parameter and not executed by us
             tool_calls = [
                 item for item in response.output
                 if item.type == "function_call"
             ]
 
             pprint(tool_calls)
-            
+
             if not tool_calls:
                 messages.append({
                     "role": "assistant",
@@ -104,19 +102,24 @@ class ChatQuery():
                         data['id'] = self.id
                         result = self.verify_otp(data)
 
+                    print(result)
+                    
                     tool_outputs.append({
                         "type": "function_call_output",
                         "call_id": item.call_id,
-                        "output": result
+                        "output": str(result)
                     })
-                
-                pprint(tool_outputs)
-    
+
                 response = self.client.responses.create(
                     model="gpt-4.1",
                     tools=self.tools,
-                    input=tool_outputs
+                    input=messages
                 )
+
+                messages.append({
+                    "role": "assistant",
+                    "content": response.output_text
+                })
 
             pprint(messages)
 
