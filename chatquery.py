@@ -84,34 +84,39 @@ class ChatQuery():
             ]
 
             pprint(tool_calls)
-
+            
             if not tool_calls:
                 messages.append({
                     "role": "assistant",
                     "content": response.output_text
                 })
 
-            else:    
+            else:
+                tool_outputs = []
+
                 for item in tool_calls:
                     if item.name == "send_otp":
                         data = json.loads(item.arguments)
                         result = self.send_otp(data)
 
-                        messages.append({
-                            "type": "function_call_output",
-                            "call_id": item.call_id,
-                            "output": result
-                        })
                     elif item.name == "verify_otp":
                         data = json.loads(item.arguments)
                         data['id'] = self.id
                         result = self.verify_otp(data)
 
-                        messages.append({
-                            "type": "function_call_output",
-                            "call_id": item.call_id,
-                            "output": result
-                        })
+                    tool_outputs.append({
+                        "type": "function_call_output",
+                        "call_id": item.call_id,
+                        "output": result
+                    })
+                
+                pprint(tool_outputs)
+    
+                response = self.client.responses.create(
+                    model="gpt-4.1",
+                    tools=self.tools,
+                    input=tool_outputs
+                )
 
             pprint(messages)
 
@@ -120,8 +125,11 @@ class ChatQuery():
 
 
 
+
     def send_otp(self,data:dict)->str:
         url="http://localhost/laravel/public/api/request_otp"
+
+        print(data)
         response = requests.post(url,json = data).json()
 
         self.id = response['id']
@@ -135,7 +143,7 @@ class ChatQuery():
     def verify_otp(self,data:dict)->str:
         url="http://localhost/laravel/public/api/request_verify_otp"
 
-        response = requests.post(url, data=data).json()
+        response = requests.post(url, json=data).json()
 
         if response['success'] == True:
             return f"Account successfully created."

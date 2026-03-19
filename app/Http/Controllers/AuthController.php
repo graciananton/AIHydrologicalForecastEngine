@@ -36,12 +36,10 @@ class AuthController extends Controller
         return $token;
     }
 
-    public function request_otp(Request $request){
-        $this->otpMailService = new otpMailService("", $request->email_address);
-        Log::channel("laravel")->info($request->email_address);
-        $result = $this->otpMailService->send_otp();
+    public function request_otp(Request $request, OtpMailService $otpMailService ){
+        Log::channel('laravel')->info("Email Address ". $request->email_address);
+        $result = $otpMailService->send_otp($request->email_address);
         if($result['success'] == true){
-            Log::channel("laravel")->info("Sent OTP");
             return response()->json([
                 'success' => true,
                 'id' => $result['id']
@@ -54,10 +52,8 @@ class AuthController extends Controller
             ]);
         }
     }
-    public function request_verify_otp(Request $request){
-        $this->otpMailService = new otpMailService($request->otp, "");
-        // checks if user otp and saved otp match
-        if($this->otpMailService->verify_otp()){
+    public function request_verify_otp(Request $request, OtpMailService $otpMailService){
+        if($otpMailService->verify_otp($request->verification_code, $request->id)){
             return response()->json([
                 'success' => true
             ]);

@@ -8,9 +8,11 @@ use Illuminate\Support\Facades\Mail;
 use App\Mail\OtpMail;
 
 class OtpMailService{
-    public function send_otp($emailAddress):bool{
+    public function send_otp(string $emailAddress):array{
         $randomOtp = random_int(100000, 999999);
+
         $id = $this->save_otp($randomOtp,$emailAddress);
+
         try{
             Mail::to($emailAddress)->send(new OtpMail($randomOtp));
             return ['id'=>$id,'success'=>true];
@@ -19,7 +21,7 @@ class OtpMailService{
             return ['id'=>null,'success'=>false];
         }
     }
-    public function save_otp($randomOtp,$emailAddress):int{
+    public function save_otp(string $randomOtp,string $emailAddress):int{
         // if $record is null, no row contains this email address
         // if $record is not null, row does not contain this email address
         $record = DB::table('email_verifications')
@@ -63,7 +65,12 @@ class OtpMailService{
                     ]);
             }
         }
-        return $record;
+        if($record){
+            return $record->id;
+        }
+        else{
+            return 0;
+        }
     }
     public function verify_otp($userOtp,$id):bool{
         $record = DB::table('email_verifications')
