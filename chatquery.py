@@ -96,7 +96,7 @@ class ChatQuery():
                     if item.name == "send_otp":
                         data = item.arguments
                         print()
-                        print(type(data))
+                        print(data)
                         result = self.send_otp(data)
 
                         messages.append({

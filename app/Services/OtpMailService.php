@@ -11,7 +11,9 @@ class OtpMailService{
     private string $userOtp;
     private string $emailAddress;
     public function __construct(string $userOtp = "", string $emailAddress = ""){
+        /* userOtp is set when verify_otp function is called */
         $this->userOtp = $userOtp;
+        /* emailAddress is set when send_otp function is called */
         $this->emailAddress = $emailAddress;
     }
     public function send_otp():bool{
@@ -29,13 +31,13 @@ class OtpMailService{
         // if $record is null, no row contains this email address
         // if $record is not null, row does not contain this email address
         $record = DB::table('email_verifications')
-        ->where('email', $email)
+        ->where('email', $this->emailAddress)
         ->first();
 
         if (!$record) {
             // if record is null, insert the new email address & otp
             DB::table('email_verifications')->insert([
-                'email' => $email,
+                'email' => $this->emailAddress,
                 'otp' => Hash::make($random_otp),
                 'expires_at' => now()->addMinutes(5),
                 'attempts' => 0,
@@ -52,7 +54,7 @@ class OtpMailService{
             if (now()->lt($record->expires_at)) {
                 // use existing otp, don't enter new otp
                 DB::table('email_verifications')
-                    ->where('email', $email)
+                    ->where('email', $this->emailAddress)
                     ->update([
                         'attempts' => $record->attempts + 1,
                         'updated_at' => now()
@@ -61,7 +63,7 @@ class OtpMailService{
             } else {
                 // enter new otp
                 DB::table('email_verifications')
-                    ->where('email', $email)
+                    ->where('email', $this->emailAddress)
                     ->update([
                         'otp' => Hash::make($random_otp),
                         'expires_at' => now()->addMinutes(5),
@@ -73,11 +75,11 @@ class OtpMailService{
             }
         }
     }
-    public function verify_otp(string $otp,string $email):bool{
+    public function verify_otp():bool{
         $record = DB::table('email_verifications')
-        ->where('email', $email)
+        ->where('email', $this->emailAddress)
         ->first();
-        if(Hash::check($otp, $record->otp)){
+        if(Hash::check($this->userOtp, $record->otp)){
             return true;
         }
         else{

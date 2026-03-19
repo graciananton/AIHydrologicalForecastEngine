@@ -37,7 +37,7 @@ class AuthController extends Controller
     }
 
     public function request_otp(Request $request){
-        $this->otpMailService = new otpMailService($request->email_address);
+        $this->otpMailService = new otpMailService("", $request->email_address);
         if($this->otpMailService->send_otp()){
             return response()->json([
                 'success' => true
@@ -50,7 +50,7 @@ class AuthController extends Controller
         }
     }
     public function request_verify_otp(Request $request){
-        $this->otpMailService = new otpMailService($request->otp);
+        $this->otpMailService = new otpMailService($request->otp, "");
         // checks if user otp and saved otp match
         if($this->otpMailService->verify_otp()){
             return response()->json([
