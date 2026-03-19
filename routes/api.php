@@ -9,8 +9,9 @@ use App\Http\Controllers\LogController;
 use App\Http\Controllers\AuthController;
 use Illuminate\Support\Facades\Log;
 
-Log::info("Requesting otp");
-
+Route::post('/request_otp', function(Request $request) {
+    Log::channel("laravel")->info("Requesting otp ".$request->email_address);
+});
 //Route::post('/request_otp',[AuthController::class,'request_otp']);
 
 Route::post('/request_verify_otp',[AuthController::class,'request_verify_otp']);

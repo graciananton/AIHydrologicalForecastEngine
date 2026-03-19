@@ -94,7 +94,7 @@ class ChatQuery():
             else:    
                 for item in tool_calls:
                     if item.name == "send_otp":
-                        data = item.arguments
+                        data = json.loads(item.arguments)
                         result = self.send_otp(data)
 
                         messages.append({
@@ -110,11 +110,10 @@ class ChatQuery():
 
 
 
-    def send_otp(self,data:str)->str:
+    def send_otp(self,data:dict)->str:
         url="http://localhost/laravel/public/api/request_otp"
-        print(data)
         response = requests.post(url,json = data)
-        
+                
         print(response)
         """
         if response['success'] == True:
