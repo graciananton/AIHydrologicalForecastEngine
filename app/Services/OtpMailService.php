@@ -8,22 +8,24 @@ use Illuminate\Support\Facades\Mail;
 use App\Mail\OtpMail;
 
 class OtpMailService{
-    public function send_otp(string $email):bool{
-        Log::channel('laravel')->info("Sending OTP verification code");
-        $otp = random_int(100000, 999999);
-        $this->save_otp($otp, $email);
+    private string $userOtp;
+    private string $emailAddress;
+    public function __construct(string $userOtp = "", string $emailAddress = ""){
+        $this->userOtp = $userOtp;
+        $this->emailAddress = $emailAddress;
+    }
+    public function send_otp():bool{
+        $random_otp = random_int(100000, 999999);
+        $this->save_otp($random_otp);
         try{
-            Log::channel("laravel")->info("Trying Mailing");
-            Mail::to($email)->send(new OtpMail($otp));
-            Log::channel("laravel")->info("Sent Mail");
+            Mail::to($this->emailAddress)->send(new OtpMail($random_otp));
             return true;
         }
         catch(\Exception $e){
-            Log::channel('laravel')->info("Mail incorrect $e");
             return false;
         }
     }
-    public function save_otp(string $otp, string  $email):int{
+    public function save_otp($random_otp):int{
         // if $record is null, no row contains this email address
         // if $record is not null, row does not contain this email address
         $record = DB::table('email_verifications')
@@ -34,7 +36,7 @@ class OtpMailService{
             // if record is null, insert the new email address & otp
             DB::table('email_verifications')->insert([
                 'email' => $email,
-                'otp' => Hash::make($otp),
+                'otp' => Hash::make($random_otp),
                 'expires_at' => now()->addMinutes(5),
                 'attempts' => 0,
                 'verified' => 0,
@@ -61,7 +63,7 @@ class OtpMailService{
                 DB::table('email_verifications')
                     ->where('email', $email)
                     ->update([
-                        'otp' => Hash::make($otp),
+                        'otp' => Hash::make($random_otp),
                         'expires_at' => now()->addMinutes(5),
                         'attempts' => 0,
                         'verified' => 0,
