@@ -7,6 +7,15 @@ use App\Http\Controllers\StationsController;
 use App\Http\Controllers\WeatherController;
 use App\Http\Controllers\LogController;
 use App\Http\Controllers\AuthController;
+use Illuminate\Support\Facades\Log;
+
+Route::post('/request_otp', function (Request $request) {
+
+    $email = $request->input('email_address');
+
+    Log::info('Email received: ' . $email);
+
+});
 
 Route::post('/request_otp',[AuthController::class,'request_otp']);
 
