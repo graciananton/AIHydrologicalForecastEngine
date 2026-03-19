@@ -8,44 +8,35 @@ use Illuminate\Support\Facades\Mail;
 use App\Mail\OtpMail;
 
 class OtpMailService{
-    private string $userOtp;
-    private string $emailAddress;
-    public function __construct(string $userOtp = "", string $emailAddress = ""){
-        /* userOtp is set when verify_otp function is called */
-        $this->userOtp = $userOtp;
-        /* emailAddress is set when send_otp function is called */
-        $this->emailAddress = $emailAddress;
-    }
-    public function send_otp():bool{
-        $random_otp = random_int(100000, 999999);
-        $this->save_otp($random_otp);
+    public function send_otp($emailAddress):bool{
+        $randomOtp = random_int(100000, 999999);
+        $id = $this->save_otp($randomOtp,$emailAddress);
         try{
-            Mail::to($this->emailAddress)->send(new OtpMail($random_otp));
-            return true;
+            Mail::to($emailAddress)->send(new OtpMail($randomOtp));
+            return ['id'=>$id,'success'=>true];
         }
         catch(\Exception $e){
-            return false;
+            return ['id'=>null,'success'=>false];
         }
     }
-    public function save_otp($random_otp):int{
+    public function save_otp($randomOtp,$emailAddress):int{
         // if $record is null, no row contains this email address
         // if $record is not null, row does not contain this email address
         $record = DB::table('email_verifications')
-        ->where('email', $this->emailAddress)
+        ->where('email', $emailAddress)
         ->first();
 
         if (!$record) {
             // if record is null, insert the new email address & otp
-            DB::table('email_verifications')->insert([
-                'email' => $this->emailAddress,
-                'otp' => Hash::make($random_otp),
+            $record = DB::table('email_verifications')->insert([
+                'email' => $emailAddress,
+                'otp' => Hash::make($randomOtp),
                 'expires_at' => now()->addMinutes(5),
                 'attempts' => 0,
                 'verified' => 0,
                 'created_at' => now(),
                 'updated_at' => now()
             ]);
-            return 1;
         } 
         else {
             // if record is not null, email address already exists, now two options
@@ -54,32 +45,31 @@ class OtpMailService{
             if (now()->lt($record->expires_at)) {
                 // use existing otp, don't enter new otp
                 DB::table('email_verifications')
-                    ->where('email', $this->emailAddress)
+                    ->where('email', $emailAddress)
                     ->update([
                         'attempts' => $record->attempts + 1,
                         'updated_at' => now()
                 ]);
-                return 2;
             } else {
                 // enter new otp
                 DB::table('email_verifications')
-                    ->where('email', $this->emailAddress)
+                    ->where('email', $emailAddress)
                     ->update([
-                        'otp' => Hash::make($random_otp),
+                        'otp' => Hash::make($randomOtp),
                         'expires_at' => now()->addMinutes(5),
                         'attempts' => 0,
                         'verified' => 0,
                         'updated_at' => now()
                     ]);
-                return 3;
             }
         }
+        return $record;
     }
-    public function verify_otp():bool{
+    public function verify_otp($userOtp,$id):bool{
         $record = DB::table('email_verifications')
-        ->where('email', $this->emailAddress)
+        ->where('id', $id)
         ->first();
-        if(Hash::check($this->userOtp, $record->otp)){
+        if(Hash::check($userOtp, $record->otp)){
             return true;
         }
         else{

@@ -39,15 +39,18 @@ class AuthController extends Controller
     public function request_otp(Request $request){
         $this->otpMailService = new otpMailService("", $request->email_address);
         Log::channel("laravel")->info($request->email_address);
-        if($this->otpMailService->send_otp()){
+        $result = $this->otpMailService->send_otp();
+        if($result['success'] == true){
             Log::channel("laravel")->info("Sent OTP");
             return response()->json([
-                'success' => true
+                'success' => true,
+                'id' => $result['id']
             ]);
         }
         else{
             return response()->json([
-                'success' => false
+                'success' => false,
+                'id' => $result['id']
             ]);
         }
     }

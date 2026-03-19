@@ -102,6 +102,16 @@ class ChatQuery():
                             "call_id": item.call_id,
                             "output": result
                         })
+                    elif item.name == "verify_otp":
+                        data = json.loads(item.arguments)
+                        data['id'] = self.id
+                        result = self.verify_otp(data)
+
+                        messages.append({
+                            "type": "function_call_output",
+                            "call_id": item.call_id,
+                            "output": result
+                        })
 
             pprint(messages)
 
@@ -112,26 +122,26 @@ class ChatQuery():
 
     def send_otp(self,data:dict)->str:
         url="http://localhost/laravel/public/api/request_otp"
-        response = requests.post(url,json = data)
-        print(response)
-        
+        response = requests.post(url,json = data).json()
+
+        self.id = response['id']
+
         if response['success'] == True:
             return f"Your verification code was sent to . Enter the verification code here (expires: 5 minutes sec.)"
         else:
             return f"Your verification code was not sent to. Re-enter correct email address"
         
 
-    def verify_otp(self,verification_code:str)->str:
+    def verify_otp(self,data:dict)->str:
         url="http://localhost/laravel/public/api/request_verify_otp"
-        data = {
-            "verification_code":verification_code
-        }
-        response = requests.post(url, data=data)
 
-        if response:
+        response = requests.post(url, data=data).json()
+
+        if response['success'] == True:
             return f"Account successfully created."
         else:
             return f"Account unsuccessfully created."
+
 
     def filters(self):
         self.filters = {

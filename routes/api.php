@@ -13,6 +13,7 @@ Route::post('/request_otp',[AuthController::class,'request_otp']);
 
 Route::post('/request_verify_otp',[AuthController::class,'request_verify_otp']);
 
+
 Route::middleware(['web', 'auth'])->group(function () {
     Route::get('/readings',[ReadingsController::class,'process']);
 
