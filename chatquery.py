@@ -113,7 +113,7 @@ class ChatQuery():
 
 
 
-    def send_otp(email_address:str)->str:
+    def send_otp(self,email_address:str)->str:
         url="http://localhost/laravel/public/api/request_otp"
         response = requests.post(url).json()
         if response['success'] == True:
@@ -122,7 +122,7 @@ class ChatQuery():
             return f"Your verification code was not sent to {email_address}. Re-enter correct email address"
 
 
-    def verify_otp(verification_code:str)->str:
+    def verify_otp(self,verification_code:str)->str:
         url="http://localhost/laravel/public/api/request_verify_otp"
         data = {
             "verification_code":verification_code
