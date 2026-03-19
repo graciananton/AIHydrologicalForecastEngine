@@ -113,7 +113,8 @@ class ChatQuery():
     def send_otp(self,data:str)->str:
         url="http://localhost/laravel/public/api/request_otp"
         print(data)
-        response = requests.post(url,data = data).json()
+        response = requests.post(url,data = data)
+        print(response)
         if response['success'] == True:
             return f"Your verification code was sent to . Enter the verification code here (expires: 5 minutes sec.)"
         else:
