@@ -95,8 +95,6 @@ class ChatQuery():
                 for item in tool_calls:
                     if item.name == "send_otp":
                         args = json.loads(item.arguments)
-                        args = args['email_address']
-                        print(args)
 
                         result = self.send_otp(args)
 
@@ -113,13 +111,13 @@ class ChatQuery():
 
 
 
-    def send_otp(self,email_address:str)->str:
+    def send_otp(self,args:str)->str:
         url="http://localhost/laravel/public/api/request_otp"
-        response = requests.post(url).json()
+        response = requests.post(url,args = args).json()
         if response['success'] == True:
-            return f"Your verification code was sent to {email_address}. Enter the verification code here (expires: 30 sec.)"
+            return f"Your verification code was sent to {args['email_address']}. Enter the verification code here (expires: 30 sec.)"
         else:
-            return f"Your verification code was not sent to {email_address}. Re-enter correct email address"
+            return f"Your verification code was not sent to {args['email_address']}. Re-enter correct email address"
 
 
     def verify_otp(self,verification_code:str)->str:

@@ -49,9 +49,8 @@ class AuthController extends Controller
         ]);
         return redirect('/login')->with('success','Account created successfully! \n Now re-login');
     }*/
-    public function request_otp(OtpMailService $otpMailService){
-        Log::channel('laravel')->info("Requesting OTP verification code");
-        if($otpMailService->send_otp("basil_anton@yahoo.ca")){
+    public function request_otp(OtpMailService $otpMailService, Request $request){
+        if($otpMailService->send_otp($request->email_address)){
             return response()->json([
                 'success' => true
             ]);
