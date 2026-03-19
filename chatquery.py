@@ -76,14 +76,14 @@ class ChatQuery():
                 input=messages
             )
 
-            pprint(response.output)
-
             # tool call includes function_call, it doesn't include file_search
             # file_search is called by the model's tool parameter and not executed by us
             tool_calls = [
                 item for item in response.output
                 if item.type == "function_call"
             ]
+
+            pprint(tool_calls)
 
             if not tool_calls:
                 messages.append({
@@ -113,14 +113,13 @@ class ChatQuery():
     def send_otp(self,data:dict)->str:
         url="http://localhost/laravel/public/api/request_otp"
         response = requests.post(url,json = data)
-                
         print(response)
-        """
+        
         if response['success'] == True:
             return f"Your verification code was sent to . Enter the verification code here (expires: 5 minutes sec.)"
         else:
             return f"Your verification code was not sent to. Re-enter correct email address"
-        """
+        
 
     def verify_otp(self,verification_code:str)->str:
         url="http://localhost/laravel/public/api/request_verify_otp"
