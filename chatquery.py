@@ -3,109 +3,158 @@ from openai import OpenAI
 from dotenv import load_dotenv
 import os
 import json
-
+from pprint import pprint
 load_dotenv()
 
-client = OpenAI(
-    api_key=os.environ["OPENAI_API_KEY"]
-)
+class ChatQuery():      
+    def __init__(self):
+        self.initialize_model()
+        self.filters()
+        self.tools()
 
-tools = [
-    # each of these are functions
-    {
-        "type": "function",
-        "name": "send_otp",
-        "description": "This function sends the otp verification code to the user using the email address",
-        "parameters": {
-            "type": "object",
-            "properties": {
-                "email_address": {
-                    "type": "string",
-                    "description": "user email address input",
+    def initialize_model(self):
+        self.client = OpenAI(
+            api_key=os.environ["OPENAI_API_KEY"]
+        )
+    def tools(self):
+        self.tools = [
+            # each of these are functions
+            {
+                "type": "function",
+                "name": "send_otp",
+                "description": "This function sends the otp verification code to the user using the email address",
+                "parameters": {
+                    "type": "object",
+                    "properties": {
+                        "email_address": {
+                            "type": "string",
+                            "description": "user email address input",
+                        },
+                    },
+                    "required": ["email_address"]
                 },
             },
-            "required": ["email_address"]
-        },
-    },
-    {
-        "type": "function",
-        "name": "verify_otp",
-        "description": "This function verifies the otp verification code using the verification code the user submitted",
-        "parameters": {
-            "type": "object",
-            "properties": {
-                "verification_code": {
-                    "type": "string",
-                    "description": "user verification code input",
+            {
+                "type": "function",
+                "name": "verify_otp",
+                "description": "This function verifies the otp verification code using the verification code the user submitted",
+                "parameters": {
+                    "type": "object",
+                    "properties": {
+                        "verification_code": {
+                            "type": "string",
+                            "description": "user verification code input",
+                        },
+                    },
+                    "required": ["verification_code"]
                 },
             },
-            "required": ["verification_code"]
-        },
-    }
-]
+            {
+                # this uses the .search() function to return a chunk with a similarity score
+                "type":"file_search",
+                "vector_store_ids":['vs_69babea6537c8191b5040e4b60b13ae1'],
+                "filters":self.filters,
+                "max_num_results": 3,
+                "ranking_options": {
+                    "score_threshold": 0.5
+                },
+            }
+        ]
 
+    def generate_response(self, query):
+        messages = [
+            {"role": "user", "content": query}
+        ]
 
-def generate_response(query):
-    input_list = [
-        {"role":"user","content":query}
-    ]
+        while True:
+            if query == "exit":
+                break
 
-    response = client.responses.create(
-        model="gpt-5",
-        tools=tools,
-        input=input_list,
-    )
+            response = self.client.responses.create(
+                model="gpt-4.1",
+                tools=self.tools,
+                input=messages
+            )
 
-    input_list += response.output
-    print("Input List with AI response (possibly tools)")
-    print(input_list)
-    
-    for item in response.output:
-        if item.type == "function_call":
-            if item.name == "send_otp":
-                opt_output = send_otp(json.loads(item.arguments))
-                
-                input_list.append({
-                    "type": "function_output",
-                    "call_id": item.call_id,
-                    "output": json.dumps({
-                                "otp_output": opt_output
-                              })
+            pprint(response.output)
+
+            # tool call includes function_call, it doesn't include file_search
+            # file_search is called by the model's tool parameter and not executed by us
+            tool_calls = [
+                item for item in response.output
+                if item.type == "function_call"
+            ]
+
+            if not tool_calls:
+                messages.append({
+                    "role": "assistant",
+                    "content": response.output_text
                 })
 
+            else:    
+                for item in tool_calls:
+                    if item.name == "send_otp":
+                        args = json.loads(item.arguments)
+                        args = args['email_address']
+                        print(args)
 
-    response = client.responses.create(
-        model="gpt-5",
-        instructions="Respond only with a horoscope generated by a tool.",
-        tools=tools,
-        input=input_list,
-    )
-    print(response)
+                        result = self.send_otp(args)
+
+                        messages.append({
+                            "type": "function_call_output",
+                            "call_id": item.call_id,
+                            "output": result
+                        })
+
+            pprint(messages)
+
+            query = input("->")
+            messages.append({"role": "user", "content": query})
 
 
-def send_otp(email_address:str)->str:
-    url="http://localhost/laravel/public/api/request_otp"
-    response = requests.post(url)
-    print(response.json())
-    if response.json()['success'] == True:
-        return f"Your verification code was sent to {email_address}. Enter the verification code here (expires: 30 sec.)"
-    else:
-        return f"Your verification code was not sent to {email_address}. Re-enter correct email address"
+
+    def send_otp(email_address:str)->str:
+        url="http://localhost/laravel/public/api/request_otp"
+        response = requests.post(url).json()
+        if response['success'] == True:
+            return f"Your verification code was sent to {email_address}. Enter the verification code here (expires: 30 sec.)"
+        else:
+            return f"Your verification code was not sent to {email_address}. Re-enter correct email address"
 
 
-def verify_otp(verification_code:str)->str:
-    url="http://localhost/laravel/public/api/request_verify_otp"
-    data = {
-        "verification_code":verification_code
-    }
-    response = requests.post(url, data=data)
+    def verify_otp(verification_code:str)->str:
+        url="http://localhost/laravel/public/api/request_verify_otp"
+        data = {
+            "verification_code":verification_code
+        }
+        response = requests.post(url, data=data)
 
-    if response:
-        return f"Account successfully created."
-    else:
-        return f"Account unsuccessfully created."
+        if response:
+            return f"Account successfully created."
+        else:
+            return f"Account unsuccessfully created."
+
+    def filters(self):
+        self.filters = {
+            "type": "or",
+            "filters": [
+                {
+                    "type": "eq",
+                    "key": "version",
+                    "value": "v2"
+                },
+                {
+                    "type": "eq",
+                    "key": "department",
+                    "value": "Hydrology"
+                }
+            ]
+        }
 
 if __name__ == "__main__":
-    print("Entering main")
+    #query = "My email address is basil_anton@yahoo.ca"
     query = "My email address is basil_anton@yahoo.ca"
-    generate_response(query)
+    chatQuery = ChatQuery()
+
+    chatQuery.generate_response(query)
+ 

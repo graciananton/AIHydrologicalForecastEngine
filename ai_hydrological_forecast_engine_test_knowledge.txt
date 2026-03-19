@@ -121,10 +121,9 @@ General status messages/logging (app-defined).
 
 Instead of a traditional “fill a form and submit” flow, users can sign up via an **agentic workflow** that:
 - guides the user through the signup steps conversationally
-- collects required profile/location information
-- confirms consent for notifications
-
-*(You told me to de-emphasize signup details for now — so this is a high-level note only.)*
+- gets user's email address and sends verification code to user
+- verifies that user submitted appropriate verification code
+- onboards user to the site
 
 ---
 
