@@ -12,7 +12,7 @@ use Illuminate\Support\Facades\Log;
 Route::post('/request_otp', function (Request $request) {
 
     $email = $request->input('email_address');
-
+    Log::info("Requesting otp");
     Log::info('Email received: ' . $email);
 
 });
