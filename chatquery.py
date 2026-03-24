@@ -111,7 +111,7 @@ class ChatQuery():
                 response = self.client.responses.create(
                     model="gpt-4.1",
                     tools=self.tools,
-                    input=messages
+                    input=tool_outputs[0]['output']
                 )
 
                 messages.append({
