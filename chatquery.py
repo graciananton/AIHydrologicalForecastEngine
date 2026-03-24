@@ -76,49 +76,48 @@ class ChatQuery():
                 input=messages
             )
 
-            tool_calls = [
-                item for item in response.output
-                if item.type == "function_call"
-            ]
-
-            #pprint(tool_calls)
-
-            if not tool_calls:
+            if response.output[0].type == "function_call":
                 messages.append({
-                    "role": "assistant",
-                    "content": response.output_text
+                    "type":response.output[0].type,
+                    "name":response.output[0].name,
+                    "arguments":response.output[0].arguments
                 })
-
-            else:
-                tool_outputs = []
-
-                for item in tool_calls:
+            elif response.output[0].type == "message":
+                messages.append({
+                    "type":response.output[0].type,
+                    "role":"assistant",
+                    "content":response.output[0].content[0].text
+                })
+    
+            if response.output[0].type == "function_call":
+                for item in messages:
                     if item.name == "send_otp":
-                        data = json.loads(item.arguments)
-                        result = self.send_otp(data)
+                            data = json.loads(item.arguments)
+                            result = self.send_otp(data)
 
                     elif item.name == "verify_otp":
-                        data = json.loads(item.arguments)
-                        data['id'] = self.id
-                        result = self.verify_otp(data)
-                    
-                    tool_outputs.append({
-                        "type": "function_call_output",
-                        "call_id": item.call_id,
-                        "output": str(result)
+                            data = json.loads(item.arguments)
+                            data['id'] = self.id
+                            result = self.verify_otp(data)
+                        
+                    messages.append({
+                            "type": "function_call_output",
+                            "call_id": item.call_id,
+                            "output": str(result)
                     })
 
-                response = self.client.responses.create(
-                    model="gpt-4.1",
-                    tools=self.tools,
-                    input=tool_outputs[0]['output']
-                )
+                    response = self.client.responses.create(
+                        model="gpt-4.1",
+                        tools=self.tools,
+                        input=messages[-1]['output']
+                    )
 
-                messages.append({
-                    "role": "assistant",
-                    "content": response.output_text
-                })
-
+                    messages.append({
+                        "type":"message",
+                        "role": "assistant",
+                        "content": response.output_text
+                    })
+        
             pprint(messages)
 
             query = input("->")
@@ -171,7 +170,7 @@ class ChatQuery():
 
 if __name__ == "__main__":
     #query = "My email address is basil_anton@yahoo.ca"
-    query = "My email address is basil_anton@yahoo.ca"
+    query = "What is this system about"
     chatQuery = ChatQuery()
 
     chatQuery.generate_response(query)
