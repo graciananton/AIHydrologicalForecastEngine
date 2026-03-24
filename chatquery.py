@@ -101,8 +101,6 @@ class ChatQuery():
                         data = json.loads(item.arguments)
                         data['id'] = self.id
                         result = self.verify_otp(data)
-
-                    print(result)
                     
                     tool_outputs.append({
                         "type": "function_call_output",
