@@ -102,7 +102,7 @@ class ChatQuery():
                         data['id'] = self.id
                         result = self.verify_otp(data)
 
-                    #print(result)
+                    print(result)
                     
                     tool_outputs.append({
                         "type": "function_call_output",
