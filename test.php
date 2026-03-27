@@ -1,2 +1,2 @@
 <?php
-file_put_contents("text.txt", "Hello world\n", FILE_APPEND);
+file_put_contents(__DIR__ . "/text.txt", "Hello world\n");
