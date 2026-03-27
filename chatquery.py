@@ -94,6 +94,7 @@ class ChatQuery():
 
                 for item in tool_calls:
                     if item.name == "send_otp":
+                        print("Sending OTP")
                         data = json.loads(item.arguments)
                         result = self.send_otp(data)
 
@@ -101,7 +102,7 @@ class ChatQuery():
                         data = json.loads(item.arguments)
                         data['id'] = self.id
                         result = self.verify_otp(data)
-                    
+
                     tool_outputs.append({
                         "type": "function_call_output",
                         "call_id": item.call_id,
@@ -119,7 +120,7 @@ class ChatQuery():
                     "content": response.output_text
                 })
 
-            pprint(messages)
+            pprint(messages[-1])
 
             query = input("->")
             messages.append({"role": "user", "content": query})
@@ -130,8 +131,8 @@ class ChatQuery():
     def send_otp(self,data:dict)->str:
         url="http://localhost/laravel/public/api/request_otp"
 
-        print(data)
-        response = requests.post(url,json = data).json()
+        response = requests.post(url,json = data)
+        response = response.json()
 
         self.id = response['id']
 
