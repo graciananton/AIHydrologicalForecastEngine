@@ -44,9 +44,9 @@ class ReadingService
                         ]
                         # or inserts with 'stationId', 'measuredAt', 'level'
                     );
-                    //if(!$model->wasRecentlyCreated){
-                    //   break;
-                    //}
+                    if(!$model->wasRecentlyCreated){
+                       break;
+                    }
                 }
                 catch(\Throwable $e){
                     $stationCounter = $stationCounter + 1;
