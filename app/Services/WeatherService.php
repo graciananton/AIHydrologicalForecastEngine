@@ -12,10 +12,12 @@ class WeatherService {
         $interval = 24;
         $query = Station::query();
         $stations = $query->get()->toArray();
-
+                
         $formatted = Carbon::now('America/Toronto')->startOfHour()->format('Y-m-d\TH:00');
         for($i=0;$i<count($stations);$i++){
+            
             $station = $stations[$i];
+            Log::channel("weather")->info($station['stationId']);
             $stationId = $station['stationId'];
             $longitude = $station['longitude'];
             $latitude = $station['latitude'];
@@ -77,13 +79,15 @@ class WeatherService {
             }
             if($stationCounter > 0){
                 Log::channel('weather')->info("There was an error at $stationId [Weather]".Carbon::now());
-                return false;
             }
             else{
                 Log::channel('weather')->info("All records for $stationId [Weather] station inserted successfully at ".Carbon::now());
-                return true;
             }
         }
+        if($stationCounter > 0){
+            return false;
+        }
+        return true;
 
     }
     public function filter(array $params):array{
