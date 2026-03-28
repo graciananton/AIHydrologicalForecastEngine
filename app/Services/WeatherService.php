@@ -31,6 +31,7 @@ class WeatherService {
             for($j=0;$j<count($data['hourly']['time']);$j++){
                 if($data['hourly']['time'][$j] == $formatted){
                     $index = $j;
+                    // we start when the database time matches the current time start hour
                 }
             }  
             $hours = [];
