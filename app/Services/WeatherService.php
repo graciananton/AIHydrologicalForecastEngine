@@ -114,6 +114,7 @@ class WeatherService {
         if($params['rainAtMost'] != null){
             $query->where('rain','<=',$params['rainAtMost']);
         }
+        $query->take($params['limit']);
 
         return $query->get()->toArray();
     }
@@ -129,6 +130,7 @@ class WeatherService {
             'temperatureAtMost' => $params['temperatureAtMost'] ?? null,
             'windAtMost' => $params['windAtMost'] ?? null,
             'rainAtMost' => $params['rainAtMost'] ?? null,
+            'limit' => $params['limit'] ?? 10,
             'f' => $params['f'] ?? 'json'
         ];
     }

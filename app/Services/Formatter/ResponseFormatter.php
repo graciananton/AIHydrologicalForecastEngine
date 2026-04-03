@@ -1,16 +1,17 @@
 <?php
 namespace App\Services\Formatter;
+use Illuminate\Support\Facades\Log;
 
 final class ResponseFormatter{
-    public static function process(string $format,array $array):string{
-        if($format == "html"){
+    public static function process(string $formatType,array $results):string{
+        if($formatType == "html"){
             
         }
-        else if($format == "xml"){
-            $response = view('xml',compact('array'));
+        else if($formatType == "xml"){
+            $response = view('xml',compact('results'));
         }
         else{
-            $response = json_encode($array);
+            $response = json_encode($results);
         }
         return $response;
     }
