@@ -114,9 +114,29 @@ class WeatherService {
         if($params['rainAtMost'] != null){
             $query->where('rain','<=',$params['rainAtMost']);
         }
+
+        $query->whereBetween('measuredAt', [
+            $params['from'],
+            $params['to']
+        ]);
+
+        $query->orderBy('measuredAt', $params['order']);
+
         $query->take($params['limit']);
 
-        return $query->get()->toArray();
+        return $this->formatResults($query->get()->toArray());
+    }
+    public function formatResults(array $results): array {
+        foreach ($results as $i => $row) {
+            foreach ($row as $key => $value) {
+
+                $decoded = json_decode($value, true);
+                if (json_last_error() === JSON_ERROR_NONE) {
+                    $results[$i][$key] = $decoded; 
+                }
+            }
+        }
+        return $results;
     }
     public function normalizeParams(array $params):array{
         return [
@@ -130,8 +150,13 @@ class WeatherService {
             'temperatureAtMost' => $params['temperatureAtMost'] ?? null,
             'windAtMost' => $params['windAtMost'] ?? null,
             'rainAtMost' => $params['rainAtMost'] ?? null,
+
+            'from' => isset($params['from']) ? Carbon::parse($params['from']) : Carbon::createFromTimestamp(0), // start of time 1970-01-00
+            'to' => isset($params['to']) ? Carbon::parse($params['to']) : Carbon::now(),
+
+            'order' => strtoupper($params['order'] ?? 'ASC') === 'DESC' ? 'DESC': 'ASC',
+            'f' => $params['f'] ?? 'json',
             'limit' => $params['limit'] ?? 10,
-            'f' => $params['f'] ?? 'json'
         ];
     }
 }

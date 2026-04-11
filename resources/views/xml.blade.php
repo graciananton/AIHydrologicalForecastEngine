@@ -1,9 +1,23 @@
 <results>
-@for ($i = 0; $i < count($results); $i++)
+@foreach ($results as $result)
     <result>
-        @foreach ($results[$i] as $key => $value)
-            <{{ $key }}>{{ $value }}</{{ $key }}>
+
+        @foreach ($result as $key => $value)
+
+            @if (is_array($value))
+
+                @foreach ($value as $k => $v)
+                    <{{ $k }}>{{ $v }}</{{ $k }}>
+                @endforeach
+
+            @else
+
+                <{{ $key }}>{{ $value }}</{{ $key }}>
+
+            @endif
+
         @endforeach
+
     </result>
-@endfor
+@endforeach
 </results>

@@ -8,11 +8,12 @@ final class ResponseFormatter{
             
         }
         else if($formatType == "xml"){
-            $response = view('xml',compact('results'));
+            return response()
+                ->view('xml', compact('results'), 200)
+                ->header('Content-Type', 'application/xml');
         }
         else{
-            $response = json_encode($results);
+            return response()->json($results);
         }
-        return $response;
     }
 }

@@ -87,9 +87,20 @@ class ReadingService
             $query->limit($params['limit']);
         }
 
-        return $query->get()->toArray();
+        return $this->formatResults($query->get()->toArray());
     }
+    public function formatResults(array $results): array {
+        foreach ($results as $i => $row) {
+            foreach ($row as $key => $value) {
 
+                $decoded = json_decode($value, true);
+                if (json_last_error() === JSON_ERROR_NONE) {
+                    $results[$i][$key] = $decoded; 
+                }
+            }
+        }
+        return $results;
+    }
     public function normalizeParams(array $params): array
     {
         return [
