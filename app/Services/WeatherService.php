@@ -92,6 +92,10 @@ class WeatherService {
 
     }
     public function filter(array $params):array{
+        //foreach($params as $key=>$value){
+        //    Log::channel("weather")->info("$key $value");
+        //}
+
         $query = Weather::query();
         if($params['stationId'] != null){
             $query->where('stationId',$params['stationId']);
@@ -123,6 +127,8 @@ class WeatherService {
         $query->orderBy('measuredAt', $params['order']);
 
         $query->take($params['limit']);
+        
+        //Log::channel("weather")->info($query->toSql());
 
         return $this->formatResults($query->get()->toArray());
     }
@@ -152,7 +158,7 @@ class WeatherService {
             'rainAtMost' => $params['rainAtMost'] ?? null,
 
             'from' => isset($params['from']) ? Carbon::parse($params['from']) : Carbon::createFromTimestamp(0), // start of time 1970-01-00
-            'to' => isset($params['to']) ? Carbon::parse($params['to']) : Carbon::now(),
+            'to' => isset($params['to']) ? Carbon::parse($params['to']) : Carbon::now()->addDay(),
 
             'order' => strtoupper($params['order'] ?? 'ASC') === 'DESC' ? 'DESC': 'ASC',
             'f' => $params['f'] ?? 'json',

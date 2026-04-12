@@ -44,9 +44,9 @@ class ReadingService
                         ]
                         # or inserts with 'stationId', 'measuredAt', 'level'
                     );
-                    if(!$model->wasRecentlyCreated){
-                       break;
-                    }
+                    //if(!$model->wasRecentlyCreated){
+                    //   break;
+                    //}
                 }
                 catch(\Throwable $e){
                     $stationCounter = $stationCounter + 1;
@@ -87,7 +87,7 @@ class ReadingService
             $query->limit($params['limit']);
         }
 
-        return $this->formatResults($query->get()->toArray());
+        return $query->get()->toArray();
     }
     public function formatResults(array $results): array {
         foreach ($results as $i => $row) {
