@@ -9,21 +9,22 @@ use Illuminate\Support\Facades\Log;
 
 class WeatherService {
     public function sync(){
+
         $interval = 24;
         $query = Station::query();
         $stations = $query->get()->toArray();
                 
-        $formatted = Carbon::now('America/Toronto')->startOfHour()->format('Y-m-d\TH:00');
+        $formatted = Carbon::now('UTC')->startOfHour()->format('Y-m-d\TH:00');
         for($i=0;$i<count($stations);$i++){
             
             $station = $stations[$i];
-            Log::channel("weather")->info($station['stationId']);
+           // Log::channel("weather")->info($station['stationId']);
             $stationId = $station['stationId'];
             $longitude = $station['longitude'];
             $latitude = $station['latitude'];
 
             $url = 
-            "https://api.open-meteo.com/v1/forecast?latitude={$latitude}&longitude={$longitude}&hourly=temperature_2m,precipitation,snowfall,relative_humidity_2m,pressure_msl,rain,wind_speed_10m&timezone=America/Toronto&f=json";
+            "https://api.open-meteo.com/v1/forecast?latitude={$latitude}&longitude={$longitude}&hourly=temperature_2m,precipitation,snowfall,relative_humidity_2m,pressure_msl,rain,wind_speed_10m&f=json";
             $response = file_get_contents($url);
             $data = json_decode($response,true);
             
@@ -65,8 +66,8 @@ class WeatherService {
                                 'stationId'  => $stationId,
                                 'weather'    => $weatherData,
                                 'measuredAt' => $time,
-                                'created_at' => Carbon::now('America/Toronto'),
-                                'updated_at' => Carbon::now('America/Toronto'),
+                                'created_at' => Carbon::now('UTC'),
+                                'updated_at' => Carbon::now('UTC'),
                             ]
                         ],
                         ['stationId','measuredAt'],              // unique key
@@ -75,14 +76,14 @@ class WeatherService {
                 }
                 catch(\Throwable $e){
                     $stationCounter = $stationCounter + 1;
-                    Log::channel('weather')->info("$stationId [Weather] record not inserted $e");
+                    //Log::channel('weather')->info("$stationId [Weather] record not inserted $e");
                 }
             }
             if($stationCounter > 0){
-                Log::channel('weather')->info("There was an error at $stationId [Weather]".Carbon::now());
+                //Log::channel('weather')->info("There was an error at $stationId [Weather]".Carbon::now());
             }
             else{
-                Log::channel('weather')->info("All records for $stationId [Weather] station inserted successfully at ".Carbon::now());
+                //Log::channel('weather')->info("All records for $stationId [Weather] station inserted successfully at ".Carbon::now());
             }
         }
         if($stationCounter > 0){

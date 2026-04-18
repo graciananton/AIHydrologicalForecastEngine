@@ -1,0 +1,9 @@
+Readings (Water Levels):
+- https://api.weather.gc.ca/collections/hydrometric-realtime/items?STATION_NUMBER=02KF011&f=json&limit=10000&sortby=-DATETIME
+- reveals roughly 30 days of data (8769 rows)
+- lists data from most recent to least recent
+
+Weather:
+- https://api.open-meteo.com/v1/forecast?latitude={$latitude}&longitude={$longitude}&hourly=temperature_2m,precipitation,snowfall, relative_humidity_2m,pressure_msl,rain,wind_speed_10m&f=json
+- reveals 167 hours into the future
+- lists predictions from beginning of current day to 167 hours later (7 days into future)
