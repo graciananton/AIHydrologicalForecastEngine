@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Log;
 class ReadingService
 {
     public function sync(){
+        Log::channel("weather")->info("Sync function for readings Service");
         $query = Station::query();
         $stations = $query->get()->toArray();
         $query = Reading::query();
@@ -16,7 +17,7 @@ class ReadingService
         for($i=0;$i<count($stations);$i++){
             $stationId = $stations[$i]['stationId'];
             
-            //Log::channel("weather")->info($stationId);
+            Log::channel("weather")->info($stationId);
 
             $url = "https://api.weather.gc.ca/collections/hydrometric-realtime/items?STATION_NUMBER={$stationId}&f=json&limit=10000&sortby=-DATETIME";
             $response = file_get_contents($url);

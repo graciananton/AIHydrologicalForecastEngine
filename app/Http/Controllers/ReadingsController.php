@@ -14,7 +14,7 @@ class ReadingsController extends Controller
         $this->params = $this->ReadingService->normalizeParams($request->query());
     }
     public function process(){
-        $result = ResponseFormatter::process($this->params['f'],$this->ReadingService->filter($this->params));
+       return response()->json($this->ReadingService->filter($this->params));
     }
     public function sync(){
         if($this->ReadingService->sync()){

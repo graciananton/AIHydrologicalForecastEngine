@@ -12,6 +12,7 @@ class ReadingScheduler extends Command
 
     public function handle(ReadingService $readingService)
     {
+        Log::channel("weather")->info("Readings Scheduler");
         $readingService->sync();
     }
 }
