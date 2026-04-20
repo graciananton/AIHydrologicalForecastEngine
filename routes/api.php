@@ -14,7 +14,7 @@ Route::post('/request_otp',[AuthController::class,'request_otp']);
 Route::post('/request_verify_otp',[AuthController::class,'request_verify_otp']);
 
 
-Route::middleware(['web', 'auth'])->group(function () {
+#Route::middleware(['web', 'auth'])->group(function () {
     Route::get('/readings',[ReadingsController::class,'process']);
 
     Route::get('/stations',[StationsController::class,'process']);
@@ -22,5 +22,5 @@ Route::middleware(['web', 'auth'])->group(function () {
     Route::get('/weather',[WeatherController::class,'process']);
 
     Route::get('/logs',[LogController::class,'process']);
-});
+#});
 

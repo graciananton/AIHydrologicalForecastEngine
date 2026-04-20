@@ -21,7 +21,7 @@ class AuthController extends Controller
             'password' => 'required'
         ]);
         if(Auth::attempt($credentials)){
-            Log::chnanel("laravel")->info("Attempt is valid");
+            Log::channel("laravel")->info("Attempt is valid");
             $request->session()->regenerate();
             //$token = $this->create_token($request);
             //session(['api_token'=>$token]);
