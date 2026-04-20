@@ -11,8 +11,7 @@ class ReadingScheduler extends Command
     protected $signature = 'reading:scheduler';
 
     public function handle(ReadingService $readingService)
-    {
-        Log::channel("weather")->info("Readings Scheduler");
+    {        
         $readingService->sync();
     }
 }

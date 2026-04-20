@@ -15,12 +15,10 @@ class WeatherService {
         $stations = $query->get()->toArray();
                 
         $formatted = Carbon::now('UTC')->startOfHour()->format('Y-m-d\TH:00');
-        Log::channel("weather")->info($formatted);
         
         for($i=0;$i<count($stations);$i++){
             
             $station = $stations[$i];
-           // Log::channel("weather")->info($station['stationId']);
             $stationId = $station['stationId'];
             $longitude = $station['longitude'];
             $latitude = $station['latitude'];
@@ -78,14 +76,14 @@ class WeatherService {
                 }
                 catch(\Throwable $e){
                     $stationCounter = $stationCounter + 1;
-                    //Log::channel('weather')->info("$stationId [Weather] record not inserted $e");
+                    Log::channel('weather')->info("$stationId [Weather] record not inserted $e");
                 }
             }
             if($stationCounter > 0){
-                //Log::channel('weather')->info("There was an error at $stationId [Weather]".Carbon::now());
+                Log::channel('weather')->info("There was an error at $stationId [Weather]".Carbon::now());
             }
             else{
-                //Log::channel('weather')->info("All records for $stationId [Weather] station inserted successfully at ".Carbon::now());
+                Log::channel('weather')->info("All records for $stationId [Weather] station inserted successfully at ".Carbon::now());
             }
         }
         if($stationCounter > 0){

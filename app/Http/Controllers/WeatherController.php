@@ -15,8 +15,8 @@ class WeatherController extends Controller
         $this->params = $this->WeatherService->normalizeParams($request->query());
     }
     public function process(){
-        $result = ResponseFormatter::process($this->params['f'],$this->WeatherService->filter($this->params));
-        return $result;
+        return response()->json($this->WeatherService->filter($this->params));
+
     }
     public function sync(){
         if($this->WeatherService->sync()){

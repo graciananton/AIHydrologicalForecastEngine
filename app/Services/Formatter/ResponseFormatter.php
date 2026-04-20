@@ -13,9 +13,6 @@ final class ResponseFormatter{
                 ->header('Content-Type', 'application/xml');
         }
         else{
-            echo "<pre>";
-            print_r($results);
-            echo "</pre>";
             return response()->json($results);
         }
     }
