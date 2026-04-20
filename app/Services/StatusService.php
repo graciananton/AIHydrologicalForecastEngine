@@ -13,15 +13,15 @@ class StatusService{
         $latestDateTime = Reading::query()->max('updated_at');
 
         $recentDateTimes['readings']['latestDateTime'] = $latestDateTime;
-        $recentDateTimes['readings']['nextDateTime'] = (Carbon::parse($latestDateTime)->addHours(1))->toDateTimeString();
+        $recentDateTimes['readings']['nextDateTime'] = (Carbon::parse($latestDateTime)->addMinutes(5))->setTimezone('America/Toronto')->toDateTimeString();
 
         $latestDateTime = Weather::query()->max('updated_at');
         $recentDateTimes['weather']['latestDateTime'] = $latestDateTime;
-        $recentDateTimes['weather']['nextDateTime'] = (Carbon::parse($latestDateTime)->addHours(1))->toDateTimeString();
+        $recentDateTimes['weather']['nextDateTime'] = (Carbon::parse($latestDateTime)->addHours(1))->setTimezone('America/Toronto')->toDateTimeString();
 
         $latestDateTime = Status::query()->max('updated_at');
         $recentDateTimes['status']['latestDateTime'] = $latestDateTime;
-        $recentDateTimes['status']['nextDateTime'] = (Carbon::parse($latestDateTime)->addHours(1))->toDateTimeString();
+        $recentDateTimes['status']['nextDateTime'] = (Carbon::parse($latestDateTime)->addMonth(1))->setTimezone('America/Toronto')->toDateTimeString();
 
         return $recentDateTimes;
     }

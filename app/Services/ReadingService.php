@@ -9,7 +9,6 @@ use Illuminate\Support\Facades\Log;
 class ReadingService
 {
     public function sync(){
-        
         $query = Station::query();
         $stations = $query->get()->toArray();
         $query = Reading::query();
@@ -19,7 +18,7 @@ class ReadingService
             
             //Log::channel("weather")->info($stationId);
 
-            $url = "https://api.weather.gc.ca/collections/hydrometric-realtime/items?STATION_NUMBER=02KF011&f=json&limit=10000&sortby=-DATETIME";
+            $url = "https://api.weather.gc.ca/collections/hydrometric-realtime/items?STATION_NUMBER={$stationId}&f=json&limit=10000&sortby=-DATETIME";
             $response = file_get_contents($url);
             $station = json_decode($response,true);
 
@@ -67,7 +66,6 @@ class ReadingService
             return false;
         }
         return true;
-
     }
     public function filter(array $params): array
     {

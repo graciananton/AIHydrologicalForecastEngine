@@ -15,6 +15,8 @@ class WeatherService {
         $stations = $query->get()->toArray();
                 
         $formatted = Carbon::now('UTC')->startOfHour()->format('Y-m-d\TH:00');
+        Log::channel("weather")->info($formatted);
+        
         for($i=0;$i<count($stations);$i++){
             
             $station = $stations[$i];
