@@ -13,7 +13,7 @@ class StationsController extends Controller{
         $this->params = $this->StationService->normalizeParams($request->query());
     }
     public function process(){
-        $result = ResponseFormatter::process($this->params['f'],$this->StationService->filter($this->params));
+        $result = response()->json($this->StationService->filter($this->params));
         return $result;
     }
 }
