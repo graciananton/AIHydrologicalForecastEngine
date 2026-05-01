@@ -3,7 +3,7 @@ namespace App\Services;
 use Illuminate\Support\Facades\Http;
 
 class ModelService{
-    public function train_model($stationId){
+    public function trainModel($stationId){
         $response = Http::timeout(120)->get(sprintf('https://fast-api-54so.onrender.com/train_model?station_id=%s',$stationId));
         $status = $response->json();
         return $status;
@@ -33,7 +33,7 @@ class ModelService{
         file_put_contents(sprintf('images/future/%s',$stationId), $response->body());
         return true;
     }
-    public function stations(){
+    public function get_stations(){
         $stations = Http::timeout(20)->get("http://gracian.ca/laravel/public/api/stations");
     }
 }

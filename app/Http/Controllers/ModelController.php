@@ -1,31 +1,27 @@
-<?php 
+<?php
 namespace App\Http\Controllers;
-use Illuminate\Http\Request;
-use App\Services\ModelService;
-use App\Services\StatusService;
+use App\Jobs\TrainModel;
 
-class ModelController extends Controller{
-    private ModelService $ModelService;
-    public function train_model(Request $request){
-        return $ModelService->train_model($request->stationId);
-    }
-    public function test_model(Request $request){
-        return $ModelService->test_model($request->stationId);
-    }
-    public function plot_test(Request $request){
-        ($ModelService->plot_test($request->stationId)) ? true: false;
-    }
-    public function plot_train(Request $request){
-        ($ModelService->plot_train($request->stationId)) ? true: false;
+class ModelController{
+    public function trainSingle(Request $request)
+    {
+        TrainModelJob::dispatch($request->stationId);
+
+        return response()->json([
+            'message' => 'Training started for station ' . $request->stationId
+        ]);
     }
 
-    public function future_set(Request $request){
-        return $ModelService->future_set($request->stationId);
-    }
-    public function plot_future(Request $request){
-        ($ModelService->plot_future($request->stationId)) ? true: false;
-    }
-    public function fine_tuning(){
-        // add this after
+    public function trainAll()
+    {
+        $stationIds = get_stations();
+
+        foreach ($stationIds as $stationId) {
+            TrainModelJob::dispatch($stationId);
+        }
+
+        return response()->json([
+            'message' => 'Training started for all stations'
+        ]);
     }
 }
