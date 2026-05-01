@@ -33,7 +33,14 @@ class ModelService{
         file_put_contents(sprintf('images/future/%s',$stationId), $response->body());
         return true;
     }
-    public function get_stations(){
+    public function getStationIds(){
         $stations = Http::timeout(20)->get("http://gracian.ca/laravel/public/api/stations");
+        $stations = json_decode($stations,true);
+        $stationIds = [];
+        for($i=0;$i<count($stations);$i++){
+            $stationId = $stations[$i]['stationId'];
+            $stationIds[] = $stationId;
+        }
+        return $stationIds;
     }
 }

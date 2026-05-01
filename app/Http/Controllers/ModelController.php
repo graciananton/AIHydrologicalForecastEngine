@@ -1,8 +1,10 @@
 <?php
 namespace App\Http\Controllers;
-use App\Jobs\TrainModel;
+use App\Jobs\TrainModelJob;
+use App\Services\ModelService;
 
 class ModelController{
+    private ModelService $ModelService;
     public function trainSingle(Request $request)
     {
         TrainModelJob::dispatch($request->stationId);
@@ -12,9 +14,9 @@ class ModelController{
         ]);
     }
 
-    public function trainAll()
+    public function trainAll(ModelService $ModelService)
     {
-        $stationIds = get_stations();
+        $stationIds = $ModelService->getStationIds();
 
         foreach ($stationIds as $stationId) {
             TrainModelJob::dispatch($stationId);

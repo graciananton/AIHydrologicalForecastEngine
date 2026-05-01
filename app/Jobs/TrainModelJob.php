@@ -3,9 +3,11 @@ namespace App\Jobs;
 
 use App\Services\ModelService;
 use Illuminate\Contracts\Queue\ShouldQueue;
+use App\Jobs\Dispatchable;
 
 class TrainModelJob implements ShouldQueue
 {
+    use Dispatchable;
     protected $stationId;
 
     public function __construct($stationId)
@@ -13,8 +15,8 @@ class TrainModelJob implements ShouldQueue
         $this->stationId = $stationId;
     }
 
-    public function handle(ModelService $service)
+    public function handle(ModelService $ModelService)
     {
-        $service->trainModel($this->stationId);
+        $ModelService->trainModel($this->stationId);
     }
 }
