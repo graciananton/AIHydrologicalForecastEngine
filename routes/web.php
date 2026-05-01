@@ -23,9 +23,9 @@ Route::post('/login_submit',[AuthController::class,'login_submit']);
 #    dd('1. POST route reached');
 #});
 
-Route::get('/train_model', [ModelController::class,'train_model'])->middleware('auth');
-Route::get('/test_model',[ModelController::class,'test_model'])->middleware('auth');
-Route::get('/fine_tuning',[ModelController::class, 'fine_tune_model'])->middleware('auth');
+Route::get('/train_model', [ModelController::class,'train_model']);
+Route::get('/test_model',[ModelController::class,'test_model']);
+Route::get('/fine_tuning',[ModelController::class, 'fine_tune_model']);
 
 
 Route::get('/status', [StatusController::class, 'process'])->middleware('auth');
