@@ -33,4 +33,7 @@ class ModelService{
         file_put_contents(sprintf('images/future/%s',$stationId), $response->body());
         return true;
     }
+    public function stations(){
+        $stations = Http::timeout(20)->get("http://gracian.ca/laravel/public/api/stations");
+    }
 }

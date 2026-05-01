@@ -2,6 +2,7 @@
 namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Services\ModelService;
+use App\Services\StatusService;
 
 class ModelController extends Controller{
     private ModelService $ModelService;
@@ -24,7 +25,6 @@ class ModelController extends Controller{
     public function plot_future(Request $request){
         ($ModelService->plot_future($request->stationId)) ? true: false;
     }
-
     public function fine_tuning(){
         // add this after
     }
