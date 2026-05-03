@@ -5,7 +5,7 @@ use App\Services\ModelService;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 
-class TrainModelJob implements ShouldQueue
+class PlotTrainJob implements ShouldQueue
 {
     # use dispatchable to run TrainModelJob::dispatch()
     use Dispatchable;
@@ -18,6 +18,6 @@ class TrainModelJob implements ShouldQueue
 
     public function handle(ModelService $ModelService)
     {
-        $ModelService->trainModel($this->stationId);
+        $ModelService->plotTrain($this->stationId);
     }
 }
