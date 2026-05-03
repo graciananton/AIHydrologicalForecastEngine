@@ -34,6 +34,7 @@ class ModelController{
 
     public function plotTrainSingle(Request $request)
     {
+        Log::channel("laravel")->info("Plotting train single");
         PlotTrainJob::dispatch($request->stationId);
         return response()->json([
             'message'=> sprintf('Plotted training data for station %s', $request->stationId)

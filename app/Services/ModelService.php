@@ -24,8 +24,16 @@ class ModelService{
     }
 
     public function plotTrain($stationId){
+        Log::channel("Plot train");
         $response = Http::timeout(120)->get(sprintf('https://fast-api-54so.onrender.com/plot_train?station_id=%s',$stationId));
-        file_put_contents(sprintf('images/train/%s.png',$stationId), $response->body());
+        $dir = base_path('images/train');
+        $filePath = $dir . '/' . $stationId . '.png';
+        Log::channel("larvel")->info("Writing into file path");
+        Log::channel("laravel")->info($filePath);
+        file_put_contents(
+            $filePath,
+            $response->body()
+        );        
         return true;
     }
 

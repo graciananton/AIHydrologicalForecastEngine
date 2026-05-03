@@ -4,6 +4,7 @@ namespace App\Jobs;
 use App\Services\ModelService;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
+use Illuminate\Support\Facades\Log;
 
 class PlotTrainJob implements ShouldQueue
 {
@@ -18,6 +19,7 @@ class PlotTrainJob implements ShouldQueue
 
     public function handle(ModelService $ModelService)
     {
+        Log::channel("laravel")->info("Handling train plotting");
         $ModelService->plotTrain($this->stationId);
     }
 }
