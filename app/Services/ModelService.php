@@ -36,6 +36,16 @@ class ModelService{
         );        
         return true;
     }
+    public function plotTest($stationId){
+        $response = Http::timeout(120)->get(sprintf('https://fast-api-54so.onrender.com/plot_test?station_id=%s',$stationId));
+        $dir = base_path('images/test');
+        $filePath = $dir . '/' . $stationId . '.png';
+        file_put_contents(
+            $filePath,
+            $response->body()
+        );        
+        return true;
+    }
 
     public function plot_test($stationId){
         $response = Http::timeout(120)->get(sprintf('https://fast-api-54so.onrender.com/plot_test?station_id=%s',$stationId));
@@ -57,4 +67,5 @@ class ModelService{
         }
         return $stationIds;
     }
+
 }

@@ -2,6 +2,7 @@
 namespace App\Http\Controllers;
 use App\Jobs\TrainModelJob;
 use App\Jobs\PlotTrainJob;
+use App\Jobs\PlotTestJob;
 use App\Services\ModelService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
@@ -41,7 +42,14 @@ class ModelController{
         ]);
     }
 
-
+    public function plotTestSingle(Request $request){
+        Log::channel("laravel")->info("Plotting test single");
+        PlotTestJob::dispatch($request->stationId);
+        return response()->json([
+            'message' => sprintf('Plotted test data for station %s', $request->stationId)
+        ]);
+    }
+    
     public function testSingle(Request $request)
     {
         $rmse = $this->ModelService->testModel($request->stationId);

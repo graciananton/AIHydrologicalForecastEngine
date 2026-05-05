@@ -24,7 +24,7 @@ Route::get('/testSingle',[ModelController::class,'testSingle']);
 Route::get('/futureSetSingle',[ModelController::class,'futureSetSingle']);
 
 Route::get('/plotTrainSingle',[ModelController::class,'plotTrainSingle']);
-
+Route::get("/plotTestSingle",[ModelController::class,'plotTestSingle']);
 
 Route::get('/fine_tuning',[ModelController::class, 'fine_tune_model']);
 
