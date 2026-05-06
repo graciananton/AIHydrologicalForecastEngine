@@ -42,6 +42,9 @@ class ModelController{
         ]);
     }
 
+
+
+
     public function plotTestSingle(Request $request){
         Log::channel("laravel")->info("Plotting test single");
         PlotTestJob::dispatch($request->stationId);
@@ -49,7 +52,11 @@ class ModelController{
             'message' => sprintf('Plotted test data for station %s', $request->stationId)
         ]);
     }
-    
+
+
+
+
+
     public function testSingle(Request $request)
     {
         $rmse = $this->ModelService->testModel($request->stationId);
