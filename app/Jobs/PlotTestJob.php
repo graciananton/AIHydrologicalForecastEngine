@@ -22,7 +22,6 @@ class PlotTestJob implements ShouldQueue
 
     public function handle(ModelService $ModelService)
     {
-        try {
             Log::channel("laravel")->info("Processing plotting test job");
 
             $this->update([
@@ -42,11 +41,13 @@ class PlotTestJob implements ShouldQueue
 
             $ModelService->plotTest($this->stationId);
             
-            #Log::info("This is after plotting");
+            Log::channel("laravel")->info("Plotting test set");
+            
+            Log::info("This is after plotting",$this->getJobStatusId());
 
-            #$this->update([
-            #    'job_id' => $this->getJobStatusId()
-            #]);
+            $this->update([
+                'job_id' => $this->getJobStatusId()
+            ]);
 
             Log::channel("laravel")->info("After plotTest");
 
@@ -59,24 +60,5 @@ class PlotTestJob implements ShouldQueue
             ]);
 
             $this->setOutput(['message' => 'Job finished!']);
-
-        } 
-        catch (\Throwable $e) {
-            Log::channel("laravel")->error("PlotTestJob failed", [
-                'message' => $e->getMessage(),
-                'file' => $e->getFile(),
-                'line' => $e->getLine(),
-            ]);
-
-            $this->update([
-                'status' => "failed"
-            ]);
-
-            $this->setOutput([
-                'error' => $e->getMessage()
-            ]);
-
-            throw $e;
-        }
     }
 }
