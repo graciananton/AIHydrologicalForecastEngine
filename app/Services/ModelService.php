@@ -22,7 +22,16 @@ class ModelService{
         $future_predictions = $response->json();
         return $future_predictions;
     }
-
+    public function plotFuture($stationId){
+        $response = Http::timeout(120)->get(sprintf('https://fast-api-54so.onrender.com/plot_future?station_id=%s',$stationId));
+        $dir = base_path("images/future");
+        $filePath = $dir . '/'. $stationId . '.png';
+        file_put_contents(
+            $filePath,
+            $response->body()
+        );
+        return true;
+    }
     public function plotTrain($stationId){
         Log::channel("laravel")->info("Plotting train function");
         $response = Http::timeout(120)->get(sprintf('https://fast-api-54so.onrender.com/plot_train?station_id=%s',$stationId));

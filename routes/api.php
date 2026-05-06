@@ -15,16 +15,18 @@ Route::post('/request_otp',[AuthController::class,'request_otp']);
 Route::post('/request_verify_otp',[AuthController::class,'request_verify_otp']);
 
 
-Route::get('/trainAll', [ModelController::class,'trainAll']);
-Route::get('/trainSingle', [ModelController::class,'trainSingle']);
 
 Route::get('/testAll',[ModelController::class,'testAll']);
 Route::get('/testSingle',[ModelController::class,'testSingle']);
 
 Route::get('/futureSetSingle',[ModelController::class,'futureSetSingle']);
 
+Route::get('/trainAll', [ModelController::class,'trainAll']);
+Route::get('/trainSingle', [ModelController::class,'trainSingle']);
 Route::get('/plotTrainSingle',[ModelController::class,'plotTrainSingle']);
 Route::get("/plotTestSingle",[ModelController::class,'plotTestSingle']);
+Route::get("/plotFutureSingle",[ModelController::class,'plotFutureSingle']);
+
 
 Route::get('/fine_tuning',[ModelController::class, 'fine_tune_model']);
 

@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\Log;
 use Illuminate\Bus\Queueable;
 use Imtigger\LaravelJobStatus\Trackable;
 
-class TrainModelJob implements ShouldQueue
+class PlotFutureJob implements ShouldQueue
 {
     # use dispatchable to run TrainModelJob::dispatch()
     use Dispatchable, Trackable, Queueable;
@@ -24,7 +24,7 @@ class TrainModelJob implements ShouldQueue
     public function handle(ModelService $ModelService)
     {
         try{
-            Log::channel("laravel")->info("Processing training model");
+            Log::channel("laravel")->info("Processing plotting future job");
 
             $this->update([
                 'status'=>'running'
@@ -37,13 +37,13 @@ class TrainModelJob implements ShouldQueue
                 'started_at' => now()
             ]);
 
-            Log::channel("laravel")->info("training model", [
+            Log::channel("laravel")->info("Before plotFuture", [
                 'stationId' => $this->stationId
             ]);
 
-            $ModelService->trainModel($this->stationId);
+            $ModelService->plotFuture($this->stationId);
             
-            Log::channel("laravel")->info("training model");
+            Log::channel("laravel")->info("Plotting future set");
 
             #Log::info("This is after plotting", [
             #    'statusId' => $this->getJobStatusId()
@@ -53,7 +53,7 @@ class TrainModelJob implements ShouldQueue
                 'job_id' => $this->getJobStatusId()
             ]);
 
-            Log::channel("laravel")->info("After training model");
+            Log::channel("laravel")->info("After plotFuture");
 
             $this->setProgressNow(100, 100);
             $this->update([
@@ -61,7 +61,7 @@ class TrainModelJob implements ShouldQueue
             ]);
 
             $this->update([
-                'queue'=>'training'
+                'queue'=>'plotting'
             ]);
 
             $this->update([

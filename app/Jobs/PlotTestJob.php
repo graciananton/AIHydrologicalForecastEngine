@@ -5,15 +5,16 @@ use App\Services\ModelService;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Bus\Queueable;
 use Imtigger\LaravelJobStatus\Trackable;
 
 class PlotTestJob implements ShouldQueue
 {
     # use dispatchable to run TrainModelJob::dispatch()
-    use Dispatchable, Trackable;
+    use Dispatchable, Trackable, Queueable;
     # by using Trackable, it injects all the public Trackable methods in this class
     protected $stationId;
-    public $queue = 'plotting';
+    #public $queue = 'plotting';
     public function __construct($stationId)
     {
         $this->stationId = $stationId;
@@ -58,6 +59,11 @@ class PlotTestJob implements ShouldQueue
             $this->update([
                 'status'=>'finished'
             ]);
+
+            $this->update([
+                'queue'=>'plotting'
+            ]);
+
             $this->update([
                 'finished_at' => now()
             ]);

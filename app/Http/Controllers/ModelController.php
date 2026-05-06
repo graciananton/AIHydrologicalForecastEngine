@@ -3,6 +3,8 @@ namespace App\Http\Controllers;
 use App\Jobs\TrainModelJob;
 use App\Jobs\PlotTrainJob;
 use App\Jobs\PlotTestJob;
+use App\Jobs\PlotFutureJob;
+
 use App\Services\ModelService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
@@ -54,6 +56,14 @@ class ModelController{
     }
 
 
+    public function plotFutureSingle(Request $request)
+    {
+        Log::channel("laravel")->info("Plotting future single");
+        PlotFutureJob::dispatch($request->stationId);
+        return response()->json([
+            'message'=> sprintf('Plotted future data for station %s', $request->stationId)
+        ]);
+    }
 
 
 
