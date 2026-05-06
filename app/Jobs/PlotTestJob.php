@@ -62,7 +62,7 @@ class PlotTestJob implements ShouldQueue
             ]);
 
             $this->setOutput(['message' => 'Job finished!']);
-            
-            dd($this->getJobStatusId());
+
+            Log::channel("laravel")->info($this->getJobStatusId());
     }
 }
