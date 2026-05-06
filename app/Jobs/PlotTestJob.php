@@ -42,8 +42,10 @@ class PlotTestJob implements ShouldQueue
             $ModelService->plotTest($this->stationId);
             
             Log::channel("laravel")->info("Plotting test set");
-            
-            Log::info("This is after plotting",$this->getJobStatusId());
+
+            Log::channel("laravel")->info("This is after plotting", [
+                'statusId'=>$this->getJobStatusId()
+            ]);
 
             $this->update([
                 'job_id' => $this->getJobStatusId()
