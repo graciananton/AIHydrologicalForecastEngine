@@ -50,7 +50,7 @@ class ModelController{
         PlotTestJob::dispatch($request->stationId);
         return response()->json([
             'message' => sprintf('Plotted test data for station %s', $request->stationId)
-        ]);
+        ]); 
     }
 
 

@@ -22,10 +22,61 @@ class PlotTestJob implements ShouldQueue
 
     public function handle(ModelService $ModelService)
     {
-        Log::channel("laravel")->info("Processing plotting test job");
-        $this->setProgressNow(10, 100); // Set current progress
-        $this->setProgressMax(100); // Set max progress
-        $ModelService->plotTest($this->stationId);
-        $this->setOutput(['message' => 'Job finished!']);
+        try {
+            Log::channel("laravel")->info("Processing plotting test job");
+
+            $this->update([
+                'status'=>'running'
+            ]);
+
+            $this->setProgressMax(100);
+            $this->setProgressNow(0, 100);
+
+            $this->update([
+                'started_at' => now()
+            ]);
+
+            Log::channel("laravel")->info("Before plotTest", [
+                'stationId' => $this->stationId
+            ]);
+
+            $ModelService->plotTest($this->stationId);
+            
+            #Log::info("This is after plotting");
+
+            #$this->update([
+            #    'job_id' => $this->getJobStatusId()
+            #]);
+
+            Log::channel("laravel")->info("After plotTest");
+
+            $this->setProgressNow(100, 100);
+            $this->update([
+                'status'=>'finished'
+            ]);
+            $this->update([
+                'finished_at' => now()
+            ]);
+
+            $this->setOutput(['message' => 'Job finished!']);
+
+        } 
+        catch (\Throwable $e) {
+            Log::channel("laravel")->error("PlotTestJob failed", [
+                'message' => $e->getMessage(),
+                'file' => $e->getFile(),
+                'line' => $e->getLine(),
+            ]);
+
+            $this->update([
+                'status' => "failed"
+            ]);
+
+            $this->setOutput([
+                'error' => $e->getMessage()
+            ]);
+
+            throw $e;
+        }
     }
 }
