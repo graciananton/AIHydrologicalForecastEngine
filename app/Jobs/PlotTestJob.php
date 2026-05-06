@@ -13,7 +13,7 @@ class PlotTestJob implements ShouldQueue
     use Dispatchable, Trackable;
     # by using Trackable, it injects all the public Trackable methods in this class
     protected $stationId;
-
+    public $queue = 'plotting';
     public function __construct($stationId)
     {
         $this->stationId = $stationId;
@@ -22,6 +22,7 @@ class PlotTestJob implements ShouldQueue
 
     public function handle(ModelService $ModelService)
     {
+        try{
             Log::channel("laravel")->info("Processing plotting test job");
 
             $this->update([
@@ -64,5 +65,12 @@ class PlotTestJob implements ShouldQueue
             $this->setOutput(['message' => 'Job finished!']);
 
             Log::channel("laravel")->info($this->getJobStatusId());
+        }
+        catch(Exception $e){
+            Log::channel("laravel")->info($e->getMessage());
+            $this->update([
+                'status'=>'failed'
+            ]);
+        }
     }
 }
