@@ -45,8 +45,6 @@ Route::get("/plotTestSingle",[ModelController::class,'plotTestSingle']);
 
 Route::get("/plotTestAll",[ModelController::class,'plotTestAll']);
 
-
-
 # plot the future predictions
 Route::get("/plotFutureSingle",[ModelController::class,'plotFutureSingle']);
 
