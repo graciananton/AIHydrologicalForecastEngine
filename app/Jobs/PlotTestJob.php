@@ -41,6 +41,8 @@ class PlotTestJob implements ShouldQueue
                 'stationId' => $this->stationId
             ]);
 
+            $this->setInput(['stationId' => $this->stationId]);
+
             $ModelService->plotTest($this->stationId);
             
             Log::channel("laravel")->info("Plotting test set");

@@ -40,6 +40,8 @@ class TrainModelJob implements ShouldQueue
             Log::channel("laravel")->info("training model", [
                 'stationId' => $this->stationId
             ]);
+            
+            $this->setInput(['stationId' => $this->stationId]);
 
             $ModelService->trainModel($this->stationId);
             

@@ -21,7 +21,6 @@ class ModelController{
             'message' => 'Training started for station ' . $request->stationId
         ]);
     }
-
     public function trainAll()
     {
         $stationIds = $this->ModelService->getStationIds();
@@ -44,8 +43,17 @@ class ModelController{
         ]);
     }
 
+    public function plotTrainAll()
+    {
+        $stationIds = $this->ModelService->getStationIds();
 
-
+        foreach($stationIds as $stationId) {
+            PlotTrainJob::dispatch($stationId);
+        }
+        return response()->json([
+            'message' => 'Plotting training data started for all stations'
+        ]);
+    }
 
     public function plotTestSingle(Request $request){
         Log::channel("laravel")->info("Plotting test single");
@@ -53,6 +61,18 @@ class ModelController{
         return response()->json([
             'message' => sprintf('Plotted test data for station %s', $request->stationId)
         ]); 
+    }
+
+    public function plotTestAll()
+    {
+        $stationIds = $this->ModelService->getStationIds();
+
+        foreach($stationIds as $stationId) {
+            PlotTestJob::dispatch($stationId);
+        }
+        return response()->json([
+            'message' => 'Plotting test data started for all stations'
+        ]);
     }
 
 
@@ -65,6 +85,17 @@ class ModelController{
         ]);
     }
 
+    public function plotFutureAll()
+    {
+        $stationIds = $this->ModelService->getStationIds();
+
+        foreach($stationIds as $stationId) {
+            PlotFutureJob::dispatch($stationId);
+        }
+        return response()->json([
+            'message' => 'Plotting future data started for all stations'
+        ]);
+    }
 
 
     public function testSingle(Request $request)

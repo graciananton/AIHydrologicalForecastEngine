@@ -40,6 +40,8 @@ class PlotFutureJob implements ShouldQueue
             Log::channel("laravel")->info("Before plotFuture", [
                 'stationId' => $this->stationId
             ]);
+            
+            $this->setInput(['stationId' => $this->stationId]);
 
             $ModelService->plotFuture($this->stationId);
             

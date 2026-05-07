@@ -41,6 +41,8 @@ class PlotTrainJob implements ShouldQueue
                 'stationId' => $this->stationId
             ]);
 
+            $this->setInput(['stationId' => $this->stationId]);
+
             $ModelService->plotTrain($this->stationId);
             
             Log::channel("laravel")->info("Plotting train set");
