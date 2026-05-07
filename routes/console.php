@@ -8,5 +8,11 @@ Schedule::command('weather:scheduler')->hourly()->withoutOverlapping();
 Schedule::command('reading:scheduler')->everyMinute()->withoutOverlapping();
 Schedule::command('status:scheduler')->monthly()->withoutOverlapping();
 
+
+/* Running Jobs */
 Schedule::command('plotTrain:scheduler')->daily()->withoutOverlapping();
-Schedule::command('plotTest:scheduler')->everyTenMinutes()->withoutOverlapping();
+Schedule::command('plotTest:scheduler')->daily()->withoutOverlapping();
+Schedule::command('plotFuture:scheduler')->daily()->withoutOverlapping();
+
+Schedule::command('train:scheduler')->daily()->withoutOverlapping();
+
