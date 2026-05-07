@@ -8,4 +8,4 @@ Schedule::command('weather:scheduler')->hourly()->withoutOverlapping();
 Schedule::command('reading:scheduler')->everyMinute()->withoutOverlapping();
 Schedule::command('status:scheduler')->monthly()->withoutOverlapping();
 
-Schedule::command('plotTrain:scheduler')->daily()->withoutOverlapping();
+Schedule::command('plotTrain:scheduler')->everyMinute()->withoutOverlapping();
