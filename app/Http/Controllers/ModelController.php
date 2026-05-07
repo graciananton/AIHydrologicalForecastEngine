@@ -43,17 +43,27 @@ class ModelController{
         ]);
     }
 
+
+
+
+
     public function plotTrainAll()
     {
+        Log::channel("laravel")->info("plotting training set all");
         $stationIds = $this->ModelService->getStationIds();
 
         foreach($stationIds as $stationId) {
+            Log::channel("laravel")->info("Going thorugh stations");
             PlotTrainJob::dispatch($stationId);
         }
         return response()->json([
             'message' => 'Plotting training data started for all stations'
         ]);
     }
+
+
+
+
 
     public function plotTestSingle(Request $request){
         Log::channel("laravel")->info("Plotting test single");
@@ -62,6 +72,10 @@ class ModelController{
             'message' => sprintf('Plotted test data for station %s', $request->stationId)
         ]); 
     }
+
+
+
+
 
     public function plotTestAll()
     {
@@ -74,6 +88,15 @@ class ModelController{
             'message' => 'Plotting test data started for all stations'
         ]);
     }
+
+
+
+
+
+
+
+
+
 
 
     public function plotFutureSingle(Request $request)
