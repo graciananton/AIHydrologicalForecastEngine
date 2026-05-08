@@ -4,20 +4,19 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Reading extends Model
+class TestEvaluations extends Model
 {
-    protected $table = 'readings';
+    protected $table = "test_evaluations";
     public $timestamps = true;
     // sets the fillable columns in the table
     protected $fillable = [
         'stationId',
-        'level',
-        'measuredAt'
+        'error',
     ];
     // sets the data type for each fillable column
     protected $casts = [
         'stationId' => 'string',
-        'level' => 'string',
-        'measuredAt' => 'datetime'
+        'error' => 'double',
     ];
+
 }

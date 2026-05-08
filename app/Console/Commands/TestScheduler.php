@@ -11,6 +11,7 @@ class TestScheduler extends Command
 
     public function handle()
     {        
+        Log::channel("laravel")->info("Test scheduler running ");
         $response = Http::get(
             'http://gracian.ca/laravel/public/api/testAll',
         );

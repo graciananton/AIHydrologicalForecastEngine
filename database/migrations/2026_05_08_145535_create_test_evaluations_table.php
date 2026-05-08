@@ -13,6 +13,8 @@ return new class extends Migration
     {
         Schema::create('test_evaluations', function (Blueprint $table) {
             $table->id();
+            $table->string('stationId');
+            $table->double('error');
             $table->timestamps();
         });
     }
