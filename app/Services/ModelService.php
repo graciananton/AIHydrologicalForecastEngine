@@ -15,7 +15,8 @@ class ModelService{
     public function testModel($stationId){
         $response = Http::timeout(120)->get(sprintf('https://fast-api-54so.onrender.com/test_model?station_id=%s',$stationId));
         $rmse = $response->json();
-        Log::channel("laravel")->info(sprintf("%s RMSE score %f",$stationId, $rmse['RMSE']));
+        Log::channel("laravel")->info(sprintf($rmse['RMSE']));
+
         TestEvaluations::create([
             'stationId' => $stationId,
             'error' => $rmse['RMSE']
