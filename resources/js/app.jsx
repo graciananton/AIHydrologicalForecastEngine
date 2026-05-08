@@ -11,13 +11,10 @@ import "../css/app.css";
 
 export default function App() {
   const data = window.__REACT_DATA__ || {};
+
   const values = Object.values(data);
-  console.log("Values");
-  console.log(values);
 
   var req = getRequest(values);
-  console.log(data);
-  console.log(req);
   return (
     <>
     {req === 'workflow' && <Workflow /> }

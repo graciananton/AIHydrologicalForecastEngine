@@ -8,6 +8,10 @@ class DashboardController extends Controller
     public function __construct(Request $request){
     }
     public function process(){
-        return view("dashboard.dashboard");
+        return view("dashboard.dashboard", 
+        [
+            "request" => ['request' => 'dashboard']
+        ]
+        );
     }
 }
