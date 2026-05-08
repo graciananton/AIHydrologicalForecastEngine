@@ -3,6 +3,7 @@ namespace App\Services;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
 use App\Models\TestEvaluations;
+use App\Models\Predictions;
 
 class ModelService{
     public function trainModel($stationId){
@@ -26,8 +27,16 @@ class ModelService{
     public function futureSet($stationId){
         $response = Http::timeout(120)->get(sprintf('https://fast-api-54so.onrender.com/future_set?station_id=%s',$stationId));
         $future_predictions = $response->json();
+        foreach($future_predictions as $future_prediction) {
+            Predictions::create([
+                'stationId' => $future_prediction['stationId'],
+                'prediction' => $future_prediction['levelAtHour'],
+                'predictedFor' => $future_prediction['measuredAt']
+            ]);
+        }
         return $future_predictions;
     }
+
     public function plotFuture($stationId){
         $response = Http::timeout(120)->get(sprintf('https://fast-api-54so.onrender.com/plot_future?station_id=%s',$stationId));
         $dir = base_path("images/future");

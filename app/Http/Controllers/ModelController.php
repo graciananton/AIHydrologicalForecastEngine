@@ -93,13 +93,6 @@ class ModelController{
 
 
 
-
-
-
-
-
-
-
     public function plotFutureSingle(Request $request)
     {
         Log::channel("laravel")->info("Plotting future single");
@@ -122,6 +115,11 @@ class ModelController{
     }
 
 
+
+
+
+
+
     public function testSingle(Request $request)
     {
         $rmse = $this->ModelService->testModel($request->stationId);
@@ -142,6 +140,12 @@ class ModelController{
 
         return response()->json($results);
     }
+
+
+
+
+
+
     public function futureSetSingle(Request $request)
     {
         $predictions = $this->ModelService->futureSet($request->stationId);
@@ -156,5 +160,10 @@ class ModelController{
         }
         return response()->json($results);
     }
+
+
+
+
+
 
 }
