@@ -19,6 +19,7 @@ export default function App() {
     {req == "status" && <Status data={data} />}
     {req == "login" && <Login data={data} />}
     {req == "home" && <Home />}
+    {req == "dashboard" && <Dashboard />}
     </>
   );
 }
