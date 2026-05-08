@@ -15,4 +15,6 @@ Schedule::command('plotTest:scheduler')->daily()->withoutOverlapping();
 Schedule::command('plotFuture:scheduler')->daily()->withoutOverlapping();
 
 Schedule::command('train:scheduler')->daily()->withoutOverlapping();
+Schedule::command('test:scheduler')->daily()->withoutOverlapping();
+
 

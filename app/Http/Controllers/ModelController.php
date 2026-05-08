@@ -88,7 +88,7 @@ class ModelController{
             'message' => 'Plotting test data started for all stations'
         ]);
     }
-    
+
 
 
 
@@ -146,6 +146,15 @@ class ModelController{
     {
         $predictions = $this->ModelService->futureSet($request->stationId);
         return response()->json($predictions);
+    }
+    public function futureSetAll(){
+        $stationIds = $this->ModelService->getStationIds();
+        $results = [];
+        foreach ($stationIds as $stationId) {
+           $futurePredictions =  $this->ModelService->futureSet($stationId);
+           $results[$stationId] = $futurePredictions; 
+        }
+        return response()->json($results);
     }
 
 }
