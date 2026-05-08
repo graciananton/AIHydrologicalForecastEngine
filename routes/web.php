@@ -6,6 +6,7 @@ use App\Http\Controllers\WeatherController;
 use App\Http\Controllers\ReadingsController;
 use App\Http\Controllers\WorkflowController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\DashboardController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 
@@ -21,7 +22,7 @@ Route::post('/login_submit',[AuthController::class,'login_submit']);
 #Route::post('/login_submit1', function () {
 #    dd('1. POST route reached');
 #});
-
+Route::get('/dashboard', [DashboardController::class, 'process'])->middleware('auth');
 
 Route::get('/status', [StatusController::class, 'process'])->middleware('auth');
 

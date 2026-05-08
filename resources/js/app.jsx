@@ -5,14 +5,19 @@ import Login  from "./Login";
 import Workflow from "./Workflow";
 import Home from "./Home";
 import Header from "./Header";
+import Dashboard from "./Dashboard";
 
 import "../css/app.css";
 
 export default function App() {
   const data = window.__REACT_DATA__ || {};
   const values = Object.values(data);
+  console.log("Values");
+  console.log(values);
+
   var req = getRequest(values);
   console.log(data);
+  console.log(req);
   return (
     <>
     {req === 'workflow' && <Workflow /> }
