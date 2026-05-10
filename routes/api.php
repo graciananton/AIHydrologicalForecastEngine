@@ -9,10 +9,14 @@ use App\Http\Controllers\LogController;
 use App\Http\Controllers\AuthController;
 use Illuminate\Support\Facades\Log;
 use App\Http\Controllers\ModelController;
+use App\Http\Controllers\TestEvaluationsController;
+use App\Http\Controllers\PredictionsController;
+
 
 Route::post('/request_otp',[AuthController::class,'request_otp']);
 
 Route::post('/request_verify_otp',[AuthController::class,'request_verify_otp']);
+
 
 # get the RMSE score of the test set
 
@@ -66,3 +70,6 @@ Route::get('/fine_tuning',[ModelController::class, 'fine_tune_model']);
     Route::get('/logs',[LogController::class,'process']);
 #});
 
+
+Route::get('/test_evaluations', [TestEvaluationsController::class,'process']);
+Route::get('/predictions', [PredictionsController::class,'process']);
