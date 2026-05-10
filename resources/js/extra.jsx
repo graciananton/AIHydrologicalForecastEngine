@@ -1,13 +1,13 @@
 import React from "react";
 import { useState } from "react";
-//import '../css/Dashboard.css';
+import '../css/Dashboard.css';
 
 export default function Dashboard(){
     const [showPopup, setShowPopup] = useState(false);
     return (
-        <div id='dashboard' style={{overflow: "auto", height:"100vh", display: "flex", flexDirection: "column"}}>
-            <div id='datasets' style={{display:"flex", flexDirection:"column",marginTop:"5%",marginLeft:"5%",marginRight:"5%"}}>
-                <div id='stations' style={{display:"flex",flexDirection:"row", flex:1, position:"sticky", top:0, borderBottom:"1px solid black",borderTop:"2px solid black",borderRight:"2px solid black",borderLeft:"2px solid black"}}>
+        <div id='dashboard' /*style={{overflow: "auto", height:"100vh", display: "flex", flexDirection: "column"}}*/>
+            <div id='datasets' /*style={{display:"flex", flexDirection:"column",marginTop:"5%",marginLeft:"5%",marginRight:"5%"}}*/>
+                <div id='stations' /*style={{display:"flex",flexDirection:"row", flex:1, position:"sticky", top:0, borderBottom:"1px solid black",borderTop:"2px solid black",borderRight:"2px solid black",borderLeft:"2px solid black"}}*/>
                     <div style={{flex:2, border:"0px solid black", textAlign:"center",minWidth:"150px"}}>Station IDs</div>
                     <div style={{flex:1,border:"0px solid black", textAlign:"center",minWidth:"75px"}}>02KF001</div>
                     <div style={{flex:1,border:"0px solid black", textAlign:"center",minWidth:"75px"}}>02KF005</div>
