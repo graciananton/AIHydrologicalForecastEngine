@@ -3,12 +3,12 @@
 }
 .home header figure{
     flex-basis:30%;
-    border:1px solid red;
+    border:0px solid red;
 }
 .home header nav{
     display:flex;
     flex-basis:70%;
-    border:1px solid red;
+    border:0px solid red;
     justify-content:flex-end;
     align-items:center;
 }
