@@ -23,11 +23,11 @@ function Stations({stations, setStations}){
         </div>
     )
 }
-function TableSection(section, categories){
-    {console.log(categories)}
+
+function TableSection({ section, categories }){
     return (
         <div>
-            <div>{section}</div>
+            <div>{section.toUpperCase()}</div>
             <div>
             {categories.map((category, index) => (
                 <div>{category}</div>
@@ -36,8 +36,53 @@ function TableSection(section, categories){
         </div>
     )
 }
-export default function Dashboard(){
+function MetricCells({ section, stations }){
+    const now = new Date();
+    const sevenDaysBefore = new Date(now.getTime() - 7 * 24 * 60 * 60 * 1000).toISOString();
+    return (
+        <>
+        {useEffect(() => {
+            {stations.map(station => {
+                const fetchMetrics = async (stations) => {
+                    const url = `https://gracian.ca/laravel/public/api/test_evaluations?from=${sevenDaysBefore}&stationId=${station.stationId}&order=asc`;
+                    const metrics = await fetch(url);
+                    metrics = await metrics.json();
+                    <MetricCell section = {section} stationId={station.stationId} metrics={metrics}/>
+                }
+                fetchMetrics(stations);
+            })};
+        }, [stations])}
+        </>
+    );
+}
+function MetricCell({ section, stationId, metrics }){
     const [showPopup, setShowPopup] = useState(false);
+    sum = 0;
+    for(const metric of metrics){
+        sum += metric['error'];
+    }
+    average = sum/metrics.length;
+    return (
+        <div>
+            <div>{metrics[metrics.length-1]['error']}</div>
+            <div>{average}</div>
+            <div>{metrics[metrics.length-1]['updated_at']}</div>
+            <div 
+                onMouseEnter={() => setShowPopup(true)} 
+                onMouseLeave={() => setShowPopup(false)}
+            >
+                Graphs
+                {showPopup && (
+                    <div>
+                        <img src={`../images/${section}/${stationId}.png`} alt='Train images'/>
+                    </div>
+                )}
+            </div>
+
+        </div>
+    );
+}
+export default function Dashboard(){
     const [stations, setStations] = useState([]);
     return (
         <div id='dashboard'>
@@ -49,30 +94,18 @@ export default function Dashboard(){
 
                 <div id='test'>
                     {console.log(stations)}
-                    <TableSection section='TEST' categories={['RMSE(daily)','RMSE(weekly)','Last Updated','Graphs']} />
+                    <TableSection section='test' categories={['RMSE(daily)','RMSE(weekly)','Last Updated','Graphs']} />
+                    <MetricCells section='test' stations = {stations} />
+
                     <div>
                         <div>0.23332</div>
                         <div>0.323232</div>
                         <div>2026-05-08 14:32</div>
-                        <div style={{border:"0px solid black", position:"relative"}} onMouseEnter={() => setShowPopup(true)} onMouseLeave={() => setShowPopup(false)}>
+                        <div 
+                        //    onMouseEnter={() => setShowPopup(true)} 
+                        //    onMouseLeave={() => setShowPopup(false)}
+                        >
                             Graphs
-                            {showPopup && (
-                                <div
-                                style={{
-                                    position: "absolute",
-                                    top: -220,
-                                    left: 50,
-                                    bottom:-50,
-                                    width: "300%",
-                                    height: "1228%",
-                                    background: "black",
-                                    border: "2px solid black",
-                                    zIndex: 2
-                                }}
-                                >
-                                <img src='..\images\train\02KF001.png' alt='Train images'/>
-                                </div>
-                            )}
                         </div>
                     </div>
                     <div>
