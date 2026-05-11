@@ -39,21 +39,22 @@ function TableSection({ section, categories }){
 function MetricCells({ section, stations }){
     const now = new Date();
     const sevenDaysBefore = new Date(now.getTime() - 7 * 24 * 60 * 60 * 1000).toISOString();
-    return (
-        <>
-        {useEffect(() => {
+    {useEffect(() => {
+        return (
+            <>
             {stations.map(station => {
-                const fetchMetrics = async (stations) => {
+                const fetchMetrics = async (station) => {
                     const url = `https://gracian.ca/laravel/public/api/test_evaluations?from=${sevenDaysBefore}&stationId=${station.stationId}&order=asc`;
                     const metrics = await fetch(url);
-                    metrics = await metrics.json();
-                    <MetricCell section = {section} stationId={station.stationId} metrics={metrics}/>
+                    const json_metrics = await metrics.json();
+                    console.log(json_metrics);
+                    <MetricCell section = {section} stationId={station.stationId} metrics={json_metrics}/>
                 }
-                fetchMetrics(stations);
+                fetchMetrics(station);
             })};
-        }, [stations])}
-        </>
-    );
+            </>
+        )
+    }, [stations])}
 }
 function MetricCell({ section, stationId, metrics }){
     const [showPopup, setShowPopup] = useState(false);
@@ -74,7 +75,7 @@ function MetricCell({ section, stationId, metrics }){
                 Graphs
                 {showPopup && (
                     <div>
-                        <img src={`../images/${section}/${stationId}.png`} alt='Train images'/>
+                        <img src={`../images/${section}/${stationId}.png`} alt='Test images'/>
                     </div>
                 )}
             </div>
@@ -97,59 +98,6 @@ export default function Dashboard(){
                     <TableSection section='test' categories={['RMSE(daily)','RMSE(weekly)','Last Updated','Graphs']} />
                     <MetricCells section='test' stations = {stations} />
 
-                    <div>
-                        <div>0.23332</div>
-                        <div>0.323232</div>
-                        <div>2026-05-08 14:32</div>
-                        <div 
-                        //    onMouseEnter={() => setShowPopup(true)} 
-                        //    onMouseLeave={() => setShowPopup(false)}
-                        >
-                            Graphs
-                        </div>
-                    </div>
-                    <div>
-                        <div>0.23332</div>
-                        <div>0.23332</div>
-                        <div>2026-05-08 14:32</div>
-                        <div>Graphs</div>
-                    </div>
-                    <div>
-                        <div>0.23332</div>
-                        <div>0.23332</div>
-                        <div>2026-05-08 14:32</div>
-                        <div>Graphs</div>
-                    </div>
-                    <div>
-                        <div>0.23332</div>
-                        <div>0.323232</div>
-                        <div>2026-05-08 14:32</div>
-                        <div>Graphs</div>
-                    </div>
-                    <div>
-                        <div>0.23332</div>
-                        <div>0.323232</div>
-                        <div>2026-05-08 14:32</div>
-                        <div>Graphs</div>
-                    </div>
-                    <div>
-                        <div>0.23332</div>
-                        <div>0.323232</div>
-                        <div>2026-05-08 14:32</div>
-                        <div>Graphs</div>
-                    </div>
-                    <div>
-                        <div>0.23332</div>
-                        <div>0.323232</div>
-                        <div>2026-05-08 14:32</div>
-                        <div>Graphs</div>
-                    </div>
-                    <div>
-                        <div>0.23332</div>
-                        <div>0.323232</div>
-                        <div>2026-05-08 14:32</div>
-                        <div>Graphs</div>
-                    </div>
                 </div>
 
                 <div id='train'>
