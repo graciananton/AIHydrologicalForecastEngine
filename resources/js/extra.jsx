@@ -9,14 +9,14 @@ export default function Dashboard(){
             <div id='datasets' /*style={{display:"flex", flexDirection:"column",marginTop:"5%",marginLeft:"5%",marginRight:"5%"}}*/>
                 <div id='stations' /*style={{display:"flex",flexDirection:"row", flex:1, position:"sticky", top:0, borderBottom:"1px solid black",borderTop:"2px solid black",borderRight:"2px solid black",borderLeft:"2px solid black"}}*/>
                     <div style={{flex:2, border:"0px solid black", textAlign:"center",minWidth:"150px"}}>Station IDs</div>
-                    <div style={{flex:1,border:"0px solid black", textAlign:"center",minWidth:"75px"}}>02KF001</div>
-                    <div style={{flex:1,border:"0px solid black", textAlign:"center",minWidth:"75px"}}>02KF005</div>
-                    <div style={{flex:1,border:"0px solid black", textAlign:"center",minWidth:"75px"}}>02KF006</div>
-                    <div style={{flex:1,border:"0px solid black", textAlign:"center",minWidth:"75px"}}>02KF012</div>
-                    <div style={{flex:1,border:"0px solid black", textAlign:"center",minWidth:"75px"}}>02LA004</div>
-                    <div style={{flex:1,border:"0px solid black", textAlign:"center",minWidth:"75px"}}>02LA015</div>
-                    <div style={{flex:1,border:"0px solid black", textAlign:"center",minWidth:"75px"}}>02LA027</div>
-                    <div style={{flex:1,border:"0px solid black", textAlign:"center",minWidth:"75px"}}>02KF011</div>
+                    <div>02KF001</div>
+                    <div>02KF005</div>
+                    <div>02KF006</div>
+                    <div>02KF012</div>
+                    <div>02LA004</div>
+                    <div>02LA015</div>
+                    <div>02LA027</div>
+                    <div>02KF011</div>
                 </div>
                 <div id='test' style={{display:"flex",flexDirection:"row",flex:1, borderLeft:"1px solid black", borderRight:"1px solid black"}}>
                     <div style={{display:"flex",flex:2, flexDirection:"row",border:"1px solid black",height:"300px",alignItems:"stretch",minWidth:"150px"}}>
@@ -24,16 +24,16 @@ export default function Dashboard(){
                             TEST
                         </div>
                         <div style={{flex:1,borderLeft:"1px solid black",display:"flex", textAlign:"center",flexDirection:"column",justifyContent:"space-around"}}>
-                            <div style={{border:"0px solid black"}}>RMSE (daily)</div>
-                            <div style={{border:"0px solid black"}}>RMSE (weekly)</div>
-                            <div style={{border:"0px solid black"}}>Last Updated</div>
-                            <div style={{border:"0px solid black"}}>Graphs</div>
+                            <div>RMSE (daily)</div>
+                            <div>RMSE (weekly)</div>
+                            <div>Last Updated</div>
+                            <div>Graphs</div>
                         </div>
                     </div>
-                    <div style={{display:"flex", flexDirection:"column", justifyContent:"space-around", textAlign:"center", flex:1,border:"1px solid black",minWidth:"75px"}}>
-                        <div style={{border:"0px solid black"}}>0.23332</div>
-                        <div style={{border:"0px solid black"}}>0.323232</div>
-                        <div style={{border:"0px solid black"}}>2026-05-08 14:32</div>
+                    <div>
+                        <div>0.23332</div>
+                        <div>0.323232</div>
+                        <div>2026-05-08 14:32</div>
                         <div style={{border:"0px solid black", position:"relative"}} onMouseEnter={() => setShowPopup(true)} onMouseLeave={() => setShowPopup(false)}>
                             Graphs
                             {showPopup && (
@@ -55,47 +55,47 @@ export default function Dashboard(){
                             )}
                         </div>
                     </div>
-                    <div style={{display:"flex", flexDirection:"column", justifyContent:"space-around", textAlign:"center", flex:1,border:"1px solid black",minWidth:"75px"}}>
-                        <div style={{border:"0px solid black"}}>0.23332</div>
-                        <div style={{border:"0px solid black"}}>0.23332</div>
-                        <div style={{border:"0px solid black"}}>2026-05-08 14:32</div>
-                        <div style={{border:"0px solid black"}}>Graphs</div>
+                    <div>
+                        <div>0.23332</div>
+                        <div>0.23332</div>
+                        <div>2026-05-08 14:32</div>
+                        <div>Graphs</div>
                     </div>
-                    <div style={{display:"flex", flexDirection:"column", justifyContent:"space-around", textAlign:"center", flex:1,border:"1px solid black",minWidth:"75px"}}>
-                        <div style={{border:"0px solid black"}}>0.23332</div>
-                        <div style={{border:"0px solid black"}}>0.23332</div>
-                        <div style={{border:"0px solid black"}}>2026-05-08 14:32</div>
-                        <div style={{border:"0px solid black"}}>Graphs</div>
+                    <div>
+                        <div>0.23332</div>
+                        <div>0.23332</div>
+                        <div>2026-05-08 14:32</div>
+                        <div>Graphs</div>
                     </div>
-                    <div style={{display:"flex", flexDirection:"column", justifyContent:"space-around", textAlign:"center", flex:1,border:"1px solid black",minWidth:"75px"}}>
-                        <div style={{border:"0px solid black"}}>0.23332</div>
-                        <div style={{border:"0px solid black"}}>0.323232</div>
-                        <div style={{border:"0px solid black"}}>2026-05-08 14:32</div>
-                        <div style={{border:"0px solid black"}}>Graphs</div>
+                    <div>
+                        <div>0.23332</div>
+                        <div>0.323232</div>
+                        <div>2026-05-08 14:32</div>
+                        <div>Graphs</div>
                     </div>
-                    <div style={{display:"flex", flexDirection:"column", justifyContent:"space-around", textAlign:"center", flex:1,border:"1px solid black",minWidth:"75px"}}>
-                        <div style={{border:"0px solid black"}}>0.23332</div>
-                        <div style={{border:"0px solid black"}}>0.323232</div>
-                        <div style={{border:"0px solid black"}}>2026-05-08 14:32</div>
-                        <div style={{border:"0px solid black"}}>Graphs</div>
+                    <div>
+                        <div>0.23332</div>
+                        <div>0.323232</div>
+                        <div>2026-05-08 14:32</div>
+                        <div>Graphs</div>
                     </div>
-                    <div style={{display:"flex", flexDirection:"column", justifyContent:"space-around", textAlign:"center", flex:1,border:"1px solid black",minWidth:"75px"}}>
+                    <div>
                         <div style={{border:"0px solid black",  whiteSpace: "nowrap"}}>0.23332</div>
-                        <div style={{border:"0px solid black"}}>0.323232</div>
-                        <div style={{border:"0px solid black"}}>2026-05-08 14:32</div>
+                        <div>0.323232</div>
+                        <div>2026-05-08 14:32</div>
                         <div style={{border:"0px solid black",  whiteSpace: "nowrap"}}>Graphs</div>
                     </div>
-                    <div style={{display:"flex", flexDirection:"column", justifyContent:"space-around", textAlign:"center", flex:1,border:"1px solid black",minWidth:"75px"}}>
-                        <div style={{border:"0px solid black"}}>0.23332</div>
+                    <div>
+                        <div>0.23332</div>
                         <div style={{border:"0px solid black",  whiteSpace: "nowrap"}}>0.323232</div>
-                        <div style={{border:"0px solid black"}}>2026-05-08 14:32</div>
-                        <div style={{border:"0px solid black"}}>Graphs</div>
+                        <div>2026-05-08 14:32</div>
+                        <div>Graphs</div>
                     </div>
-                    <div style={{display:"flex", flexDirection:"column", justifyContent:"space-around", textAlign:"center", flex:1,border:"1px solid black",minWidth:"75px"}}>
-                        <div style={{border:"0px solid black"}}>0.23332</div>
-                        <div style={{border:"0px solid black"}}>0.323232</div>
-                        <div style={{border:"0px solid black"}}>2026-05-08 14:32</div>
-                        <div style={{border:"0px solid black"}}>Graphs</div>
+                    <div>
+                        <div>0.23332</div>
+                        <div>0.323232</div>
+                        <div>2026-05-08 14:32</div>
+                        <div>Graphs</div>
                     </div>
                 </div>
                 <div id='train' style={{display:"flex",flexDirection:"row",flex:1, borderLeft:"1px solid black", borderRight:"1px solid black"}}>
@@ -104,41 +104,41 @@ export default function Dashboard(){
                             TRAIN
                         </div>
                         <div style={{flex:1,borderLeft:"1px solid black",display:"flex", textAlign:"center",flexDirection:"column",justifyContent:"space-around"}}>
-                            <div style={{border:"0px solid black"}}>Last Updated</div>
-                            <div style={{border:"0px solid black"}}>Graphs</div>
+                            <div>Last Updated</div>
+                            <div>Graphs</div>
                         </div>
                     </div>
-                    <div style={{display:"flex", flexDirection:"column", justifyContent:"space-around", textAlign:"center", flex:1,border:"1px solid black",minWidth:"75px"}}>
-                        <div style={{border:"0px solid black"}}>2026-05-08 14:32</div>
-                        <div style={{border:"0px solid black"}}>Graphs</div>
+                    <div>
+                        <div>2026-05-08 14:32</div>
+                        <div>Graphs</div>
                     </div>
-                    <div style={{display:"flex", flexDirection:"column", justifyContent:"space-around", textAlign:"center", flex:1,border:"1px solid black",minWidth:"75px"}}>
-                        <div style={{border:"0px solid black"}}>2026-05-08 14:32</div>
-                        <div style={{border:"0px solid black"}}>Graphs</div>
+                    <div>
+                        <div>2026-05-08 14:32</div>
+                        <div>Graphs</div>
                     </div>
-                    <div style={{display:"flex", flexDirection:"column", justifyContent:"space-around", textAlign:"center", flex:1,border:"1px solid black",minWidth:"75px"}}>
-                        <div style={{border:"0px solid black"}}>2026-05-08 14:32</div>
-                        <div style={{border:"0px solid black"}}>Graphs</div>
+                    <div>
+                        <div>2026-05-08 14:32</div>
+                        <div>Graphs</div>
                     </div>
-                    <div style={{display:"flex", flexDirection:"column", justifyContent:"space-around", textAlign:"center", flex:1,border:"1px solid black",minWidth:"75px"}}>
-                        <div style={{border:"0px solid black"}}>2026-05-08 14:32</div>
-                        <div style={{border:"0px solid black"}}>Graphs</div>
+                    <div>
+                        <div>2026-05-08 14:32</div>
+                        <div>Graphs</div>
                     </div>
-                    <div style={{display:"flex", flexDirection:"column", justifyContent:"space-around", textAlign:"center", flex:1,border:"1px solid black",minWidth:"75px"}}>
-                        <div style={{border:"0px solid black"}}>2026-05-08 14:32</div>
-                        <div style={{border:"0px solid black"}}>Graphs</div>
+                    <div>
+                        <div>2026-05-08 14:32</div>
+                        <div>Graphs</div>
                     </div>
-                    <div style={{display:"flex", flexDirection:"column", justifyContent:"space-around", textAlign:"center", flex:1,border:"1px solid black",minWidth:"75px"}}>
-                        <div style={{border:"0px solid black"}}>2026-05-08 14:32</div>
-                        <div style={{border:"0px solid black"}}>Graphs</div>
+                    <div>
+                        <div>2026-05-08 14:32</div>
+                        <div>Graphs</div>
                     </div>
-                    <div style={{display:"flex", flexDirection:"column", justifyContent:"space-around", textAlign:"center", flex:1,border:"1px solid black",minWidth:"75px"}}>
-                        <div style={{border:"0px solid black"}}>2026-05-08 14:32</div>
-                        <div style={{border:"0px solid black"}}>Graphs</div>
+                    <div>
+                        <div>2026-05-08 14:32</div>
+                        <div>Graphs</div>
                     </div>
-                    <div style={{display:"flex", flexDirection:"column", justifyContent:"space-around", textAlign:"center", flex:1,border:"1px solid black",minWidth:"75px"}}>
-                        <div style={{border:"0px solid black"}}>2026-05-08 14:32</div>
-                        <div style={{border:"0px solid black"}}>Graphs</div>
+                    <div>
+                        <div>2026-05-08 14:32</div>
+                        <div>Graphs</div>
                     </div>
                 </div>
                 <div id='future' style={{display:"flex",flexDirection:"row",flex:1, borderLeft:"1px solid black", borderRight:"1px solid black", borderBottom:"1px solid black"}}>
@@ -147,59 +147,59 @@ export default function Dashboard(){
                             FUTURE
                         </div>
                         <div style={{flex:1,borderLeft:"1px solid black",display:"flex", textAlign:"center",flexDirection:"column",justifyContent:"space-around"}}>
-                            <div style={{border:"0px solid black"}}>Predictions (daily)</div>
-                            <div style={{border:"0px solid black"}}>Predictions (weekly)</div>
-                            <div style={{border:"0px solid black"}}>Last Updated</div>
-                            <div style={{border:"0px solid black"}}>Graphs</div>
+                            <div>Predictions (daily)</div>
+                            <div>Predictions (weekly)</div>
+                            <div>Last Updated</div>
+                            <div>Graphs</div>
                         </div>
                     </div>
-                    <div style={{display:"flex", flexDirection:"column", justifyContent:"space-around", textAlign:"center", flex:1,border:"1px solid black",minWidth:"75px"}}>
-                        <div style={{border:"0px solid black"}}>0.23332</div>
-                        <div style={{border:"0px solid black"}}>0.323232</div>
-                        <div style={{border:"0px solid black"}}>2026-05-08 14:32</div>
-                        <div style={{border:"0px solid black"}}>Graphs</div>
+                    <div>
+                        <div>0.23332</div>
+                        <div>0.323232</div>
+                        <div>2026-05-08 14:32</div>
+                        <div>Graphs</div>
                     </div>
-                    <div style={{display:"flex", flexDirection:"column", justifyContent:"space-around", textAlign:"center", flex:1,border:"1px solid black",minWidth:"75px"}}>
-                        <div style={{border:"0px solid black"}}>0.23332</div>
-                        <div style={{border:"0px solid black"}}>0.323232</div>
-                        <div style={{border:"0px solid black"}}>2026-05-08 14:32</div>
-                        <div style={{border:"0px solid black"}}>Graphs</div>
+                    <div>
+                        <div>0.23332</div>
+                        <div>0.323232</div>
+                        <div>2026-05-08 14:32</div>
+                        <div>Graphs</div>
                     </div>
-                    <div style={{display:"flex", flexDirection:"column", justifyContent:"space-around", textAlign:"center", flex:1,border:"1px solid black",minWidth:"75px"}}>
-                        <div style={{border:"0px solid black"}}>0.23332</div>
-                        <div style={{border:"0px solid black"}}>0.323232</div>
-                        <div style={{border:"0px solid black"}}>2026-05-08 14:32</div>
-                        <div style={{border:"0px solid black"}}>Graphs</div>
+                    <div>
+                        <div>0.23332</div>
+                        <div>0.323232</div>
+                        <div>2026-05-08 14:32</div>
+                        <div>Graphs</div>
                     </div>
-                    <div style={{display:"flex", flexDirection:"column", justifyContent:"space-around", textAlign:"center", flex:1,border:"1px solid black",minWidth:"75px"}}>
-                        <div style={{border:"0px solid black"}}>0.23332</div>
-                        <div style={{border:"0px solid black"}}>0.323232</div>
-                        <div style={{border:"0px solid black"}}>2026-05-08 14:32</div>
-                        <div style={{border:"0px solid black"}}>Graphs</div>
+                    <div>
+                        <div>0.23332</div>
+                        <div>0.323232</div>
+                        <div>2026-05-08 14:32</div>
+                        <div>Graphs</div>
                     </div>
-                    <div style={{display:"flex", flexDirection:"column", justifyContent:"space-around", textAlign:"center", flex:1,border:"1px solid black",minWidth:"75px"}}>
-                        <div style={{border:"0px solid black"}}>0.23332</div>
-                        <div style={{border:"0px solid black"}}>0.323232</div>
-                        <div style={{border:"0px solid black"}}>2026-05-08 14:32</div>
-                        <div style={{border:"0px solid black"}}>Graphs</div>
+                    <div>
+                        <div>0.23332</div>
+                        <div>0.323232</div>
+                        <div>2026-05-08 14:32</div>
+                        <div>Graphs</div>
                     </div>
-                    <div style={{display:"flex", flexDirection:"column", justifyContent:"space-around", textAlign:"center", flex:1,border:"1px solid black",minWidth:"75px"}}>
-                        <div style={{border:"0px solid black"}}>0.23332</div>
-                        <div style={{border:"0px solid black"}}>0.323232</div>
-                        <div style={{border:"0px solid black"}}>2026-05-08 14:32</div>
-                        <div style={{border:"0px solid black"}}>Graphs</div>
+                    <div>
+                        <div>0.23332</div>
+                        <div>0.323232</div>
+                        <div>2026-05-08 14:32</div>
+                        <div>Graphs</div>
                     </div>
-                    <div style={{display:"flex", flexDirection:"column", justifyContent:"space-around", textAlign:"center", flex:1,border:"1px solid black",minWidth:"75px"}}>
-                        <div style={{border:"0px solid black"}}>0.23332</div>
-                        <div style={{border:"0px solid black"}}>0.323232</div>
-                        <div style={{border:"0px solid black"}}>2026-05-08 14:32</div>
-                        <div style={{border:"0px solid black"}}>Graphs</div>
+                    <div>
+                        <div>0.23332</div>
+                        <div>0.323232</div>
+                        <div>2026-05-08 14:32</div>
+                        <div>Graphs</div>
                     </div>
-                    <div style={{display:"flex", flexDirection:"column", justifyContent:"space-around", textAlign:"center", flex:1,border:"1px solid black",minWidth:"75px"}}>
-                        <div style={{border:"0px solid black"}}>0.23332</div>
-                        <div style={{border:"0px solid black"}}>0.323232</div>
-                        <div style={{border:"0px solid black"}}>2026-05-08 14:32</div>
-                        <div style={{border:"0px solid black"}}>Graphs</div>
+                    <div>
+                        <div>0.23332</div>
+                        <div>0.323232</div>
+                        <div>2026-05-08 14:32</div>
+                        <div>Graphs</div>
                     </div>
 
                 </div>
