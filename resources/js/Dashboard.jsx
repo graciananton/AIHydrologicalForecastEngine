@@ -1,6 +1,7 @@
 import React from "react";
 import { useState, useEffect } from "react";
 import '../css/Dashboard.css';
+import dayjs from 'dayjs';
 
 function Stations({stations, setStations}){
     const url = "https://gracian.ca/laravel/public/api/stations";
@@ -37,70 +38,68 @@ function TableSection({ section, categories }){
     )
 }
 
+function MetricCells({section, stations}){    
+    let createEndpoint;
+    let type;
+    if(section == 'test'){
+        console.log("Test block")
 
-function MetricCells({ section, stations }) {
-    const [metricsData, setMetricsData] = useState({});
-    const now = new Date();
-    const sevenDaysBefore = new Date(now.getTime() - 7 * 24 * 60 * 1000).toISOString();
+        createEndpoint = (stationId) => `https://gracian.ca/laravel/public/api/test_evaluations?stationId=${stationId}`
+
+        type = 'error';
+    }
+    else if(section == 'future'){
+        createEndpoint = (stationId) => `https://gracian.ca/laravel/public/api/predictions?stationId=${stationId}`
+        type = 'prediction';
+    }
+    console.log(createEndpoint);
+
+    const [metrics, setMetrics] = useState([]);
 
     useEffect(() => {
-        const fetchAllMetrics = async () => {
-            const results = {};
-            await Promise.all(
-                stations.map(async (station, index) => {
-                    const url =
-                        `https://gracian.ca/laravel/public/api/test_evaluations?from=${sevenDaysBefore}&stationId=${station.stationId}&order=asc`;
-                    const response = await fetch(url);
-                    const json = await response.json();
-                    results[station.stationId] = json;
-                })
-            );
-            setMetricsData(results);
+        const fetchResults = async () => {
+            const promises = stations.map(async (station) => {
+                const url = createEndpoint(station.stationId);
+                const response = await fetch(url);
+                const json = await response.json();
+                return json;
+            });
+            const results = await Promise.all(promises);
+            setMetrics(results);
         };
-        fetchAllMetrics();
-    }, []);
+        fetchResults();
+    }, [stations]);
 
-    /*console.log(metricsData);
-    return (
+    console.log(metrics);
+
+   return (
         <>
-            {stations.map(station => (
-                <MetricCell
-                    key={station.stationId}
-                    section={section}
-                    stationId={station.stationId}
-                    metrics={metricsData[station.stationId] || []}
-                />
-            ))}
+        {
+            metrics.map((metric,index) => {
+                return <MetricCell metric = {metric} type = {type} />
+            })
+        }
         </>
-    );*/
+   )
 }
-function MetricCell({ section, stationId, metrics }){
-    const [showPopup, setShowPopup] = useState(false);
+
+function MetricCell({ metric, type }){
+    console.log(metric);
     let sum = 0;
-    for(const metric of metrics){
-        sum = sum + metric['error'];
-    }
-    let average = sum/metrics.length;
+    metric.map((individual_metric, index) => {
+        sum = sum + individual_metric[type];
+    })
+    let average = sum/metric.length;
     return (
         <div>
-            <div key = 'error'>{metrics[metrics.length-1].error}</div>
-            <div key = 'average'>{average}</div>
-            <div key = 'updated_at'>{metrics[metrics.length-1].updated_at}</div>
-            <div 
-                key = 'graphs'
-                onMouseEnter={() => setShowPopup(true)} 
-                onMouseLeave={() => setShowPopup(false)}
-            >
-                Graphs
-                {showPopup && (
-                    <div>
-                        <img src={`../images/${section}/${stationId}.png`} alt='Test images'/>
-                    </div>
-                )}
-            </div>
+            <div key='daily'>{Math.round(metric.at(-1)[type]*100000)/100000}</div>
+            <div key='weekly'>{Math.round(average*100000)/100000}</div>
+            <div key='updated_at'>{dayjs(metric.at(-1).updated_at).format("YYYY-MM-DD HH:mm")}</div>
+            <div key='graphs'>Graphs</div>
         </div>
-    );
+    )
 }
+
 export default function Dashboard(){
     const [stations, setStations] = useState([]);
     return (
@@ -110,98 +109,17 @@ export default function Dashboard(){
                     stations = {stations}
                     setStations = {setStations}
                 />
-
                 <div id='test'>
                     <TableSection section='test' categories={['RMSE(daily)','RMSE(weekly)','Last Updated','Graphs']} />
-                    <MetricCells section='test' stations = {stations} />
-
+                    <MetricCells section='test' stations={stations}/>
                 </div>
 
                 <div id='train'>
                     <TableSection section='TRAIN' categories={['Last Updated','Graphs']} />
-                    <div>
-                        <div>2026-05-08 14:32</div>
-                        <div>Graphs</div>
-                    </div>
-                    <div>
-                        <div>2026-05-08 14:32</div>
-                        <div>Graphs</div>
-                    </div>
-                    <div>
-                        <div>2026-05-08 14:32</div>
-                        <div>Graphs</div>
-                    </div>
-                    <div>
-                        <div>2026-05-08 14:32</div>
-                        <div>Graphs</div>
-                    </div>
-                    <div>
-                        <div>2026-05-08 14:32</div>
-                        <div>Graphs</div>
-                    </div>
-                    <div>
-                        <div>2026-05-08 14:32</div>
-                        <div>Graphs</div>
-                    </div>
-                    <div>
-                        <div>2026-05-08 14:32</div>
-                        <div>Graphs</div>
-                    </div>
-                    <div>
-                        <div>2026-05-08 14:32</div>
-                        <div>Graphs</div>
-                    </div>
                 </div>
                 <div id='future'>
                     <TableSection section='FUTURE' categories={['Predictions(daily)','Predictions (weekly)','Last Updated','Graphs']} />
-                    <div>
-                        <div>0.23332</div>
-                        <div>0.323232</div>
-                        <div>2026-05-08 14:32</div>
-                        <div>Graphs</div>
-                    </div>
-                    <div>
-                        <div>0.23332</div>
-                        <div>0.323232</div>
-                        <div>2026-05-08 14:32</div>
-                        <div>Graphs</div>
-                    </div>
-                    <div>
-                        <div>0.23332</div>
-                        <div>0.323232</div>
-                        <div>2026-05-08 14:32</div>
-                        <div>Graphs</div>
-                    </div>
-                    <div>
-                        <div>0.23332</div>
-                        <div>0.323232</div>
-                        <div>2026-05-08 14:32</div>
-                        <div>Graphs</div>
-                    </div>
-                    <div>
-                        <div>0.23332</div>
-                        <div>0.323232</div>
-                        <div>2026-05-08 14:32</div>
-                        <div>Graphs</div>
-                    </div>
-                    <div>
-                        <div>0.23332</div>
-                        <div>0.323232</div>
-                        <div>2026-05-08 14:32</div>
-                        <div>Graphs</div>
-                    </div>
-                    <div>
-                        <div>0.23332</div>
-                        <div>0.323232</div>
-                        <div>2026-05-08 14:32</div>
-                        <div>Graphs</div>
-                    </div>
-                    <div>
-                        <div>0.23332</div>
-                        <div>0.323232</div>
-                        <div>2026-05-08 14:32</div>
-                        <div>Graphs</div>
-                    </div>
+                    <MetricCells section='future' stations={stations}/>
                 </div>
             </div>
         </div>
