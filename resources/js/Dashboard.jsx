@@ -27,48 +27,67 @@ function Stations({stations, setStations}){
 function TableSection({ section, categories }){
     return (
         <div>
-            <div>{section.toUpperCase()}</div>
-            <div>
-            {categories.map((category, index) => (
-                <div>{category}</div>
-            ))}
+            <div key='title'>{section.toUpperCase()}</div>
+            <div key='categories'>
+                {categories.map((category, index) => (
+                    <div key={category}>{category}</div>
+                ))}
             </div>
         </div>
     )
 }
-function MetricCells({ section, stations }){
+
+
+function MetricCells({ section, stations }) {
+    const [metricsData, setMetricsData] = useState({});
     const now = new Date();
-    const sevenDaysBefore = new Date(now.getTime() - 7 * 24 * 60 * 60 * 1000).toISOString();
-    {useEffect(() => {
-        return (
-            <>
-            {stations.map(station => {
-                const fetchMetrics = async (station) => {
-                    const url = `https://gracian.ca/laravel/public/api/test_evaluations?from=${sevenDaysBefore}&stationId=${station.stationId}&order=asc`;
-                    const metrics = await fetch(url);
-                    const json_metrics = await metrics.json();
-                    console.log(json_metrics);
-                    <MetricCell section = {section} stationId={station.stationId} metrics={json_metrics}/>
-                }
-                fetchMetrics(station);
-            })};
-            </>
-        )
-    }, [stations])}
+    const sevenDaysBefore = new Date(now.getTime() - 7 * 24 * 60 * 1000).toISOString();
+
+    useEffect(() => {
+        const fetchAllMetrics = async () => {
+            const results = {};
+            await Promise.all(
+                stations.map(async (station, index) => {
+                    const url =
+                        `https://gracian.ca/laravel/public/api/test_evaluations?from=${sevenDaysBefore}&stationId=${station.stationId}&order=asc`;
+                    const response = await fetch(url);
+                    const json = await response.json();
+                    results[station.stationId] = json;
+                })
+            );
+            setMetricsData(results);
+        };
+        fetchAllMetrics();
+    }, []);
+
+    /*console.log(metricsData);
+    return (
+        <>
+            {stations.map(station => (
+                <MetricCell
+                    key={station.stationId}
+                    section={section}
+                    stationId={station.stationId}
+                    metrics={metricsData[station.stationId] || []}
+                />
+            ))}
+        </>
+    );*/
 }
 function MetricCell({ section, stationId, metrics }){
     const [showPopup, setShowPopup] = useState(false);
-    sum = 0;
+    let sum = 0;
     for(const metric of metrics){
-        sum += metric['error'];
+        sum = sum + metric['error'];
     }
-    average = sum/metrics.length;
+    let average = sum/metrics.length;
     return (
         <div>
-            <div>{metrics[metrics.length-1]['error']}</div>
-            <div>{average}</div>
-            <div>{metrics[metrics.length-1]['updated_at']}</div>
+            <div key = 'error'>{metrics[metrics.length-1].error}</div>
+            <div key = 'average'>{average}</div>
+            <div key = 'updated_at'>{metrics[metrics.length-1].updated_at}</div>
             <div 
+                key = 'graphs'
                 onMouseEnter={() => setShowPopup(true)} 
                 onMouseLeave={() => setShowPopup(false)}
             >
@@ -79,7 +98,6 @@ function MetricCell({ section, stationId, metrics }){
                     </div>
                 )}
             </div>
-
         </div>
     );
 }
@@ -94,7 +112,6 @@ export default function Dashboard(){
                 />
 
                 <div id='test'>
-                    {console.log(stations)}
                     <TableSection section='test' categories={['RMSE(daily)','RMSE(weekly)','Last Updated','Graphs']} />
                     <MetricCells section='test' stations = {stations} />
 

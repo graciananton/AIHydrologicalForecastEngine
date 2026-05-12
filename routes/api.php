@@ -59,7 +59,6 @@ Route::get("/plotFutureAll",[ModelController::class,'plotFutureAll']);
 
 Route::get('/fine_tuning',[ModelController::class, 'fine_tune_model']);
 
-
 #Route::middleware(['web', 'auth'])->group(function () {
     Route::get('/readings',[ReadingsController::class,'process']);
 
