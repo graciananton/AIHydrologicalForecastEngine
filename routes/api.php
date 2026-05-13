@@ -72,3 +72,4 @@ Route::get('/fine_tuning',[ModelController::class, 'fine_tune_model']);
 
 Route::get('/test_evaluations', [TestEvaluationsController::class,'process']);
 Route::get('/predictions', [PredictionsController::class,'process']);
+Route::get('/train', [TrainController::class,'process']);

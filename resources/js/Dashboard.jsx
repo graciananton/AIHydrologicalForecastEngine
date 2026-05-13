@@ -84,6 +84,7 @@ function MetricCells({section, stations}){
 }
 
 function MetricCell({ metric, type }){
+    const [showPopup, setShowPopup] = useState(false);
     console.log(metric);
     let sum = 0;
     metric.map((individual_metric, index) => {
@@ -92,10 +93,24 @@ function MetricCell({ metric, type }){
     let average = sum/metric.length;
     return (
         <div>
-            <div key='daily'>{Math.round(metric.at(-1)[type]*100000)/100000}</div>
-            <div key='weekly'>{Math.round(average*100000)/100000}</div>
-            <div key='updated_at'>{dayjs(metric.at(-1).updated_at).format("YYYY-MM-DD HH:mm")}</div>
-            <div key='graphs'>Graphs</div>
+            {(type == 'error' || type == 'prediction') && 
+                (
+                    <>
+                    <div>{Math.round(metric.at(-1)[type]*100000)/100000}</div>
+                    <div>{Math.round(average*100000)/100000}</div>
+                    </>
+                )
+            }
+            <div>{dayjs(metric.at(-1).updated_at).format("YYYY-MM-DD HH:mm")}</div>
+            <div onMouseEnter={() => setShowPopup(true)} onMouseLeave={() => setShowPopup(false)}>
+                Graphs
+                {showPopup && (
+                    <div>
+                        <img src={`../images/train/${metric[0].stationId}.png`} alt='Train images'/>
+                    </div>
+                )}
+
+            </div>
         </div>
     )
 }
