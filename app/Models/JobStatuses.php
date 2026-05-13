@@ -32,7 +32,7 @@ class JobStatuses extends Model
         'progress_max' => 'integer',
 
         'status' => 'string',
-        'input' => 'string',
+        'input' => 'array',
         'output' => 'string',
 
         'created_at' => 'datetime',

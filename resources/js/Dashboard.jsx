@@ -47,6 +47,7 @@ function MetricCells({section, stations}){
         param = 'error';
     }
     else if(section == 'train'){
+        // this is for re-training the model
         createEndpoint = (stationId) => `https://gracian.ca/laravel/public/api/train?stationId=${stationId}&order=desc`
         param = 'error';
     }
@@ -84,16 +85,19 @@ function MetricCells({section, stations}){
 
 function MetricCell({ metric, section, param }){
     const [showPopup, setShowPopup] = useState(false);
+    let stationId = "";
     let sum = 0;
     metric.map((individual_metric, index) => {
         sum = sum + individual_metric[param];
     })
     let average = sum/metric.length;
-    console.log(metric);
-    console.log(`../images/${section}/${metric[0].stationId}.png`);
     
-    stationId = metric[0].stationId; 
-
+    if(section == 'test' || section == 'future'){
+        stationId = metric[0].stationId; 
+    }
+    else if(section=='train'){
+        stationId = (metric[0]).input.stationId;
+    }
     return (
         <div>
             {(section == 'test' || section == 'future') && 
@@ -118,30 +122,86 @@ function MetricCell({ metric, section, param }){
     )
 }
 
+function Datasets({stations, setStations}){
+    return (
+        <div id='datasets'>
+            <Stations 
+                stations = {stations}
+                setStations = {setStations}
+            />
+            <div id='test'>
+                <TableSection section='test' categories={['RMSE(daily)','RMSE(weekly)','Last Updated','Graphs']} />
+                <MetricCells section='test' stations={stations}/>
+            </div>
+
+            <div id='train'>
+                <TableSection section='TRAIN' categories={['Last Updated','Graphs']} />
+                <MetricCells section='train' stations={stations}/>
+
+            </div>
+            <div id='future'>
+                <TableSection section='FUTURE' categories={['Predictions(daily)','Predictions (weekly)','Last Updated','Graphs']} />
+                <MetricCells section='future' stations={stations}/>
+            </div>
+        </div>
+    )
+}
+
+function Header({ categories }) {
+    return (
+        <div>
+            {
+                categories.map((category, index) => (
+                    <div key={index}>
+                        {category}
+                    </div>
+                ))
+            }
+        </div>
+    );
+}
+
+
+function Status(){
+    return (
+        <div id='status'>
+            <Header categories={['Services','Schedule','Updated','Next Run At','Run Now']} />
+            <div>
+                <div>Weather</div>
+                <div>hourly</div>
+                <div>2026-05-12 20</div>
+                <div>2026-05-12 20</div>
+                <div>
+                    <a href="/laravel/public/weather_sync">Run</a>
+                </div>
+            </div>
+            <div>
+                <div>Readings</div>
+                <div>daily</div>
+                <div>2026-05-12 20</div>
+                <div>2026-05-12 20</div>
+                <div>
+                    <a href="/laravel/public/readings_sync">Run</a>
+                </div>
+            </div>
+            <div>
+                <div>Status</div>
+                <div>monthly</div>
+                <div>2026-05-12 20</div>
+                <div>2026-05-12 20</div>
+                <div>
+                    <a href="/laravel/public/delete_records">Run</a>
+                </div>
+            </div>
+        </div>
+    )
+}
 export default function Dashboard(){
     const [stations, setStations] = useState([]);
     return (
         <div id='dashboard'>
-            <div id='datasets'>
-                <Stations 
-                    stations = {stations}
-                    setStations = {setStations}
-                />
-                <div id='test'>
-                    <TableSection section='test' categories={['RMSE(daily)','RMSE(weekly)','Last Updated','Graphs']} />
-                    <MetricCells section='test' stations={stations}/>
-                </div>
-
-                <div id='train'>
-                    <TableSection section='TRAIN' categories={['Last Updated','Graphs']} />
-                    <MetricCells section='train' stations={stations}/>
-
-                </div>
-                <div id='future'>
-                    <TableSection section='FUTURE' categories={['Predictions(daily)','Predictions (weekly)','Last Updated','Graphs']} />
-                    <MetricCells section='future' stations={stations}/>
-                </div>
-            </div>
+            <Datasets stations = {stations} setStations = {setStations}/>
+            <Status />
         </div>
     )
 }

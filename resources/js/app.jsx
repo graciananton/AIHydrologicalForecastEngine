@@ -17,7 +17,7 @@ export default function App() {
   return (
     <>
     {req === 'workflow' && <Workflow /> }
-    {req == "status" && <Status data={data} />}
+    {/*req == "status" && <Status data={data} />*/}
     {req == "login" && <Login data={data} />}
     {req == "home" && <Home />}
     {req == "dashboard" && <Dashboard />}

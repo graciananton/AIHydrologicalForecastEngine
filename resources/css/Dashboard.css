@@ -3,6 +3,34 @@
     height:100vh;
     display: flex;
     flex-direction: column;
+    border:1px solid red;
+    width:100vw;
+}
+
+
+#dashboard #status{
+    display:flex;
+    flex-direction:column;
+    margin-left:7.5%;
+    margin-right:7.5%;
+    margin-top:5%;
+    min-width:1000px;
+    border:1px solid black;
+    min-height:200px;
+    margin-bottom:5%;
+}
+
+#dashboard #status > div{
+    display:flex;
+    flex:1;
+    flex-direction:row;
+}
+#dashboard #status > div div{
+    flex:1;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    border:1px solid black;
 }
 #dashboard #datasets{
     display:flex;
@@ -11,7 +39,10 @@
     margin-left:7.5%;
     margin-right:7.5%;
     min-width:1000px;
+    border-bottom:1px solid black;
 }
+
+
 #dashboard #datasets #stations{
     display:flex;
     flex-direction:row;
@@ -27,6 +58,7 @@
     flex: 2;
     text-align: center;
     min-width: 150px;
+
 }
 #dashboard #datasets #stations > :not(:first-child){
     flex: 1;
@@ -46,7 +78,8 @@
     flex: 2;
     flex-direction: row;
     border: 1px solid black;
-    height: 300px;
+    border-left:0px solid black;
+    height: 150px;
     align-items: stretch;
     min-width: 150px;
 }
@@ -61,6 +94,7 @@
     bottom: -25%;
     width: 250%;
     height: 950%;
+
     border: 2px solid black;
     z-index: 2; 
 }
@@ -77,13 +111,24 @@
     flex: 1;
     border: 1px solid black;
     min-width: 75px;
+
 }
 
-#dashboard #datasets > div:not(:first-child) > :first-child > div{
-    flex: 1;
+#dashboard #datasets > div:not(:first-child) > :first-child > :first-child{
+    flex: 0.6;
+    border-left: 1px solid black;
+    display: flex;
+    text-align: center;
+    flex-direction: column;
+    justify-content: space-around;
+    border-right:1px solid black;
+}
+#dashboard #datasets > div:not(:first-child) > :first-child > :last-child{
+    flex: 1.4;
     border-left: 1px solid black;
     display: flex;
     text-align: center;
     flex-direction: column;
     justify-content: space-around;
 }
+
