@@ -5,7 +5,7 @@ use Illuminate\Http\Request;
 use App\Services\TrainService;
 use App\Services\Formatter\ResponseFormatter;
 
-class PredictionsController extends Controller
+class TrainController extends Controller
 {
     private array $params;
     private TrainService $TrainService;

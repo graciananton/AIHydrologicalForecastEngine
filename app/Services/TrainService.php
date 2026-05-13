@@ -3,17 +3,17 @@ namespace App\Services;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
-use App\Services\PredictionsService;
-use App\Models\Predictions;
+use App\Models\JobStatuses;
 
-class PredictionsService
+class TrainService
 {
     public function filter(array $params): array
     {
         $query = JobStatuses::query();
 
+
         if ($params['stationId'] !== null) {
-            $query->where('stationId', $params['input']['stationId']);
+            $query->where('input->stationId', $params['stationId']);
         }
 
         $query->whereBetween('updated_at', [
@@ -26,7 +26,7 @@ class PredictionsService
         if ($params['limit'] !== null) {
             $query->limit($params['limit']);
         }
-
+        Log::channel("laravel")->info("Before writing query");
         Log::channel("laravel")->info("Query");
         Log::channel("laravel")->info($query->toSql());
 
@@ -34,6 +34,7 @@ class PredictionsService
     }
     public function normalizeParams(array $params): array
     {
+        Log::channel("laravel")->info("Writing stationId");
         return [
             'stationId' => $params['stationId'] ?? null,
 

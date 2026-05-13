@@ -41,18 +41,19 @@ function TableSection({ section, categories }){
 function MetricCells({section, stations}){    
     let createEndpoint;
     let type;
+    let param;
     if(section == 'test'){
-        console.log("Test block")
-
-        createEndpoint = (stationId) => `https://gracian.ca/laravel/public/api/test_evaluations?stationId=${stationId}`
-
-        type = 'error';
+        createEndpoint = (stationId) => `https://gracian.ca/laravel/public/api/test?stationId=${stationId}`
+        param = 'error';
+    }
+    else if(section == 'train'){
+        createEndpoint = (stationId) => `https://gracian.ca/laravel/public/api/train?stationId=${stationId}&order=desc`
+        param = 'error';
     }
     else if(section == 'future'){
-        createEndpoint = (stationId) => `https://gracian.ca/laravel/public/api/predictions?stationId=${stationId}`
-        type = 'prediction';
+        createEndpoint = (stationId) => `https://gracian.ca/laravel/public/api/future?stationId=${stationId}`
+        param = 'prediction';
     }
-    console.log(createEndpoint);
 
     const [metrics, setMetrics] = useState([]);
 
@@ -70,43 +71,45 @@ function MetricCells({section, stations}){
         fetchResults();
     }, [stations]);
 
-    console.log(metrics);
-
    return (
         <>
         {
             metrics.map((metric,index) => {
-                return <MetricCell metric = {metric} type = {type} />
+                return <MetricCell metric = {metric} section = {section} param = {param} />
             })
         }
         </>
    )
 }
 
-function MetricCell({ metric, type }){
+function MetricCell({ metric, section, param }){
     const [showPopup, setShowPopup] = useState(false);
-    console.log(metric);
     let sum = 0;
     metric.map((individual_metric, index) => {
-        sum = sum + individual_metric[type];
+        sum = sum + individual_metric[param];
     })
     let average = sum/metric.length;
+    console.log(metric);
+    console.log(`../images/${section}/${metric[0].stationId}.png`);
+    
+    stationId = metric[0].stationId; 
+
     return (
         <div>
-            {(type == 'error' || type == 'prediction') && 
+            {(section == 'test' || section == 'future') && 
                 (
                     <>
-                    <div>{Math.round(metric.at(-1)[type]*100000)/100000}</div>
+                    <div>{Math.round(metric.at(-1)[param]*100000)/100000}</div>
                     <div>{Math.round(average*100000)/100000}</div>
                     </>
                 )
             }
-            <div>{dayjs(metric.at(-1).updated_at).format("YYYY-MM-DD HH:mm")}</div>
+            <div>{dayjs(metric.at(-1).updated_at).format("YYYY-MM-DD HH")}</div>
             <div onMouseEnter={() => setShowPopup(true)} onMouseLeave={() => setShowPopup(false)}>
                 Graphs
                 {showPopup && (
                     <div>
-                        <img src={`../images/train/${metric[0].stationId}.png`} alt='Train images'/>
+                        <img src={`../images/${section}/${stationId}.png`} alt='Plotted Graph'/>
                     </div>
                 )}
 
@@ -131,6 +134,8 @@ export default function Dashboard(){
 
                 <div id='train'>
                     <TableSection section='TRAIN' categories={['Last Updated','Graphs']} />
+                    <MetricCells section='train' stations={stations}/>
+
                 </div>
                 <div id='future'>
                     <TableSection section='FUTURE' categories={['Predictions(daily)','Predictions (weekly)','Last Updated','Graphs']} />
