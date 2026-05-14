@@ -161,40 +161,37 @@ function Header({ categories }) {
     );
 }
 
-function ServiceRow(){
+function ServiceRow({ category }){
+    const createEndpoint = (category) => `http://gracian.ca/laravel/public/api/${category}?order=desc&limit=1`;
+    const [updated, setUpdated] = useState([]);
 
+    useEffect(() => {
+        const fetchResults = async () => {
+            let updated = await fetch(createEndpoint(category));
+            let json = await updated.json();
+            setUpdated(json[0].updated_at);
+        };
+        fetchResults();
+    }, []);
+    return (
+    <div>
+        <div>{category.charAt(0).toUpperCase() + category.slice(1)}</div>
+        <div>{"hourly"}</div>
+        <div>{dayjs(updated).format("YYYY-MM-DD HH")}</div>
+        <div>
+            <a href={`/laravel/public/${category}_sync`}>Run</a>
+        </div>
+    </div>
+    );
 }
+
 function Status(){
     return (
         <div id='status'>
-            <Header categories={['Services','Schedule','Updated','Next Run At','Run Now']} />
-            <div>
-                <div>Weather</div>
-                <div>hourly</div>
-                <div>2026-05-12 20</div>
-                <div>2026-05-12 20</div>
-                <div>
-                    <a href="/laravel/public/weather_sync">Run</a>
-                </div>
-            </div>
-            <div>
-                <div>Readings</div>
-                <div>daily</div>
-                <div>2026-05-12 20</div>
-                <div>2026-05-12 20</div>
-                <div>
-                    <a href="/laravel/public/readings_sync">Run</a>
-                </div>
-            </div>
-            <div>
-                <div>Status</div>
-                <div>monthly</div>
-                <div>2026-05-12 20</div>
-                <div>2026-05-12 20</div>
-                <div>
-                    <a href="/laravel/public/delete_records">Run</a>
-                </div>
-            </div>
+            <Header categories={['Services','Schedule','Updated','Run Now']} />
+            <ServiceRow category="weather" />
+            <ServiceRow category="readings" />
+            <ServiceRow category="statuses" />
         </div>
     )
 }

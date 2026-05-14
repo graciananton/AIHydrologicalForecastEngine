@@ -6,21 +6,18 @@ use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Auth;   
 class StatusController extends Controller
 {
-    private array $params;
+    private array $params = [];
     private StatusService $StatusService;
-    public function __construct(StatusService $StatusService){
+    public function __construct(StatusService $StatusService, Request $request){
         $this->StatusService = $StatusService;
+        $this->params = $this->StatusService->normalizeParams($request->query());
     }
+
     public function process(){
-       $recentDateTimes = $this->StatusService->getDateTimes();
-       return view("status.status", [
-        "weather" => $recentDateTimes['weather'],
-        "readings" => $recentDateTimes['readings'],
-        "status" => $recentDateTimes['status'],
-        "request" => ['request' => 'status']
-        ]
-       );
+        $result = response()->json($this->StatusService->filter($this->params));
+        return $result;
     }
+
     public function deleteRecords(){
         if($this->StatusService->deleteRecords() && $this->StatusService->updateStatus("deleted records beyond one month")){
             return redirect()->back()->with(

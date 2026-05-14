@@ -5,6 +5,8 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\ReadingsController;
 use App\Http\Controllers\StationsController;
 use App\Http\Controllers\WeatherController;
+use App\Http\Controllers\StatusController;
+
 use App\Http\Controllers\LogController;
 use App\Http\Controllers\AuthController;
 use Illuminate\Support\Facades\Log;
@@ -66,6 +68,8 @@ Route::get('/fine_tuning',[ModelController::class, 'fine_tune_model']);
     Route::get('/weather',[WeatherController::class,'process']);
 
     Route::get('/logs',[LogController::class,'process']);
+
+    Route::get('/statuses',[StatusController::class,'process']);
 #});
 
 Route::get('/test', [TestEvaluationsController::class,'process']);
