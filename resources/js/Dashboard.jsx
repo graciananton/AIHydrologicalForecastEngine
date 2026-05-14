@@ -161,7 +161,9 @@ function Header({ categories }) {
     );
 }
 
+function ServiceRow(){
 
+}
 function Status(){
     return (
         <div id='status'>
