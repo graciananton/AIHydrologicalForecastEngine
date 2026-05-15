@@ -51,7 +51,7 @@ class ChatQuery():
             },
             {
                 # this uses the .search() function to return a chunk with a similarity score
-                "type":"file_search",
+                "type": "file_search",
                 "vector_store_ids":['vs_6a0726dda1588191bcb83beebd316d5a'],
                 "filters":self.filters,
                 "max_num_results": 1,
@@ -69,74 +69,74 @@ class ChatQuery():
         while True:
             if query == "exit":
                 break
-
+        
             response = self.client.responses.create(
                 model="gpt-4.1",
                 tools=self.tools,
-                input=messages,
-                tool_choice="required"
+                input=messages
             )
-
-            print(response)
-
             tool_calls = [
                 item for item in response.output
                 if item.type == "function_call"
             ]
 
-            #print(tool_calls)
+            messages_output = [
+                item for item in response.output
+                if item.type == "message"
+            ]
 
-            if not tool_calls:
-                if item.type == "file_search_call":
+            tool_outputs = []
+        
+            for item in tool_calls:
+                if item.name == "send_otp":
+                    data = json.loads(item.arguments)
+                    print(data)
+                    result = self.send_otp(data)                        
+
+                elif item.name == "verify_otp":
+                    data = json.loads(item.arguments)
+                    data['id'] = self.id
+                    result = self.verify_otp(data)
+
+                tool_outputs.append({
+                    "type": "function_call_output",
+                    "call_id": item.call_id,
+                    "output": str(result)
+                })
+
+            if len(messages_output) > 0:
+                for item in messages_output:
+                    response = self.client.responses.create(
+                        model="gpt-4.1",
+                        tools=self.tools,
+                        input=item
+                    )
+
                     messages.append({
                         "role": "assistant",
                         "content": item.content[0].text
                     })
 
-            else:
-                tool_outputs = []
 
-                for item in tool_calls:
-                    if item.name == "send_otp":
-                        print("Sending OTP")
-                        data = json.loads(item.arguments)
-                        result = self.send_otp(data)
-
-                    elif item.name == "verify_otp":
-                        data = json.loads(item.arguments)
-                        data['id'] = self.id
-                        result = self.verify_otp(data)
-
-                    tool_outputs.append({
-                        "type": "function_call_output",
-                        "call_id": item.call_id,
-                        "output": str(result)
-                    })
-
-                response = self.client.responses.create(
-                    model="gpt-4.1",
-                    tools=self.tools,
-                    input=str(result)
-                )
-
+            if len(tool_outputs) > 0:
+                print(tool_outputs)
                 messages.append({
                     "role": "assistant",
-                    "content": response.output_text
+                    "content": tool_outputs[0]['output']
                 })
 
-            pprint(messages[-1])
-            #print(messages)
+                pprint(messages[-1])
 
             query = input("->")
             messages.append({"role": "user", "content": query})
 
 
-
-
     def send_otp(self,data:dict)->str:
         url="http://localhost/laravel/public/api/request_otp"
-
+        print(data)
         response = requests.post(url,json = data)
+        print(response)
+
         response = response.json()
 
         self.id = response['id']
@@ -144,7 +144,7 @@ class ChatQuery():
         if response['success'] == True:
             return f"Your verification code was sent. Enter the verification code here (expires: 5 minutes sec.)"
         else:
-            return f"Your verification code was not sent. Re-enter correct email address"
+            return f"Your verification code was already sent, check your inbox and send the correct code"
         
 
     def verify_otp(self,data:dict)->str:
@@ -179,6 +179,7 @@ if __name__ == "__main__":
     #query = "My email address is basil_anton@yahoo.ca"
     query = input("->")
     chatQuery = ChatQuery()
+    print(query)
 
     chatQuery.generate_response(query)
  

@@ -9,28 +9,36 @@ use App\Mail\OtpMail;
 
 class OtpMailService{
     public function send_otp(string $emailAddress):array{
+        Log::channel('laravel')->info("send_otp");
+        Log::channel('laravel')->info("Email Address ". $emailAddress);
+
         $randomOtp = random_int(100000, 999999);
 
-        $id = $this->save_otp($randomOtp,$emailAddress);
+        $otpResult = $this->save_otp($randomOtp,$emailAddress);
 
         try{
-            Mail::to($emailAddress)->send(new OtpMail($randomOtp));
-            return ['id'=>$id,'success'=>true];
+            if($otpResult['status']== true){
+                Mail::to($emailAddress)->send(new OtpMail($randomOtp));
+                return ['id'=>$otpResult['id'],'success'=>$otpResult['status']];
+            }
+            else{
+                return ['id'=>$otpResult['id'],'success'=>$otpResult['status']];
+            }
         }
         catch(\Exception $e){
             return ['id'=>null,'success'=>false];
         }
     }
-    public function save_otp(string $randomOtp,string $emailAddress):int{
+    public function save_otp(string $randomOtp,string $emailAddress):array{
         // if $record is null, no row contains this email address
         // if $record is not null, row does not contain this email address
         $record = DB::table('email_verifications')
-        ->where('email', $emailAddress)
-        ->first();
+            ->where('email', $emailAddress)
+            ->first();
 
         if (!$record) {
-            // if record is null, insert the new email address & otp
-            $record = DB::table('email_verifications')->insert([
+            // row not yet created, first time user is requesting verification
+            $id = DB::table('email_verifications')->insertGetId([
                 'email' => $emailAddress,
                 'otp' => Hash::make($randomOtp),
                 'expires_at' => now()->addMinutes(5),
@@ -39,43 +47,47 @@ class OtpMailService{
                 'created_at' => now(),
                 'updated_at' => now()
             ]);
+            $status = 'created just now';
+            $status = true;
         } 
         else {
-            // if record is not null, email address already exists, now two options
-            //    -> email address already verified 
-            //    -> email address not verified
+            $id = $record->id;
+
             if (now()->lt($record->expires_at)) {
-                // use existing otp, don't enter new otp
+                // row created and not yet expired
                 DB::table('email_verifications')
                     ->where('email', $emailAddress)
                     ->update([
                         'attempts' => $record->attempts + 1,
                         'updated_at' => now()
-                ]);
-            } else {
-                // enter new otp
+                    ]);
+                $status = 'already sent, wait five minutes to try again';
+                $status = false;
+            } 
+            else {
+                // row created and expired
+                // update otp and attempts
                 DB::table('email_verifications')
                     ->where('email', $emailAddress)
                     ->update([
                         'otp' => Hash::make($randomOtp),
                         'expires_at' => now()->addMinutes(5),
-                        'attempts' => 0,
+                        'attempts' => $record->attempts + 1,
                         'verified' => 0,
                         'updated_at' => now()
                     ]);
+                $status = 'created just now';
+                $status = true;
             }
         }
-        if($record){
-            return $record->id;
-        }
-        else{
-            return 0;
-        }
+        Log::channel("laravel")->info("Id => ". $id. "Status => ". $status);
+        return ['id'=>$id,'status'=>$status];
     }
     public function verify_otp($userOtp,$id):bool{
         $record = DB::table('email_verifications')
         ->where('id', $id)
         ->first();
+
         if(Hash::check($userOtp, $record->otp)){
             return true;
         }
