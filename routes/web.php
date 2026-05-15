@@ -15,7 +15,15 @@ Route::get('/',[HomeController::class,'process']);
 
 Route::get('/workflow',[WorkflowController::class,'process']);
 
-Route::get('/login',[AuthController::class,'login'])->name('login');
+Route::get(
+    'adminLogin',
+    [AuthController::class,'adminLogin']
+)->name('adminLogin');
+
+Route::get(
+    'userLogin',
+    [AuthController::class,'userLogin']
+)->name('userLogin');
 
 Route::post('/login_submit',[AuthController::class,'login_submit']);
 

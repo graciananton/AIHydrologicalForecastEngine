@@ -105,27 +105,19 @@ class ChatQuery():
                 })
 
             if len(messages_output) > 0:
-                for item in messages_output:
-                    response = self.client.responses.create(
-                        model="gpt-4.1",
-                        tools=self.tools,
-                        input=item
-                    )
-
-                    messages.append({
-                        "role": "assistant",
-                        "content": item.content[0].text
-                    })
+                messages.append({
+                    "role": "assistant",
+                    "content": messages_output[0].content[0].text
+                })
 
 
             if len(tool_outputs) > 0:
-                print(tool_outputs)
                 messages.append({
                     "role": "assistant",
                     "content": tool_outputs[0]['output']
                 })
 
-                pprint(messages[-1])
+            pprint(messages[-1])
 
             query = input("->")
             messages.append({"role": "user", "content": query})
@@ -155,7 +147,7 @@ class ChatQuery():
         if response['success'] == True:
             return f"Account successfully created."
         else:
-            return f"Account unsuccessfully created."
+            return f"Account already created or unsuccessfully created."
 
 
     def filters(self):
@@ -179,7 +171,6 @@ if __name__ == "__main__":
     #query = "My email address is basil_anton@yahoo.ca"
     query = input("->")
     chatQuery = ChatQuery()
-    print(query)
 
     chatQuery.generate_response(query)
  

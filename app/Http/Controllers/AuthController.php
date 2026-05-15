@@ -11,10 +11,10 @@ use App\Services\OtpMailService;
 class AuthController extends Controller
 {
     private OtpMailService $otpMailService;
-    public function login(){
+    public function adminLogin(){
         return view("auth.login");
     }
-    public function login_submit(Request $request){
+    public function adminLoginSubmit(Request $request){
         Log::channel("laravel")->info("login submit");
         $credentials = $request->validate([
             'email' => 'required|email',
@@ -55,12 +55,21 @@ class AuthController extends Controller
         }
     }
     public function request_verify_otp(Request $request, OtpMailService $otpMailService){
-        if($otpMailService->verify_otp($request->verification_code, $request->id)){
+        $record = $otpMailService->verify_otp($request->verification_code, $request->id);
+        if($record->verified == 1){
+            if($otpMailService->addUser($record)){
+                return response()->json([
+                    'success' => true
+                ]);
+            }
+
+            Log::channel("laravel")->info("verified but already created user");
             return response()->json([
-                'success' => true
+                'success' => false
             ]);
         }
         else{
+            Log::channel("laravel")->info("not verified");
             return response()->json([
                 'success' => false
             ]);

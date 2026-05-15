@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\OtpMail;
+use App\Models\User;
 
 class OtpMailService{
     public function send_otp(string $emailAddress):array{
@@ -83,15 +84,49 @@ class OtpMailService{
         Log::channel("laravel")->info("Id => ". $id. "Status => ". $status);
         return ['id'=>$id,'status'=>$status];
     }
-    public function verify_otp($userOtp,$id):bool{
+    public function verify_otp($userOtp,$id){
         $record = DB::table('email_verifications')
         ->where('id', $id)
         ->first();
-
+        
         if(Hash::check($userOtp, $record->otp)){
-            return true;
+            $result = DB::table('email_verifications')
+            ->where('id', $id)
+            ->update([
+                'verified' => 1
+            ]);
+
+            if($result == 1){
+                $record = DB::table('email_verifications')
+                ->where('id', $id)
+                ->first();
+                return $record;
+            }
         }
         else{
+            return $record;
+        }
+    }
+    public function addUser($record){
+        $existing_record = User::where('email', $record->email)->first();
+        try{
+            if($existing_record){
+                return false;
+            }
+            else{
+                $result = User::create([
+                    'name' => '',
+                    'email' => $record->email,
+                    'password' => $record->otp,
+                    'remember_token' => false,
+                    'email_verified_at' => now(),
+                    'role' => 'user'
+                ]);
+                return true;
+            }
+        }
+        catch(\Exception $e){
+            Log::channel("laravel")->info((string)$e);
             return false;
         }
     }
