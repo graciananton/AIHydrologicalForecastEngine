@@ -52,9 +52,9 @@ class ChatQuery():
             {
                 # this uses the .search() function to return a chunk with a similarity score
                 "type":"file_search",
-                "vector_store_ids":['vs_69babea6537c8191b5040e4b60b13ae1'],
+                "vector_store_ids":['vs_6a0726dda1588191bcb83beebd316d5a'],
                 "filters":self.filters,
-                "max_num_results": 3,
+                "max_num_results": 1,
                 "ranking_options": {
                     "score_threshold": 0.5
                 },
@@ -73,21 +73,25 @@ class ChatQuery():
             response = self.client.responses.create(
                 model="gpt-4.1",
                 tools=self.tools,
-                input=messages
+                input=messages,
+                tool_choice="required"
             )
+
+            print(response)
 
             tool_calls = [
                 item for item in response.output
                 if item.type == "function_call"
             ]
 
-            #pprint(tool_calls)
+            #print(tool_calls)
 
             if not tool_calls:
-                messages.append({
-                    "role": "assistant",
-                    "content": response.output_text
-                })
+                if item.type == "file_search_call":
+                    messages.append({
+                        "role": "assistant",
+                        "content": item.content[0].text
+                    })
 
             else:
                 tool_outputs = []
@@ -121,6 +125,7 @@ class ChatQuery():
                 })
 
             pprint(messages[-1])
+            #print(messages)
 
             query = input("->")
             messages.append({"role": "user", "content": query})
