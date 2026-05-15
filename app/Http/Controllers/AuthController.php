@@ -25,7 +25,7 @@ class AuthController extends Controller
             $request->session()->regenerate();
             //$token = $this->create_token($request);
             //session(['api_token'=>$token]);
-            return redirect('/status');
+            return redirect('/dashboard');
         }
         else{
             return redirect()->back()->with('error', 'Unsuccessful Login Attempt');

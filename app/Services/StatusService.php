@@ -54,7 +54,7 @@ class StatusService{
         return $recentDateTimes;
     }
     # gets information from API and inserts to database
-    public function deleteRecords():bool{
+    public function sync():bool{
         try{
             $query = Reading::query();
             $query->where('measuredAt','<',Carbon::now()->subMonth(1));
@@ -64,6 +64,7 @@ class StatusService{
             $query->where('measuredAt','<',Carbon::now()->subMonth(1));
             $query->delete();
             Log::channel("weather")->info("Successfully deleted entries beyond one month");
+            $this->updateStatus("deleted records beyond one month");
             return true;
         }
         catch(\Throwable $e){

@@ -16,7 +16,6 @@ class WeatherController extends Controller
     }
     public function process(){
         return response()->json($this->WeatherService->filter($this->params));
-
     }
     public function sync(){
         if($this->WeatherService->sync()){

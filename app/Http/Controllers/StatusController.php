@@ -18,8 +18,8 @@ class StatusController extends Controller
         return $result;
     }
 
-    public function deleteRecords(){
-        if($this->StatusService->deleteRecords() && $this->StatusService->updateStatus("deleted records beyond one month")){
+    public function sync(){
+        if($this->StatusService->sync()){
             return redirect()->back()->with(
                 'success',
                 'Status updated'

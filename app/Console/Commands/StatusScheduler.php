@@ -12,7 +12,7 @@ class StatusScheduler extends Command
 
     public function handle(StatusService $statusService):void
     {
-        if($statusService->deleteRecords()){
+        if($statusService->sync()){
             $statusService->updateStatus('deleted records beyond one month');
         }
     }

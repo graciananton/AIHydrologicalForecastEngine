@@ -29,8 +29,9 @@ class TrainService
         Log::channel("laravel")->info("Before writing query");
         Log::channel("laravel")->info("Query");
         Log::channel("laravel")->info($query->toSql());
-
+        
         return $query->get()->toArray();
+
     }
     public function normalizeParams(array $params): array
     {
