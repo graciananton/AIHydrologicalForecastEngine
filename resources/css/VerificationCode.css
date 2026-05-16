@@ -1,5 +1,14 @@
-#verification_code{
+#verification_page{
     width:100vw;
     height:100vh;
+    border:1px solid red;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    border:1px solid black;
+
+}
+
+#verification_page #verification_form{
     border:1px solid red;
 }

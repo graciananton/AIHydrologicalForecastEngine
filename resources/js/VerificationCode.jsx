@@ -7,7 +7,9 @@ export default function VerificationCode({ data }){
     console.log(data);
     return (
         <div id='verification_page'>
-            
+            <div id='verification_form'>
+                Hello
+            </div>
         </div>
     )
 }
