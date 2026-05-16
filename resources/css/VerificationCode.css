@@ -6,9 +6,49 @@
     justify-content:center;
     align-items:center;
     border:1px solid black;
-
 }
 #verification_page #verification_form{
-    border:1px solid red;
-    border-radius:3px;
+    display:flex;
+    flex-direction:column;
+    border:1px solid black;
+    padding-top:10px;
+    padding-bottom:10px;
+    padding-left:10px;
+    padding-right:10px;
+    width:35%;
+    height:40%;
+}
+
+#verification_page #verification_form > div{
+    /*border:1px solid red;*/
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    flex:1;
+    text-align:center;
+}
+#verification_page #verification_form #title{
+    font-weight:600;
+    font-size:1.4rem;
+}
+#verification_page #verification_form #boxes{
+    display:flex;
+    flex-direction:row;
+    flex-wrap: nowrap;
+    justify-content:space-around;
+    border:0px solid red;
+    height:23%;
+}
+#verification_page #verification_form #boxes #box{
+    width:12%;
+    height:100%;
+    border:1px solid black;
+    border-radius:15%;
+}
+#verification_page #verification_form #boxes #box input{
+    width:100%;
+    height:100%;
+    text-align:center;
+    border-radius:15%;
+    font-size:1.4rem;
 }

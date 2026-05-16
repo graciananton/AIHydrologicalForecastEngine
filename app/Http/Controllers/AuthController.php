@@ -14,17 +14,25 @@ class AuthController extends Controller
     public function login(){
         return view("auth.login");
     }
-    public function login_submit(Request $request){
+    public function login_submit(Request $request, OtpMailService $otpMailService){
         $credentials = $request->validate([
             'email' => 'required|email'
         ]);
         #if(Auth::attempt($credentials)){
         if($this->userExists($request)){
+            Log::info("User exists, didn't send verification code yet");
             $request->session()->regenerate();
             $request->session()->put('email', $request->email);
-            return redirect('/verification_code');
+            $response = json_decode($this->request_otp($request, $otpMailService),true);
+            
+            if($response['success']){
+                Log::info("User exists, sent verification code successfully");
+                return redirect('/verification_code');
+            };
+            return redirect()->back()->with('error', 'Unsuccessful Login Attempt');
         }
         else{
+            Log::info("User does not exist");
             return redirect()->back()->with('error', 'Unsuccessful Login Attempt');
         }
     }
@@ -43,9 +51,11 @@ class AuthController extends Controller
         return $token;
     }
 
-    public function request_otp(Request $request, OtpMailService $otpMailService ){
-        $result = $otpMailService->send_otp($request->email_address);
+    public function request_otp(Request $request, OtpMailService $otpMailService){
+        $result = $otpMailService->send_otp($request->email);
+        Log::channel("laravel")->info("request_otp request");
         if($result['success'] == true){
+
             return response()->json([
                 'success' => true,
                 'id' => $result['id']

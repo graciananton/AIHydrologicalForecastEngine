@@ -33,7 +33,7 @@
     padding:1rem;    
 }
 #login_page #login form button[type='submit']{
-    border:0px solid black;
+    border:1px solid black;
     border-radius:0.5rem;
     padding:0.1rem;
 }
@@ -41,7 +41,7 @@
     font-size:1.0rem;
 }
 #login_page #login form .form-group input{
-    border:0px solid black;
+    border:1px solid black;
     padding:0.15rem;
     width:100%;
     border-radius:0.5rem;
