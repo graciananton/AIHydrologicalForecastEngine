@@ -15,20 +15,16 @@ class AuthController extends Controller
         return view("auth.login");
     }
     public function login_submit(Request $request, OtpMailService $otpMailService){
-        Log::channel("laravel")->info("User exists, didn't send verification code yet");
         $credentials = $request->validate([
             'email' => 'required|email'
         ]);
-        #if(Auth::attempt($credentials)){
         if($this->userExists($request)){
-            Log::info("User exists, didn't send verification code yet");
             $request->session()->regenerate();
             $request->session()->put('email', $request->email);
-            $response = json_decode($this->request_otp($request, $otpMailService),true);
-            
-            Log::channel("laravel")->info("Json decode response");
-            Log::channel("laravel")->info("id => ". $response['id']);
-            Log::channel("laravel")->info($response['success']);
+
+            $response = $this->request_otp($request, $otpMailService);
+
+            $response = json_decode($response->getContent(),true);
 
             if($response['success']){
                 Log::info("User exists, sent verification code successfully");
@@ -37,7 +33,6 @@ class AuthController extends Controller
             return redirect()->back()->with('error', 'Unsuccessful Login Attempt');
         }
         else{
-            Log::info("User does not exist");
             return redirect()->back()->with('error', 'Unsuccessful Login Attempt');
         }
     }
@@ -58,14 +53,7 @@ class AuthController extends Controller
 
     public function request_otp(Request $request, OtpMailService $otpMailService){
         $result = $otpMailService->send_otp($request->email);
-        Log::channel("laravel")->info("request_otp request");
-        Log::channel("laravel")->info("success == ".$result['success']);
-        Log::channel("laravel")->info("id => ".$result['id']);
-
         if($result['success'] == true){
-            Log::channel("laravel")->info("success == true");
-            Log::channel("laravel")->info("id => ".$result['id']);
-
             return response()->json([
                 'success' => true,
                 'id' => $result['id']
@@ -87,13 +75,11 @@ class AuthController extends Controller
                 ]);
             }
 
-            Log::channel("laravel")->info("verified but already created user");
             return response()->json([
                 'success' => false
             ]);
         }
         else{
-            Log::channel("laravel")->info("not verified");
             return response()->json([
                 'success' => false
             ]);

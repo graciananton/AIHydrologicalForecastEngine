@@ -2,10 +2,15 @@ import React from "react";
 import { useState, useEffect } from "react";
 import '../css/VerificationCode.css';
 
+
+function distributeCode(event, index){
+    console.log(event);
+    code = (event.target.value).split();
+    console.log(code);
+}
 export default function VerificationCode({ data }){
-    console.log("Verification Code")
-    console.log(data);
-    return (
+    const [boxes, setBoxes] = useState(['','','','','','']);
+    return (    
         <form id='form' action='/request_verify_otp' method='POST'>
             <div id='verification_page'>
                 <div id='verification_form'>
@@ -16,24 +21,13 @@ export default function VerificationCode({ data }){
                                 {data[0].email}
                         </div>
                         <div id='boxes'>
-                            <div id="box">
-                                <input type='text' name='box1' value=''/>
-                            </div>
-                            <div id="box">
-                                <input type='text' name='box2' value=''/>
-                            </div>
-                            <div id="box">
-                                <input type='text' name='box3' value=''/>
-                            </div>
-                            <div id="box">
-                                <input type='text' name='box4' value=''/>
-                            </div>
-                            <div id="box">
-                                <input type='text' name='box5' value=''/>
-                            </div>
-                            <div id="box">
-                                <input type='text' name='box6' value=''/>
-                            </div>
+                            {
+                                boxes.map((index,value) => {
+                                    <div id="box">
+                                        <input type='text' name={`box${index+1}`} id={`box${index+1}`} maxLength={1} onChange={distributeCode(index)}/>
+                                    </div>
+                                })
+                            }
                         </div>
                         <div id='submit'>
                             <input type='submit' value='Submit' name='submit'/>
