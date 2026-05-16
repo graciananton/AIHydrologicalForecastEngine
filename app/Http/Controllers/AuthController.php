@@ -15,16 +15,11 @@ class AuthController extends Controller
         return view("auth.login");
     }
     public function login_submit(Request $request){
-        Log::channel("laravel")->info("login submit");
         $credentials = $request->validate([
-            'email' => 'required|email',
-            'password' => 'required'
+            'email' => 'required|email'
         ]);
         if(Auth::attempt($credentials)){
-            Log::channel("laravel")->info("Attempt is valid");
             $request->session()->regenerate();
-            //$token = $this->create_token($request);
-            //session(['api_token'=>$token]);
             return redirect('/dashboard');
         }
         else{
@@ -39,7 +34,6 @@ class AuthController extends Controller
     }
 
     public function request_otp(Request $request, OtpMailService $otpMailService ){
-        Log::channel('laravel')->info("Email Address ". $request->email_address);
         $result = $otpMailService->send_otp($request->email_address);
         if($result['success'] == true){
             return response()->json([

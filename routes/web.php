@@ -19,10 +19,7 @@ Route::get('login', [AuthController::class,'login'])->name('login');
 
 Route::post('/login_submit',[AuthController::class,'login_submit']);
 
-#Route::post('/login_submit1', function () {
-#    dd('1. POST route reached');
-#});
-Route::get('/dashboard', [DashboardController::class, 'process'])->middleware('auth');
+Route::get('/dashboard', [DashboardController::class, 'process'])->middleware('auth','admin');
 
 Route::get('/status', [StatusController::class, 'process'])->middleware('auth');
 
