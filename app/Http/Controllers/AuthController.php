@@ -30,12 +30,10 @@ class AuthController extends Controller
     }
     public function userExists($request):bool{
         $user = User::where('email', $request->email)->first();
-
         return (bool) $user;
     }
     public function verification_code(){
         $email = session('email');
-        Log::channel('laravel')->info('verification code');
         return view("auth.verification_code", ['email' => $email]);
     }
     public function create_token($request){        
