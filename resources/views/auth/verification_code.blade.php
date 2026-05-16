@@ -9,17 +9,17 @@
 </head>
 <body>
     <?php
-    $request = $_REQUEST;
-    $data = [
-    "request" => $request
-    ];
 
-    $json = json_encode($data);
+    $data = ['request' => ['request' => session('email')]];
     ?>
     <script>
-        console.log(@json($request));
+    window.__REACT_DATA__ = @json(
+            [
+                ['email' => session('email')],
+                ['request'  => 'verification_code']
+            ]
+    );
 
-        window.__REACT_DATA__ = {!! $json !!};
     </script>
 
     <div id="react-root"></div>

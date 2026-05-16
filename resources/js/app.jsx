@@ -14,11 +14,10 @@ export default function App() {
   const values = Object.values(data);
 
   var req = getRequest(values);
-  console.log(data);
+  console.log(req);
   return (
     <>
     {req === 'workflow' && <Workflow /> }
-    {/*req == "status" && <Status data={data} />*/}
     {req == "login" && <Login data={data} />}
     {req == "home" && <Home />}
     {req == "dashboard" && <Dashboard />}
