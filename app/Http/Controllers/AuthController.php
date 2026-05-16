@@ -18,8 +18,10 @@ class AuthController extends Controller
         $credentials = $request->validate([
             'email' => 'required|email'
         ]);
-        if(Auth::attempt($credentials)){
+        #if(Auth::attempt($credentials)){
+        if($this->userExists($request)){
             $request->session()->regenerate();
+            $request->session()->put('email', $request->email);
             return redirect('/verification_code');
         }
         else{
@@ -28,12 +30,13 @@ class AuthController extends Controller
     }
     public function userExists($request):bool{
         $user = User::where('email', $request->email)->first();
-        
+
         return (bool) $user;
     }
     public function verification_code(){
-        $email = Auth::user()->email;
-        view("auth.verification_code", ['email' => $email]);
+        $email = session('email');
+        Log::channel('laravel')->info('verification code');
+        return view("auth.verification_code", ['email' => $email]);
     }
     public function create_token($request){        
         $user = Auth::user();
