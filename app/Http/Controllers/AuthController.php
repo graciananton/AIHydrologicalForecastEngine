@@ -11,10 +11,10 @@ use App\Services\OtpMailService;
 class AuthController extends Controller
 {
     private OtpMailService $otpMailService;
-    public function adminLogin(){
+    public function login(){
         return view("auth.login");
     }
-    public function adminLoginSubmit(Request $request){
+    public function login_submit(Request $request){
         Log::channel("laravel")->info("login submit");
         $credentials = $request->validate([
             'email' => 'required|email',

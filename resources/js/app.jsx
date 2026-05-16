@@ -13,6 +13,7 @@ export default function App() {
   const values = Object.values(data);
 
   var req = getRequest(values);
+  console.log(data);
   return (
     <>
     {req === 'workflow' && <Workflow /> }
