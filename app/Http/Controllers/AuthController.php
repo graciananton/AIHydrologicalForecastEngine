@@ -25,6 +25,10 @@ class AuthController extends Controller
             $request->session()->regenerate();
             $request->session()->put('email', $request->email);
             $response = json_decode($this->request_otp($request, $otpMailService),true);
+            
+            Log::channel("laravel")->info("Json decode response");
+            Log::channel("laravel")->info("id => ". $response['id']);
+            Log::channel("laravel")->info($response['success']);
 
             if($response['success']){
                 Log::info("User exists, sent verification code successfully");

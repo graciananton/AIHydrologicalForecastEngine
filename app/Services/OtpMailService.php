@@ -16,10 +16,16 @@ class OtpMailService{
         $randomOtp = random_int(100000, 999999);
 
         $otpResult = $this->save_otp($randomOtp,$emailAddress);
+        Log::channel("laravel")->info("Sent mail");
+        Log::channel("laravel")->info("status => ". $otpResult['status']);
+        Log::channel("laravel")->info("id => ". $otpResult['id']);
 
         try{
             if($otpResult['status']== true){
                 Mail::to($emailAddress)->send(new OtpMail($randomOtp));
+                Log::channel("laravel")->info("Sent mail");
+                Log::channel("laravel")->info("status => ". $otpResult['status']);
+                Log::channel("laravel")->info("id => ". $otpResult['id']);
                 return ['id'=>$otpResult['id'],'success'=>$otpResult['status']];
             }
             else{
