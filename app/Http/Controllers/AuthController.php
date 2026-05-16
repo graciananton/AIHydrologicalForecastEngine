@@ -20,11 +20,15 @@ class AuthController extends Controller
         ]);
         if(Auth::attempt($credentials)){
             $request->session()->regenerate();
-            return redirect('/dashboard');
+            return redirect('/verification_code');
         }
         else{
             return redirect()->back()->with('error', 'Unsuccessful Login Attempt');
         }
+    }
+    public function verification_code(){
+        $email = Auth::user()->email;
+        view("auth.verification_code", ['email' => $email]);
     }
     public function create_token($request){        
         $user = Auth::user();
