@@ -3,13 +3,21 @@ import { useState, useEffect } from "react";
 import '../css/VerificationCode.css';
 
 
-function distributeCode(event, index){
-    console.log(event);
-    code = (event.target.value).split();
-    console.log(code);
+function distributeCode(e, index, boxes, setBoxes){
+    console.log(e);
+    let codeList = (e.target.value).split("");
+    console.log(codeList);
+
+    const boxesCopy = [...boxes];
+    for(let i=index;i<codeList.length;i++){
+        boxesCopy[i] = codeList[i-index];
+    }
+
+    setBoxes(boxesCopy);
 }
 export default function VerificationCode({ data }){
     const [boxes, setBoxes] = useState(['','','','','','']);
+    console.log(boxes);
     return (    
         <form id='form' action='/request_verify_otp' method='POST'>
             <div id='verification_page'>
@@ -22,10 +30,13 @@ export default function VerificationCode({ data }){
                         </div>
                         <div id='boxes'>
                             {
-                                boxes.map((index,value) => {
-                                    <div id="box">
-                                        <input type='text' name={`box${index+1}`} id={`box${index+1}`} maxLength={1} onChange={distributeCode(index)}/>
+                                boxes.map((value,index) => {
+                                    {console.log("index"+index+" value"+value)}
+                                    return (
+                                    <div id="box" key={`box${index+1}`}>
+                                        <input type='text' name={`box${index+1}`} id={`box${index+1}`} maxLength={6} onChange={(e) => distributeCode(e, index, boxes, setBoxes)}/>
                                     </div>
+                                    )
                                 })
                             }
                         </div>

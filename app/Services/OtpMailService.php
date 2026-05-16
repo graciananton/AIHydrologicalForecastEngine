@@ -93,19 +93,25 @@ class OtpMailService{
     public function verify_otp($userOtp,$id){
         $record = DB::table('email_verifications')
         ->where('id', $id)
-        ->first();
+        ->first()
+        ;
         
         if(Hash::check($userOtp, $record->otp)){
-            $result = DB::table('email_verifications')
-            ->where('id', $id)
-            ->update([
-                'verified' => 1
-            ]);
-
-            if($result == 1){
-                $record = DB::table('email_verifications')
+            if($record->expires_at < now()){
+                $result = DB::table('email_verifications')
                 ->where('id', $id)
-                ->first();
+                ->update([
+                    'verified' => 1
+                ]);
+
+                if($result == 1){
+                    $record = DB::table('email_verifications')
+                    ->where('id', $id)
+                    ->first();
+                    return $record;
+                }
+            }
+            else{
                 return $record;
             }
         }
