@@ -5,6 +5,7 @@ import Workflow from "./Workflow";
 import Home from "./Home";
 import Header from "./Header";
 import Dashboard from "./Dashboard";
+import VerificationCode from "./VerificationCode";
 
 import "../css/app.css";
 
@@ -21,6 +22,7 @@ export default function App() {
     {req == "login" && <Login data={data} />}
     {req == "home" && <Home />}
     {req == "dashboard" && <Dashboard />}
+    {req == "verification_code" && <VerificationCode />}
     </>
   );
 }
