@@ -4,12 +4,11 @@ import '../css/VerificationCode.css';
 
 
 function distributeCode(e, index, boxes, setBoxes){
-    console.log(e);
     let codeList = (e.target.value).split("");
-    console.log(codeList);
 
     const boxesCopy = [...boxes];
-    for(let i=index;i<codeList.length;i++){
+
+    for(let i=index;i<boxes.length;i++){
         boxesCopy[i] = codeList[i-index];
     }
 
@@ -17,7 +16,6 @@ function distributeCode(e, index, boxes, setBoxes){
 }
 export default function VerificationCode({ data }){
     const [boxes, setBoxes] = useState(['','','','','','']);
-    console.log(boxes);
     return (    
         <form id='form' action='/request_verify_otp' method='POST'>
             <div id='verification_page'>
@@ -31,10 +29,9 @@ export default function VerificationCode({ data }){
                         <div id='boxes'>
                             {
                                 boxes.map((value,index) => {
-                                    {console.log("index"+index+" value"+value)}
                                     return (
                                     <div id="box" key={`box${index+1}`}>
-                                        <input type='text' name={`box${index+1}`} id={`box${index+1}`} maxLength={6} onChange={(e) => distributeCode(e, index, boxes, setBoxes)}/>
+                                        <input type='text' name={`box${index+1}`} value={value} id={`box${index+1}`} maxLength={6} onChange={(e) => distributeCode(e, index, boxes, setBoxes)}/>
                                     </div>
                                     )
                                 })

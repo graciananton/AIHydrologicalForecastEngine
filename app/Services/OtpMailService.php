@@ -95,7 +95,6 @@ class OtpMailService{
         ->where('id', $id)
         ->first()
         ;
-        
         if(Hash::check($userOtp, $record->otp)){
             if($record->expires_at < now()){
                 $result = DB::table('email_verifications')
