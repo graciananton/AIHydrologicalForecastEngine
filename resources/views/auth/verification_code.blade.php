@@ -9,6 +9,7 @@
 </head>
 <body>
     <?php
+    $request = $_REQUEST;
     $data = [
     "request" => $request
     ];
