@@ -26,6 +26,11 @@ class AuthController extends Controller
             return redirect()->back()->with('error', 'Unsuccessful Login Attempt');
         }
     }
+    public function userExists($request):bool{
+        $user = User::where('email', $request->email)->first();
+        
+        return (bool) $user;
+    }
     public function verification_code(){
         $email = Auth::user()->email;
         view("auth.verification_code", ['email' => $email]);
