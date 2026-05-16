@@ -11,17 +11,19 @@ import "../css/app.css";
 
 export default function App() {
   const data = window.__REACT_DATA__ || {};
+  console.log("Data");
+  console.log(data);
+
   const values = Object.values(data);
 
   var req = getRequest(values);
-  console.log(req);
   return (
     <>
     {req === 'workflow' && <Workflow /> }
     {req == "login" && <Login data={data} />}
     {req == "home" && <Home />}
     {req == "dashboard" && <Dashboard />}
-    {req == "verification_code" && <VerificationCode />}
+    {req == "verification_code" && <VerificationCode data={data}/>}
     </>
   );
 }

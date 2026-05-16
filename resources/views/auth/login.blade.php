@@ -11,8 +11,8 @@
     <script>
         window.__REACT_DATA__ = @json(
             [
-                ['error' => session('error')],
-                ['request'  => 'login']
+                ['email' => session('email')],
+                ['request'  => 'verification_code']
             ]
         );
     </script>
