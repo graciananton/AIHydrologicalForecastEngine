@@ -8,7 +8,8 @@ export default function VerificationCode({ data }){
     return (
         <div id='verification_page'>
             <div id='verification_form'>
-                Hello
+                
+
             </div>
         </div>
     )
