@@ -17,7 +17,9 @@ Route::get('/workflow',[WorkflowController::class,'process']);
 
 Route::get('login', [AuthController::class,'login'])->name('login');
 
-Route::get('/verification_code',[AuthController::class,'verification_code'])->name("verification_code");
+Route::get('/verification_code',[AuthController::class,'verification_code']);
+
+Route::post('/verification_code_submit',[AuthController::class,'verification_code_submit']);
 
 Route::post('/login_submit',[AuthController::class,'login_submit']);
 

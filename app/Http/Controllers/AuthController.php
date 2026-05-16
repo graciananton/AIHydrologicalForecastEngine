@@ -36,6 +36,7 @@ class AuthController extends Controller
             return redirect()->back()->with('error', 'Unsuccessful Login Attempt');
         }
     }
+
     public function userExists($request):bool{
         $user = User::where('email', $request->email)->first();
         return (bool) $user;
@@ -66,11 +67,28 @@ class AuthController extends Controller
             ]);
         }
     }
+    public function verification_code_submit(Request $request, OtpMailService $otpMailService){
+        $result = $this->request_verify_otp($request, $otpMailService);
+        $result = json_decode($result,true);
+        if($result['success']){
+            # check the roles and send to redirect dashboard or user page based on middleware
+            if($result['role'] == 'admin'){
+                $request->session()->put('role','admin');
+                return redirect("/dashboard");
+            }
+            else if($result['role'] == 'user'){
+                $request->session()->put('role','user');
+                return redirect("/dashboard");
+            }
+        }
+        return redirect()->back()->with("error","Unsuccessfull Attempt");
+    }
     public function request_verify_otp(Request $request, OtpMailService $otpMailService){
         $record = $otpMailService->verify_otp($request->verification_code, $request->id);
         if($record->verified == 1){
             if($otpMailService->addUser($record)){
                 return response()->json([
+                    'role' => $record->role,
                     'success' => true
                 ]);
             }

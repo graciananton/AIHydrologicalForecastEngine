@@ -87,14 +87,14 @@ class OtpMailService{
                 $status = true;
             }
         }
-        Log::channel("laravel")->info("Id => ". $id. "Status => ". $status);
         return ['id'=>$id,'status'=>$status];
     }
     public function verify_otp($userOtp,$id){
+        Log::channel("laravel")->info("The id is ".$id);
         $record = DB::table('email_verifications')
         ->where('id', $id)
-        ->first()
-        ;
+        ->first();
+
         if(Hash::check($userOtp, $record->otp)){
             if($record->expires_at < now()){
                 $result = DB::table('email_verifications')
