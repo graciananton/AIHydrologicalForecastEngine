@@ -69,29 +69,23 @@ class AuthController extends Controller
         }
     }
     public function verification_code_submit(Request $request, OtpMailService $otpMailService){
-        Log::info("Verification code submit");
-        $verificationStatus = $otpMailService->getVerificationStatusByEmail(session('email'));
-
-        if(!$verificationStatus){
+        $id = $otpMailService->getVerificationIdByEmail(session('email'));
+        if(!$id){
             return redirect()->back()->with("error","Unsuccessfull Attempt");
         }
         $verification_code = $otpMailService->joinUserOtp($request);
         
-        $request->verificationStatus = $verificationStatus;
-        $request->verification_code = $verification_code;
+        $record = $otpMailService->verify_otp($verification_code, $id);
 
-        $record = $this->verify_otp($verification_code, $id);
+        $user = $otpMailService->getUserByEmail(session('email'));
 
-        $record = json_decode($record,true);
-
-
-        if($record['verified'] == 1){
+        if($record->verified == 1){
             # check the roles and send to redirect dashboard or user page based on middleware
-            if($result['role'] == 'admin'){
+            if($user->role == 'admin'){
                 $request->session()->put('role','admin');
                 return redirect("/dashboard");
             }
-            else if($result['role'] == 'user'){
+            else if($user->role  == 'user'){
                 $request->session()->put('role','user');
                 return redirect("/dashboard");
             }

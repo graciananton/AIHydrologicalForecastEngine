@@ -95,6 +95,10 @@ class OtpMailService{
         ->first();
         return $record->id;
     }
+    public function getUserByEmail($email){
+        $record = User::where('email', $email)->first();
+        return $record;
+    }
     public function joinUserOtp($request):string{
         $keys = array_keys($request->all());
         $verification_code = "";
