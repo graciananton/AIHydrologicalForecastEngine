@@ -15,6 +15,7 @@ function distributeCode(e, index, boxes, setBoxes){
     setBoxes(boxesCopy);
 }
 export default function VerificationCode({ data }){
+    console.log(data);
     const [boxes, setBoxes] = useState(['','','','','','']);
     return (    
         <form id='form' action='/laravel/public/verification_code_submit' method='POST'>

@@ -89,14 +89,34 @@ class OtpMailService{
         }
         return ['id'=>$id,'status'=>$status];
     }
+    public function getVerificationStatusByEmail($email):int{
+        $record = DB::table('email_verifications')
+        ->where('email',$email)
+        ->first();
+        return $record;
+    }
+    public function joinUserOtp($request):string{
+        $keys = array_keys($request->all());
+        $verification_code = "";
+        for($i=0;$i<count($keys);$i++){
+            $key = $keys[$i];
+            if(str_contains($key, "box")){
+                $verification_code_char = trim($request->{$key});
+                $verification_code .= $verification_code_char;
+            }
+        }
+        return $verification_code;
+    }
     public function verify_otp($userOtp,$id){
         Log::channel("laravel")->info("The id is ".$id);
+        Log::channel("laravel")->info("The User Otp ".$userOtp);
+
         $record = DB::table('email_verifications')
         ->where('id', $id)
         ->first();
 
         if(Hash::check($userOtp, $record->otp)){
-            if($record->expires_at < now()){
+            if($record->expires_at > now()){
                 $result = DB::table('email_verifications')
                 ->where('id', $id)
                 ->update([

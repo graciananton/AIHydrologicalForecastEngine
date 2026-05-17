@@ -19,6 +19,7 @@ class AuthController extends Controller
             'email' => 'required|email'
         ]);
         if($this->userExists($request)){
+            Log::channel("laravel")->info("user exists");
             $request->session()->regenerate();
             $request->session()->put('email', $request->email);
 
@@ -68,9 +69,24 @@ class AuthController extends Controller
         }
     }
     public function verification_code_submit(Request $request, OtpMailService $otpMailService){
-        $result = $this->request_verify_otp($request, $otpMailService);
-        $result = json_decode($result,true);
-        if($result['success']){
+        Log::info("Verification code submit");
+        $id = $otpMailService->getVerificationStatusByEmail(session('email'));
+        
+        if(!$id){
+            return redirect()->back()->with("error","Unsuccessfull Attempt");
+        }
+        $verification_code = $otpMailService->joinUserOtp($request);
+        
+        $request->id = $id;
+        $request->id = $id;
+        $request->verification_code = $verification_code;
+
+        $record = $this->verify_otp($verification_code, $id);
+
+        $record = json_decode($record,true);
+
+
+        if($record['verified'] == 1){
             # check the roles and send to redirect dashboard or user page based on middleware
             if($result['role'] == 'admin'){
                 $request->session()->put('role','admin');
@@ -84,7 +100,10 @@ class AuthController extends Controller
         return redirect()->back()->with("error","Unsuccessfull Attempt");
     }
     public function request_verify_otp(Request $request, OtpMailService $otpMailService){
+        Log::channel("laravel")->info("requesting to verify otp");
+
         $record = $otpMailService->verify_otp($request->verification_code, $request->id);
+        Log::channel("laravel")->info("Verified: ".$record->verified);
         if($record->verified == 1){
             if($otpMailService->addUser($record)){
                 return response()->json([

@@ -1,1 +1,1 @@
-a:4:{s:6:"_token";s:40:"tpqz5mqZnU5XJ1HHXGCE4NAl68EEsnN3qqAAzqUs";s:9:"_previous";a:2:{s:3:"url";s:49:"http://localhost/laravel/public/verification_code";s:5:"route";N;}s:6:"_flash";a:2:{s:3:"old";a:0:{}s:3:"new";a:0:{}}s:5:"email";s:30:"GracianAnton@cmail.carleton.ca";}
+a:4:{s:6:"_token";s:40:"tpqz5mqZnU5XJ1HHXGCE4NAl68EEsnN3qqAAzqUs";s:9:"_previous";a:2:{s:3:"url";s:37:"http://localhost/laravel/public/login";s:5:"route";s:5:"login";}s:6:"_flash";a:2:{s:3:"old";a:0:{}s:3:"new";a:0:{}}s:5:"email";s:30:"GracianAnton@cmail.carleton.ca";}
