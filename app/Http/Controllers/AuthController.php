@@ -70,15 +70,14 @@ class AuthController extends Controller
     }
     public function verification_code_submit(Request $request, OtpMailService $otpMailService){
         Log::info("Verification code submit");
-        $id = $otpMailService->getVerificationStatusByEmail(session('email'));
-        
-        if(!$id){
+        $verificationStatus = $otpMailService->getVerificationStatusByEmail(session('email'));
+
+        if(!$verificationStatus){
             return redirect()->back()->with("error","Unsuccessfull Attempt");
         }
         $verification_code = $otpMailService->joinUserOtp($request);
         
-        $request->id = $id;
-        $request->id = $id;
+        $request->verificationStatus = $verificationStatus;
         $request->verification_code = $verification_code;
 
         $record = $this->verify_otp($verification_code, $id);

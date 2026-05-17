@@ -89,11 +89,11 @@ class OtpMailService{
         }
         return ['id'=>$id,'status'=>$status];
     }
-    public function getVerificationStatusByEmail($email):int{
+    public function getVerificationIdByEmail($email):int{
         $record = DB::table('email_verifications')
         ->where('email',$email)
         ->first();
-        return $record;
+        return $record->id;
     }
     public function joinUserOtp($request):string{
         $keys = array_keys($request->all());
@@ -122,7 +122,7 @@ class OtpMailService{
                 ->update([
                     'verified' => 1
                 ]);
-
+                
                 if($result == 1){
                     $record = DB::table('email_verifications')
                     ->where('id', $id)
