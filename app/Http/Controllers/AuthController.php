@@ -23,10 +23,8 @@ class AuthController extends Controller
             $request->session()->regenerate();
             $request->session()->put('email', $request->email);
 
-            $response = $this->request_otp($request, $otpMailService);
-
-            $response = json_decode($response->getContent(),true);
-
+            $response = $otpMailService->send_otp($request->email, $otpMailService);
+            
             if($response['success']){
                 Log::info("User exists, sent verification code successfully");
                 return redirect('/verification_code');
@@ -83,7 +81,7 @@ class AuthController extends Controller
             # check the roles and send to redirect dashboard or user page based on middleware
             if($user->role == 'admin'){
                 $request->session()->put('role','admin');
-                return redirect("/dashboard");
+                return redirect("/workflow");
             }
             else if($user->role  == 'user'){
                 $request->session()->put('role','user');

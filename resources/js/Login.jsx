@@ -8,7 +8,8 @@ export default function Login({ data }){
             <div id='login' className='container-fluid'>
                 {data[0]?.error && (
                 <div id='error'>{data[0].error}</div>
-                )}
+                )
+                }
                 <div id='title'>Login</div>
                 <form method="POST" action={`/laravel/public/login_submit`}>
                     <input type="hidden" name="_token" value={document.querySelector('meta[name="csrf-token"]').getAttribute("content")}/>
