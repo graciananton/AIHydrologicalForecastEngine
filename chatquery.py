@@ -26,12 +26,12 @@ class ChatQuery():
                 "parameters": {
                     "type": "object",
                     "properties": {
-                        "email_address": {
+                        "email": {
                             "type": "string",
                             "description": "user email address input",
                         },
                     },
-                    "required": ["email_address"]
+                    "required": ["email"]
                 },
             },
             {
@@ -41,7 +41,7 @@ class ChatQuery():
                 "parameters": {
                     "type": "object",
                     "properties": {
-                        "verification_code": {
+                        "verificationCode": {
                             "type": "string",
                             "description": "user verification code input",
                         },
@@ -90,7 +90,6 @@ class ChatQuery():
             for item in tool_calls:
                 if item.name == "send_otp":
                     data = json.loads(item.arguments)
-                    print(data)
                     result = self.send_otp(data)                        
 
                 elif item.name == "verify_otp":

@@ -15,9 +15,6 @@ use App\Http\Controllers\TestEvaluationsController;
 use App\Http\Controllers\PredictionsController;
 use App\Http\Controllers\TrainController;
 
-Route::post('/request_otp',[AuthController::class,'request_otp']);
-
-Route::post('/request_verify_otp',[AuthController::class,'request_verify_otp']);
 
 # get the RMSE score of the test set
 
