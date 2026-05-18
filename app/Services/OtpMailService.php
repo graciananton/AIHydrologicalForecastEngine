@@ -9,7 +9,16 @@ use App\Mail\OtpMail;
 use App\Models\User;
 
 class OtpMailService{
-    public function handleLogin(){
+    public function handleLogin(Request $request){
+        if($this->userExists($request->email)){
+
+        }
+        else{
+
+        }
+    }   
+    private function userExists($email){
+        $result = User::where('email',$email);
         
     }
 }
