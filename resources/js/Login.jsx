@@ -11,7 +11,7 @@ export default function Login({ data }){
                 )
                 }
                 <div id='title'>Login</div>
-                <form method="POST" action={`/laravel/public/login_submit`}>
+                <form method="POST" action={`/laravel/public/loginSubmit`}>
                     <input type="hidden" name="_token" value={document.querySelector('meta[name="csrf-token"]').getAttribute("content")}/>
                     <div className='form-group'>
                         <label htmlFor='Email'>Email:</label><br/>

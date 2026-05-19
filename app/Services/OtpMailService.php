@@ -7,17 +7,18 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\OtpMail;
 use App\Models\User;
+use Illuminate\Http\Request;
 
 class OtpMailService{
-    public function handleLogin(Request $request):string{
+    public function handleLogin(Request $request):RedirectResponse{
         $user = $this->userExists($request->email);
-        if(!$user){
+        if($user){
             if(Auth::check()){
                 if($user->role == 'admin'){
-                    redirect('/dashboard');
+                    return redirect('/dashboard');
                 }
                 else{
-                    redirect('/userAccount');
+                    return redirect('/userAccount');
                 }
             }
             else{                
@@ -43,10 +44,12 @@ class OtpMailService{
                             $verificationUpdatedNums = User::where('email',$email)
                             ->increment('attempts');
                         }
-                        return true;
+                        return redirect('/verificationCodes');
                     }
                     else{
-                        return false;
+                        return back()->withErrors([
+                            'error' => 'Too many attempts, try again in a few minutes'
+                        ]);
                     }
                 }
                 catch(QueryException $e){
@@ -67,6 +70,7 @@ class OtpMailService{
             try{
                 $user = User::create([
                     'email' => $request->email,
+                    'name' => $this->extract_name_from_email($request->email),
                     'role' => 'user'
                 ]);
 
@@ -76,13 +80,10 @@ class OtpMailService{
                     'expires_at' => now()->addMinutes(15),
                     'last_sent_at' => now(),
                     'attempts_start_at' => now(),
-                    'attempts' => 1,
-                    'block_start_at' => null
+                    'attempts' => 1
                 ]);
 
-                Auth::login($user);
-                $request->session()->regenerate();
-                redirect('/dashboard');
+                return redirect('/verificationCode');
             }
             catch(QueryException $e){
                 Log::channel("laravel")->error(
@@ -97,8 +98,13 @@ class OtpMailService{
                 );
             }
         }
-    }   
-    private function userExists(string $email):bool{
+    }  
+    private function extract_name_from_email(string $email):string{
+        $pattern = "/@/";
+        $parts = preg_split($pattern, $email);
+        return ucfirst($parts[0]);
+    } 
+    private function userExists(string $email):?User{
         $user = User::where('email',$email)->first();
         return $user;
     }

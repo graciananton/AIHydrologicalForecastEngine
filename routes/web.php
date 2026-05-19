@@ -17,11 +17,11 @@ Route::get('/workflow',[WorkflowController::class,'process']);
 
 Route::get('login', [AuthController::class,'login'])->name('login');
 
-Route::get('/verification_code',[AuthController::class,'verification_code']);
+Route::post('/loginSubmit',[AuthController::class,'loginSubmit']);
+
+Route::get('/verificationCode',[AuthController::class,'verificationCode']);
 
 Route::post('/verification_code_submit',[AuthController::class,'verification_code_submit']);
-
-Route::post('/login_submit',[AuthController::class,'login_submit']);
 
 Route::get('/dashboard', [DashboardController::class, 'process'])->middleware('auth','admin');
 
