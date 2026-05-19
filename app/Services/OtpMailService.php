@@ -9,52 +9,60 @@ use App\Mail\OtpMail;
 use App\Models\User;
 
 class OtpMailService{
-    public function handleLogin(Request $request):void{
+    public function handleLogin(Request $request):string{
         if($this->userExists($request->email)){
             if(Auth::check()){
-
+                redirect('/dashboard');
             }
-            # user is not logged in
             else{                
-                # technically don't have to run this query if $verificationAfterBlockStart is != null
-                $verificationUpdatedNumsAtAttempts = User::where('email',$email)
-                ->where(function ($query) {
-                        $query->where('attempts_start_at', '>=', now()->addMinutes(-15))
-                              ->where('attempts', '>=', 4);
-                })
-                ->orWhere('attempts','>=',4)
-                
-                ->update([
-                        'attempts_start_at' => now(),
-                        'attempts' => 0
-                ]);
-
-                if($verificationAfterBlockStart == null && $verificationUpdatedNumsAtAttempts == 0){
-                    $verificationUpdatedRow = User::where('email',$email)
-                    ->where('last_sent_at','<=', now()->addSeconds(-3))
+                try{
+                    $verificationUpdatedNumsAtAttempts = User::where('email',$email)
+                    ->where('attempts_start_at', '>=', now()->addMinutes(-15))
+                    ->where('attempts', '>=', 4)
                     ->update([
-                        'otp' => createOtp(),
-                        'expires_at' => now()->addMinutes(15),
-                        'last_sent_at'=>now()
+                            'attempts_start_at' => now(),
+                            'attempts' => 0
                     ]);
 
-                    if($verificationUpdatedRow == 1){
-                        $verificationUpdatedNums = User::where('email',$email)
-                        ->increment('attempts');
+                    if($verificationUpdatedNumsAtAttempts == 0){
+                        $verificationUpdatedRow = User::where('email',$email)
+                        ->where('last_sent_at','<=', now()->addSeconds(-3))
+                        ->update([
+                            'otp' => createOtp(),
+                            'expires_at' => now()->addMinutes(15),
+                            'last_sent_at'=>now()
+                        ]);
+
+                        if($verificationUpdatedRow == 1){
+                            $verificationUpdatedNums = User::where('email',$email)
+                            ->increment('attempts');
+                        }
+                        return true;
+                    }
+                    else{
+                        return false;
                     }
                 }
-                else{
-                    $status = 'cannot loggin for now, too many attempts';
+                catch(QueryException $e){
+                    Log::channel("laravel")->error(
+                        'Database query failed while creating OTP record.',
+                        $e->getMessage()
+                    );
+                }
+                catch(Exception $e){
+                    Log::channel("laravel")->error(
+                        'Unexpected OTP service error.',
+                        $e->getMessage()
+                    );
                 }
             }
         }
         else{
-            // user does not exist
             try{
                 $user = User::create([
                     'email' => $request->email
                 ]);
-                # since we are creating the user for the first time, set attempts = 1
+
                 $verification = EmailVerifications::create([
                     'otp' => $this->createOtp(),
                     'email' => $request->email,
