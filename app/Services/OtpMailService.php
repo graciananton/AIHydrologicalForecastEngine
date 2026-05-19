@@ -27,7 +27,8 @@ class OtpMailService{
         }
     }
     public function handleLogin(Request $request):RedirectResponse{
-        if(validate_request($request)){
+        $response = validate_request($request);
+        if($response){
             $user = $this->userExists($request->email);
             if($user != null){
                 if(Auth::check()){
@@ -64,7 +65,7 @@ class OtpMailService{
                             session([
                                 'email' => $request->email
                             ]);
-                            return redirect('/verificationCodes');
+                            return redirect('/verificationCode');
                         }
                         else{
                             return back()->withErrors([
@@ -122,6 +123,9 @@ class OtpMailService{
                     );
                 }
             }
+        }
+        else{
+            return back()->withErrors($response); 
         }
     }  
     public function sendOtp($email){
