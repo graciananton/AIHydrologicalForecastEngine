@@ -21,10 +21,10 @@ class EmailVerifications extends Model
     protected $casts = [
         'email' => 'string',
         'otp' => 'string',
-        'expires_at' => 'timestamp',
+        'expires_at' => 'datetime',
         'attempts' => 'int',
-        'attempts_start_at' => 'timestamp',
-        'last_sent_at' => 'timestamp'
+        'attempts_start_at' => 'datetime',
+        'last_sent_at' => 'datetime'
     ];
 
 }

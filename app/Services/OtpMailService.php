@@ -28,6 +28,7 @@ class OtpMailService{
     }
     public function handleLogin(Request $request):RedirectResponse{
         $response = $this->validateRequest($request);
+        Log::channel("laravel")->info("Handling login");
         if($response){
             $user = $this->userExists($request->email);
             $emailVerification = $this->getEmailVerification($request->email);
@@ -40,29 +41,34 @@ class OtpMailService{
                         return redirect('/userAccount');
                     }
                 }
-                else{                
+                else{  
+                    Log::channel("laravel")->info("account exists but not logged in");              
                     try{
-                        if($emailVerification->attempts_start_at >= now()->addMinutes(-15)){
+                        Log::channel("laravel")->info("trying account");
+                        Log::channel("laravel")->info($emailVerification->attempts_start_at);
+
+                        if($emailVerification->attempts_start_at->gte(now()->addMinutes(-15)) && $emailVerification->attempts >= 4){
+                            Log::channel("laravel")->info("Attempts happened in last 15 minutes");
+
+                            $user->update([
+                                'attempts_start_at' => now(),
+                                'attempts' => 0
+                            ]);
+
                             return back()->withErrors([
                                 'error' => 'Too many attempts, try again in a few minutes'
                             ]);
                         }
                         
-                        if($emailVerification->attempts >= 4){
-                            $user->update([
-                                'attempts_start_at' => now(),
-                                'attempts' => 0
-                            ]);
-                            return back()->withErrors([
-                                'Too many attempts, try again in a few minutes'
-                            ]);
-                        }
+                        Log::channel("laravel")->info("Attempts is less than or equal to 4");
 
-                        if($emailVerification->last_sent_at > now()->addSeconds(-3)){
+                        if($emailVerification->last_sent_at -> gt(now()->addSeconds(-3))){
                             return back()->withErrors([
                                 'Too many requests sent back to back to server, retry again'
                             ]);
                         }
+
+                        Log::channel("laravel")->info("Sending email  last sent at is good");
 
                         $verificationUpdatedRow = $emailVerification
                         ->update([
@@ -71,11 +77,14 @@ class OtpMailService{
                             'last_sent_at'=>now()
                         ]);
 
+                        Log::channel("laravel")-info("Updated row otp, expires at, last sent at");
+
                         if($verificationUpdatedRow == 1){
                             $verificationUpdatedNums = $emailVerification
                             ->update([
                                 'attempts' => $emailVerification->attempts + 1
                             ]);
+                            Log::info("Attmets has incrmeented");
                         }
 
                         session([
