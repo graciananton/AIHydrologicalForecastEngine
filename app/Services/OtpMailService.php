@@ -10,9 +10,15 @@ use App\Models\User;
 
 class OtpMailService{
     public function handleLogin(Request $request):string{
-        if($this->userExists($request->email)){
+        $user = $this->userExists($request->email);
+        if(!$user){
             if(Auth::check()){
-                redirect('/dashboard');
+                if($user->role == 'admin'){
+                    redirect('/dashboard');
+                }
+                else{
+                    redirect('/userAccount');
+                }
             }
             else{                
                 try{
@@ -60,7 +66,8 @@ class OtpMailService{
         else{
             try{
                 $user = User::create([
-                    'email' => $request->email
+                    'email' => $request->email,
+                    'role' => 'user'
                 ]);
 
                 $verification = EmailVerifications::create([
@@ -72,6 +79,10 @@ class OtpMailService{
                     'attempts' => 1,
                     'block_start_at' => null
                 ]);
+
+                Auth::login($user);
+                $request->session()->regenerate();
+                redirect('/dashboard');
             }
             catch(QueryException $e){
                 Log::channel("laravel")->error(
@@ -89,7 +100,7 @@ class OtpMailService{
     }   
     private function userExists(string $email):bool{
         $user = User::where('email',$email)->first();
-        return ($user) ? true:false;
+        return $user;
     }
     private function createOtp():int{
         return Hash::make(random_int(100000, 999999));
