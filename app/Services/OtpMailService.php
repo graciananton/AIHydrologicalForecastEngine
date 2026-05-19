@@ -41,37 +41,47 @@ class OtpMailService{
                 }
                 else{                
                     try{
-                        $verificationUpdatedNumsAtAttempts = User::where('email',$request->email)
-                        ->where('attempts_start_at', '>=', now()->addMinutes(-15))
-                        ->where('attempts', '>=', 4)
-                        ->update([
-                                'attempts_start_at' => now(),
-                                'attempts' => 0
-                        ]);
-
-                        if($verificationUpdatedNumsAtAttempts == 0){
-                            $verificationUpdatedRow = User::where('email',$request->email)
-                            ->where('last_sent_at','<=', now()->addSeconds(-3))
-                            ->update([
-                                'otp' => createOtp(),
-                                'expires_at' => now()->addMinutes(15),
-                                'last_sent_at'=>now()
-                            ]);
-
-                            if($verificationUpdatedRow == 1){
-                                $verificationUpdatedNums = User::where('email',$request->email)
-                                ->increment('attempts');
-                            }
-                            session([
-                                'email' => $request->email
-                            ]);
-                            return redirect('/verificationCode');
-                        }
-                        else{
+                        if($user->attempts_start_at >= now()->addMinutes(-15)){
                             return back()->withErrors([
                                 'error' => 'Too many attempts, try again in a few minutes'
                             ]);
                         }
+
+                        $attempts = User::where('email', $request->email)
+                        ->where('attempts','>=',4)->update([
+                            'attempts_start_at' => now(),
+                            'attempts' => 0
+                        ]);
+                        
+                        if($user->attempts >= 4){
+                            $user->update([
+                                'attempts_start_at' => now(),
+                                'attempts' => 0
+                            ]);
+                            return back()->withErrors([
+                                'Too many attempts, try again in a few minutes'
+                            ]);
+                        }
+
+                        $verificationUpdatedRow = User::where('email',$request->email)
+                        ->where('last_sent_at','<=', now()->addSeconds(-3))
+                        ->update([
+                            'otp' => createOtp(),
+                            'expires_at' => now()->addMinutes(15),
+                            'last_sent_at'=>now()
+                        ]);
+
+                        if($verificationUpdatedRow == 1){
+                            $verificationUpdatedNums = User::where('email',$request->email)
+                            ->increment('attempts');
+                        }
+
+                        session([
+                            'email' => $request->email
+                        ]);
+                        
+                        return redirect('/verificationCode');
+
                     }
                     catch(QueryException $e){
                         Log::channel("laravel")->error(
