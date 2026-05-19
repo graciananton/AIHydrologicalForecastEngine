@@ -17,9 +17,12 @@ class AuthController extends Controller
     public function loginSubmit(Request $request, OtpMailService $otpMailService){
         $otpMailService->handleLogin($request);
     }
-    public function verificationCode(){
+    public function verificationCode(OtpMailService $otpMailService){
         $email = session('email');
-        return view("auth.verificationCode", ['email' => $email]);
+        if($email){
+            $otpMailService->sendOtp($email);
+            return view("auth.verificationCode", ['email' => $email]);
+        }
     }
     public function create_token($request){        
         $user = Auth::user();

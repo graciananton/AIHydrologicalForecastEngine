@@ -7,12 +7,15 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\OtpMail;
 use App\Models\User;
+use App\Models\EmailVerifications;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Http\RedirectResponse;
 
 class OtpMailService{
     public function handleLogin(Request $request):RedirectResponse{
         $user = $this->userExists($request->email);
-        if($user){
+        if($user != null){
             if(Auth::check()){
                 if($user->role == 'admin'){
                     return redirect('/dashboard');
@@ -23,7 +26,7 @@ class OtpMailService{
             }
             else{                
                 try{
-                    $verificationUpdatedNumsAtAttempts = User::where('email',$email)
+                    $verificationUpdatedNumsAtAttempts = User::where('email',$request->email)
                     ->where('attempts_start_at', '>=', now()->addMinutes(-15))
                     ->where('attempts', '>=', 4)
                     ->update([
@@ -32,7 +35,7 @@ class OtpMailService{
                     ]);
 
                     if($verificationUpdatedNumsAtAttempts == 0){
-                        $verificationUpdatedRow = User::where('email',$email)
+                        $verificationUpdatedRow = User::where('email',$request->email)
                         ->where('last_sent_at','<=', now()->addSeconds(-3))
                         ->update([
                             'otp' => createOtp(),
@@ -41,9 +44,12 @@ class OtpMailService{
                         ]);
 
                         if($verificationUpdatedRow == 1){
-                            $verificationUpdatedNums = User::where('email',$email)
+                            $verificationUpdatedNums = User::where('email',$request->email)
                             ->increment('attempts');
                         }
+                        session([
+                            'email' => $request->email
+                        ]);
                         return redirect('/verificationCodes');
                     }
                     else{
@@ -83,6 +89,10 @@ class OtpMailService{
                     'attempts' => 1
                 ]);
 
+                session([
+                    'email' => $request->email
+                ]);
+
                 return redirect('/verificationCode');
             }
             catch(QueryException $e){
@@ -99,6 +109,9 @@ class OtpMailService{
             }
         }
     }  
+    public function sendOtp($email){
+        
+    }
     private function extract_name_from_email(string $email):string{
         $pattern = "/@/";
         $parts = preg_split($pattern, $email);
@@ -108,7 +121,7 @@ class OtpMailService{
         $user = User::where('email',$email)->first();
         return $user;
     }
-    private function createOtp():int{
+    private function createOtp():string{
         return Hash::make(random_int(100000, 999999));
     }
 }

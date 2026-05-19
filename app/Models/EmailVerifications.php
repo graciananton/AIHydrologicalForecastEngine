@@ -4,7 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class EmailVerification extends Model
+class EmailVerifications extends Model
 {
     protected $table = 'email_verifications';
     public $timestamps = true;
@@ -21,7 +21,7 @@ class EmailVerification extends Model
     protected $casts = [
         'email' => 'string',
         'otp' => 'string',
-        'expires_at' => 'datetime',
+        'expires_at' => 'timestamp',
         'attempts' => 'int',
         'attempts_start_at' => 'timestamp',
         'last_sent_at' => 'timestamp'

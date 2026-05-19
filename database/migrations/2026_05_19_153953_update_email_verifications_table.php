@@ -11,21 +11,23 @@ return new class extends Migration
      */
     public function up(): void
     {
-        $table->id();
+        Schema::create('email_verifications', function (Blueprint $table) {
+            $table->id();
 
-        $table->string('email')->index();
+            $table->string('email')->index();
 
-        $table->string('otp');
+            $table->string('otp');
 
-        $table->timestamp('expires_at');
+            $table->timestamp('expires_at');
 
-        $table->integer('attempts')->default(0);
+            $table->integer('attempts')->default(0);
 
-        $table->timestamp('attempts_start_at')->nullable();
+            $table->timestamp('attempts_start_at')->nullable();
 
-        $table->timestamp('last_sent_at')->nullable();
+            $table->timestamp('last_sent_at')->nullable();
 
-        $table->timestamps();
+            $table->timestamps();
+        });
     }
 
     /**
