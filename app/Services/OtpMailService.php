@@ -59,7 +59,7 @@ class OtpMailService{
                                 'error' => 'Too many attempts, try again in a few minutes'
                             ]);
                         }
-                        
+
                         Log::channel("laravel")->info("Attempts is less than or equal to 4");
 
                         if($emailVerification->last_sent_at -> gt(now()->addSeconds(-3))){
@@ -77,14 +77,14 @@ class OtpMailService{
                             'last_sent_at'=>now()
                         ]);
 
-                        Log::channel("laravel")-info("Updated row otp, expires at, last sent at");
+                        Log::channel("laravel")->info("Updated row otp, expires at, last sent at");
 
                         if($verificationUpdatedRow == 1){
                             $verificationUpdatedNums = $emailVerification
                             ->update([
                                 'attempts' => $emailVerification->attempts + 1
                             ]);
-                            Log::info("Attmets has incrmeented");
+                            Log::channel("laravel")->info("Attmets has incrmeented");
                         }
 
                         session([
