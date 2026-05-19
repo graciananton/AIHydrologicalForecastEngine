@@ -14,7 +14,7 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Validation\ValidationException;
 
 class OtpMailService{
-    public function validate_request(Request $request):?bool{
+    public function validateRequest(Request $request):?bool{
         try{
             $request->validate([
                 'email' => 'required|email:rfc,dns'
@@ -27,9 +27,10 @@ class OtpMailService{
         }
     }
     public function handleLogin(Request $request):RedirectResponse{
-        $response = validate_request($request);
+        $response = $this->validateRequest($request);
         if($response){
             $user = $this->userExists($request->email);
+            $emailVerification = $this->getEmailVerification($request->email);
             if($user != null){
                 if(Auth::check()){
                     if($user->role == 'admin'){
@@ -41,19 +42,13 @@ class OtpMailService{
                 }
                 else{                
                     try{
-                        if($user->attempts_start_at >= now()->addMinutes(-15)){
+                        if($emailVerification->attempts_start_at >= now()->addMinutes(-15)){
                             return back()->withErrors([
                                 'error' => 'Too many attempts, try again in a few minutes'
                             ]);
                         }
-
-                        $attempts = User::where('email', $request->email)
-                        ->where('attempts','>=',4)->update([
-                            'attempts_start_at' => now(),
-                            'attempts' => 0
-                        ]);
                         
-                        if($user->attempts >= 4){
+                        if($emailVerification->attempts >= 4){
                             $user->update([
                                 'attempts_start_at' => now(),
                                 'attempts' => 0
@@ -63,23 +58,30 @@ class OtpMailService{
                             ]);
                         }
 
-                        $verificationUpdatedRow = User::where('email',$request->email)
-                        ->where('last_sent_at','<=', now()->addSeconds(-3))
+                        if($emailVerification->last_sent_at > now()->addSeconds(-3)){
+                            return back()->withErrors([
+                                'Too many requests sent back to back to server, retry again'
+                            ]);
+                        }
+
+                        $verificationUpdatedRow = $emailVerification
                         ->update([
-                            'otp' => createOtp(),
+                            'otp' => $this->createOtp(),
                             'expires_at' => now()->addMinutes(15),
                             'last_sent_at'=>now()
                         ]);
 
                         if($verificationUpdatedRow == 1){
-                            $verificationUpdatedNums = User::where('email',$request->email)
-                            ->increment('attempts');
+                            $verificationUpdatedNums = $emailVerification
+                            ->update([
+                                'attempts' => $emailVerification->attempts + 1
+                            ]);
                         }
 
                         session([
                             'email' => $request->email
                         ]);
-                        
+
                         return redirect('/verificationCode');
 
                     }
@@ -161,9 +163,40 @@ class OtpMailService{
         $parts = preg_split($pattern, $email);
         return ucfirst($parts[0]);
     } 
-
+    private function getEmailVerification(string $email){
+        try{
+            $emailVerification = EmailVerifications::where('email',$email)->first();
+        }
+        catch(QueryException $e){
+            Log::channel("laravel")->error(
+                'Database query failed while creating retrieving email record.',
+                $e->getMessage()
+            );
+        }
+        catch(Exception $e){
+            Log::channel("laravel")->error(
+                'Unexpected error while retrieving email record.',
+                $e->getMessage()
+            );
+        }
+        return $emailVerification;
+    }
     private function userExists(string $email):?User{
-        $user = User::where('email',$email)->first();
+        try{
+            $user = User::where('email',$email)->first();
+        }
+        catch(QueryException $e){
+            Log::channel("laravel")->error(
+                'Database query failed while creating retrieving email record.',
+                $e->getMessage()
+            );
+        }
+        catch(Exception $e){
+            Log::channel("laravel")->error(
+                'Unexpected error while retrieving email record.',
+                $e->getMessage()
+            );
+        }
         return $user;
     }
     private function createOtp():string{
