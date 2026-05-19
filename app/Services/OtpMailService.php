@@ -34,6 +34,9 @@ class OtpMailService{
             $emailVerification = $this->getEmailVerification($request->email);
             if($user != null){
                 if(Auth::check()){
+                    session([
+                        'email' => $request->email
+                    ]);
                     if($user->role == 'admin'){
                         return redirect('/dashboard');
                     }
