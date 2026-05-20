@@ -180,13 +180,14 @@ class OtpMailService{
     }
     public function verifyOtp($request){
         $emailVerification = $this->getEmailVerification(session('email'));
-        
+        $user = userExists(session('email'));
         if(Hash::check($emailVerification->otp, $request->otp)){
-            if($emailVerification->role == 'user'){
-                
+            Auth::login($user);
+            if($user->role == 'user'){
+                return redirect("/dashboard");
             }
-            else if($emailVerification->role == 'user'){
-
+            else if($user->role == 'user'){
+                return redirect("/dashboard");
             }
         }
         else{
