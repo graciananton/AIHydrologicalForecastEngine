@@ -18,10 +18,11 @@ export default function VerificationCode({ data }){
     console.log(data);
     const [boxes, setBoxes] = useState(['','','','','','']);
     return (    
-        <form id='form' action='/laravel/public/verification_code_submit' method='POST'>
+        <form id='form' action='/laravel/public/verificationCodeSubmit' method='POST'>
             <div id='verification_page'>
                 <div id='verification_form'>
                         <input type="hidden" name="_token" value={document.querySelector('meta[name="csrf-token"]').getAttribute("content")}/>
+                        <input type='hidden' name='email' value={data.email} />
                         <div id='title'>Enter verification code</div>
                         <div id='explanation'>
                             A verification code has been sent to:

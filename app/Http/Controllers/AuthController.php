@@ -23,8 +23,8 @@ class AuthController extends Controller
         Log::channel("laravel")->info("Redirecting to verification code page - verificationCode");
         return view("auth.verificationCode");
     }
-    public function verificationCodeSubmit(){
-
+    public function verificationCodeSubmit(Request $request){
+        dd($request);
     }
     public function create_token($request){        
         $user = Auth::user();
