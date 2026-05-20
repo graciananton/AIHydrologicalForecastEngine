@@ -17,11 +17,14 @@ class AuthController extends Controller
     }
     public function loginSubmit(Request $request, OtpMailService $otpMailService){
         $result = $otpMailService->handleLogin($request);
-        if(property_exists($result,'error')){
+        if($result->success && !$result->loggedIn){
+            return redirect('/verificationCode');
+        }
+        else if(!$result->success){
             return redirect('/login')->with('error',$request->error);
         }
-        else{
-            return redirect('/verificationCode');
+        else if($result->success && $result->loggedIn){
+            return redirect('/dashboard');
         }
     }
     public function verificationCode():View{

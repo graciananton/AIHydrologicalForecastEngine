@@ -38,12 +38,13 @@ class OtpMailService{
                     session([
                         'email' => $request->email
                     ]);
-                    if($user->role == 'admin'){
-                        return (object) ['role'=>'admin'];
-                    }
-                    else{
-                        return (object) ['role'=>'user'];
-                    }
+
+                    return (object) [
+                        'success' => true,
+                        'error' => null,
+                        'loggedIn' => true,
+                        'role'=> $user->role
+                    ];
                 }
                 else{  
                     Log::channel("laravel")->info("account exists but not logged in");              
@@ -57,6 +58,9 @@ class OtpMailService{
                             Log::channel("laravel")->info("Attempts happened in last 15 minutes");
 
                             return (object)[
+                                'success' => false,
+                                'role' =>  $user->role,
+                                'loggedIn' => false,
                                 'error' => 'Too many attempts, try again in a few minutes'
                             ];
                         }
@@ -74,6 +78,9 @@ class OtpMailService{
 
                         if($emailVerification->last_sent_at -> gt(now()->addSeconds(-3))){
                             return (object) [
+                                'success' => false,
+                                'role' => $user->role,
+                                'loggedIn' => false,
                                 'error' => 'Too many requests sent back to back to server, retry again'
                             ];
                         }
@@ -104,8 +111,20 @@ class OtpMailService{
                         Log::channel("laravel")->info("before sending otp");
 
                         if(!$this->sendOtp($otp, $emailVerification)){
-                            return (object) ['error' => 'Could not send otp'];
+                            return (object) [
+                                'success' => false,
+                                'role' => $user->role,
+                                'loggedIn' => false,
+                                'error' => 'Could not send otp'
+                            ];
                         }
+                        
+                        return (object) [
+                            'success' => true,
+                            'role' => $user->role,
+                            'loggedIn' => false,
+                            'error' => null
+                        ];
                     }
                     catch(QueryException $e){
                         Log::channel("laravel")->error(
@@ -143,11 +162,19 @@ class OtpMailService{
                     ]);
 
                     if(!$this->sendOtp($otp, $emailVerification)){
-                        return (object) ['error' => 'Could not send otp'];
+                        return (object) [
+                            'success' => false,
+                            'role' => $user->role,
+                            'loggedIn' => false,
+                            'error' => 'Could not send otp'
+                        ];
                     }
 
                     return (object) [ 
-                        'role' => 'user'
+                        'success' => true,
+                        'error' => null,
+                        'loggedIn' => false,
+                        'role' => $user->role
                     ];
                 }
                 catch(QueryException $e){
@@ -165,7 +192,13 @@ class OtpMailService{
             }
         }
         else{
-            return (object) ['error' => "Incorrect email address"];
+            # assume user if invalid email address
+            return (object) [
+                'success' => false,
+                'role' => 'user',
+                'loggedIn' => false,
+                'error' => "Incorrect email address"
+            ];
         }
     }  
     // sendOtp needs to be updated in signature
