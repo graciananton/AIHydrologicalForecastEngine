@@ -22,7 +22,7 @@ Route::post('/loginSubmit',[AuthController::class,'loginSubmit']);
 
 Route::get('/verificationCode', function (OtpMailService $otpMailService) {
     $email = session('email');
-    if($otpMailService->sendOtp($email)){
+    if($email){
         return view('auth.verificationCode', [
             'email' => session('email')
         ]);
