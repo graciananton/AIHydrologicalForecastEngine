@@ -158,7 +158,7 @@ class OtpMailService{
             return back()->withErrors($response); 
         }
     }  
-    public function sendOtp($email){
+    public function sendOtp(string $email):?bool{
         try{
             $emailVerification = $this->getEmailVerification($email);
 
@@ -167,11 +167,12 @@ class OtpMailService{
                 return true;
             }
             else{
-                return redirect()
+                return false;
+               /* return redirect()
                 ->route('login')
                 ->withErrors([
                     'error' => 'Invalid email address.'
-                ]);
+                ]);*/
             }
         }
         catch(Exception $e){
@@ -179,6 +180,7 @@ class OtpMailService{
                 'Error when mailing otp to '.$email,
                 $e->getMessage()
             );
+            return false;
         }
     }
 

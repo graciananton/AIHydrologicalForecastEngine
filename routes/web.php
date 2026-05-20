@@ -26,7 +26,11 @@ Route::get('/verificationCode', function (OtpMailService $otpMailService) {
         ]);
     }
     else{
-        
+        return redirect()
+                ->route('login')
+                ->withErrors([
+                    'error' => 'Invalid email address.'
+                ]);
     }
 });
 
