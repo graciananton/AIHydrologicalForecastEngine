@@ -99,7 +99,9 @@ class OtpMailService{
                         session([
                             'email' => $request->email
                         ]);
-
+                        
+                        $this->sendOtp($emailVerification);
+                        
                         return redirect('http://localhost/laravel/public/verificationCode');
 
                     }
@@ -158,21 +160,14 @@ class OtpMailService{
             return back()->withErrors($response); 
         }
     }  
-    public function sendOtp(string $email):?bool{
+    public function sendOtp($emailVerification):?bool{
         try{
-            $emailVerification = $this->getEmailVerification($email);
-
             if($emailVerification != null){
                 Mail::to($email)->send(new OtpMail($emailVerification->otp));
                 return true;
             }
             else{
                 return false;
-               /* return redirect()
-                ->route('login')
-                ->withErrors([
-                    'error' => 'Invalid email address.'
-                ]);*/
             }
         }
         catch(Exception $e){
