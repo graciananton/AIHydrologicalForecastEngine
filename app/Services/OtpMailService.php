@@ -28,7 +28,6 @@ class OtpMailService{
     }
     public function handleLogin(Request $request):RedirectResponse{
         $response = $this->validateRequest($request);
-        Log::channel("laravel")->info("Handling login");
         if($response){
             $user = $this->userExists($request->email);
             $emailVerification = $this->getEmailVerification($request->email);
