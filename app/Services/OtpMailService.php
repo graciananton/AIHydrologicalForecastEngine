@@ -127,7 +127,7 @@ class OtpMailService{
                         'role' => 'user'
                     ]);
 
-                    $verification = EmailVerifications::create([
+                    $emailVerification = EmailVerifications::create([
                         'otp' => $this->createOtp(),
                         'email' => $request->email,
                         'expires_at' => now()->addMinutes(15),
