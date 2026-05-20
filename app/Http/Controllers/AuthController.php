@@ -7,27 +7,21 @@ use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 use App\Services\OtpMailService;
+use Illuminate\View\View;
 
 class AuthController extends Controller
 {
     private OtpMailService $otpMailService;
-    public function login(){
+    public function login():View{
         return view("auth.login");
     }
-    public function loginSubmit(Request $request, OtpMailService $otpMailService){
+    public function loginSubmit(Request $request, OtpMailService $otpMailService):void{
         $otpMailService->handleLogin($request);
     }
-    public function verificationCode(OtpMailService $otpMailService){
+    public function verificationCode():View{
         Log::channel("laravel")->info("Redirecting to verification code page - verificationCode");
-        /*$email = session('email');
-
-        if($email){
-            return view("auth.verificationCode");
-            $otpMailService->sendOtp($email);
-            Log::channel("laravel")->info("Sending otp in otpmailservice");
-            #return view("auth.verificationCode", ['email' => $email]);
-            return view("auth.verificationCode");
-        }*/
+        $email = session('email');
+        return view("auth.verificationCode");
     }
     public function create_token($request){        
         $user = Auth::user();
