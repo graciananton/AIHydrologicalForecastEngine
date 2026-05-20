@@ -23,7 +23,6 @@ class AuthController extends Controller
 
         if($email){
             return view("auth.verificationCode");
-
             $otpMailService->sendOtp($email);
             Log::channel("laravel")->info("Sending otp in otpmailservice");
             #return view("auth.verificationCode", ['email' => $email]);

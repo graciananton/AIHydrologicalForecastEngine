@@ -19,7 +19,11 @@ Route::get('login', [AuthController::class,'login'])->name('login');
 
 Route::post('/loginSubmit',[AuthController::class,'loginSubmit']);
 
-Route::get('/verificationCode',[AuthController::class,'verificationCode']);
+Route::get('/verificationCode', function () {
+    return view('auth.verificationCode', [
+        'email' => session('email')
+    ]);
+});
 
 Route::post('/verification_code_submit',[AuthController::class,'verification_code_submit']);
 
