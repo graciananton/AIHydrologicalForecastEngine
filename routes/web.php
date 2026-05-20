@@ -20,10 +20,14 @@ Route::get('login', [AuthController::class,'login'])->name('login');
 Route::post('/loginSubmit',[AuthController::class,'loginSubmit']);
 
 Route::get('/verificationCode', function (OtpMailService $otpMailService) {
-    $otpMailService->sendOtp($email);
-    return view('auth.verificationCode', [
-        'email' => session('email')
-    ]);
+    if($otpMailService->sendOtp($email)){
+        return view('auth.verificationCode', [
+            'email' => session('email')
+        ]);
+    }
+    else{
+        
+    }
 });
 
 Route::post('/verification_code_submit',[AuthController::class,'verification_code_submit']);
