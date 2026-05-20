@@ -19,7 +19,8 @@ Route::get('login', [AuthController::class,'login'])->name('login');
 
 Route::post('/loginSubmit',[AuthController::class,'loginSubmit']);
 
-Route::get('/verificationCode', function () {
+Route::get('/verificationCode', function (OtpMailService $otpMailService) {
+    $otpMailService->sendOtp($email);
     return view('auth.verificationCode', [
         'email' => session('email')
     ]);
