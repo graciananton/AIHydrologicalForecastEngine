@@ -104,7 +104,7 @@ class OtpMailService{
                         Log::channel("laravel")->info("before sending otp");
 
                         if(!$this->sendOtp($otp, $emailVerification)){
-                            return ['error' => 'Could not send otp'];
+                            return (object) ['error' => 'Could not send otp'];
                         }
                     }
                     catch(QueryException $e){
@@ -143,7 +143,7 @@ class OtpMailService{
                     ]);
 
                     if(!$this->sendOtp($otp, $emailVerification)){
-                        return ['error' => 'Could not send otp'];
+                        return (object) ['error' => 'Could not send otp'];
                     }
 
                     return (object) [ 
@@ -165,7 +165,7 @@ class OtpMailService{
             }
         }
         else{
-            return back()->withErrors($response); 
+            return (object) ['error' => "Incorrect email address"];
         }
     }  
     // sendOtp needs to be updated in signature
@@ -196,13 +196,11 @@ class OtpMailService{
         Log::channel("laravel")->info("Otp: ". $request->otp);
 
         if(Hash::check($request->otp, $emailVerification->otp)){        
-            Log::channel("laravel")->info("Verified Otp");
             Auth::login($user);
-            return ($user->role == 'user') ? 'user':'admin';
+            return (object) ['success' => true, 'role' => $user->role, 'user' => $user];
         }
         else{
-            Log::channel("laravel")->info("Unverified Otp");
-            return 'unchecked';
+            return (object) ['success' => false, 'role' => $user->role, 'user' => $user];
         }
     }
     public function joinOtp(Request $request){
@@ -210,14 +208,11 @@ class OtpMailService{
         $otpSubmit = array();
         
         $otp = "";
-        Log::channel("laravel")->info("Before foreach loop");
         foreach($request->all() as $property => $value){
             if(preg_match($pattern, $property)){
-                Log::channel("laravel")->info($property);
                 $otp .= trim($value);
             }
         }
-        Log::channel("laravel")->info("Join otp: ".$otp);
         $otpSubmit['otp'] = $otp;
         return (object) $otpSubmit;
     }

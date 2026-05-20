@@ -16,27 +16,25 @@ class AuthController extends Controller
         return view("auth.login");
     }
     public function loginSubmit(Request $request, OtpMailService $otpMailService){
-        $otpMailService->handleLogin($request);
-
-
-        
-        return redirect("http://localhost/laravel/public/verificationCode");
+        $result = $otpMailService->handleLogin($request);
+        if(property_exists($result,'error')){
+            return redirect('/login')->with('error',$request->error);
+        }
+        else{
+            return redirect('/verificationCode');
+        }
     }
     public function verificationCode():View{
-        Log::channel("laravel")->info("Redirecting to verification code page - verificationCode");
         return view("auth.verificationCode");
     }
     public function verificationCodeSubmit(Request $request, OtpMailService $otpMailService){
         $otpSubmit = $otpMailService->joinOtp($request);
         $result = $otpMailService->verifyOtp($otpSubmit);
-        if($result == 'user'){
-            return redirect("http://localhost/laravel/public/dashboard");
-        }
-        else if($result == 'admin'){
-            return redirect("http://localhost/laravel/public/dashboard");  
+        if($result->success){
+            return redirect('/dashboard');
         }
         else{
-            return redirect("http://localhost/laravel/public/login");
+            return redirect('/verificationCode')->with('error', 'Incorrect verification code entered.');
         }
     }
     public function create_token($request){        
