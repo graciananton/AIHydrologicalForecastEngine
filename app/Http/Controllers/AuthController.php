@@ -31,7 +31,17 @@ class AuthController extends Controller
         Log::channel("laravel")->info($request->box4);
         Log::channel("laravel")->info($request->box5);
         Log::channel("laravel")->info($request->box6);
+        $otpMailService->joinOtp($request);
 
+        $otpMailService->verifyOtp(
+            $request->email, 
+            $request->box1, 
+            $request->box2, 
+            $request->box3, 
+            $request->box4, 
+            $request->box5, 
+            $request->box6
+        );
     }
     public function create_token($request){        
         $user = Auth::user();

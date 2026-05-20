@@ -175,7 +175,21 @@ class OtpMailService{
             return false;
         }
     }
+    public function verifyOtp(){
 
+    }
+    public function joinOtp(Request $request){
+        $pattern = "/box/";
+        $boxKeyValue = array();
+        foreach($request as $property => $value){
+            if(preg_match($pattern, $property)){
+                $boxKeyValue[$property] = $value;
+            }
+        }
+        $boxKeyValue['email'] = $request->email;
+
+        return (object) $boxKeyValue;
+    }
     private function extract_name_from_email(string $email):string{
         $pattern = "/@/";
         $parts = preg_split($pattern, $email);
