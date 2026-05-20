@@ -100,6 +100,7 @@ class OtpMailService{
                         ]);
                         
                         $this->sendOtp($emailVerification);
+                        Log::channel("laravel")->info("Before redirecting to /verificationCode");
                         
                         return redirect('http://localhost/laravel/public/verificationCode');
 
@@ -165,16 +166,16 @@ class OtpMailService{
     public function sendOtp($emailVerification):?bool{
         try{
             if($emailVerification != null){
-                Mail::to($email)->send(new OtpMail($emailVerification->otp));
+                Mail::to($emailVerification->email)->send(new OtpMail($emailVerification->otp));
                 return true;
             }
             else{
-                return false;
+                return redirect('/login',['errors' => 'Could not send otp, try again']);
             }
         }
         catch(Exception $e){
             Log::channel("laravel")->error(
-                'Error when mailing otp to '.$email,
+                'Error when mailing otp to '.$emailVerification->email,
                 $e->getMessage()
             );
             return false;
