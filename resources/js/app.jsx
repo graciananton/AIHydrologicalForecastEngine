@@ -23,7 +23,7 @@ export default function App() {
     {req == "login" && <Login data={data} />}
     {req == "home" && <Home />}
     {req == "dashboard" && <Dashboard />}
-    {req == "verification_code" && <VerificationCode data={data}/>}
+    {req == "verificationCode" && <VerificationCode data={data}/>}
     </>
   );
 }
