@@ -180,18 +180,26 @@ class OtpMailService{
     }
     public function verifyOtp($request){
         $emailVerification = $this->getEmailVerification(session('email'));
-        $user = userExists(session('email'));
-        if(Hash::check($emailVerification->otp, $request->otp)){
+        $user = $this->userExists(session('email'));
+
+        Log::channel("laravel")->info("Verifying Otp");
+        Log::channel("Email Verification OTP: ". $emailVerification->otp);
+        Log::channel("Otp: ". $request->otp);
+
+        if(Hash::check($emailVerification->otp, $request->otp)){        
+            Log::channel("laravel")->info("Verified Otp");
             Auth::login($user);
             if($user->role == 'user'){
+                Log::channel("laravel")->info("User role ". $user->role);
                 return redirect("/dashboard");
             }
-            else if($user->role == 'user'){
+            else if($user->role == 'admin'){
+                Log::channel("laravel")->info("Admin role ". $user->role);
                 return redirect("/dashboard");
             }
         }
         else{
-            return false;
+            return redirect('/login');
         }
     }
     public function joinOtp(Request $request){

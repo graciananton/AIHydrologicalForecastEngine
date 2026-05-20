@@ -25,6 +25,7 @@ class AuthController extends Controller
     }
     public function verificationCodeSubmit(Request $request, OtpMailService $otpMailService){
         $otpSubmit = $otpMailService->joinOtp($request);
+        Log::channel("laravel")->info("Otp Submit ".$otpSubmit->otp);
         $otpMailService->verifyOtp($otpSubmit);
     }
     public function create_token($request){        
