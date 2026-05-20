@@ -181,11 +181,15 @@ class OtpMailService{
     public function joinOtp(Request $request){
         $pattern = "/box/";
         $boxKeyValue = array();
+        
+        $otp = "";
         foreach($request as $property => $value){
             if(preg_match($pattern, $property)){
-                $boxKeyValue[$property] = $value;
+                $otp .= $request->{$property};
             }
         }
+        
+        $boxKeyValue['otp'] = $otp;
         $boxKeyValue['email'] = $request->email;
 
         return (object) $boxKeyValue;
