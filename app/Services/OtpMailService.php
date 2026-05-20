@@ -26,7 +26,7 @@ class OtpMailService{
             return $e->errors;
         }
     }
-    public function handleLogin(Request $request):RedirectResponse{
+    public function handleLogin(Request $request){
         $response = $this->validateRequest($request);
         if($response){
             $user = $this->userExists($request->email);
@@ -138,9 +138,6 @@ class OtpMailService{
                     ]);
 
                     $this->sendOtp($emailVerification);
-                        
-                    return redirect('http://localhost/laravel/public/verificationCode');
-
                 }
                 catch(QueryException $e){
                     Log::channel("laravel")->error(

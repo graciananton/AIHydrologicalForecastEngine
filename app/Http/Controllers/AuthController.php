@@ -15,9 +15,9 @@ class AuthController extends Controller
     public function login():View{
         return view("auth.login");
     }
-    public function loginSubmit(Request $request, OtpMailService $otpMailService):void{
+    public function loginSubmit(Request $request, OtpMailService $otpMailService){
         $otpMailService->handleLogin($request);
-        redirect("http://localhost/laravel/public/verificationCode");
+        return redirect("http://localhost/laravel/public/verificationCode");
     }
     public function verificationCode():View{
         Log::channel("laravel")->info("Redirecting to verification code page - verificationCode");
