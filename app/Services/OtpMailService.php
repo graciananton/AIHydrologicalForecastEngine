@@ -161,8 +161,10 @@ class OtpMailService{
     public function sendOtp($email){
         try{
             $emailVerification = $this->getEmailVerification($email);
+
             if($emailVerification != null){
                 Mail::to($email)->send(new OtpMail($emailVerification->otp));
+                Log::channel("laravel")->info("Finished mailing");
             }
             else{
                 return redirect()
