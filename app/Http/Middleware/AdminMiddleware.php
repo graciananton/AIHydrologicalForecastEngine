@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Auth;
 use Closure;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Illuminate\Support\Facades\Log;
 
 class AdminMiddleware
 {
@@ -16,6 +17,8 @@ class AdminMiddleware
      */
     public function handle(Request $request, Closure $next): Response
     {
+        Log::channel("laravel")->info("handle method in AdminMiddleware");
+        Log::channel("laravel")->info(Auth::user()->role);
         if (!Auth::check()) {
             return redirect()->route('login');
         }
