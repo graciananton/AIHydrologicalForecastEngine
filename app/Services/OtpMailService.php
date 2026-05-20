@@ -185,7 +185,9 @@ class OtpMailService{
             if($emailVerification->role == 'user'){
                 
             }
-            return true;
+            else if($emailVerification->role == 'user'){
+
+            }
         }
         else{
             return false;
