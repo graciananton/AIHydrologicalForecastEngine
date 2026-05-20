@@ -22,25 +22,6 @@ Route::post('/loginSubmit',[AuthController::class,'loginSubmit']);
 
 Route::get('/verificationCode', [AuthController::class,'verificationCode']);
 
-/*
-Route::get('/verificationCode', function () {
-    Log::channel("laravel")->info("Before redirecting to /verificationCode");
-
-    $email = session('email');
-    Log::channel("laravel")->info("Email: $email");
-
-    if($email){
-        return view('auth.verificationCode');
-    }
-    else{
-        return redirect()
-                ->route('login')
-                ->withErrors([
-                    'error' => 'Invalid email address.'
-                ]);
-    }
-});
-*/
 
 Route::post('/verification_code_submit',[AuthController::class,'verification_code_submit']);
 
