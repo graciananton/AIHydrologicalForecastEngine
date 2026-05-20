@@ -17,11 +17,14 @@ class AuthController extends Controller
     }
     public function loginSubmit(Request $request, OtpMailService $otpMailService):void{
         $otpMailService->handleLogin($request);
+        redirect("http://localhost/laravel/public/verificationCode");
     }
     public function verificationCode():View{
         Log::channel("laravel")->info("Redirecting to verification code page - verificationCode");
-        //$email = session('email');
         return view("auth.verificationCode");
+    }
+    public function verificationCodeSubmit(){
+
     }
     public function create_token($request){        
         $user = Auth::user();
