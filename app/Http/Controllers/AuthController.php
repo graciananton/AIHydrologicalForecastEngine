@@ -18,6 +18,7 @@ class AuthController extends Controller
     public function loginSubmit(Request $request, OtpMailService $otpMailService){
         $result = $otpMailService->handleLogin($request);
         if($result->success && !$result->loggedIn){
+            Log::channel("laravel")->info("Not logged in but result is true");
             return redirect('/verificationCode');
         }
         else if(!$result->success){

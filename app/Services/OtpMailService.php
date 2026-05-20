@@ -118,7 +118,8 @@ class OtpMailService{
                                 'error' => 'Could not send otp'
                             ];
                         }
-                        
+                        Log::channel("laravel")->info("Sent OTP");
+
                         return (object) [
                             'success' => true,
                             'role' => $user->role,
@@ -161,7 +162,9 @@ class OtpMailService{
                         'email' => $request->email
                     ]);
 
-                    if(!$this->sendOtp($otp, $emailVerification)){
+                    $result = $this->sendOtp($otp, $emailVerification);
+                    
+                    if(!$result){
                         return (object) [
                             'success' => false,
                             'role' => $user->role,
@@ -205,6 +208,7 @@ class OtpMailService{
     public function sendOtp($otp, $emailVerification):?bool{
         try{
             if($emailVerification != null){
+                Log::channel("laravel")->info("Sending OTP address");
                 Mail::to($emailVerification->email)->send(new OtpMail($otp));
                 return true;
             }
