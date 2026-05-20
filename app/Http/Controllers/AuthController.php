@@ -23,7 +23,7 @@ class AuthController extends Controller
         Log::channel("laravel")->info("Redirecting to verification code page - verificationCode");
         return view("auth.verificationCode");
     }
-    public function verificationCodeSubmit(Request $request){
+    public function verificationCodeSubmit(Request $request, OtpMailService $otpMailService){
         $otpSubmit = $otpMailService->joinOtp($request);
         $otpMailService->verifyOtp($otpSubmit);
     }

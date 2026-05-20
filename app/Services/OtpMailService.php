@@ -31,6 +31,7 @@ class OtpMailService{
         if($response){
             $user = $this->userExists($request->email);
             $emailVerification = $this->getEmailVerification($request->email);
+            $otp = $this->createOtp();
             if($user != null){
                 if(Auth::check()){
                     session([
@@ -80,7 +81,7 @@ class OtpMailService{
 
                         $verificationUpdatedRow = $emailVerification
                         ->update([
-                            'otp' => $this->createOtp(),
+                            'otp' => $this->hashOtp($otp),
                             'expires_at' => now()->addMinutes(15),
                             'last_sent_at'=>now()
                         ]);
@@ -98,9 +99,10 @@ class OtpMailService{
                         session([
                             'email' => $request->email
                         ]);
-                        
-                        $this->sendOtp($emailVerification);
-                        Log::channel("laravel")->info("Before redirecting to /verificationCode");
+
+                        Log::channel("laravel")->info("before sending otp");
+
+                        $this->sendOtp($otp, $emailVerification);
                     }
                     catch(QueryException $e){
                         Log::channel("laravel")->error(
@@ -125,7 +127,7 @@ class OtpMailService{
                     ]);
 
                     $emailVerification = EmailVerifications::create([
-                        'otp' => $this->createOtp(),
+                        'otp' => $this->hashOtp($otp),
                         'email' => $request->email,
                         'expires_at' => now()->addMinutes(15),
                         'last_sent_at' => now(),
@@ -137,7 +139,7 @@ class OtpMailService{
                         'email' => $request->email
                     ]);
 
-                    $this->sendOtp($emailVerification);
+                    $this->sendOtp($otp, $emailVerification);
                 }
                 catch(QueryException $e){
                     Log::channel("laravel")->error(
@@ -157,10 +159,11 @@ class OtpMailService{
             return back()->withErrors($response); 
         }
     }  
-    public function sendOtp($emailVerification):?bool{
+    // sendOtp needs to be updated in signature
+    public function sendOtp($otp, $emailVerification):?bool{
         try{
             if($emailVerification != null){
-                Mail::to($emailVerification->email)->send(new OtpMail($emailVerification->otp));
+                Mail::to($emailVerification->email)->send(new OtpMail($otp));
                 return true;
             }
             else{
@@ -179,6 +182,9 @@ class OtpMailService{
         $emailVerification = $this->getEmailVerification(session('email'));
         
         if(Hash::check($emailVerification->otp, $request->otp)){
+            if($emailVerification->role == 'user'){
+                
+            }
             return true;
         }
         else{
@@ -197,7 +203,7 @@ class OtpMailService{
         }
 
         $otpSubmit['otp'] = $otp;
-        return (object) $boxKeyValue;
+        return (object) $otpSubmit;
     }
     private function extract_name_from_email(string $email):string{
         $pattern = "/@/";
