@@ -39,10 +39,10 @@ class OtpMailService{
                         'email' => $request->email
                     ]);
                     if($user->role == 'admin'){
-                        return redirect('/dashboard');
+                        return (object) ['role'=>'admin'];
                     }
                     else{
-                        return redirect('/dashboard');
+                        return (object) ['role'=>'user'];
                     }
                 }
                 else{  
@@ -56,9 +56,9 @@ class OtpMailService{
                           ){
                             Log::channel("laravel")->info("Attempts happened in last 15 minutes");
 
-                            return back()->withErrors([
+                            return (object)[
                                 'error' => 'Too many attempts, try again in a few minutes'
-                            ]);
+                            ];
                         }
 
                         if($emailVerification->attempts_start_at->lt(now()->addMinutes(-15))){
@@ -73,9 +73,9 @@ class OtpMailService{
                         Log::channel("laravel")->info("Attempts is less than or equal to 4");
 
                         if($emailVerification->last_sent_at -> gt(now()->addSeconds(-3))){
-                            return back()->withErrors([
-                                'Too many requests sent back to back to server, retry again'
-                            ]);
+                            return (object) [
+                                'error' => 'Too many requests sent back to back to server, retry again'
+                            ];
                         }
 
                         Log::channel("laravel")->info("Sending email  last sent at is good");
@@ -103,7 +103,9 @@ class OtpMailService{
 
                         Log::channel("laravel")->info("before sending otp");
 
-                        $this->sendOtp($otp, $emailVerification);
+                        if(!$this->sendOtp($otp, $emailVerification)){
+                            return ['error' => 'Could not send otp'];
+                        }
                     }
                     catch(QueryException $e){
                         Log::channel("laravel")->error(
@@ -140,7 +142,13 @@ class OtpMailService{
                         'email' => $request->email
                     ]);
 
-                    $this->sendOtp($otp, $emailVerification);
+                    if(!$this->sendOtp($otp, $emailVerification)){
+                        return ['error' => 'Could not send otp'];
+                    }
+
+                    return (object) [ 
+                        'role' => 'user'
+                    ];
                 }
                 catch(QueryException $e){
                     Log::channel("laravel")->error(
@@ -168,7 +176,7 @@ class OtpMailService{
                 return true;
             }
             else{
-                return redirect('/login', ['errors' => 'Could not send otp, try again']);
+                return false;
             }
         }
         catch(Exception $e){
