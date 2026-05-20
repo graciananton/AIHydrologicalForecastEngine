@@ -24,24 +24,9 @@ class AuthController extends Controller
         return view("auth.verificationCode");
     }
     public function verificationCodeSubmit(Request $request){
-        Log::channel("laravel")->info($request->email);
-        Log::channel("laravel")->info($request->box1);
-        Log::channel("laravel")->info($request->box2);
-        Log::channel("laravel")->info($request->box3);
-        Log::channel("laravel")->info($request->box4);
-        Log::channel("laravel")->info($request->box5);
-        Log::channel("laravel")->info($request->box6);
-        $otpMailService->joinOtp($request);
+        $otpSubmit = $otpMailService->joinOtp($request);
 
-        $otpMailService->verifyOtp(
-            $request->email, 
-            $request->box1, 
-            $request->box2, 
-            $request->box3, 
-            $request->box4, 
-            $request->box5, 
-            $request->box6
-        );
+        $otpMailService->verifyOtp($otpSubmit);
     }
     public function create_token($request){        
         $user = Auth::user();
