@@ -100,7 +100,7 @@ class OtpMailService{
                             'email' => $request->email
                         ]);
 
-                        return redirect('/verificationCode');
+                        return redirect('http://localhost/laravel/public/verificationCode');
 
                     }
                     catch(QueryException $e){

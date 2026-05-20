@@ -7,6 +7,7 @@ use App\Http\Controllers\ReadingsController;
 use App\Http\Controllers\WorkflowController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\DashboardController;
+use App\Services\OtpMailService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 
@@ -20,6 +21,7 @@ Route::get('login', [AuthController::class,'login'])->name('login');
 Route::post('/loginSubmit',[AuthController::class,'loginSubmit']);
 
 Route::get('/verificationCode', function (OtpMailService $otpMailService) {
+    $email = session('email');
     if($otpMailService->sendOtp($email)){
         return view('auth.verificationCode', [
             'email' => session('email')
