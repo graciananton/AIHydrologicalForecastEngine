@@ -22,9 +22,12 @@ class AuthController extends Controller
         Log::channel("laravel")->info("Redirecting to verification code page");
 
         if($email){
+            return view("auth.verificationCode");
+
             $otpMailService->sendOtp($email);
             Log::channel("laravel")->info("Sending otp in otpmailservice");
-            return view("auth.verificationCode", ['email' => $email]);
+            #return view("auth.verificationCode", ['email' => $email]);
+            return view("auth.verificationCode");
         }
     }
     public function create_token($request){        

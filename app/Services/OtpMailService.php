@@ -163,6 +163,7 @@ class OtpMailService{
             $emailVerification = $this->getEmailVerification($email);
 
             if($emailVerification != null){
+                return view("auth.verificationCode");
                 Mail::to($email)->send(new OtpMail($emailVerification->otp));
                 Log::channel("laravel")->info("Finished mailing");
             }
