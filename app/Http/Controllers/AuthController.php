@@ -24,7 +24,6 @@ class AuthController extends Controller
         return view("auth.verificationCode");
     }
     public function verificationCodeSubmit(Request $request){
-        dd($request);
     }
     public function create_token($request){        
         $user = Auth::user();
