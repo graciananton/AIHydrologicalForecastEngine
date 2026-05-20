@@ -50,7 +50,9 @@ class OtpMailService{
                         Log::channel("laravel")->info("trying account");
                         Log::channel("laravel")->info($emailVerification->attempts_start_at);
 
-                        if($emailVerification->attempts_start_at->gte(now()->addMinutes(-15)) && $emailVerification->attempts >= 4){
+                        if(
+                            ($emailVerification->attempts_start_at->gte(now()->addMinutes(-15)) && $emailVerification->attempts >= 4)
+                            || $emailVerification->attempts_start_at->lt(now()->addMinutes(-15))){
                             Log::channel("laravel")->info("Attempts happened in last 15 minutes");
 
                             $user->update([
@@ -159,7 +161,11 @@ class OtpMailService{
                 Mail::to($email)->send(new OtpMail($user->otp));
             }
             else{
-                // have some way to catch this error by sending redirect error back
+                return redirect()
+                ->route('login')
+                ->withErrors([
+                    'error' => 'Invalid email address.'
+                ]);
             }
         }
         catch(Exception $e){
