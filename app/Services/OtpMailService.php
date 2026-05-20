@@ -34,6 +34,7 @@ class OtpMailService{
             $otp = $this->createOtp();
             if($user != null){
                 if(Auth::check()){
+                    Log::channel('laravel')->info("Logged in successfully");
                     session([
                         'email' => $request->email
                     ]);
@@ -189,17 +190,11 @@ class OtpMailService{
         if(Hash::check($request->otp, $emailVerification->otp)){        
             Log::channel("laravel")->info("Verified Otp");
             Auth::login($user);
-            if($user->role == 'user'){
-                Log::channel("laravel")->info("User role ". $user->role);
-                return redirect("/login");
-            }
-            else if($user->role == 'admin'){
-                Log::channel("laravel")->info("Admin role ". $user->role);
-                return redirect("/dashboard");
-            }
+            return ($user->role == 'user') ? 'user':'admin';
         }
         else{
-            return redirect('/login');
+            Log::channel("laravel")->info("Unverified Otp");
+            return 'unchecked';
         }
     }
     public function joinOtp(Request $request){

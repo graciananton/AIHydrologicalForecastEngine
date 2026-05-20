@@ -26,7 +26,7 @@ export default function VerificationCode({ data }){
                         <div id='explanation'>
                             A verification code has been sent to:
                             <br/>
-                                {data[0].email}
+                            {data[0].email}
                         </div>
                         <div id='boxes'>
                             {

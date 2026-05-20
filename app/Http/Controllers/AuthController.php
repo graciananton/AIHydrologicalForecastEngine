@@ -25,7 +25,16 @@ class AuthController extends Controller
     }
     public function verificationCodeSubmit(Request $request, OtpMailService $otpMailService){
         $otpSubmit = $otpMailService->joinOtp($request);
-        $otpMailService->verifyOtp($otpSubmit);
+        $result = $otpMailService->verifyOtp($otpSubmit);
+        if($result == 'user'){
+            return redirect("http://localhost/laravel/public/dashboard");
+        }
+        else if($result == 'admin'){
+            return redirect("http://localhost/laravel/public/dashboard");  
+        }
+        else{
+            return redirect("http://localhost/laravel/public/login");
+        }
     }
     public function create_token($request){        
         $user = Auth::user();
