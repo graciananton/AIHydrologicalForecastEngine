@@ -240,7 +240,10 @@ class OtpMailService{
         }
         return $user;
     }
-    private function createOtp():string{
-        return Hash::make(random_int(100000, 999999));
+    private function createOtp():int{
+        return random_int(100000, 999999);
+    }
+    private function hashOtp($otp):string{
+        return Hash::make($otp);
     }
 }
