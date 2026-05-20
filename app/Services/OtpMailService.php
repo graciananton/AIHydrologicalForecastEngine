@@ -41,7 +41,7 @@ class OtpMailService{
                         return redirect('/dashboard');
                     }
                     else{
-                        return redirect('/userAccount');
+                        return redirect('/dashboard');
                     }
                 }
                 else{  
@@ -183,15 +183,15 @@ class OtpMailService{
         $user = $this->userExists(session('email'));
 
         Log::channel("laravel")->info("Verifying Otp");
-        Log::channel("Email Verification OTP: ". $emailVerification->otp);
-        Log::channel("Otp: ". $request->otp);
+        Log::channel("laravel")->info("Email Verification OTP: ". $emailVerification->otp);
+        Log::channel("laravel")->info("Otp: ". $request->otp);
 
-        if(Hash::check($emailVerification->otp, $request->otp)){        
+        if(Hash::check($request->otp, $emailVerification->otp)){        
             Log::channel("laravel")->info("Verified Otp");
             Auth::login($user);
             if($user->role == 'user'){
                 Log::channel("laravel")->info("User role ". $user->role);
-                return redirect("/dashboard");
+                return redirect("/login");
             }
             else if($user->role == 'admin'){
                 Log::channel("laravel")->info("Admin role ". $user->role);
@@ -207,12 +207,14 @@ class OtpMailService{
         $otpSubmit = array();
         
         $otp = "";
-        foreach($request as $property => $value){
+        Log::channel("laravel")->info("Before foreach loop");
+        foreach($request->all() as $property => $value){
             if(preg_match($pattern, $property)){
-                $otp .= $request->{$property};
+                Log::channel("laravel")->info($property);
+                $otp .= trim($value);
             }
         }
-
+        Log::channel("laravel")->info("Join otp: ".$otp);
         $otpSubmit['otp'] = $otp;
         return (object) $otpSubmit;
     }
