@@ -175,12 +175,19 @@ class OtpMailService{
             return false;
         }
     }
-    public function verifyOtp(){
-
+    public function verifyOtp($request){
+        $emailVerification = $this->getEmailVerification(session('email'));
+        
+        if(Hash::check($emailVerification->otp, $request->otp)){
+            return true;
+        }
+        else{
+            return false;
+        }
     }
     public function joinOtp(Request $request){
         $pattern = "/box/";
-        $boxKeyValue = array();
+        $otpSubmit = array();
         
         $otp = "";
         foreach($request as $property => $value){
@@ -188,10 +195,8 @@ class OtpMailService{
                 $otp .= $request->{$property};
             }
         }
-        
-        $boxKeyValue['otp'] = $otp;
-        $boxKeyValue['email'] = $request->email;
 
+        $otpSubmit['otp'] = $otp;
         return (object) $boxKeyValue;
     }
     private function extract_name_from_email(string $email):string{

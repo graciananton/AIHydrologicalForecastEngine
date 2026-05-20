@@ -25,7 +25,6 @@ class AuthController extends Controller
     }
     public function verificationCodeSubmit(Request $request){
         $otpSubmit = $otpMailService->joinOtp($request);
-
         $otpMailService->verifyOtp($otpSubmit);
     }
     public function create_token($request){        
