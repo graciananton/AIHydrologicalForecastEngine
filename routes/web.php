@@ -7,6 +7,7 @@ use App\Http\Controllers\ReadingsController;
 use App\Http\Controllers\WorkflowController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\UserStationController;
 use App\Services\OtpMailService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
@@ -24,7 +25,13 @@ Route::get('/verificationCode', [AuthController::class,'verificationCode']);
 
 Route::post('/verificationCodeSubmit',[AuthController::class,'verificationCodeSubmit']);
 
+
+
 Route::get('/dashboard', [DashboardController::class, 'process'])->middleware('auth','admin');
+
+Route::get('/userStation', [UserStationController::class,'process'])->middleware('auth');
+
+
 
 Route::get('/status', [StatusController::class, 'process'])->middleware('auth');
 

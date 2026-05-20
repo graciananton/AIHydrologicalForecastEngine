@@ -24,7 +24,12 @@ class AuthController extends Controller
             return redirect('/login')->with('error',$request->error);
         }
         else if($result->success && $result->loggedIn){
-            return redirect('/dashboard');
+            if($result->role == 'admin'){
+                return redirect('/dashboard');
+            }
+            else if($result->role == 'user'){
+                return redirect('/userStation');
+            }
         }
     }
     public function verificationCode():View{
@@ -34,7 +39,12 @@ class AuthController extends Controller
         $otpSubmit = $otpMailService->joinOtp($request);
         $result = $otpMailService->verifyOtp($otpSubmit);
         if($result->success){
-            return redirect('/dashboard');
+            if($result->role == "admin"){
+                return redirect('/dashboard');
+            }
+            else if($result->role == "user"){
+                return redirect("/userStation");
+            }
         }
         else{
             return redirect('/verificationCode')->with('error', 'Incorrect verification code entered.');
