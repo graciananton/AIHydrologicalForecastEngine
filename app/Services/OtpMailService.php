@@ -167,7 +167,7 @@ class OtpMailService{
                 return true;
             }
             else{
-                return redirect('/login',['errors' => 'Could not send otp, try again']);
+                return redirect('/login', ['errors' => 'Could not send otp, try again']);
             }
         }
         catch(Exception $e){
