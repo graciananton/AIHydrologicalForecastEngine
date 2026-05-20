@@ -18,7 +18,7 @@ class AuthController extends Controller
         $otpMailService->handleLogin($request);
     }
     public function verificationCode(OtpMailService $otpMailService){
-        Log::channel("laravel")->info("Redirecting to verification code page");
+        Log::channel("laravel")->info("Redirecting to verification code page - verificationCode");
         $email = session('email');
 
         if($email){

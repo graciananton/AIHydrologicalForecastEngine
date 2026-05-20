@@ -99,7 +99,7 @@ class OtpMailService{
                         session([
                             'email' => $request->email
                         ]);
-
+                        Log::channel("laravel")->info("Right before incrementing attempts");
                         return redirect('/verificationCode');
 
                     }
