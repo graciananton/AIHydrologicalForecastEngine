@@ -52,18 +52,22 @@ class OtpMailService{
 
                         if(
                             ($emailVerification->attempts_start_at->gte(now()->addMinutes(-15)) && $emailVerification->attempts >= 4)
-                            || $emailVerification->attempts_start_at->lt(now()->addMinutes(-15))){
+                          ){
                             Log::channel("laravel")->info("Attempts happened in last 15 minutes");
-
-                            $user->update([
-                                'attempts_start_at' => now(),
-                                'attempts' => 0
-                            ]);
 
                             return back()->withErrors([
                                 'error' => 'Too many attempts, try again in a few minutes'
                             ]);
                         }
+
+                        if($emailVerification->attempts_start_at->lt(now()->addMinutes(-15))){
+                            Log::channel("laravel")->info("Attempts did not happen in last 15 minutes");
+                            $user->update([
+                                'attempts' => 0,
+                                'attempts_start_at' => now()
+                            ]);
+                        }
+
 
                         Log::channel("laravel")->info("Attempts is less than or equal to 4");
 
@@ -156,9 +160,9 @@ class OtpMailService{
     }  
     public function sendOtp($email){
         try{
-            $user = $this->userExists($email);
+            $emailVerification = $this->getEmailVerification($email);
             if($user != null){
-                Mail::to($email)->send(new OtpMail($user->otp));
+                Mail::to($email)->send(new OtpMail($emailVerification->otp));
             }
             else{
                 return redirect()
