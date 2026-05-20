@@ -20,7 +20,7 @@ class AuthController extends Controller
     }
     public function verificationCode():View{
         Log::channel("laravel")->info("Redirecting to verification code page - verificationCode");
-        $email = session('email');
+        //$email = session('email');
         return view("auth.verificationCode");
     }
     public function create_token($request){        
