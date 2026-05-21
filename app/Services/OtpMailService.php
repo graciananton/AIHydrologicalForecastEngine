@@ -110,7 +110,8 @@ class OtpMailService{
 
                         Log::channel("laravel")->info("before sending otp");
 
-                        if(!$this->sendOtp($otp, $emailVerification)){
+                        $result = $this->sendOtp($otp, $emailVerification);
+                        if(!$result){
                             return (object) [
                                 'success' => false,
                                 'role' => $user->role,
@@ -127,6 +128,7 @@ class OtpMailService{
                             'error' => null
                         ];
                     }
+
                     catch(QueryException $e){
                         Log::channel("laravel")->error(
                             'Database query failed while creating OTP record.',
@@ -163,7 +165,7 @@ class OtpMailService{
                     ]);
 
                     $result = $this->sendOtp($otp, $emailVerification);
-                    
+
                     if(!$result){
                         return (object) [
                             'success' => false,
