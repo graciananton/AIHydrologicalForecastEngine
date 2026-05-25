@@ -31,6 +31,9 @@
     font-weight:600;
     font-size:1.4rem;
 }
+#verification_page #verification_form #error{
+    color:red;
+}
 #verification_page #verification_form #boxes{
     display:flex;
     flex-direction:row;

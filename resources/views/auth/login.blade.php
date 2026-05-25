@@ -11,6 +11,7 @@
     <script>
         window.__REACT_DATA__ = @json(
             [
+                ['error' => session('error')],
                 ['email' => session('email')],
                 ['request'  => 'login']
             ]

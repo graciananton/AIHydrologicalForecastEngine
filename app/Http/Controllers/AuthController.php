@@ -22,7 +22,7 @@ class AuthController extends Controller
             return redirect('/verificationCode');
         }
         else if(!$result->success){
-            return redirect('/login')->with('error',$request->error);
+            return redirect('/login')->with('error', $request->error);
         }
         else if($result->success && $result->loggedIn){
             if($result->role == 'admin'){
