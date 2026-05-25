@@ -4,6 +4,7 @@ import '../css/VerificationCode.css';
 
 
 function distributeCode(e, index, boxes, setBoxes){
+    console.log(e);
     let codeList = (e.target.value).split("");
 
     const boxesCopy = [...boxes];
@@ -33,7 +34,7 @@ export default function VerificationCode({ data }){
                                 boxes.map((value,index) => {
                                     return (
                                     <div id="box" key={`box${index+1}`}>
-                                        <input type='text' name={`box${index+1}`} value={value} id={`box${index+1}`} maxLength={6} onChange={(e) => distributeCode(e, index, boxes, setBoxes)}/>
+                                        <input type='text' name={`box${index+1}`} id={`box${index+1}`} value={value} maxLength={6} onChange={(e) => distributeCode(e, index, boxes, setBoxes)}/>
                                     </div>
                                     )
                                 })
