@@ -16,6 +16,7 @@ class AuthController extends Controller
         return view("auth.login");
     }
     public function loginSubmit(Request $request, OtpMailService $otpMailService){
+        Log::channel("laravel")->info("logging submit");
         $result = $otpMailService->handleLogin($request);
         Log::channel("laravel")->info("Request type " . $request->accept);
         if($request->accept == "json"){
