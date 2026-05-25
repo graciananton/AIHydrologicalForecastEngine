@@ -1,2 +1,12 @@
-composer require laravel/sanctum
-npm run dev
+X-XSRF-TOKEN
+- an HTTP request header used by Laravel for CSRF protection
+- populated using XSRF-TOKEN cookie
+- laravel sends cookie
+- browser sends header and laravel validates it against the session TOKEN
+- CSRF token is created from the X-XSRF-TOKEN
+- request header sent back to laravel
+
+XSRF-TOKEN
+- allow JavaScript/frontend to access csrf token
+- this is a COOKIE set by laravel
+- stored in browser cookies

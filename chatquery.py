@@ -4,6 +4,8 @@ from dotenv import load_dotenv
 import os
 import json
 from pprint import pprint
+from bs4 import BeautifulSoup
+
 load_dotenv()
 
 class ChatQuery():      
@@ -125,10 +127,41 @@ class ChatQuery():
 
 
     def send_otp(self,data:dict)->str:
+        session = requests.Session()
+
+        # STEP 1: Load form page
+        response = session.get("http://localhost/login")
+
+        # STEP 2: Extract csrf token from HTML
+        soup = BeautifulSoup(response.text, "html.parser")
+
+        csrf_token = soup.find(
+            "meta",
+            attrs={"name": "csrf-token"}
+        )["content"]
+
+        # STEP 3: Submit form
+        headers = {
+            "X-CSRF-TOKEN": csrf_token,
+            "Accept": "application/json"
+        }
+
+        response = session.post(
+            "http://localhost/login_submit",
+            headers=headers,
+            data={
+                "email": "test@test.com"
+            }
+        )
+
+        print(response.status_code)
+        print(response.text)
+    
         url="http://localhost/laravel/public/loginSubmit"
         print(data)
         response = requests.post(url,json = data)
         print(response)
+
 
         response = response.json()
 
