@@ -29,7 +29,7 @@ class ChatQuery():
                         "email": {
                             "type": "string",
                             "description": "user email address input",
-                        },
+                        }
                     },
                     "required": ["email"]
                 },
@@ -90,11 +90,13 @@ class ChatQuery():
             for item in tool_calls:
                 if item.name == "send_otp":
                     data = json.loads(item.arguments)
+                    data['type'] = 'json'
                     result = self.send_otp(data)                        
 
                 elif item.name == "verify_otp":
                     data = json.loads(item.arguments)
                     data['id'] = self.id
+                    data['type'] = 'json'
                     result = self.verify_otp(data)
 
                 tool_outputs.append({
@@ -123,7 +125,7 @@ class ChatQuery():
 
 
     def send_otp(self,data:dict)->str:
-        url="http://localhost/laravel/public/api/request_otp"
+        url="http://localhost/laravel/public/api/loginSubmit"
         print(data)
         response = requests.post(url,json = data)
         print(response)
