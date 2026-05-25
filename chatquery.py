@@ -125,7 +125,7 @@ class ChatQuery():
 
 
     def send_otp(self,data:dict)->str:
-        url="http://localhost/laravel/public/api/loginSubmit"
+        url="http://localhost/laravel/public/loginSubmit"
         print(data)
         response = requests.post(url,json = data)
         print(response)
