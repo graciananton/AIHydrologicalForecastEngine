@@ -90,13 +90,13 @@ class ChatQuery():
             for item in tool_calls:
                 if item.name == "send_otp":
                     data = json.loads(item.arguments)
-                    data['type'] = 'json'
+                    data['accept'] = 'json'
                     result = self.send_otp(data)                        
 
                 elif item.name == "verify_otp":
                     data = json.loads(item.arguments)
                     data['id'] = self.id
-                    data['type'] = 'json'
+                    data['accept'] = 'json'
                     result = self.verify_otp(data)
 
                 tool_outputs.append({

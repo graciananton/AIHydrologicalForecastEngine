@@ -17,19 +17,24 @@ class AuthController extends Controller
     }
     public function loginSubmit(Request $request, OtpMailService $otpMailService){
         $result = $otpMailService->handleLogin($request);
-        if($result->success && !$result->loggedIn){
-            Log::channel("laravel")->info("Not logged in but result is true");
-            return redirect('/verificationCode');
+        if($request->accept == "json"){
+            return $result;
         }
-        else if(!$result->success){
-            return redirect('/login')->with('error', $request->error);
-        }
-        else if($result->success && $result->loggedIn){
-            if($result->role == 'admin'){
-                return redirect('/dashboard');
+        else{
+            if($result->success && !$result->loggedIn){
+                Log::channel("laravel")->info("Not logged in but result is true");
+                return redirect('/verificationCode');
             }
-            else if($result->role == 'user'){
-                return redirect('/userStation');
+            else if(!$result->success){
+                return redirect('/login')->with('error', $request->error);
+            }
+            else if($result->success && $result->loggedIn){
+                if($result->role == 'admin'){
+                    return redirect('/dashboard');
+                }
+                else if($result->role == 'user'){
+                    return redirect('/userStation');
+                }
             }
         }
     }
