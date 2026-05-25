@@ -23,12 +23,12 @@ export default function VerificationCode({ data }){
             <div id='verification_page'>
                 <div id='verification_form'>
                         <input type="hidden" name="_token" value={document.querySelector('meta[name="csrf-token"]').getAttribute("content")}/>
-                        { data.error }
                         <div id='title'>Enter verification code</div>
+                        <div id='error'>{ data[0].error }</div>
                         <div id='explanation'>
                             A verification code has been sent to:
                             <br/>
-                            {data[0].email}
+                            {data[1].email}
                         </div>
                         <div id='boxes'>
                             {
