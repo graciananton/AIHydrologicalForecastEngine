@@ -36,6 +36,7 @@ export default function VerificationCode({ data }){
                             {data[1].email}
                         </div>
                         <div id='boxes'>
+                            <input type='hidden' name='email' value='data[1].email'/>
                             {
                                 boxes.map((value,index) => {
                                     return (
