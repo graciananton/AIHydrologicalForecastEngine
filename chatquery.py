@@ -97,7 +97,6 @@ class ChatQuery():
 
                 elif item.name == "verify_otp":
                     data = json.loads(item.arguments)
-                    data['id'] = self.id
                     data['accept'] = 'json'
                     result = self.verify_otp(data)
 
@@ -129,9 +128,8 @@ class ChatQuery():
     def send_otp(self,data:dict)->str:
         session = requests.Session()
 
-        # STEP 1: Load form page
         response = session.get("http://localhost/laravel/public/login")
-        # STEP 2: Extract csrf token from HTML
+
         soup = BeautifulSoup(response.text, "html.parser")
 
         csrf_token = soup.find(
@@ -139,7 +137,6 @@ class ChatQuery():
             attrs={"name": "csrf-token"}
         )["content"]
 
-        # STEP 3: Submit form
         headers = {
             "X-CSRF-TOKEN": csrf_token,
             "Accept": "application/json"
@@ -150,19 +147,25 @@ class ChatQuery():
             headers=headers,
             json = data
         )
-        print(response)       
 
-        if response['success']:
-            return "Successfully sent verification code to your account."
+        if response.json()['success']:
+            return "Successfully sent verification code to your account. Enter it here."
         else:
-            return "Unsuccessfully sent verification code to your account"
+            return "Unsuccessfully sent verification code to your account. Re-enter your email address."
 
     def verify_otp(self,data:dict)->str:
-        url="http://localhost/laravel/public/api/request_verify_otp"
+        print("Verifying otp")
+        print(data)
+        url="http://localhost/laravel/public/verificationCodeSubmit"
 
-        response = requests.post(url, json=data).json()
+        session = requests.Session()
 
-        if response['success'] == True:
+        response = session.post(url, json=data)
+        
+        print(response.status_code)
+        print(response.json())
+
+        if response.json()['success'] == True:
             return f"Account successfully created."
         else:
             return f"Account already created or unsuccessfully created."

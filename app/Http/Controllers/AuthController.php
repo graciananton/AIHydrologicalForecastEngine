@@ -44,18 +44,26 @@ class AuthController extends Controller
         return view("auth.verificationCode");
     }
     public function verificationCodeSubmit(Request $request, OtpMailService $otpMailService){
+        Log::channel("laravel")->info("Verification code submit");
+        
         $otpSubmit = $otpMailService->joinOtp($request);
         $result = $otpMailService->verifyOtp($otpSubmit);
-        if($result->success){
-            if($result->role == "admin"){
-                return redirect('/dashboard');
-            }
-            else if($result->role == "user"){
-                return redirect("/userStation");
-            }
+
+        if($request->accept == "json"){
+            return $result;
         }
         else{
-            return redirect('/verificationCode')->with('error', 'Incorrect verification code entered.');
+            if($result->success){
+                if($result->role == "admin"){
+                    return redirect('/dashboard');
+                }
+                else if($result->role == "user"){
+                    return redirect("/userStation");
+                }
+            }
+            else{
+                return redirect('/verificationCode')->with('error', 'Incorrect verification code entered.');
+            }
         }
     }
     public function create_token($request){        
