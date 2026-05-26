@@ -158,21 +158,36 @@ class ChatQuery():
 
 
     def verify_otp(self,data:dict)->str:
-        print("Verifying otp")
-        print(data)
-        url="http://localhost/laravel/public/verificationCodeSubmit"
-
         session = requests.Session()
-        
-        print(session)
 
-        response = session.post(url, json=data)
+        response = session.get("http://localhost/laravel/public/verificationCode")
 
+        soup = BeautifulSoup(response.text, "html.parser")
+
+        csrf_token = soup.find(
+            "meta",
+            attrs={"name": "csrf-token"}
+        )["content"]
+
+        headers = {
+            "X-CSRF-TOKEN": csrf_token,
+            "Accept": "application/json"
+        }
+
+        response = session.post(
+            "http://localhost/laravel/public/verificationCodeSubmit",
+            headers=headers,
+            json = data
+        )
         print(response.status_code)
-        print(response.json())
+        print(response.text)
+
         response = response.json()
 
-        return "Hello"
+        if response['success']:
+            return "Your verification code has been verified successfully, to access your account, go to http://localhost/laravel/public/userStation"
+        else:
+            return "Your verification code has not been verified successfully, retry by re-entering your email address and or checking your inbox and entering the existing code already sent (within the next 15 minutes)"
 
     def filters(self):
         self.filters = {

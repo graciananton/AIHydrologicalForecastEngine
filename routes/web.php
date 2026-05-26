@@ -23,7 +23,7 @@ Route::post('/loginSubmit',[AuthController::class,'loginSubmit']);
 
 Route::get('/verificationCode', [AuthController::class,'verificationCode']);
 
-Route::post('/verificationCodeSubmit',[AuthController::class,'verificationCodeSubmit']);
+Route::post('/verificationCodeSubmit', [AuthController::class,'verificationCodeSubmit']);
 
 Route::get('/dashboard', [DashboardController::class, 'process'])->middleware('auth','admin');
 
