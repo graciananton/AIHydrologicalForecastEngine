@@ -233,8 +233,8 @@ class OtpMailService{
         $user = $this->userExists($request->email);
 
         Log::channel("laravel")->info("Verifying Otp");
-        Log::channel("laravel")->info("Email Verification OTP: ". $emailVerification->otp);
-        Log::channel("laravel")->info("Otp: ". $request->otp);
+        Log::channel("laravel")->info($emailVerification->otp);
+        Log::channel("laravel")->info($request->otp);
 
         if(Hash::check($request->otp, $emailVerification->otp)){        
             Auth::login($user);
@@ -254,7 +254,7 @@ class OtpMailService{
                 $otp .= trim($value);
             }
         }
-        Log::channel("laravel")->info("OTP: "+ $otp);
+        Log::channel("laravel")->info($otp);
         return $otp;
     }
     private function extract_name_from_email(string $email):string{
