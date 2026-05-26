@@ -68,7 +68,7 @@ class OtpMailService{
 
                         if($emailVerification->attempts_start_at->lt(now()->addMinutes(-15))){
                             Log::channel("laravel")->info("Attempts did not happen in last 15 minutes");
-                            $user->update([
+                            $emailVerification->update([
                                 'attempts' => 0,
                                 'attempts_start_at' => now()
                             ]);

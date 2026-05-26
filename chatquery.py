@@ -152,9 +152,9 @@ class ChatQuery():
         if response['success'] == True and response['loggedIn'] == True:
             return f"You are logged in to system, to access your dashboard, click here: http://localhost/laravel/public/userStation"
         elif response['success'] == True and response['loggedIn'] == False:
-            return f"Your verification code was created successfully, to access your dashboard, click here: http://localhost/laravel/public/userStation"
+            return f"Your verification code was sent, enter it below"
         else:
-            return f"Account unsuccessfully created."
+            return f"Verification Code unsuccessfully sent, enter email address again below."
 
 
     def verify_otp(self,data:dict)->str:
@@ -163,7 +163,7 @@ class ChatQuery():
         url="http://localhost/laravel/public/verificationCodeSubmit"
 
         session = requests.Session()
-
+        
         print(session)
 
         response = session.post(url, json=data)
