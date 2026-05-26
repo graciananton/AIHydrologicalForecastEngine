@@ -44,7 +44,12 @@ class AuthController extends Controller
         return view("auth.verificationCode");
     }
     public function verificationCodeSubmit(Request $request, OtpMailService $otpMailService){
-        $request->otp = $otpMailService->joinOtp($request);
+        if($request->accept == "json"){
+            $request->otp = $request->verificationCode;
+        }
+        else{
+            $request->otp = $otpMailService->joinOtp($request);
+        }
 
         Log::channel("laravel")->info("OTP: dds");
         Log::channel("laravel")->info($request->otp);
