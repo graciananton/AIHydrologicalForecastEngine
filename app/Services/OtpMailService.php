@@ -228,9 +228,8 @@ class OtpMailService{
         }
     }
     public function verifyOtp($request){
-        Log::channel('laravel')->info($request->email);
-        $emailVerification = $this->getEmailVerification($request->email);
-        $user = $this->userExists($request->email);
+        $emailVerification = $this->getEmailVerification(session('email'));
+        $user = $this->userExists(session('email'));
 
         Log::channel("laravel")->info("Verifying Otp");
         Log::channel("laravel")->info($emailVerification->otp);

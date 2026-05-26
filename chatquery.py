@@ -173,7 +173,6 @@ class ChatQuery():
             "X-CSRF-TOKEN": csrf_token,
             "Accept": "application/json"
         }
-
         response = session.post(
             "http://localhost/laravel/public/verificationCodeSubmit",
             headers=headers,
