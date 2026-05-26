@@ -254,8 +254,7 @@ class OtpMailService{
                 $otp .= trim($value);
             }
         }
-        $otpSubmit['otp'] = $otp;
-        return (object) $otpSubmit;
+        return $otp;
     }
     private function extract_name_from_email(string $email):string{
         $pattern = "/@/";
