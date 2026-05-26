@@ -108,6 +108,9 @@ class OtpMailService{
                         session([
                             'email' => $request->email
                         ]);
+                        Log::channel('laravel')->info("Email addresss for requests - done");
+                        Log::channel("laravel")->info(session('email'));
+
 
                         Log::channel("laravel")->info("before sending otp");
 
