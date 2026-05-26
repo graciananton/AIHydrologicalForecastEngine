@@ -255,6 +255,8 @@ class OtpMailService{
         }
         Log::channel("laravel")->info($otp);
         return $otp;
+        //$otpSubmit['otp'] = $otp;
+        //return (object) $otpSubmit;
     }
     private function extract_name_from_email(string $email):string{
         $pattern = "/@/";
