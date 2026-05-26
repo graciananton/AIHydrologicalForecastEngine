@@ -51,7 +51,8 @@ class OtpMailService{
                     try{
                         Log::channel("laravel")->info("trying account");
                         Log::channel("laravel")->info($emailVerification->attempts_start_at);
-
+                        Log::channel("laravel")->info("Current time");
+                        Log::channel("laravel")->info(now());
                         if(
                             ($emailVerification->attempts_start_at->gte(now()->addMinutes(-15)) && $emailVerification->attempts >= 4)
                           ){

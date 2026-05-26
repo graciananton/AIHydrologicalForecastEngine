@@ -147,11 +147,15 @@ class ChatQuery():
             headers=headers,
             json = data
         )
+        response = response.json()
 
-        if response.json()['success']:
-            return "Successfully sent verification code to your account. Enter it here."
+        if response['success'] == True and response['loggedIn'] == True:
+            return f"You are logged in to system, to access your dashboard, click here: http://localhost/laravel/public/userStation"
+        elif response['success'] == True and response['loggedIn'] == False:
+            return f"Your verification code was created successfully, to access your dashboard, click here: http://localhost/laravel/public/userStation"
         else:
-            return "Unsuccessfully sent verification code to your account. Re-enter your email address."
+            return f"Account unsuccessfully created."
+
 
     def verify_otp(self,data:dict)->str:
         print("Verifying otp")
@@ -160,16 +164,15 @@ class ChatQuery():
 
         session = requests.Session()
 
+        print(session)
+
         response = session.post(url, json=data)
-        
+
         print(response.status_code)
         print(response.json())
+        response = response.json()
 
-        if response.json()['success'] == True:
-            return f"Account successfully created."
-        else:
-            return f"Account already created or unsuccessfully created."
-
+        return "Hello"
 
     def filters(self):
         self.filters = {
