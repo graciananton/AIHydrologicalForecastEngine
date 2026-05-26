@@ -254,6 +254,7 @@ class OtpMailService{
                 $otp .= trim($value);
             }
         }
+        Log::channel("laravel")->info("OTP: "+ $otp);
         return $otp;
     }
     private function extract_name_from_email(string $email):string{
