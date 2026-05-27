@@ -5,11 +5,11 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use App\Models\User;
 
-class TrainService
+class UserStationService
 {
     public function getUser(string $emailAddress){
         $query = User::query();
-        $query->where('emailAddress', $emailAddress);
+        $query->where('email', $emailAddress);
         
         $result = $query->get()->toArray();
 

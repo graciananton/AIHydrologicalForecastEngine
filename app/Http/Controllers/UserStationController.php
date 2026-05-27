@@ -10,7 +10,7 @@ class UserStationController extends Controller
     
     }
     public function process(UserStationService $userStationService){
-        $user = $userStationService->getUser(session($email));
+        $user = $userStationService->getUser(session('email'));
         return view("user.station", 
             [
                 ['request' => 'userStation'],
