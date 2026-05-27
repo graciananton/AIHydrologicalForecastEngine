@@ -11,15 +11,12 @@ import UserStation from "./UserStation";
 import "../css/app.css";
 
 export default function App() {
-  console.log("App jsx");
   const data = window.__REACT_DATA__ || {};
-  console.log("Data");
   console.log(data);
 
   const values = Object.values(data);
 
   var req = getRequest(values);
-  console.log(req);
   
   return (
     <>
