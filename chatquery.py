@@ -8,11 +8,12 @@ from bs4 import BeautifulSoup
 
 load_dotenv()
 
-class ChatQuery():      
+class ChatQuery(): 
     def __init__(self):
         self.initialize_model()
         self.filters()
         self.tools()
+        self.session = None
 
     def initialize_model(self):
         self.client = OpenAI(
@@ -126,9 +127,9 @@ class ChatQuery():
 
 
     def send_otp(self,data:dict)->str:
-        session = requests.Session()
+        self.session = requests.Session()
 
-        response = session.get("http://localhost/laravel/public/login")
+        response = self.session.get("http://localhost/laravel/public/login")
 
         soup = BeautifulSoup(response.text, "html.parser")
 
@@ -142,7 +143,7 @@ class ChatQuery():
             "Accept": "application/json"
         }
 
-        response = session.post(
+        response = self.session.post(
             "http://localhost/laravel/public/loginSubmit",
             headers=headers,
             json = data
@@ -158,9 +159,10 @@ class ChatQuery():
 
 
     def verify_otp(self,data:dict)->str:
-        session = requests.Session()
-
-        response = session.get("http://localhost/laravel/public/verificationCode")
+        if self.session == None:
+            return "You have not sent your email address yet, send email address then we can send a verification code"
+    
+        response = self.session.get("http://localhost/laravel/public/verificationCode")
 
         soup = BeautifulSoup(response.text, "html.parser")
 
@@ -173,7 +175,7 @@ class ChatQuery():
             "X-CSRF-TOKEN": csrf_token,
             "Accept": "application/json"
         }
-        response = session.post(
+        response = self.session.post(
             "http://localhost/laravel/public/verificationCodeSubmit",
             headers=headers,
             json = data
@@ -184,9 +186,9 @@ class ChatQuery():
         response = response.json()
 
         if response['success']:
-            return "Your verification code has been verified successfully, to access your account, go to http://localhost/laravel/public/userStation"
+            return "Your account has been created, to access it, click http://localhost/laravel/public/userStation"
         else:
-            return "Your verification code has not been verified successfully, retry by re-entering your email address and or checking your inbox and entering the existing code already sent (within the next 15 minutes)"
+            return "Your account has not been created, to verify, re-enter your email address"
 
     def filters(self):
         self.filters = {

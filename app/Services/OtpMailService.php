@@ -167,6 +167,8 @@ class OtpMailService{
                     session([
                         'email' => $request->email
                     ]);
+                    Log::channel("laravel")->info("Account created for the first time");
+                    Log::channel("laravel")->info(session('email'));
 
                     $result = $this->sendOtp($otp, $emailVerification);
 
@@ -231,6 +233,9 @@ class OtpMailService{
         }
     }
     public function verifyOtp($request){
+        Log::channel("laravel")->info("Verifying the OTP");
+        Log::channel("laravel")->info(session('email'));
+
         $emailVerification = $this->getEmailVerification(session('email'));
         $user = $this->userExists(session('email'));
 
@@ -238,8 +243,13 @@ class OtpMailService{
         Log::channel("laravel")->info($emailVerification->otp);
         Log::channel("laravel")->info($request->otp);
 
-        if(Hash::check($request->otp, $emailVerification->otp)){        
+        if(Hash::check($request->otp, $emailVerification->otp)){   
+            Log::channel("laravel")->info("User logging in");
             Auth::login($user);
+
+            if(Auth::check()){
+                Log::channel("laravel")->info("Logged in");
+            }
             return (object) ['success' => true, 'role' => $user->role, 'user' => $user];
         }
         else{
