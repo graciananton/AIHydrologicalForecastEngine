@@ -10,7 +10,8 @@ class UserStationController extends Controller
     public function process(){
         return view("user.station", 
         [
-            "request" => ['request' => 'userStation']
+            ['request' => 'userStation'],
+            ['email' => session('email')]
         ]
         );
     }
