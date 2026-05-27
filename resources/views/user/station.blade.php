@@ -9,8 +9,7 @@
 </head>
 <body>
    <script>
-    console.log("STATION ID");
-    
+    console.log("STATION code");
     console.log(@json($request));
     window.__REACT_DATA__ = @json(
         [
