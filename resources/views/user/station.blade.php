@@ -11,8 +11,8 @@
     <script>
         window.__REACT_DATA__ = @json(
             [
+                
                 ['email' => session('email')],
-                ['stationId' => $request->stationId],
                 ['request'  => 'userStation']
             ]
         );

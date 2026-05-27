@@ -7,15 +7,12 @@ use App\Models\User;
 
 class UserStationService
 {
-    public function getUser(string $emailAddress){
+    public function getUser(string $email):?User{
         $query = User::query();
-        $query->where('email', $emailAddress);
+        $query->where('email', $email);
         
-        $result = $query->get()->toArray();
+        $user = $query->first();
 
-        if($result){
-            return $result;
-        }
-        return null;
+        return ($user) ? $user : null;
     }
 }
