@@ -12,7 +12,7 @@
         window.__REACT_DATA__ = @json(
             [
                 ['email' => session('email')],
-                ['request'  => 'verificationCode']
+                ['request'  => 'userStation']
             ]
         );
     </script>
