@@ -25,6 +25,7 @@ export default function App() {
     {req == "home" && <Home />}
     {req == "dashboard" && <Dashboard />}
     {req == "verificationCode" && <VerificationCode data={data}/>}
+    {req == "userStation" && <UserStation data={data}/>}
     </>
   );
 }

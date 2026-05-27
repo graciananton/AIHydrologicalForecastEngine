@@ -180,13 +180,10 @@ class ChatQuery():
             headers=headers,
             json = data
         )
-        print(response.status_code)
-        print(response.text)
-
         response = response.json()
 
         if response['success']:
-            return "Your account has been created, to access it, click http://localhost/laravel/public/userStation"
+            return "Your account has been created, to access it, click http://localhost/laravel/public/login"
         else:
             return "Your account has not been created, to verify, re-enter your email address"
 
