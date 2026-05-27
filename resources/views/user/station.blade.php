@@ -13,12 +13,15 @@
         {{$request}}
         {{$email}}
         {{$stationId}}
-        
-        window.__REACT_DATA__ = @json([
+        data = @json([
             'request' => $request,
             'email' => $email,
             'stationId' => $stationId
         ]);
+        console.log("Data");
+        console.log(data);
+
+        window.__REACT_DATA__ = data;
     </script>
 
     <div id="react-root"></div>
