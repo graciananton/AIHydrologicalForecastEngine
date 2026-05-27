@@ -18,9 +18,9 @@ class UserStationController extends Controller
 
         return view("user.station", 
             [
-                ['request' => 'userStation'],
-                ['email' => session('email')],
-                ['stationId' => ($user) ? $user->stationId : null]
+            'request' => 'userStation',
+            'email' => session('email'),
+            'stationId' => ($user) ? $user->stationId : null
             ]
         );
 
