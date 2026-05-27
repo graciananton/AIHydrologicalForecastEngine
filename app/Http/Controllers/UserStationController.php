@@ -23,7 +23,7 @@ class UserStationController extends Controller
             [
                 ['request' => 'userStation'],
                 ['email' => session('email')],
-                ['stationId' => $user->stationId]
+                ['stationId' => null]
             ]
         );
 
