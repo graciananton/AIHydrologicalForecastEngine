@@ -109,7 +109,10 @@ function MetricCell({ metric, section, param }){
                 )
             }
             <div>{dayjs(metric.at(-1).updated_at).format("YYYY-MM-DD HH")}</div>
-            <div onMouseEnter={() => setShowPopup(true)} onMouseLeave={() => setShowPopup(false)}>
+            <div onMouseEnter={() => setShowPopup(true)} onMouseLeave={() => setShowPopup(false)} style={{
+                    textDecoration: 'underline',
+                    textDecorationColor: 'blue'
+                                    }}>
                 Graphs
                 {showPopup && (
                     <div>

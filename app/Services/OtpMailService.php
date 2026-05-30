@@ -233,15 +233,9 @@ class OtpMailService{
         }
     }
     public function verifyOtp($request){
-        Log::channel("laravel")->info("Verifying the OTP");
-        Log::channel("laravel")->info(session('email'));
 
         $emailVerification = $this->getEmailVerification(session('email'));
         $user = $this->userExists(session('email'));
-
-        Log::channel("laravel")->info("Verifying Otp");
-        Log::channel("laravel")->info($emailVerification->otp);
-        Log::channel("laravel")->info($request->otp);
 
         if(Hash::check($request->otp, $emailVerification->otp)){   
             Log::channel("laravel")->info("User logging in");

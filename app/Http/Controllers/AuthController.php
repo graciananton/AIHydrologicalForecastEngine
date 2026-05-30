@@ -35,7 +35,7 @@ class AuthController extends Controller
                     return redirect('/dashboard');
                 }
                 else if($result->role == 'user'){
-                    return redirect('/userStation');
+                    return redirect('/dashboard');
                 }
             }
         }
@@ -50,9 +50,6 @@ class AuthController extends Controller
         else{
             $request->otp = $otpMailService->joinOtp($request);
         }
-
-        Log::channel("laravel")->info("OTP: dds");
-        Log::channel("laravel")->info($request->otp);
 
         $result = $otpMailService->verifyOtp($request);
 
