@@ -109,10 +109,7 @@ function MetricCell({ metric, section, param }){
                 )
             }
             <div>{dayjs(metric.at(-1).updated_at).format("YYYY-MM-DD HH")}</div>
-            <div onMouseEnter={() => setShowPopup(true)} onMouseLeave={() => setShowPopup(false)} style={{
-                    textDecoration: 'underline',
-                    textDecorationColor: 'blue'
-                                    }}>
+            <div onMouseEnter={() => setShowPopup(true)} onMouseLeave={() => setShowPopup(false)}>
                 Graphs
                 {showPopup && (
                     <div>
@@ -181,9 +178,7 @@ function ServiceRow({ category }){
         <div>{category.charAt(0).toUpperCase() + category.slice(1)}</div>
         <div>{"hourly"}</div>
         <div>{dayjs(updated).format("YYYY-MM-DD HH")}</div>
-        <div>
-            <a href={`/laravel/public/${category}_sync`}>Run</a>
-        </div>
+        
     </div>
     );
 }
@@ -191,7 +186,7 @@ function ServiceRow({ category }){
 function Status(){
     return (
         <div id='status'>
-            <Header categories={['Services','Schedule','Updated','Run Now']} />
+            <Header categories={['Services','Schedule','Updated']} />
             <ServiceRow category="weather" />
             <ServiceRow category="readings" />
             <ServiceRow category="statuses" />
