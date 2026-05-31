@@ -22,20 +22,25 @@ class TrainService
         ]);
 
         $query->orderBy('updated_at', $params['order']);
+        $query->where('type','App\Jobs\TrainModelJob');
+
+        $query->where(
+            'status', $params['status']
+        );
 
         if ($params['limit'] !== null) {
             $query->limit($params['limit']);
         }
 
-        $query->where('type','App\Jobs\TrainModelJob');
 
-        Log::channel("laravel")->info("Before writing query");
-        Log::channel("laravel")->info("Query");
-        Log::channel("laravel")->info($query->toSql());
+        #Log::channel("laravel")->info("Before writing query");
+        #Log::channel("laravel")->info("Query");
+        #Log::channel("laravel")->info($query->toSql());
         
-        
-        return $query->get()->toArray();
+        $result = $query->get()->toArray();
+        #Log::channel("laravel")->info($query->toRawSql());
 
+        return $result;
     }
     public function normalizeParams(array $params): array
     {
@@ -50,6 +55,8 @@ class TrainService
             'limit' => isset($params['limit']) ? (int) $params['limit'] : 10,
 
             'order' => strtoupper($params['order'] ?? 'ASC') === 'DESC' ? 'DESC': 'ASC',
+
+            'status' => isset($params['status']) ? $params['status'] : 'finished',
 
             'f' => $params['f'] ?? 'json'
         ];

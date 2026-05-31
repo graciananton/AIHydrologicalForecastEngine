@@ -48,7 +48,7 @@ function MetricCells({section, stations}){
     }
     else if(section == 'train'){
         // this is for re-training the model
-        createEndpoint = (stationId) => `https://gracian.ca/laravel/public/api/train?stationId=${stationId}&order=desc`
+        createEndpoint = (stationId) => `https://gracian.ca/laravel/public/api/train?stationId=${stationId}?status=finished`
         param = 'error';
     }
     else if(section == 'future'){
@@ -98,6 +98,10 @@ function MetricCell({ metric, section, param }){
     else if(section=='train'){
         stationId = (metric[0]).input.stationId;
     }
+
+    console.log("Section: " + section+ "Metric Object");
+    console.log(metric.at(-1));
+
     return (
         <div>
             {(section == 'test' || section == 'future') && 
@@ -108,7 +112,7 @@ function MetricCell({ metric, section, param }){
                     </>
                 )
             }
-            <div>{dayjs(metric.at(-1).updated_at).format("YYYY-MM-DD HH")}</div>
+            <div>{(metric.at(-1).updated_at).substring(0,13)}</div>
             <div onMouseEnter={() => setShowPopup(true)} onMouseLeave={() => setShowPopup(false)}>
                 Graphs
                 {showPopup && (
