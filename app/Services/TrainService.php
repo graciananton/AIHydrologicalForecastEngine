@@ -26,9 +26,13 @@ class TrainService
         if ($params['limit'] !== null) {
             $query->limit($params['limit']);
         }
+
+        $query->where('type','App\Jobs\TrainModelJob');
+
         Log::channel("laravel")->info("Before writing query");
         Log::channel("laravel")->info("Query");
         Log::channel("laravel")->info($query->toSql());
+        
         
         return $query->get()->toArray();
 
