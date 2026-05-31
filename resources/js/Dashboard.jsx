@@ -43,19 +43,19 @@ function MetricCells({section, stations}){
     let type;
     let param;
     if(section == 'test'){
-        createEndpoint = (stationId) => `https://gracian.ca/laravel/public/api/test?stationId=${stationId}`
+        createEndpoint = (stationId) => `https://gracian.ca/laravel/public/api/test?stationId=${stationId}&order=desc`
         param = 'error';
     }
     else if(section == 'train'){
         // this is for re-training the model
-        createEndpoint = (stationId) => `https://gracian.ca/laravel/public/api/train?stationId=${stationId}?status=finished`
+        createEndpoint = (stationId) => `https://gracian.ca/laravel/public/api/train?stationId=${stationId}&order=desc`
         param = 'error';
     }
     else if(section == 'future'){
-        createEndpoint = (stationId) => `https://gracian.ca/laravel/public/api/future?stationId=${stationId}`
+        createEndpoint = (stationId) => `https://gracian.ca/laravel/public/api/future?stationId=${stationId}&order=desc`
         param = 'prediction';
     }
-
+    
     const [metrics, setMetrics] = useState([]);
 
     useEffect(() => {
@@ -99,20 +99,17 @@ function MetricCell({ metric, section, param }){
         stationId = (metric[0]).input.stationId;
     }
 
-    console.log("Section: " + section+ "Metric Object");
-    console.log(metric.at(-1));
-
     return (
         <div>
             {(section == 'test' || section == 'future') && 
                 (
                     <>
-                    <div>{Math.round(metric.at(-1)[param]*100000)/100000}</div>
+                    <div>{Math.round(metric[0][param]*100000)/100000}</div>
                     <div>{Math.round(average*100000)/100000}</div>
                     </>
                 )
             }
-            <div>{(metric.at(-1).updated_at).substring(0,13)}</div>
+            <div>{(metric[0].updated_at).substring(0,13)}</div>
             <div onMouseEnter={() => setShowPopup(true)} onMouseLeave={() => setShowPopup(false)}>
                 Graphs
                 {showPopup && (
