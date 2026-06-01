@@ -132,7 +132,20 @@ class ModelController{
 
 
 
+    public function pastSetSingle(Request $request){
+        $predictions = $this->ModelService->pastSet($request->stationId);
+        return response()->json($predictions);
+    }
+    public function pastSetAll(){
+        $stationIds = $this->ModelService->getStationIds();
+        $results = [];
+        foreach ($stationIds as $stationId) {
+           $pastPredictions =  $this->ModelService->pastSet($stationId);
+           $results[$stationId] = $pastPredictions; 
+        }
+        return response()->json($results);
 
+    }
 
     public function futureSetSingle(Request $request)
     {

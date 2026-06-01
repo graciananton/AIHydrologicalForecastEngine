@@ -29,6 +29,9 @@ Route::get('/testSingle',[ModelController::class,'testSingle']);
 Route::get('/futureSetSingle',[ModelController::class,'futureSetSingle']);
 Route::get('/futureSetAll',[ModelController::class,'futureSetAll']);
 
+# get past predictions as json
+Route::get('/pastSetSingle',[ModelController::class,'pastSetSingle']);
+Route::get('/pastSetAll',[ModelController::class,'pastSetAll']);
 
 
 # train the model
