@@ -7,11 +7,15 @@
 <body>
     <script>
         console.log("Station in user");
-        data = @json([
-            'request' => $request,
-            'email' => $email,
-            'stationId' => $stationId
-        ]);
+
+        data = @json(
+            [
+                ['request' => $request],
+                ['email' => $email],
+                ['stationId' => $stationId]
+            ]
+        );
+        
         console.log("Data");
         console.log(data);
 

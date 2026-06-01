@@ -17,6 +17,8 @@ export default function App() {
   const { request, email, stationId } = window.__REACT_DATA__;
   
   const values = Object.values(data);
+  console.log("Values");
+  console.log(values);
 
   var req = getRequest(values);
   
