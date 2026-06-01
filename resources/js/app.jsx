@@ -12,9 +12,10 @@ import "../css/app.css";
 
 export default function App() {
   const data = window.__REACT_DATA__ || {};
+  console.log("App-data")
   console.log(data);
   const { request, email, stationId } = window.__REACT_DATA__;
-
+  
   const values = Object.values(data);
 
   var req = getRequest(values);
