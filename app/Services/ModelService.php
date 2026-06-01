@@ -7,7 +7,6 @@ use App\Models\Predictions;
 
 class ModelService{
     public function trainModel($stationId){
-
         $response = Http::timeout(120)->get(sprintf('https://fast-api-54so.onrender.com/train_model?station_id=%s',$stationId));
         $status = $response->json();
         return $status;

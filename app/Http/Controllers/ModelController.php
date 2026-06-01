@@ -43,10 +43,6 @@ class ModelController{
         ]);
     }
 
-
-
-
-
     public function plotTrainAll()
     {
         Log::channel("laravel")->info("plotting training set all");

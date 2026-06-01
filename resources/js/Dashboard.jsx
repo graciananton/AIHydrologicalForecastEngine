@@ -38,7 +38,7 @@ function TableSection({ section, categories }){
     )
 }
 
-function MetricCells({section, stations}){    
+function MetricCells({section, stations}){  
     let createEndpoint;
     let type;
     let param;
@@ -59,14 +59,19 @@ function MetricCells({section, stations}){
     const [metrics, setMetrics] = useState([]);
 
     useEffect(() => {
+        console.log("use effect");
+        console.log(section);
         const fetchResults = async () => {
+            console.log(stations);
             const promises = stations.map(async (station) => {
                 const url = createEndpoint(station.stationId);
                 const response = await fetch(url);
+                
                 const json = await response.json();
                 return json;
             });
             const results = await Promise.all(promises);
+            console.log(results);
             setMetrics(results);
         };
         fetchResults();
@@ -91,7 +96,6 @@ function MetricCell({ metric, section, param }){
         sum = sum + individual_metric[param];
     })
     let average = sum/metric.length;
-    
     if(section == 'test' || section == 'future'){
         stationId = metric[0].stationId; 
     }
