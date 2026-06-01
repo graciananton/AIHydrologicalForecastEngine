@@ -10,6 +10,7 @@
 </head>
 <body>
     <script>
+        console.log("Station in user");
         {{$request}}
         {{$email}}
         {{$stationId}}
