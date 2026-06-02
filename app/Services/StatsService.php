@@ -16,16 +16,16 @@ class StatsService
         return $params;
     }
     public function filter(array $params):array{
-        //$hour = Carbon::now('UTC')->startOfHour()->format('Y-m-d\TH:i:s.u\Z');
-
         $currentHour = Carbon::now('UTC')->startOfHour();
         $futureHour = Carbon::now('UTC')->startOfHour()->addHours(24);
 
         $predictions = Predictions::where('stationId', $params['stationId'])
             ->whereBetween('predictedFor', [$currentHour, $futureHour])
             ->orderBy('predictedFor','asc')
-            ->get();
+            ->get()
+            ->toArray();
 
+        
         return $predictions;
     }   
 }
