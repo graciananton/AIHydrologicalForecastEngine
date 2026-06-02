@@ -38,7 +38,6 @@ class StatsService
             ->where('predictedFor', $currentHour)
             ->first();
         
-        
         return [
             'currentLevel' => $currentLevel->prediction,
             'trend' => ($predictions[count($predictions)-1]->prediction - $predictions[0]->prediction > 0.0) ? "rising": "falling",
