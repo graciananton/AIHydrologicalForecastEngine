@@ -38,15 +38,18 @@ class StatsService
             ->where('predictedFor', $currentHour)
             ->first();
         
+        $latestFuturePrediction = $predictions[count($predictions) - 1];
+        $oldestFuturePrediction = $predictions[0];
+
         return [
             'currentLevel' => $currentLevel->prediction,
-            'trend' => ($predictions[count($predictions)-1]->prediction - $predictions[0]->prediction > 0.0) ? "rising": "falling",
+            'trend' => ($latestFuturePrediction->prediction - $oldestFuturePrediction->prediction > 0.0) ? "rising": "falling",
             'lastUpdated' => $prediction[count($predictions)-1]->updated_at,
             'maximumForecast' => $maxPrediction->prediction,
             'minForecast' => $minPrediction->prediction,
             'maximumForecast' => $maxPrediction->prediction,
             'peakTime' => $maxPrediction->updated_at,
-            'change' => $predictions[count($predictions)-1]->prediction - $predictions[0]->prediction
+            'change' => $latestFuturePrediction->prediction - $oldestFuturePrediction->prediction
         ];
     }   
 }
