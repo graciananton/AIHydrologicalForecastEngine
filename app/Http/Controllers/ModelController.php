@@ -77,10 +77,6 @@ class ModelController{
         ]);
     }
 
-
-
-
-
     public function plotFutureSingle(Request $request)
     {
         Log::channel("laravel")->info("Plotting future single");
@@ -101,12 +97,6 @@ class ModelController{
             'message' => 'Plotting future data started for all stations'
         ]);
     }
-
-
-
-
-
-
 
     public function testSingle(Request $request)
     {
@@ -161,10 +151,4 @@ class ModelController{
         }
         return response()->json($results);
     }
-
-
-
-
-
-
 }
