@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 use Illuminate\Http\Request;
-use App\Services\PredictionsService;
+use App\Services\StatsService;
 use App\Services\Formatter\ResponseFormatter;
 
 class StatsController extends Controller

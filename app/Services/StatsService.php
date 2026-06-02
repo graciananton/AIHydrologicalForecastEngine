@@ -3,7 +3,7 @@ namespace App\Services;
 use App\Models\Station;
 use Carbon\Carbon;
 
-class StationService
+class StatsService
 {
     public function normalizeParams(array $params): array{
         $params = [
