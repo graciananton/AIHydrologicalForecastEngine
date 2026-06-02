@@ -13,7 +13,7 @@ class ModelService{
     }
 
     public function testModel($stationId){
-        $response = Http::timeout(120)->get(sprintf('https://fast-api-54so.onrender.com/test_model?station_id=%s',$stationId));
+        $response = Http::timeout(300)->get(sprintf('https://fast-api-54so.onrender.com/test_model?station_id=%s',$stationId));
         $rmse = $response->json();
         Log::channel("laravel")->info(sprintf($rmse['RMSE']));
 
@@ -24,7 +24,7 @@ class ModelService{
         return $rmse;
     }
     public function futureSet($stationId){
-        $response = Http::timeout(120)->get(sprintf('https://fast-api-54so.onrender.com/future_set?station_id=%s',$stationId));
+        $response = Http::timeout(300)->get(sprintf('https://fast-api-54so.onrender.com/future_set?station_id=%s',$stationId));
         $future_predictions = $response->json();
         foreach($future_predictions as $future_prediction) {
             Predictions::create([
@@ -32,12 +32,22 @@ class ModelService{
                 'prediction' => $future_prediction['levelAtHour'],
                 'predictedFor' => $future_prediction['measuredAt']
             ]);
+
+            Predictions::updateOrCreate(
+                [
+                    'stationId'   => $future_prediction['stationId'],
+                    'predictedFor' => $future_prediction['measuredAt']
+                ],
+                [
+                    'prediction' => $future_prediction['levelAtHour']
+                ]
+            );
         }
         return $future_predictions;
     }
 
     public function plotFuture($stationId){
-        $response = Http::timeout(120)->get(sprintf('https://fast-api-54so.onrender.com/plot_future?station_id=%s',$stationId));
+        $response = Http::timeout(300)->get(sprintf('https://fast-api-54so.onrender.com/plot_future?station_id=%s',$stationId));
         $dir = base_path("images/future");
         $filePath = $dir . '/'. $stationId . '.png';
         file_put_contents(
@@ -51,7 +61,7 @@ class ModelService{
 
     public function plotTrain($stationId){
         Log::channel("laravel")->info("Plotting train function");
-        $response = Http::timeout(120)->get(sprintf('https://fast-api-54so.onrender.com/plot_train?station_id=%s',$stationId));
+        $response = Http::timeout(300)->get(sprintf('https://fast-api-54so.onrender.com/plot_train?station_id=%s',$stationId));
 
         $dir = base_path('images/train');
         $filePath = $dir . '/' . $stationId . '.png';
@@ -68,7 +78,7 @@ class ModelService{
 
     
     public function plotTest($stationId){
-        $response = Http::timeout(120)->get(sprintf('https://fast-api-54so.onrender.com/plot_test?station_id=%s',$stationId));
+        $response = Http::timeout(300)->get(sprintf('https://fast-api-54so.onrender.com/plot_test?station_id=%s',$stationId));
         $dir = base_path('images/test');
         $filePath = $dir . '/' . $stationId . '.png';
         file_put_contents(
@@ -79,17 +89,17 @@ class ModelService{
     }
 
     public function plot_test($stationId){
-        $response = Http::timeout(120)->get(sprintf('https://fast-api-54so.onrender.com/plot_test?station_id=%s',$stationId));
+        $response = Http::timeout(300)->get(sprintf('https://fast-api-54so.onrender.com/plot_test?station_id=%s',$stationId));
         file_put_contents(sprintf('images/test/%s.png',$stationId), $response->body());
         return true;
     }
     public function plot_future($stationId){
-        $response = Http::timeout(120)->get(sprintf('https://fast-api-54so.onrender.com/plot_future?station_id=%s',$stationId));
+        $response = Http::timeout(300)->get(sprintf('https://fast-api-54so.onrender.com/plot_future?station_id=%s',$stationId));
         file_put_contents(sprintf('images/future/%s.png',$stationId), $response->body());
         return true;
     }
     public function getStationIds(){
-        $stations = Http::timeout(20)->get("http://gracian.ca/laravel/public/api/stations");
+        $stations = Http::timeout(300)->get("http://gracian.ca/laravel/public/api/stations");
         $stations = json_decode($stations,true);
         $stationIds = [];
         for($i=0;$i<count($stations);$i++){

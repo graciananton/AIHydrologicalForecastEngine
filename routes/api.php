@@ -14,7 +14,7 @@ use App\Http\Controllers\ModelController;
 use App\Http\Controllers\TestEvaluationsController;
 use App\Http\Controllers\PredictionsController;
 use App\Http\Controllers\TrainController;
-
+use App\Http\Controllers\StatsController;
 
 # get the RMSE score of the test set
 
@@ -75,3 +75,5 @@ Route::get('/fine_tuning',[ModelController::class, 'fine_tune_model']);
 Route::get('/test', [TestEvaluationsController::class,'process']);
 Route::get('/future', [PredictionsController::class,'process']);
 Route::get('/train', [TrainController::class,'process']);
+
+Route::get('/stats', [StatsController::class,'process']);
