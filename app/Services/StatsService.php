@@ -2,6 +2,7 @@
 namespace App\Services;
 use App\Models\Station;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Http;
 
 class StatsService
 {
@@ -15,6 +16,8 @@ class StatsService
     public function filter(array $params):array{
         $hour = Carbon::now('UTC')->startOfHour();
         $level = "http://gracian.ca/laravel/public/api/future?stationId=".$params['stationId']."&from=".$hour."&to=".$hour;
+        
+        Log::channel("laravel")->info($level);
         
         $response = Http::get($level);
 
