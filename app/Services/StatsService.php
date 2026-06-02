@@ -19,13 +19,14 @@ class StatsService
         $currentHour = Carbon::now('UTC')->startOfHour();
         $futureHour = Carbon::now('UTC')->startOfHour()->addHours(24);
 
-        $predictions = Predictions::where('stationId', $params['stationId'])
+        $prediction = Predictions::where('stationId', $params['stationId'])
             ->whereBetween('predictedFor', [$currentHour, $futureHour])
             ->orderBy('predictedFor','asc')
-            ->get()
-            ->toArray();
-
+            ->max('prediction');
+    
         
-        return $predictions;
+
+
+        return null;
     }   
 }
