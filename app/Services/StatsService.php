@@ -44,7 +44,7 @@ class StatsService
         return [
             'currentLevel' => $currentLevel->prediction,
             'trend' => ($latestFuturePrediction->prediction - $oldestFuturePrediction->prediction > 0.0) ? "rising": "falling",
-            'lastUpdated' => $prediction[count($predictions)-1]->updated_at,
+            'lastUpdated' => $latestFuturePrediction->updated_at,
             'maximumForecast' => $maxPrediction->prediction,
             'minForecast' => $minPrediction->prediction,
             'maximumForecast' => $maxPrediction->prediction,
