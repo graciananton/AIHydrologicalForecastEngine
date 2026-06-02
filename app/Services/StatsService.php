@@ -24,6 +24,9 @@ class StatsService
             ->orderBy('prediction', 'desc')
             ->get();
 
+        Log::channel("laravel")->info("predictions count");
+        Log::channel("laravel")->info(count($predictions));
+
         $maxPrediction = Predictions::where('stationId', $params['stationId'])
             ->whereBetween('predictedFor', [$currentHour, $futureHour])
             ->orderBy('prediction', 'desc')
@@ -38,7 +41,13 @@ class StatsService
             ->where('predictedFor', $currentHour)
             ->first();
         
-        $latestFuturePrediction = $predictions[count($predictions) - 1];
+        if(count($predictions) - 1 >= 0){
+            $latestFuturePrediction = $predictions[count($predictions) - 1];
+        }
+        else{
+            $latestFuturePrediction = $predictions[0];
+        }
+        
         $oldestFuturePrediction = $predictions[0];
 
         return [
