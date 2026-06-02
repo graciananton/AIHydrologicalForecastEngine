@@ -17,6 +17,7 @@ class StatsService
     }
     public function filter(array $params):array{
         $currentHour = Carbon::now('UTC')->startOfHour();
+
         $futureHour = Carbon::now('UTC')->startOfHour()->addHours(24);
 
         $predictions = Predictions::where('stationId', $params['stationId'])
@@ -41,13 +42,15 @@ class StatsService
             ->where('predictedFor', $currentHour)
             ->first();
         
-        if(count($predictions) - 1 >= 0){
+        
+        // it must have at least 2 predictions, or else just choose the first prediction
+        if(count($predictions) >= 2){
             $latestFuturePrediction = $predictions[count($predictions) - 1];
         }
         else{
             $latestFuturePrediction = $predictions[0];
         }
-        
+
         $oldestFuturePrediction = $predictions[0];
 
         return [
