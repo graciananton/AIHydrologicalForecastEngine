@@ -3,6 +3,8 @@ namespace App\Services;
 use App\Models\Station;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Log;
+use App\Models\Predictions;
 
 class StatsService
 {
@@ -14,15 +16,16 @@ class StatsService
         return $params;
     }
     public function filter(array $params):array{
-        $hour = Carbon::now('UTC')->startOfHour();
-        $level = "http://gracian.ca/laravel/public/api/future?stationId=".$params['stationId']."&from=".$hour."&to=".$hour;
-        
-        Log::channel("laravel")->info($level);
-        
-        $response = Http::get($level);
+        //$hour = Carbon::now('UTC')->startOfHour()->format('Y-m-d\TH:i:s.u\Z');
 
-        $data = $response->json();
+        $currentHour = Carbon::now('UTC')->startOfHour();
+        $futureHour = Carbon::now('UTC')->startOfHour()->addHours(24);
 
-        return $data;
-    }
+        $predictions = Predictions::where('stationId', $params['stationId'])
+            ->whereBetween('predictedFor', [$currentHour, $futureHour])
+            ->orderBy('predictedFor','asc')
+            ->get();
+
+        return $predictions;
+    }   
 }
