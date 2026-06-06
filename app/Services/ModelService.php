@@ -80,17 +80,6 @@ class ModelService{
             return false;
         }
 
-        $contentType = $response->header('Content-Type');
-
-        # this checks if the contentType of the response is an image
-        if (strpos($contentType, 'image/') !== 0) {
-            Log::error('Response is not an image', [
-                'content_type' => $contentType,
-                'body' => substr($response->body(), 0, 500)
-            ]);
-            return false;
-        }
-
         $dir = base_path('images/train');
         $filePath = $dir . '/' . $stationId . '.png';
 
@@ -98,24 +87,15 @@ class ModelService{
             $filePath,
             $response->body()
         );  
-
-        if (!is_file($filePath)) {
-            Log::error('File was not written');
-            return false;
-        }
-
-        $imageInfo = @getimagesize($filePath);
-
-        if ($imageInfo === false) {
-            Log::error('Invalid image file');
-            unlink($filePath);
-            return false;
-        }
-        if($imageInfo['mime'] != "image/png" && $imageInfo['mime'] != 'image/jpeg'){
-            Log::error("Invalid file mime type");
-            return false;
-        }
         
+        # this checks if image is valid, not corrupted, not obviously truncated
+        # if any of these steps does not work, then it reutrns false
+        $imageInfo = @imagecreatefrompng($filePath);
+
+        if($imageInfo == false){
+            return false;
+        }
+ 
         return true;
     }
 
