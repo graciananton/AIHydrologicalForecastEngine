@@ -46,7 +46,9 @@ class PlotTrainJob implements ShouldQueue
             ]);
 
 
-            $ModelService->plotTrain($this->stationId);
+            if(!$ModelService->plotTrain($this->stationId)){
+                return false;
+            }
             
             Log::channel("laravel")->info("Plotting train set");
 

@@ -26,7 +26,7 @@ class ModelService{
 
 
 
-    
+
     public function futureSet($stationId){
         $response = Http::timeout(300)->get(sprintf('https://fast-api-54so.onrender.com/future_set?station_id=%s',$stationId));
         $future_predictions = $response->json();
@@ -70,6 +70,14 @@ class ModelService{
     public function plotTrain($stationId){
         Log::channel("laravel")->info("Plotting train function");
         $response = Http::timeout(300)->get(sprintf('https://fast-api-54so.onrender.com/plot_train?station_id=%s',$stationId));
+        
+        if (!$response->successful()) {
+            Log::error('FastAPI request failed', [
+                'status' => $response->status(),
+                'body' => $response->body()
+            ]);
+            return false;
+        }
 
         $dir = base_path('images/train');
         $filePath = $dir . '/' . $stationId . '.png';
@@ -79,7 +87,14 @@ class ModelService{
         file_put_contents(
             $filePath,
             $response->body()
-        );        
+        );   
+
+        if (file_exists($filePath)) {
+            echo $stationId.".png exists";
+        } else {
+            echo $stationId.".png does not exists";
+        }   
+
         return true;
     }
 
