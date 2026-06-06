@@ -47,7 +47,13 @@ class PlotTrainJob implements ShouldQueue
 
 
             if(!$ModelService->plotTrain($this->stationId)){
-                return false;
+                $this->update([
+                'status'=>'failed'
+                ]);
+
+                $this->setOutput(['message' => 'Job not finished!']);
+                
+                return;
             }
             
             Log::channel("laravel")->info("Plotting train set");

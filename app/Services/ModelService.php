@@ -71,6 +71,7 @@ class ModelService{
         Log::channel("laravel")->info("Plotting train function");
         $response = Http::timeout(300)->get(sprintf('https://fast-api-54so.onrender.com/plot_train?station_id=%s',$stationId));
         
+        # this checks if the query to the API endpoint was successful
         if (!$response->successful()) {
             Log::error('FastAPI request failed', [
                 'status' => $response->status(),
@@ -79,21 +80,29 @@ class ModelService{
             return false;
         }
 
+        $contentType = $response->header('Content-Type');
+
+        # this checks if the contentType of the response is an image
+        if (strpos($contentType, 'image/') !== 0) {
+            Log::error('Response is not an image', [
+                'content_type' => $contentType,
+                'body' => substr($response->body(), 0, 500)
+            ]);
+            return false;
+        }
+
         $dir = base_path('images/train');
         $filePath = $dir . '/' . $stationId . '.png';
 
-        Log::channel("larvel")->info("Writing into file path");
-        Log::channel("laravel")->info($filePath);
         file_put_contents(
             $filePath,
             $response->body()
-        );   
+        );  
 
-        if (file_exists($filePath)) {
-            echo $stationId.".png exists";
-        } else {
-            echo $stationId.".png does not exists";
-        }   
+        if (!is_file($filePath)) {
+            Log::error('File was not written');
+            return false;
+        }
 
         return true;
     }
