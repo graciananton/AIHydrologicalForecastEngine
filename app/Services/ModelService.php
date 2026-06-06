@@ -23,6 +23,10 @@ class ModelService{
         ]);
         return $rmse;
     }
+
+
+
+    
     public function futureSet($stationId){
         $response = Http::timeout(300)->get(sprintf('https://fast-api-54so.onrender.com/future_set?station_id=%s',$stationId));
         $future_predictions = $response->json();
@@ -45,6 +49,10 @@ class ModelService{
         }
         return $future_predictions;
     }
+
+
+
+
 
     public function plotFuture($stationId){
         $response = Http::timeout(300)->get(sprintf('https://fast-api-54so.onrender.com/plot_future?station_id=%s',$stationId));
