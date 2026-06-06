@@ -104,6 +104,18 @@ class ModelService{
             return false;
         }
 
+        $imageInfo = @getimagesize($filePath);
+
+        if ($imageInfo === false) {
+            Log::error('Invalid image file');
+            unlink($filePath);
+            return false;
+        }
+        if($imageInfo['mime'] != "image/png" && $imageInfo['mime'] != 'image/jpeg'){
+            Log::error("Invalid file mime type");
+            return false;
+        }
+        
         return true;
     }
 
