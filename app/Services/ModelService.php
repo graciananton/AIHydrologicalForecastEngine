@@ -28,7 +28,7 @@ class ModelService{
         }
         catch(\Throwable $e){
             Log::error(
-                "Model training failed",
+                "trainModel failed",
                 [
                     'stationId' => $stationId,
                     'error' => $e->getMessage()
@@ -75,7 +75,7 @@ class ModelService{
         }
         catch(\Throwable $e){
             Log::error(
-                "Model training failed",
+                "plotTrain failed",
                 [
                     'stationId' => $stationId,
                     'error' => $e->getMessage()
@@ -113,7 +113,7 @@ class ModelService{
         }
         catch(\Throwable $e){
             Log::error(
-                "Model testing failed",
+                "testModel failed",
                 [
                     'stationId' => $stationId,
                     'error' => $e->getMessage()
@@ -135,7 +135,7 @@ class ModelService{
             # this checks if the query to the API endpoint was successful
             if (!$response->successful()) { // this is for 200-299 (success)
                 throw new \RuntimeException(
-                    "plotTrain FastAPI request failed for ".$stationId
+                    "plotTest FastAPI request failed for ".$stationId
                 );
             }   
 
@@ -152,10 +152,10 @@ class ModelService{
             $imageInfo = @imagecreatefrompng($filePath);
 
             if($imageInfo == false){
-                Log::error('plotTrain image is not valid, corrupted, or obviously truncated');
+                Log::error('plotTest image is not valid, corrupted, or obviously truncated');
 
                 throw new \UnexpectedValueException(
-                    "plotTrain image is not valid, corrupted, or obviously truncated"
+                    "plotTest image is not valid, corrupted, or obviously truncated"
                 );
             }
 
@@ -163,7 +163,7 @@ class ModelService{
         }
         catch(\Throwable $e){
             Log::error(
-                "Model training failed",
+                "plotTest failed",
                 [
                     'stationId' => $stationId,
                     'error' => $e->getMessage()
@@ -236,7 +236,7 @@ class ModelService{
     }
     
     public function getStationIds(){
-        $stations = Http::timeout(300)->get("http://gracian.ca/laravel/public/api/stations");
+        $stations = Http::timeout(1200)->get("http://gracian.ca/laravel/public/api/stations");
         $stations = json_decode($stations,true);
         $stationIds = [];
         for($i=0;$i<count($stations);$i++){
