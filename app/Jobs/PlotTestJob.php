@@ -80,9 +80,12 @@ class PlotTestJob implements ShouldQueue
         }
         catch(Exception $e){
             Log::channel("laravel")->info($e->getMessage());
+
             $this->update([
-                'status'=>'failed'
+                'status' => 'failed'
             ]);
+
+            $this->setOutput(['message' => 'Job not finished!']);
         }
     }
 }

@@ -126,38 +126,51 @@ class ModelService{
 
     // plotTest - JOB
     public function plotTest($stationId){
-        Log::channel("laravel")->info("plotTest for ". $stationId);
+        try{
+            Log::channel("laravel")->info("plotTest for ". $stationId);
 
-        $response = Http::timeout(300)->get(sprintf('https://fast-api-54so.onrender.com/plot_test?station_id=%s',$stationId));
+            $response = Http::timeout(1200)->get(sprintf('https://fast-api-54so.onrender.com/plot_test?station_id=%s',$stationId));
 
-        # this checks if the query to the API endpoint was successful
-        if (!$response->successful()) {
-            Log::error('plotTest FastAPI request failed for '. $stationId, [
-                'status' => $response->status(),
-                'body' => $response->body()
-            ]);
-            return false;
+            # this checks if the query to the API endpoint was successful
+            # this checks if the query to the API endpoint was successful
+            if (!$response->successful()) { // this is for 200-299 (success)
+                throw new \RuntimeException(
+                    "plotTrain FastAPI request failed for ".$stationId
+                );
+            }   
+
+
+            $dir = base_path('images/test');
+            $filePath = $dir . '/' . $stationId . '.png';
+            file_put_contents(
+                $filePath,
+                $response->body()
+            );        
+            
+            # this checks if image is not valid, not corrupted, or not obviously truncated
+            # if any of these steps does not work, then it reutrns false
+            $imageInfo = @imagecreatefrompng($filePath);
+
+            if($imageInfo == false){
+                Log::error('plotTrain image is not valid, corrupted, or obviously truncated');
+
+                throw new \UnexpectedValueException(
+                    "plotTrain image is not valid, corrupted, or obviously truncated"
+                );
+            }
+
+            Log::channel("laravel")->info("plotTest successfully for ". $stationId);
         }
-
-        $dir = base_path('images/test');
-        $filePath = $dir . '/' . $stationId . '.png';
-        file_put_contents(
-            $filePath,
-            $response->body()
-        );        
-        
-        # this checks if image is not valid, not corrupted, or not obviously truncated
-        # if any of these steps does not work, then it reutrns false
-        $imageInfo = @imagecreatefrompng($filePath);
-
-        if($imageInfo == false){
-            Log::error('plotTest image is not valid, corrupted, or obviously truncated for' . $stationId);
-            return false;
+        catch(\Throwable $e){
+            Log::error(
+                "Model training failed",
+                [
+                    'stationId' => $stationId,
+                    'error' => $e->getMessage()
+                ]
+            );
+            throw $e;
         }
-        Log::channel("laravel")->info("plotTest successfully for ". $stationId);
-
-        return true;
-
     }
 
     public function futureSet($stationId){
