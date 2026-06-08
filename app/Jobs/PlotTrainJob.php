@@ -47,6 +47,7 @@ class PlotTrainJob implements ShouldQueue
 
 
             if(!$ModelService->plotTrain($this->stationId)){
+                // this is where the error handling begins
                 $this->update([
                 'status' => 'failed'
                 ]);
