@@ -40,26 +40,15 @@ class TrainModelJob implements ShouldQueue
             $this->update([
                 'started_at' => now()
             ]);
-
-            Log::channel("laravel")->info("training model", [
-                'stationId' => $this->stationId
-            ]);
             
             $ModelService->trainModel($this->stationId);
-            
-            Log::channel("laravel")->info("training model");
-
-            #Log::info("This is after plotting", [
-            #    'statusId' => $this->getJobStatusId()
-            #]);
 
             $this->update([
                 'job_id' => $this->getJobStatusId()
             ]);
 
-            Log::channel("laravel")->info("After training model");
-
             $this->setProgressNow(100, 100);
+
             $this->update([
                 'status'=>'finished'
             ]);
@@ -77,11 +66,13 @@ class TrainModelJob implements ShouldQueue
 
             Log::channel("laravel")->info($this->getJobStatusId());
         }
-        catch(Exception $e){
+        catch(\Throwable $e){
             Log::channel("laravel")->info($e->getMessage());
             $this->update([
-                'status'=>'failed'
+                'status' => 'failed'
             ]);
+
+            $this->setOutput(['message' => 'Job not finished!']);
         }
     }
 }

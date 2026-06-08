@@ -26,15 +26,14 @@ class ModelService{
 
             Log::channel("laravel")->info("Successfully trained model for ". $stationId);
 
-            return $status['status'];
+            return $status;
         }
         catch(\Throwable $e){
             Log::error(
                 "Model training failed",
                 [
                     'stationId' => $stationId,
-                    'error' => $e->getMessage(),
-                    'status' => 'failed'
+                    'error' => $e->getMessage()
                 ]
             );
             throw $e;
