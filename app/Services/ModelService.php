@@ -8,25 +8,40 @@ use App\Models\Predictions;
 class ModelService{
     // trainModel - JOB
     public function trainModel($stationId){
-        $response = Http::timeout(1200)->get(sprintf('https://fast-api-54so.onrender.com/train_model?station_id=%s',$stationId));
-        
-        if (!$response->successful()) { // this is for 200-299 (success)
-            Log::error('trainModel FastAPI request failed for '.$stationId);
-        }   
-        $status = $response->json();
+        try{
+            $response = Http::timeout(1200)->get(sprintf('https://fast-api-54so.onrender.com/train_model?station_id=%s',$stationId));
+            
+            if (!$response->successful()) { // this is for 200-299 (success)
+                throw new \RuntimeException(
+                    "trainModel FastAPI request failed for ".$stationId
+                );
+            }   
+            $status = $response->json();
 
-        if (!is_array($status)) {
-            Log::error('trainModel response is not valid output for '.$stationId);
+            if (!is_array($status)) {
+                throw new \UnexpectedValueException(
+                   'trainModel response is not valid output for '.$stationId
+                );
+            }
+
+            Log::channel("laravel")->info("Successfully trained model for ". $stationId);
+            return $status;
         }
-
-        Log::channel("laravel")->info("Successfully trained model for ". $stationId);
-        return $status;
+        catch(\Throwable $e){
+            Log::error(
+                "Model training failed",
+                [
+                    'stationId' => $stationId,
+                    'error' => $e->getMessage(),
+                ]
+            );
+        }
     }
 
     public function testModel($stationId){
         $response = Http::timeout(1200)->get(sprintf('https://fast-api-54so.onrender.com/test_model?station_id=%s',$stationId));
 
-        
+
         $rmse = $response->json();
         Log::channel("laravel")->info(sprintf($rmse['RMSE']));
 
