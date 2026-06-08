@@ -61,8 +61,26 @@ class ModelController{
     }
     // end of plotTrain code
 
+    public function testSingle(Request $request)
+    {
+        $rmse = $this->ModelService->testModel($request->stationId);
+        Log::channel("larave")->info($rmse);
+        Log::channel("laravel")->info(sprintf("Test Single: %s RMSE score %f",$request->stationId, $rmse['RMSE']));
+        return response()->json(['RMSE'=>$rmse['RMSE']]);
+    }
+    public function testAll()
+    {
+        $stationIds = $this->ModelService->getStationIds();
 
+        $results = [];
+        foreach ($stationIds as $stationId) {
+           $rmse =  $this->ModelService->testModel($stationId);
+           Log::channel("laravel")->info(sprintf("Test All: %s RMSE score %f",$stationId, $rmse['RMSE']));
+           $results[$stationId] = (float) $rmse['RMSE']; 
+        }
 
+        return response()->json($results);
+    }
 
     public function plotTestSingle(Request $request){
         Log::channel("laravel")->info("Plotting test single");
@@ -103,27 +121,6 @@ class ModelController{
         return response()->json([
             'message' => 'Plotting future data started for all stations'
         ]);
-    }
-
-    public function testSingle(Request $request)
-    {
-        $rmse = $this->ModelService->testModel($request->stationId);
-        Log::channel("larave")->info($rmse);
-        Log::channel("laravel")->info(sprintf("Test Single: %s RMSE score %f",$request->stationId, $rmse['RMSE']));
-        return response()->json(['RMSE'=>$rmse['RMSE']]);
-    }
-    public function testAll()
-    {
-        $stationIds = $this->ModelService->getStationIds();
-
-        $results = [];
-        foreach ($stationIds as $stationId) {
-           $rmse =  $this->ModelService->testModel($stationId);
-           Log::channel("laravel")->info(sprintf("Test All: %s RMSE score %f",$stationId, $rmse['RMSE']));
-           $results[$stationId] = (float) $rmse['RMSE']; 
-        }
-
-        return response()->json($results);
     }
 
 

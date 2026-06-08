@@ -85,19 +85,43 @@ class ModelService{
         }
     }
 
-    
+
     public function testModel($stationId){
-        $response = Http::timeout(1200)->get(sprintf('https://fast-api-54so.onrender.com/test_model?station_id=%s',$stationId));
+        try{
+            $response = Http::timeout(1200)->get(sprintf('https://fast-api-54so.onrender.com/test_model?station_id=%s',$stationId));
 
+            if (!$response->successful()) { // this is for 200-299 (success)
+                throw new \RuntimeException(
+                    "trainModel FastAPI request failed for ".$stationId
+                );
+            }   
 
-        $rmse = $response->json();
-        Log::channel("laravel")->info(sprintf($rmse['RMSE']));
+            $rmse = $response->json();
+            
+            if (!is_array($rmse)) {
+                throw new \UnexpectedValueException(
+                   'testModel response is not valid output for '.$stationId
+                );
+            }
 
-        TestEvaluations::create([
-            'stationId' => $stationId,
-            'error' => $rmse['RMSE']
-        ]);
-        return $rmse;
+            TestEvaluations::create([
+                'stationId' => $stationId,
+                'error' => $rmse['RMSE']
+            ]);
+            
+            return $rmse;
+        }
+        catch(\Throwable $e){
+            Log::error(
+                "Model testing failed",
+                [
+                    'stationId' => $stationId,
+                    'error' => $e->getMessage()
+                ]
+            );
+
+            throw $e;
+        }
     }
 
 
