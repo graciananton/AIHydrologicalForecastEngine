@@ -12,13 +12,12 @@ class ModelService{
         
         if ($response->successful()) { // this is for 200-299 (success)
             $status = $response->json();
-        }    
-
-        if ($response->failed()) { // this is for 400-599 (server failed, the requesth has a problem)
-            Log::error('Request failed', [
-                'status' => $response->status(),
-                'body' => $response->body(),
-            ]);
+        }   
+         
+        if (!is_array($status)) {
+            throw new \Exception(
+                "Invalid JSON response: " . $response->body()
+            );
         }
         Log::channel("laravel")->info("Successfully trained model for ". $stationId);
         return $status;
