@@ -184,7 +184,7 @@ class ModelService{
             }   
 
 
-            $future_predictions = $response->json();
+            $futurePredictions = $response->json();
 
             if (!is_array($status)) {
                 throw new \UnexpectedValueException(
@@ -192,24 +192,24 @@ class ModelService{
                 );
             }
 
-            foreach($future_predictions as $future_prediction) {
-                Predictions::create([
-                    'stationId' => $future_prediction['stationId'],
-                    'prediction' => $future_prediction['levelAtHour'],
-                    'predictedFor' => $future_prediction['measuredAt']
-                ]);
-
-                Predictions::updateOrCreate(
+            foreach($futurePredictions as $futurePrediction) {
+                $prediction = Predictions::updateOrCreate(
                     [
-                        'stationId'   => $future_prediction['stationId'],
-                        'predictedFor' => $future_prediction['measuredAt']
+                        'stationId'   => $futurePrediction['stationId'],
+                        'predictedFor' => $futurePrediction['measuredAt']
                     ],
                     [
-                        'prediction' => $future_prediction['levelAtHour']
+                        'prediction' => $futurePrediction['levelAtHour']
                     ]
                 );
+
+                if(!$prediction instanceof Predictions || !$prediction->exists){
+                    throw new \RuntimeException(
+                        'Prediction record was not created successfully'
+                    );
+                }
             }
-            return $future_predictions;
+            return $futurePredictions;
         }
         catch(\Throwable $e){
             Log::error(
