@@ -48,11 +48,11 @@ class PlotTrainJob implements ShouldQueue
 
             if(!$ModelService->plotTrain($this->stationId)){
                 $this->update([
-                'status'=>'failed'
+                'status' => 'failed'
                 ]);
 
                 $this->setOutput(['message' => 'Job not finished!']);
-                
+
                 return;
             }
             

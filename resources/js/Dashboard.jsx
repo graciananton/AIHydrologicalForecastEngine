@@ -68,10 +68,10 @@ function MetricCells({section, stations}){
                 const response = await fetch(url);
                 
                 const json = await response.json();
+                console.log(json);
                 return json;
             });
             const results = await Promise.all(promises);
-            console.log(results);
             setMetrics(results);
         };
         fetchResults();
@@ -89,6 +89,8 @@ function MetricCells({section, stations}){
 }
 
 function MetricCell({ metric, section, param }){
+    console.log(metric)
+    
     const [showPopup, setShowPopup] = useState(false);
     let stationId = "";
     let sum = 0;

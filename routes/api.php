@@ -76,8 +76,6 @@ Route::get('/test', [TestEvaluationsController::class,'process']);
 
 Route::get('/future', [PredictionsController::class,'process']);
 
-
-
 Route::get('/train', [TrainController::class,'process']);
 
 Route::get('/stats', [StatsController::class,'process']);
