@@ -25,6 +25,7 @@ class ModelService{
             }
 
             Log::channel("laravel")->info("Successfully trained model for ". $stationId);
+            
             return $status;
         }
         catch(\Throwable $e){
@@ -35,6 +36,7 @@ class ModelService{
                     'error' => $e->getMessage(),
                 ]
             );
+            throw $e;
         }
     }
 
