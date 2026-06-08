@@ -81,11 +81,11 @@ class ModelService{
                     'error' => $e->getMessage()
                 ]
             );
-
             throw $e;
         }
     }
 
+    
     public function testModel($stationId){
         $response = Http::timeout(1200)->get(sprintf('https://fast-api-54so.onrender.com/test_model?station_id=%s',$stationId));
 
@@ -101,7 +101,41 @@ class ModelService{
     }
 
 
+    // plotTest - JOB
+    public function plotTest($stationId){
+        Log::channel("laravel")->info("plotTest for ". $stationId);
 
+        $response = Http::timeout(300)->get(sprintf('https://fast-api-54so.onrender.com/plot_test?station_id=%s',$stationId));
+
+        # this checks if the query to the API endpoint was successful
+        if (!$response->successful()) {
+            Log::error('plotTest FastAPI request failed for '. $stationId, [
+                'status' => $response->status(),
+                'body' => $response->body()
+            ]);
+            return false;
+        }
+
+        $dir = base_path('images/test');
+        $filePath = $dir . '/' . $stationId . '.png';
+        file_put_contents(
+            $filePath,
+            $response->body()
+        );        
+        
+        # this checks if image is not valid, not corrupted, or not obviously truncated
+        # if any of these steps does not work, then it reutrns false
+        $imageInfo = @imagecreatefrompng($filePath);
+
+        if($imageInfo == false){
+            Log::error('plotTest image is not valid, corrupted, or obviously truncated for' . $stationId);
+            return false;
+        }
+        Log::channel("laravel")->info("plotTest successfully for ". $stationId);
+
+        return true;
+
+    }
 
     public function futureSet($stationId){
         $response = Http::timeout(1200)->get(sprintf('https://fast-api-54so.onrender.com/future_set?station_id=%s',$stationId));
@@ -165,42 +199,6 @@ class ModelService{
 
     }
     
-    // plotTest - JOB
-    public function plotTest($stationId){
-        Log::channel("laravel")->info("plotTest for ". $stationId);
-
-        $response = Http::timeout(300)->get(sprintf('https://fast-api-54so.onrender.com/plot_test?station_id=%s',$stationId));
-
-        # this checks if the query to the API endpoint was successful
-        if (!$response->successful()) {
-            Log::error('plotTest FastAPI request failed for '. $stationId, [
-                'status' => $response->status(),
-                'body' => $response->body()
-            ]);
-            return false;
-        }
-
-        $dir = base_path('images/test');
-        $filePath = $dir . '/' . $stationId . '.png';
-        file_put_contents(
-            $filePath,
-            $response->body()
-        );        
-        
-        # this checks if image is not valid, not corrupted, or not obviously truncated
-        # if any of these steps does not work, then it reutrns false
-        $imageInfo = @imagecreatefrompng($filePath);
-
-        if($imageInfo == false){
-            Log::error('plotTest image is not valid, corrupted, or obviously truncated for' . $stationId);
-            return false;
-        }
-        Log::channel("laravel")->info("plotTest successfully for ". $stationId);
-
-        return true;
-
-    }
-
     public function getStationIds(){
         $stations = Http::timeout(300)->get("http://gracian.ca/laravel/public/api/stations");
         $stations = json_decode($stations,true);
