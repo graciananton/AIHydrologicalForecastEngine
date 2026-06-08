@@ -43,6 +43,9 @@ class ModelController{
         ]);
     }
 
+
+
+
     public function plotTrainAll()
     {
         Log::channel("laravel")->info("plotting training set all");
@@ -57,6 +60,10 @@ class ModelController{
         ]);
     }
 
+
+
+
+    
     public function plotTestSingle(Request $request){
         Log::channel("laravel")->info("Plotting test single");
         PlotTestJob::dispatch($request->stationId);
