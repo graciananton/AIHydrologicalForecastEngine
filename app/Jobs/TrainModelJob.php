@@ -67,6 +67,7 @@ class TrainModelJob implements ShouldQueue
             Log::channel("laravel")->info($this->getJobStatusId());
         }
         catch(\Throwable $e){
+            // this is where errors are mailed
             Log::channel("laravel")->info($e->getMessage());
             $this->update([
                 'status' => 'failed'

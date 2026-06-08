@@ -74,7 +74,15 @@ class ModelService{
             Log::channel("laravel")->info("plotTrain successfully for ". $stationId);
         }
         catch(\Throwable $e){
-            
+            Log::error(
+                "Model training failed",
+                [
+                    'stationId' => $stationId,
+                    'error' => $e->getMessage()
+                ]
+            );
+
+            throw $e;
         }
     }
 

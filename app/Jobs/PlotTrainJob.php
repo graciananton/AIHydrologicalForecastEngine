@@ -80,8 +80,9 @@ class PlotTrainJob implements ShouldQueue
             Log::channel("laravel")->info($this->getJobStatusId());
         }
         catch(Exception $e){
+            // this is where errors are mailed
             Log::channel("laravel")->info($e->getMessage());
-            
+
             $this->update([
                 'status' => 'failed'
             ]);
