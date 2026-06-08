@@ -88,11 +88,12 @@ class ModelService{
             $response->body()
         );  
         
-        # this checks if image is valid, not corrupted, not obviously truncated
+        # this checks if image is not valid, not corrupted, or not obviously truncated
         # if any of these steps does not work, then it reutrns false
         $imageInfo = @imagecreatefrompng($filePath);
 
         if($imageInfo == false){
+            Log::error('plotTrain image is not valid, corrupted, or obviously truncated');
             return false;
         }
  
