@@ -6,14 +6,15 @@ use App\Models\TestEvaluations;
 use App\Models\Predictions;
 
 class ModelService{
+    // trainModel - JOB
     public function trainModel($stationId){
-        $response = Http::timeout(300)->get(sprintf('https://fast-api-54so.onrender.com/train_model?station_id=%s',$stationId));
+        $response = Http::timeout(1200)->get(sprintf('https://fast-api-54so.onrender.com/train_model?station_id=%s',$stationId));
         $status = $response->json();
         return $status;
     }
 
     public function testModel($stationId){
-        $response = Http::timeout(300)->get(sprintf('https://fast-api-54so.onrender.com/test_model?station_id=%s',$stationId));
+        $response = Http::timeout(1200)->get(sprintf('https://fast-api-54so.onrender.com/test_model?station_id=%s',$stationId));
         $rmse = $response->json();
         Log::channel("laravel")->info(sprintf($rmse['RMSE']));
 
@@ -28,7 +29,7 @@ class ModelService{
 
 
     public function futureSet($stationId){
-        $response = Http::timeout(300)->get(sprintf('https://fast-api-54so.onrender.com/future_set?station_id=%s',$stationId));
+        $response = Http::timeout(1200)->get(sprintf('https://fast-api-54so.onrender.com/future_set?station_id=%s',$stationId));
         $future_predictions = $response->json();
         foreach($future_predictions as $future_prediction) {
             Predictions::create([
@@ -53,9 +54,9 @@ class ModelService{
 
 
 
-
+    // plotFuture - JOB
     public function plotFuture($stationId){
-        $response = Http::timeout(300)->get(sprintf('https://fast-api-54so.onrender.com/plot_future?station_id=%s',$stationId));
+        $response = Http::timeout(1200)->get(sprintf('https://fast-api-54so.onrender.com/plot_future?station_id=%s',$stationId));
         $dir = base_path("images/future");
         $filePath = $dir . '/'. $stationId . '.png';
         file_put_contents(
@@ -66,14 +67,14 @@ class ModelService{
     }
 
 
-
+    // plotTrain - JOB
     public function plotTrain($stationId){
         Log::channel("laravel")->info("Plotting train function");
         $response = Http::timeout(1200)->get(sprintf('https://fast-api-54so.onrender.com/plot_train?station_id=%s',$stationId));
         
         # this checks if the query to the API endpoint was successful
         if (!$response->successful()) {
-            Log::error('FastAPI request failed', [
+            Log::error('plotTrain FastAPI request failed for '. $stationId, [
                 'status' => $response->status(),
                 'body' => $response->body()
             ]);
@@ -96,12 +97,12 @@ class ModelService{
             Log::error('plotTrain image is not valid, corrupted, or obviously truncated');
             return false;
         }
- 
+        Log::channel("laravel")->info("plotTrain successfully for ". $stationId);
+
         return true;
     }
-
-
     
+    // plotTest - JOB
     public function plotTest($stationId){
         $response = Http::timeout(300)->get(sprintf('https://fast-api-54so.onrender.com/plot_test?station_id=%s',$stationId));
         $dir = base_path('images/test');
@@ -113,16 +114,6 @@ class ModelService{
         return true;
     }
 
-    public function plot_test($stationId){
-        $response = Http::timeout(300)->get(sprintf('https://fast-api-54so.onrender.com/plot_test?station_id=%s',$stationId));
-        file_put_contents(sprintf('images/test/%s.png',$stationId), $response->body());
-        return true;
-    }
-    public function plot_future($stationId){
-        $response = Http::timeout(300)->get(sprintf('https://fast-api-54so.onrender.com/plot_future?station_id=%s',$stationId));
-        file_put_contents(sprintf('images/future/%s.png',$stationId), $response->body());
-        return true;
-    }
     public function getStationIds(){
         $stations = Http::timeout(300)->get("http://gracian.ca/laravel/public/api/stations");
         $stations = json_decode($stations,true);
