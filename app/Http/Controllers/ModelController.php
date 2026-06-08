@@ -14,6 +14,7 @@ class ModelController{
     public function __construct(ModelService $ModelService){
         $this->ModelService = $ModelService;
     }
+    // starting training model code
     public function trainSingle(Request $request)
     {
         TrainModelJob::dispatch($request->stationId);
@@ -33,7 +34,9 @@ class ModelController{
             'message' => 'Training started for all stations'
         ]);
     }
+    // end of training model code
 
+    // start of plotTrain code
     public function plotTrainSingle(Request $request)
     {
         Log::channel("laravel")->info("Plotting train single");
@@ -42,9 +45,6 @@ class ModelController{
             'message'=> sprintf('Plotted training data for station %s', $request->stationId)
         ]);
     }
-
-
-
 
     public function plotTrainAll()
     {
@@ -59,11 +59,11 @@ class ModelController{
             'message' => 'Plotting training data started for all stations'
         ]);
     }
+    // end of plotTrain code
 
 
 
 
-    
     public function plotTestSingle(Request $request){
         Log::channel("laravel")->info("Plotting test single");
         PlotTestJob::dispatch($request->stationId);

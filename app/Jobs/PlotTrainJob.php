@@ -46,16 +46,7 @@ class PlotTrainJob implements ShouldQueue
             ]);
 
 
-            if(!$ModelService->plotTrain($this->stationId)){
-                // this is where the error handling begins
-                $this->update([
-                'status' => 'failed'
-                ]);
-
-                $this->setOutput(['message' => 'Job not finished!']);
-
-                return;
-            }
+            $ModelService->plotTrain($this->stationId);
             
             Log::channel("laravel")->info("Plotting train set");
 
@@ -90,9 +81,12 @@ class PlotTrainJob implements ShouldQueue
         }
         catch(Exception $e){
             Log::channel("laravel")->info($e->getMessage());
+            
             $this->update([
-                'status'=>'failed'
+                'status' => 'failed'
             ]);
+
+            $this->setOutput(['message' => 'Job not finished!']);
         }
     }
 }

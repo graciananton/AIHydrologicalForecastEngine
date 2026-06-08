@@ -38,6 +38,46 @@ class ModelService{
         }
     }
 
+    // plotTrain - JOB
+    public function plotTrain($stationId){
+        try{
+            Log::channel("laravel")->info("plotTrain for ". $stationId);
+            $response = Http::timeout(1200)->get(sprintf('https://fast-api-54so.onrender.com/plot_train?station_id=%s',$stationId));
+            
+            # this checks if the query to the API endpoint was successful
+            if (!$response->successful()) { // this is for 200-299 (success)
+                throw new \RuntimeException(
+                    "plotTrain FastAPI request failed for ".$stationId
+                );
+            }   
+
+
+            $dir = base_path('images/train');
+            $filePath = $dir . '/' . $stationId . '.png';
+
+            file_put_contents(
+                $filePath,
+                $response->body()
+            );  
+            
+            # this checks if image is not valid, not corrupted, or not obviously truncated
+            # if any of these steps does not work, then it reutrns false
+            $imageInfo = @imagecreatefrompng($filePath);
+
+            if($imageInfo == false){
+                Log::error('plotTrain image is not valid, corrupted, or obviously truncated');
+
+                throw new \UnexpectedValueException(
+                    "plotTrain image is not valid, corrupted, or obviously truncated"
+                );
+            }
+            Log::channel("laravel")->info("plotTrain successfully for ". $stationId);
+        }
+        catch(\Throwable $e){
+            
+        }
+    }
+
     public function testModel($stationId){
         $response = Http::timeout(1200)->get(sprintf('https://fast-api-54so.onrender.com/test_model?station_id=%s',$stationId));
 
@@ -115,42 +155,6 @@ class ModelService{
 
         return true;
 
-    }
-
-
-    // plotTrain - JOB
-    public function plotTrain($stationId){
-        Log::channel("laravel")->info("plotTrain for ". $stationId);
-        $response = Http::timeout(1200)->get(sprintf('https://fast-api-54so.onrender.com/plot_train?station_id=%s',$stationId));
-        
-        # this checks if the query to the API endpoint was successful
-        if (!$response->successful()) {
-            Log::error('plotTrain FastAPI request failed for '. $stationId, [
-                'status' => $response->status(),
-                'body' => $response->body()
-            ]);
-            return false;
-        }
-
-        $dir = base_path('images/train');
-        $filePath = $dir . '/' . $stationId . '.png';
-
-        file_put_contents(
-            $filePath,
-            $response->body()
-        );  
-        
-        # this checks if image is not valid, not corrupted, or not obviously truncated
-        # if any of these steps does not work, then it reutrns false
-        $imageInfo = @imagecreatefrompng($filePath);
-
-        if($imageInfo == false){
-            Log::error('plotTrain image is not valid, corrupted, or obviously truncated');
-            return false;
-        }
-        Log::channel("laravel")->info("plotTrain successfully for ". $stationId);
-
-        return true;
     }
     
     // plotTest - JOB
