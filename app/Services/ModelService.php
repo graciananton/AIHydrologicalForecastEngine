@@ -10,21 +10,23 @@ class ModelService{
     public function trainModel($stationId){
         $response = Http::timeout(1200)->get(sprintf('https://fast-api-54so.onrender.com/train_model?station_id=%s',$stationId));
         
-        if ($response->successful()) { // this is for 200-299 (success)
-            $status = $response->json();
+        if (!$response->successful()) { // this is for 200-299 (success)
+            Log::error('trainModel FastAPI request failed for '.$stationId);
         }   
-         
+        $status = $response->json();
+
         if (!is_array($status)) {
-            throw new \Exception(
-                "Invalid JSON response: " . $response->body()
-            );
+            Log::error('trainModel response is not valid output for '.$stationId);
         }
+
         Log::channel("laravel")->info("Successfully trained model for ". $stationId);
         return $status;
     }
 
     public function testModel($stationId){
         $response = Http::timeout(1200)->get(sprintf('https://fast-api-54so.onrender.com/test_model?station_id=%s',$stationId));
+
+        
         $rmse = $response->json();
         Log::channel("laravel")->info(sprintf($rmse['RMSE']));
 
