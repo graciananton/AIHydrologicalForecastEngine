@@ -132,7 +132,6 @@ class ModelService{
             $response = Http::timeout(1200)->get(sprintf('https://fast-api-54so.onrender.com/plot_test?station_id=%s',$stationId));
 
             # this checks if the query to the API endpoint was successful
-            # this checks if the query to the API endpoint was successful
             if (!$response->successful()) { // this is for 200-299 (success)
                 throw new \RuntimeException(
                     "plotTest FastAPI request failed for ".$stationId
@@ -201,38 +200,50 @@ class ModelService{
 
     // plotFuture - JOB
     public function plotFuture($stationId){
-        Log::channel("laravel")->info("plotFuture for ". $stationId);
+        try{
+            Log::channel("laravel")->info("plotFuture for ". $stationId);
 
-        $response = Http::timeout(1200)->get(sprintf('https://fast-api-54so.onrender.com/plot_future?station_id=%s',$stationId));
-        
-        # this checks if the query to the API endpoint was successful
-        if (!$response->successful()) {
-            Log::error('plotFuture FastAPI request failed for '. $stationId, [
-                'status' => $response->status(),
-                'body' => $response->body()
-            ]);
-            return false;
+            $response = Http::timeout(1200)->get(sprintf('https://fast-api-54so.onrender.com/plot_future?station_id=%s',$stationId));
+            
+            # this checks if the query to the API endpoint was successful
+            if (!$response->successful()) { // this is for 200-299 (success)
+                throw new \RuntimeException(
+                    "plotTest FastAPI request failed for ".$stationId
+                );
+            }   
+
+
+            $dir = base_path("images/future");
+            $filePath = $dir . '/'. $stationId . '.png';
+            file_put_contents(
+                $filePath,
+                $response->body()
+            );
+
+            # this checks if image is not valid, not corrupted, or not obviously truncated
+            # if any of these steps does not work, then it reutrns false
+            $imageInfo = @imagecreatefrompng($filePath);
+
+            if($imageInfo == false){
+                Log::error('plotFuture image is not valid, corrupted, or obviously truncated');
+
+                throw new \UnexpectedValueException(
+                    "plotFuture image is not valid, corrupted, or obviously truncated"
+                );
+            }
+
+            Log::channel("laravel")->info("plotFuture successfully for ". $stationId);
         }
-
-        $dir = base_path("images/future");
-        $filePath = $dir . '/'. $stationId . '.png';
-        file_put_contents(
-            $filePath,
-            $response->body()
-        );
-
-        # this checks if image is not valid, not corrupted, or not obviously truncated
-        # if any of these steps does not work, then it reutrns false
-        $imageInfo = @imagecreatefrompng($filePath);
-
-        if($imageInfo == false){
-            Log::error('plotFuture image is not valid, corrupted, or obviously truncated');
-            return false;
+        catch(\Throwable $e){
+            Log::error(
+                "plotFuture failed",
+                [
+                    'stationId' => $stationId,
+                    'error' => $e->getMessage()
+                ]
+            );
+            throw $e;
         }
-        Log::channel("laravel")->info("plotFuture successfully for ". $stationId);
-
-        return true;
-
     }
     
     public function getStationIds(){
