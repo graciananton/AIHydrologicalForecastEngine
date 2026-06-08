@@ -9,7 +9,17 @@ class ModelService{
     // trainModel - JOB
     public function trainModel($stationId){
         $response = Http::timeout(1200)->get(sprintf('https://fast-api-54so.onrender.com/train_model?station_id=%s',$stationId));
-        $status = $response->json();
+        if ($response->successful()) { // this is for 200-299 (success)
+            $data = $response->json();
+        }    
+
+        if ($response->failed()) { // this is for 400-599 (server failed, the requesth has a problem)
+            Log::error('Request failed', [
+                'status' => $response->status(),
+                'body' => $response->body(),
+            ]);
+        }
+        Log::channel("laravel")->info("Successfully trained model for ". $stationId);
         return $status;
     }
 
