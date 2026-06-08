@@ -108,7 +108,7 @@ class ModelService{
                 'stationId' => $stationId,
                 'error' => $rmse['RMSE']
             ]);
-            
+
             return $rmse;
         }
         catch(\Throwable $e){
@@ -119,7 +119,6 @@ class ModelService{
                     'error' => $e->getMessage()
                 ]
             );
-
             throw $e;
         }
     }

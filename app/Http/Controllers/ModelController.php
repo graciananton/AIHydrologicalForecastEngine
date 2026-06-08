@@ -63,10 +63,14 @@ class ModelController{
 
     public function testSingle(Request $request)
     {
-        $rmse = $this->ModelService->testModel($request->stationId);
-        Log::channel("larave")->info($rmse);
-        Log::channel("laravel")->info(sprintf("Test Single: %s RMSE score %f",$request->stationId, $rmse['RMSE']));
-        return response()->json(['RMSE'=>$rmse['RMSE']]);
+        try{
+            $rmse = $this->ModelService->testModel($request->stationId);
+            Log::channel("laravel")->info(sprintf("Test Single: %s RMSE score %f",$request->stationId, $rmse['RMSE']));
+            return response()->json(['RMSE'=>$rmse['RMSE']]);
+        }
+        catch(\Throwable $e){
+            Log::channel("laravel")->info($e->getMessage());
+        }
     }
     public function testAll()
     {
@@ -74,9 +78,14 @@ class ModelController{
 
         $results = [];
         foreach ($stationIds as $stationId) {
-           $rmse =  $this->ModelService->testModel($stationId);
-           Log::channel("laravel")->info(sprintf("Test All: %s RMSE score %f",$stationId, $rmse['RMSE']));
-           $results[$stationId] = (float) $rmse['RMSE']; 
+            try{
+                $rmse =  $this->ModelService->testModel($stationId);
+                $results[$stationId] = (float) $rmse['RMSE']; 
+                Log::channel("laravel")->info(sprintf("Test All: %s RMSE score %f",$stationId, $rmse['RMSE']));
+            }
+            catch(\Throwable $e){
+                Log::channel("laravel")->info($e->getMessage());
+            }
         }
 
         return response()->json($results);
