@@ -160,6 +160,7 @@ class ModelController{
         $results = [];
         foreach ($stationIds as $stationId) {
            $futurePredictions =  $this->ModelService->futureSet($stationId);
+           Log::channel("laravel")->info("future Predictions for ".$stationId);
            $results[$stationId] = $futurePredictions; 
         }
         return response()->json($results);

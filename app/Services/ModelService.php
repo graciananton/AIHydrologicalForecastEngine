@@ -186,7 +186,7 @@ class ModelService{
 
             $futurePredictions = $response->json();
 
-            if (!is_array($status)) {
+            if (!is_array($futurePredictions)) {
                 throw new \UnexpectedValueException(
                    'trainModel response is not valid output for '.$stationId
                 );
@@ -203,11 +203,14 @@ class ModelService{
                     ]
                 );
 
+                Log::channel('laravel')->info("Prediction exists ".$prediction->exists);
+                
                 if(!$prediction instanceof Predictions || !$prediction->exists){
                     throw new \RuntimeException(
                         'Prediction record was not created successfully'
                     );
                 }
+                Log::channel("laravel")->info("Prediction created for ".$futurePrediction['stationId']);
             }
             return $futurePredictions;
         }
