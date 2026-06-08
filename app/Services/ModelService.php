@@ -173,26 +173,54 @@ class ModelService{
     }
 
     public function futureSet($stationId){
-        $response = Http::timeout(1200)->get(sprintf('https://fast-api-54so.onrender.com/future_set?station_id=%s',$stationId));
-        $future_predictions = $response->json();
-        foreach($future_predictions as $future_prediction) {
-            Predictions::create([
-                'stationId' => $future_prediction['stationId'],
-                'prediction' => $future_prediction['levelAtHour'],
-                'predictedFor' => $future_prediction['measuredAt']
-            ]);
+        try{
+            $response = Http::timeout(1200)->get(sprintf('https://fast-api-54so.onrender.com/future_set?station_id=%s',$stationId));
+            
+            # this checks if the query to the API endpoint was successful
+            if (!$response->successful()) { // this is for 200-299 (success)
+                throw new \RuntimeException(
+                    "plotTest FastAPI request failed for ".$stationId
+                );
+            }   
 
-            Predictions::updateOrCreate(
-                [
-                    'stationId'   => $future_prediction['stationId'],
+
+            $future_predictions = $response->json();
+
+            if (!is_array($status)) {
+                throw new \UnexpectedValueException(
+                   'trainModel response is not valid output for '.$stationId
+                );
+            }
+
+            foreach($future_predictions as $future_prediction) {
+                Predictions::create([
+                    'stationId' => $future_prediction['stationId'],
+                    'prediction' => $future_prediction['levelAtHour'],
                     'predictedFor' => $future_prediction['measuredAt']
-                ],
+                ]);
+
+                Predictions::updateOrCreate(
+                    [
+                        'stationId'   => $future_prediction['stationId'],
+                        'predictedFor' => $future_prediction['measuredAt']
+                    ],
+                    [
+                        'prediction' => $future_prediction['levelAtHour']
+                    ]
+                );
+            }
+            return $future_predictions;
+        }
+        catch(\Throwable $e){
+            Log::error(
+                "futureSet prediction failed",
                 [
-                    'prediction' => $future_prediction['levelAtHour']
+                    'stationId' => $stationId,
+                    'error' => $e->getMessage()
                 ]
             );
+            throw $e;
         }
-        return $future_predictions;
     }
 
 
