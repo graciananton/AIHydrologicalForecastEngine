@@ -204,7 +204,8 @@ class ModelService{
                 );
 
                 Log::channel('laravel')->info("Prediction exists ".$prediction->exists);
-                
+                Log::channel('laravel')->info("Predicted for ".$prediction->predictedFor);
+
                 if(!$prediction instanceof Predictions || !$prediction->exists){
                     throw new \RuntimeException(
                         'Prediction record was not created successfully'
