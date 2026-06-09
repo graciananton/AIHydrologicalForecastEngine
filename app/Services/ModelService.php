@@ -42,8 +42,9 @@ class ModelService{
     public function plotTrain($stationId){
         try{
             Log::channel("laravel")->info("plotTrain for ". $stationId);
-            $response = Http::timeout(1200)->get(sprintf('https://fast-api-54so.onrender.com/plot_train?station_id=%s',$stationId));
-            
+            //$response = Http::timeout(1200)->get(sprintf('https://fast-api-54so.onrender.com/plot_train?station_id=%s',$stationId));
+            $response = Http::timeout(30)->get(sprintf('https://fast-api-54so.onrender.com/plot_train?station_id=%s',$stationId));
+
             # this checks if the query to the API endpoint was successful
             if (!$response->successful()) { // this is for 200-299 (success)
                 throw new \RuntimeException(
