@@ -43,10 +43,10 @@ class ModelService{
         try{
             Log::channel("laravel")->info("plotTrain for ". $stationId);
             //$response = Http::timeout(1200)->get(sprintf('https://fast-api-54so.onrender.com/plot_train?station_id=%s',$stationId));
-            $response = Http::timeout(30)->get(sprintf('https://fast-api-54so.onrender.com/plot_train?station_id=%s',$stationId));
+            $response = Http::timeout(10)->get(sprintf('https://fast-api-54so.onrender.com/plot_train?station_id=%s',$stationId));
 
             Log::channel("laravel")->info("Response successful status: ". $response->successful());
-            
+
             # this checks if the query to the API endpoint was successful
             if (!$response->successful()) { // this is for 200-299 (success)
                 throw new \RuntimeException(
@@ -68,7 +68,7 @@ class ModelService{
             $imageInfo = @imagecreatefrompng($filePath);
 
             if($imageInfo == false){
-                Log::error('plotTrain image is not valid, corrupted, or obviously truncated');
+                Log::channel('laravel')->info('plotTrain image is not valid, corrupted, or obviously truncated');
 
                 throw new \UnexpectedValueException(
                     "plotTrain image is not valid, corrupted, or obviously truncated"
