@@ -15,6 +15,7 @@ use App\Http\Controllers\TestEvaluationsController;
 use App\Http\Controllers\PredictionsController;
 use App\Http\Controllers\TrainController;
 use App\Http\Controllers\StatsController;
+use App\Http\Controllers\DailyReportController;
 
 # get the RMSE score of the test set
 

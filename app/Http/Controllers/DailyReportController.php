@@ -2,12 +2,13 @@
 
 namespace App\Http\Controllers;
 use Illuminate\Http\Request;
+use App\Services\DailyReportService;
 
 class DashboardController extends Controller
 {
     public function __construct(Request $request){
     }
-    public function process(){
-        
+    public function process(DailyReportService $dailyReportService){
+        $dailyReportService->sendDailyReport();
     }
 }
