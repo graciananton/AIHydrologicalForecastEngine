@@ -45,6 +45,7 @@ class PlotFutureJob implements ShouldQueue
                 'stationId' => $this->stationId
             ]);
             
+            $this->setInput(['stationId' => $this->stationId]);
 
             $ModelService->plotFuture($this->stationId);
             
@@ -75,13 +76,23 @@ class PlotFutureJob implements ShouldQueue
 
             $this->setOutput(['message' => 'Job finished!']);
 
-            $this->setInput(['stationId' => $this->stationId]);
+            ApplicationErrors::create(
+                [
+                    'errors' => "PlotFutureJob - finished for station ". $this->stationId
+                ]
+            );
 
             Log::channel("laravel")->info($this->getJobStatusId());
         }
         catch(Exception $e){
             // this is where errors are mailed
             Log::channel("laravel")->info($e->getMessage());
+
+            ApplicationErrors::create(
+                [
+                    'errors' => $e->getMessage()
+                ]
+            );
 
             $this->update([
                 'status' => 'failed'
