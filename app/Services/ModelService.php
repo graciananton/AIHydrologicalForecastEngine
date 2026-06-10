@@ -43,7 +43,7 @@ class ModelService{
         try{
             Log::channel("laravel")->info("plotTrain for ". $stationId);
             //$response = Http::timeout(1200)->get(sprintf('https://fast-api-54so.onrender.com/plot_train?station_id=%s',$stationId));
-            $response = Http::timeout(10)->get(sprintf('https://fast-api-54so.onrender.com/plot_train?station_id=%s',$stationId));
+            $response = Http::timeout(1200)->get(sprintf('https://fast-api-54so.onrender.com/plot_train?station_id=%s',$stationId));
 
             Log::channel("laravel")->info("Response successful status: ". $response->successful());
 
