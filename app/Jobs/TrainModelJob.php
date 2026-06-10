@@ -68,7 +68,9 @@ class TrainModelJob implements ShouldQueue
 
             ApplicationErrors::create(
                 [
-                    'errors' => "TrainModelJob - finished for station ". $this->stationId
+                    'message' => "TrainModelJob - finished for station ". $this->stationId,
+                    'category' => 'App\Jobs\TrainModelJob',
+                    'status' => 'Success'
                 ]
             );
 
@@ -81,7 +83,9 @@ class TrainModelJob implements ShouldQueue
             
             ApplicationErrors::create(
                 [
-                    'errors' => $e->getMessage()
+                    'message' => $e->getMessage(),
+                    'category' => 'App\Jobs\TrainModelJob',
+                    'status' => 'Failed'
                 ]
             );
 
