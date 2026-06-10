@@ -103,7 +103,7 @@ class ModelService{
 
             if (!$response->successful()) { // this is for 200-299 (success)
                 throw new \RuntimeException(
-                    "trainModel FastAPI request failed for ".$stationId
+                    "testModel FastAPI request failed for ".$stationId
                 );
             }   
 
@@ -140,7 +140,8 @@ class ModelService{
         try{
             Log::channel("laravel")->info("plotTest for ". $stationId);
 
-            $response = Http::timeout(1200)->get(sprintf('https://fast-api-54so.onrender.com/plot_test?station_id=%s',$stationId));
+            $url = sprintf('https://fast-api-54so.onrender.com/plot_test?station_id=%s',$stationId);
+            $response = Http::connectTimeout(1200)->timeout(1200)->get($url);
 
             # this checks if the query to the API endpoint was successful
             if (!$response->successful()) { // this is for 200-299 (success)
@@ -185,12 +186,14 @@ class ModelService{
 
     public function futureSet($stationId){
         try{
-            $response = Http::timeout(1200)->get(sprintf('https://fast-api-54so.onrender.com/future_set?station_id=%s',$stationId));
+
+            $url = sprintf('https://fast-api-54so.onrender.com/future_set?station_id=%s',$stationId);
+            $response = Http::connectTimeout(1200)->timeout(1200)->get($url);            
             
             # this checks if the query to the API endpoint was successful
             if (!$response->successful()) { // this is for 200-299 (success)
                 throw new \RuntimeException(
-                    "plotTest FastAPI request failed for ".$stationId
+                    "futureSet FastAPI request failed for ".$stationId
                 );
             }   
 
@@ -199,7 +202,7 @@ class ModelService{
 
             if (!is_array($futurePredictions)) {
                 throw new \UnexpectedValueException(
-                   'trainModel response is not valid output for '.$stationId
+                   'futureSet response is not valid output for '.$stationId
                 );
             }
 
@@ -246,12 +249,14 @@ class ModelService{
         try{
             Log::channel("laravel")->info("plotFuture for ". $stationId);
 
-            $response = Http::timeout(1200)->get(sprintf('https://fast-api-54so.onrender.com/plot_future?station_id=%s',$stationId));
+            $url = sprintf('https://fast-api-54so.onrender.com/plot_future?station_id=%s',$stationId);
             
+            $response = Http::connectTimeout(1200)->timeout(1200)->get($url);
+
             # this checks if the query to the API endpoint was successful
             if (!$response->successful()) { // this is for 200-299 (success)
                 throw new \RuntimeException(
-                    "plotTest FastAPI request failed for ".$stationId
+                    "plotFuture FastAPI request failed for ".$stationId
                 );
             }   
 
@@ -291,6 +296,7 @@ class ModelService{
     
     public function getStationIds(){
         $stations = Http::timeout(1200)->get("http://gracian.ca/laravel/public/api/stations");
+
         $stations = json_decode($stations,true);
         $stationIds = [];
         for($i=0;$i<count($stations);$i++){
