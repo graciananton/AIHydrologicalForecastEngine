@@ -14,7 +14,6 @@ return new class extends Migration
             $table->string('message', 1000)->nullable();
         });
     }
-
     /**
      * Reverse the migrations.
      */
