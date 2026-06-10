@@ -9,7 +9,7 @@ use Illuminate\Bus\Queueable;
 use Imtigger\LaravelJobStatus\Trackable;
 use App\Models\ApplicationErrors;
 
-class TrainModelJob implements ShouldQueue
+class TestModelJob implements ShouldQueue
 {
     # use dispatchable to run TrainModelJob::dispatch()
     use Dispatchable, Trackable, Queueable;
@@ -44,7 +44,7 @@ class TrainModelJob implements ShouldQueue
 
             $this->setInput(['stationId' => $this->stationId]);
 
-            $ModelService->trainModel($this->stationId);
+            $ModelService->testModel($this->stationId);
 
             $this->update([
                 'job_id' => $this->getJobStatusId()
