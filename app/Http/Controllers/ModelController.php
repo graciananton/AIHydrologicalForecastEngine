@@ -1,6 +1,8 @@
 <?php
 namespace App\Http\Controllers;
 use App\Jobs\TrainModelJob;
+use App\Jobs\TestModelJob;
+
 use App\Jobs\PlotTrainJob;
 use App\Jobs\PlotTestJob;
 use App\Jobs\PlotFutureJob;
@@ -79,16 +81,17 @@ class ModelController{
         $results = [];
         foreach ($stationIds as $stationId) {
             try{
-                $rmse =  $this->ModelService->testModel($stationId);
-                $results[$stationId] = (float) $rmse['RMSE']; 
-                Log::channel("laravel")->info(sprintf("Test All: %s RMSE score %f",$stationId, $rmse['RMSE']));
+                TestModelJob::dispatch($stationId);
+                //$rmse =  $this->ModelService->testModel($stationId);
+                //$results[$stationId] = (float) $rmse['RMSE']; 
+                //Log::channel("laravel")->info(sprintf("Test All: %s RMSE score %f",$stationId, $rmse['RMSE']));
             }
             catch(\Throwable $e){
                 Log::channel("laravel")->info($e->getMessage());
             }
         }
 
-        return response()->json($results);
+        //return response()->json($results);
     }
 
     public function plotTestSingle(Request $request){
