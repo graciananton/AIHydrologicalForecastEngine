@@ -66,6 +66,12 @@ class TestModelJob implements ShouldQueue
 
             $this->setOutput(['message' => 'Job finished!']);
 
+            ApplicationErrors::create(
+                [
+                    'errors' => "TestModelJob - finished for station ". $this->stationId
+                ]
+            );
+
             Log::channel("laravel")->info($this->getJobStatusId());
         }
         catch(\Throwable $e){

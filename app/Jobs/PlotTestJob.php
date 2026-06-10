@@ -78,7 +78,7 @@ class PlotTestJob implements ShouldQueue
             
             ApplicationErrors::create(
                 [
-                    'errors' => "PlotFutureJob - finished for station ". $this->stationId
+                    'errors' => "PlotTestJob - finished for station ". $this->stationId
                 ]
             );
 
@@ -86,7 +86,7 @@ class PlotTestJob implements ShouldQueue
         }
         catch(Exception $e){
             Log::channel("laravel")->info($e->getMessage());
-            
+
             ApplicationErrors::create(
                 [
                     'errors' => $e->getMessage()
