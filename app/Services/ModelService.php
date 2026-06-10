@@ -54,7 +54,6 @@ class ModelService{
                 );
             }   
 
-
             $dir = base_path('images/train');
             $filePath = $dir . '/' . $stationId . '.png';
 
