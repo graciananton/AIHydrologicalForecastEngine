@@ -40,7 +40,7 @@ class TrainModelJob implements ShouldQueue
             $this->update([
                 'started_at' => now()
             ]);
-            
+
             $this->setInput(['stationId' => $this->stationId]);
 
             $ModelService->trainModel($this->stationId);
@@ -70,6 +70,7 @@ class TrainModelJob implements ShouldQueue
         catch(\Throwable $e){
             // this is where errors are mailed
             Log::channel("laravel")->info($e->getMessage());
+            
             $this->update([
                 'status' => 'failed'
             ]);
