@@ -2,6 +2,7 @@
 namespace App\Http\Controllers;
 use App\Jobs\TrainModelJob;
 use App\Jobs\TestModelJob;
+use App\Jobs\FutureModelJob;
 
 use App\Jobs\PlotTrainJob;
 use App\Jobs\PlotTestJob;
@@ -162,11 +163,11 @@ class ModelController{
         $stationIds = $this->ModelService->getStationIds();
         $results = [];
         foreach ($stationIds as $stationId) {
-            FutureModelJob::dispatch();
+            FutureModelJob::dispatch($stationId);
             //$futurePredictions =  $this->ModelService->futureSet($stationId);
             //Log::channel("laravel")->info("future Predictions for ".$stationId);
             //$results[$stationId] = $futurePredictions; 
         }
-        return response()->json($results);
+        //return response()->json($results);
     }
 }
