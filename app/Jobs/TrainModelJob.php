@@ -70,12 +70,12 @@ class TrainModelJob implements ShouldQueue
         catch(\Throwable $e){
             // this is where errors are mailed
             Log::channel("laravel")->info($e->getMessage());
-            
+
             $this->update([
                 'status' => 'failed'
             ]);
             
-            $this->setOutput(['message' => 'Job not finished!']);
+            $this->setOutput(['message' => 'Job not finished - '. $e->getMessage()]);
         }
     }
 }
