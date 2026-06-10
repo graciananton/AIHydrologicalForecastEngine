@@ -80,3 +80,5 @@ Route::get('/future', [PredictionsController::class,'process']);
 Route::get('/train', [TrainController::class,'process']);
 
 Route::get('/stats', [StatsController::class,'process']);
+
+Route::get('/dailyReport',[DailyReportController::class,'process']);
