@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Services\DailyReportService;
 
-class DashboardController extends Controller
+class DailyReportController extends Controller
 {
     public function __construct(Request $request){
     }

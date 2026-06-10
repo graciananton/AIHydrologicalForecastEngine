@@ -1,9 +1,9 @@
 <p>
     The following are the errors/successes for the AI Hydrological Forecast Engine:
     
-    @for ($i = 0; $i < count($errors); $i++)
-    <p>{{ $errors[$i] }}</p>
-    @endfor
+    @foreach($errors as $error)
+        <p>{{ $error['errors'] }}</p>
+    @endforeach
 
     <br/><br/><br/>
 </p>
