@@ -46,9 +46,9 @@ class DailyReportMail extends Mailable
     {
         Log::channel("laravel")->info("Creating content details");
         return new Content(
-            view: 'dailyReport.otp',
+            view: 'emails.dailyReport',
             with: [
-                'otp'=> $this->errors
+                'errors'=> $this->errors
             ]
         );
     }
