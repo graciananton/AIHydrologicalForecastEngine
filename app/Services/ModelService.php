@@ -12,6 +12,8 @@ class ModelService{
             $response = Http::connectTimeout(1200)->timeout(1200)->get($url);
             $response = Http::timeout(1200)->get(sprintf('https://fast-api-54so.onrender.com/train_model?station_id=%s',$stationId));
             
+            $url = sprintf('https://fast-api-54so.onrender.com/train_model?station_id=%s',$stationId);
+            
             Http::connectTimeout(1200)
             ->timeout(1200)
             ->get($url);
