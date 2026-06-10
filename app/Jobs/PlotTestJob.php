@@ -45,6 +45,8 @@ class PlotTestJob implements ShouldQueue
                 'stationId' => $this->stationId
             ]);
 
+            $this->setInput(['stationId' => $this->stationId]);
+
             $ModelService->plotTest($this->stationId);
             
             Log::channel("laravel")->info("Plotting test set");
@@ -74,12 +76,22 @@ class PlotTestJob implements ShouldQueue
 
             $this->setOutput(['message' => 'Job finished!']);
             
-            $this->setInput(['stationId' => $this->stationId]);
+            ApplicationErrors::create(
+                [
+                    'errors' => "PlotFutureJob - finished for station ". $this->stationId
+                ]
+            );
 
             Log::channel("laravel")->info($this->getJobStatusId());
         }
         catch(Exception $e){
             Log::channel("laravel")->info($e->getMessage());
+            
+            ApplicationErrors::create(
+                [
+                    'errors' => $e->getMessage()
+                ]
+            );
 
             $this->update([
                 'status' => 'failed'
