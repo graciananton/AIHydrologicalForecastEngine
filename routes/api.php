@@ -23,9 +23,6 @@ Route::get('/testAll',[ModelController::class,'testAll']);
 
 Route::get('/testSingle',[ModelController::class,'testSingle']);
 
-
-
-
 # get the future predictions as json
 Route::get('/futureSetSingle',[ModelController::class,'futureSetSingle']);
 

@@ -10,14 +10,32 @@ Schedule::command('status:scheduler')->monthly()->withoutOverlapping();
 
 
 /* Running Jobs */
-Schedule::command('plotTrain:scheduler')->daily()->withoutOverlapping();
-Schedule::command('plotTest:scheduler')->daily()->withoutOverlapping();
-Schedule::command('plotFuture:scheduler')->daily()->withoutOverlapping();
+Schedule::command('plotTrain:scheduler')
+    ->dailyAt('00:00')
+    ->withoutOverlapping();
 
-Schedule::command('train:scheduler')->daily()->withoutOverlapping();
-Schedule::command('test:scheduler')->daily()->withoutOverlapping();
-Schedule::command('future:scheduler')->daily()->withoutOverlapping();
+Schedule::command('plotTest:scheduler')
+    ->dailyAt('00:30')
+    ->withoutOverlapping();
 
-Schedule::command('dailyReport:scheduler')->daily()->withoutOverlapping();
+Schedule::command('plotFuture:scheduler')
+    ->dailyAt('01:00')
+    ->withoutOverlapping();
+
+Schedule::command('train:scheduler')
+    ->dailyAt('01:30')
+    ->withoutOverlapping();
+
+Schedule::command('test:scheduler')
+    ->dailyAt('02:00')
+    ->withoutOverlapping();
+
+Schedule::command('future:scheduler')
+    ->dailyAt('02:30')
+    ->withoutOverlapping();
+
+Schedule::command('dailyReport:scheduler')
+    ->dailyAt('03:00')
+    ->withoutOverlapping();
 
 
