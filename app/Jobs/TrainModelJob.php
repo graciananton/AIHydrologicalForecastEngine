@@ -42,7 +42,9 @@ class TrainModelJob implements ShouldQueue
                 'started_at' => now()
             ]);
 
-            $this->setInput(['stationId' => $this->stationId]);
+            $this->setInput([
+                'stationId' => $this->stationId
+            ]);
 
             $ModelService->trainModel($this->stationId);
 
