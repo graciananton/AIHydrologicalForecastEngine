@@ -76,9 +76,11 @@ class PlotTestJob implements ShouldQueue
 
             $this->setOutput(['message' => 'Job finished!']);
             
-            ApplicationErrors::create(
+            $error = ApplicationErrors::create(
                 [
-                    'errors' => "PlotTestJob - finished for station ". $this->stationId
+                    'message' => "PlotTestJob - finished for station ". $this->stationId,
+                    'category' => 'App\Jobs\PlotTestJob',
+                    'status' => 'success'
                 ]
             );
 
@@ -89,7 +91,9 @@ class PlotTestJob implements ShouldQueue
 
             ApplicationErrors::create(
                 [
-                    'errors' => $e->getMessage()
+                    'message' => $e->getMessage(),
+                    'category' => 'App\Jobs\PlotTestJob',
+                    'status' => 'failed'
                 ]
             );
 

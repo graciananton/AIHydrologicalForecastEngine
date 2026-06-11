@@ -76,9 +76,11 @@ class PlotTrainJob implements ShouldQueue
 
             $this->setOutput(['message' => 'Job finished!']);
             
-            ApplicationErrors::create(
+            $error = ApplicationErrors::create(
                 [
-                    'errors' => "PlotTrainJob - finished for station ". $this->stationId
+                    'message' => "PlotTrainJob - finished for station ". $this->stationId,
+                    'category' => 'App\Jobs\PlotTrainJob',
+                    'status' => 'success'
                 ]
             );
 
@@ -90,7 +92,9 @@ class PlotTrainJob implements ShouldQueue
 
             ApplicationErrors::create(
                 [
-                    'errors' => $e->getMessage()
+                    'message' => $e->getMessage(),
+                    'category' => 'App\Jobs\PlotTrainJob',
+                    'status' => 'failed'
                 ]
             );
 

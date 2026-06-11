@@ -1,9 +1,26 @@
-<p>
-    The following are the errors/successes for the AI Hydrological Forecast Engine:
-    
-    @foreach($errors as $error)
-        <p>{{ $error['errors'] }}</p>
-    @endforeach
+<!doctype html>
+<html>
+<head>
 
-    <br/><br/><br/>
-</p>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"/>
+</head>
+<body>
+    <script>
+        console.log("Station in user");
+
+        data = @json(
+            [
+                ['request' => $request],
+                ['errors' => $errors]
+            ]
+        );
+        
+        window.__REACT_DATA__ = data;
+    </script>
+    <div id="react-root"></div>
+    @vite([
+        'resources/css/app.css',
+        'resources/js/app.jsx'
+    ])
+</body>
+</html>

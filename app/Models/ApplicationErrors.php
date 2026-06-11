@@ -10,11 +10,15 @@ class ApplicationErrors extends Model
     public $timestamps = true;
     // sets the fillable columns in the table
     protected $fillable = [
-        'errors',
+        'category',
+        'status',
+        'message'
     ];
     // sets the data type for each fillable column
     protected $casts = [
-        'errors' => 'string',
+        'category' => 'string',
+        'status' => 'string',
+        'message' => 'string'
     ];
 
 }

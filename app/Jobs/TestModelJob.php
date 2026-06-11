@@ -66,9 +66,11 @@ class TestModelJob implements ShouldQueue
 
             $this->setOutput(['message' => 'Job finished!']);
 
-            ApplicationErrors::create(
+            $error = ApplicationErrors::create(
                 [
-                    'errors' => "TestModelJob - finished for station ". $this->stationId
+                    'message' => "TestModelJob - finished for station ". $this->stationId,
+                    'category' => 'App\Jobs\TestModelJob',
+                    'status' => 'success'
                 ]
             );
 
@@ -81,7 +83,9 @@ class TestModelJob implements ShouldQueue
             
             ApplicationErrors::create(
                 [
-                    'errors' => $e->getMessage()
+                    'message' => $e->getMessage(),
+                    'category' => 'App\Jobs\TestModelJob',
+                    'status' => 'failed'
                 ]
             );
 
