@@ -10,8 +10,7 @@
 
         data = @json(
             [
-                ['request' => $request],
-                ['errors' => $errors]
+                ['errors' => $errors],
             ]
         );
         
