@@ -78,7 +78,6 @@ class TrainModelJob implements ShouldQueue
         }
         catch(\Throwable $e){
             // this is for each station
-
             Log::channel("laravel")->info($e->getMessage());
             
             ApplicationErrors::create(
