@@ -1,7 +1,6 @@
 <p>
     The following are the errors/successes for the AI Hydrological Forecast Engine:
 </p>
-
 @php
     $groupedErrors = collect($errors)->groupBy('category');
 @endphp
@@ -9,7 +8,7 @@
 @foreach($groupedErrors as $category => $items)
 
     <div style="margin-bottom:20px;">
-        <h2>{{ $category }}</h2>
+        <h3>{{ $category }}</h3>
 
         {{-- Errors --}}
         <div>
@@ -26,7 +25,7 @@
                     @endforeach
                 </ul>
             @else
-                0
+                0 errors found
             @endif
         </div>
 
@@ -45,7 +44,7 @@
                     @endforeach
                 </ul>
             @else
-                0
+                0 successes found
             @endif
         </div>
     </div>
