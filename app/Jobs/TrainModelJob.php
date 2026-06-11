@@ -68,13 +68,17 @@ class TrainModelJob implements ShouldQueue
 
             $this->setOutput(['message' => 'Job finished!']);
 
-            ApplicationErrors::create(
+            $error = ApplicationErrors::create(
                 [
                     'message' => "TrainModelJob - finished for station ". $this->stationId,
                     'category' => 'App\Jobs\TrainModelJob',
                     'status' => 'success'
                 ]
             );
+
+            Log::channel("laravel")->info("Message: ".$error->message);
+            Log::channel("laravel")->info("Category: ".$error->category);
+            Log::channel("laravel")->info("Status: ".$error->status);
 
             Log::channel("laravel")->info($this->getJobStatusId());
         }
