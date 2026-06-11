@@ -72,7 +72,7 @@ class TrainModelJob implements ShouldQueue
                 [
                     'message' => "TrainModelJob - finished for station ". $this->stationId,
                     'category' => 'App\Jobs\TrainModelJob',
-                    'status' => 'Success'
+                    'status' => 'success'
                 ]
             );
 
@@ -86,7 +86,7 @@ class TrainModelJob implements ShouldQueue
                 [
                     'message' => $e->getMessage(),
                     'category' => 'App\Jobs\TrainModelJob',
-                    'status' => 'Failed'
+                    'status' => 'failed'
                 ]
             );
 
