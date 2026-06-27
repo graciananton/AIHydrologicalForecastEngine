@@ -1,0 +1,10 @@
+#main{
+    display:grid;
+    grid-template-columns: 1fr 1fr 2fr;
+    grid-template-rows: 1fr 5fr 3fr;
+    grid-template-areas:
+    "station updated predictions"
+    "graph  stats predictions"
+    "status status predictions";
+}
+
