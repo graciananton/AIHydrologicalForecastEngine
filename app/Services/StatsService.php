@@ -56,12 +56,11 @@ class StatsService
         return [
             'currentLevel' => $currentLevel->prediction,
             'trend' => ($latestFuturePrediction->prediction - $oldestFuturePrediction->prediction > 0.0) ? "rising": "falling",
+            'change' => $latestFuturePrediction->prediction - $oldestFuturePrediction->prediction,
             'lastUpdated' => $latestFuturePrediction->updated_at,
             'maximumForecast' => $maxPrediction->prediction,
             'minForecast' => $minPrediction->prediction,
-            'maximumForecast' => $maxPrediction->prediction,
-            'peakTime' => $maxPrediction->updated_at,
-            'change' => $latestFuturePrediction->prediction - $oldestFuturePrediction->prediction
+            'peakTime' => $maxPrediction->updated_at
         ];
     }   
 }
