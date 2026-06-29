@@ -91,6 +91,7 @@ function Graph({ stationId }){
 
 function Stats({ stationId }){
     const [stats, setStats] = useState();
+
     useEffect(() => {
         async function getStats(stationId){
             try{
@@ -108,10 +109,12 @@ function Stats({ stationId }){
                 console.log(error);
             }
         }
+        getStats(stationId);
+        
     }, [stationId]);
 
     console.log(stats);
-    
+
     return (
         stats && <div></div>
     )
