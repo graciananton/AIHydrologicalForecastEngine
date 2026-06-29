@@ -22,13 +22,14 @@ function Station({stationId}){
 
     useEffect(() => {
         async function getStation(stationId) {
-            const response = await fetch('http://gracian.ca/laravel/public/api/stations?stationId='+str(stationId));
+            const response = await fetch('http://gracian.ca/laravel/public/api/stations?stationId='+String(stationId));
             const data = await response.json();
             setStation(data);
         }
+        getStation(stationId);
     },[stationId]);
 
     return (
-        station && <div id='station' grid-area='station'>Station: {station.name} - {station.stationId}</div>
+        station.length > 0 && <div id='station' grid-area='station'>Station: {station.name} - {station.stationId}</div>
     )
 }
