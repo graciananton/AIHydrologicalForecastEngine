@@ -18,18 +18,20 @@ function Main(station){
 function Station({stationId}){    
     console.log("Station Id: " + stationId);
 
-    const [station, setStation] = useState([]);
+    const [station, setStation] = useState();
+
 
     useEffect(() => {
         async function getStation(stationId) {
             const response = await fetch('http://gracian.ca/laravel/public/api/stations?stationId='+String(stationId));
-            const data = await response.json();
+            const data = await response.json()[0];
+            console.log(data);
             setStation(data);
         }
         getStation(stationId);
     },[stationId]);
-
+    
     return (
-        station.length > 0 && <div id='station' grid-area='station'>Station: {station.name} - {station.stationId}</div>
+        station && <div id='station' grid-area='station'>Station: {station.name} - {station.stationId}</div>
     )
 }
