@@ -6,8 +6,8 @@ export default function Login({ data }){
     return (
         <div id='login_page'>
             <div id='login' className='container-fluid'>
-                {data[0].error && (
-                <div id='error'>{data[0].error}</div>
+                {data.error && (
+                <div id='error'>{data.error}</div>
                 )
                 }
                 <div id='title'>Login</div>
