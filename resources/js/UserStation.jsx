@@ -6,9 +6,6 @@ export default function UserStation({ data }){
     return (<Main {...data}/>); //sends data to Main component as object, not as property of object
 }
 function Main(station){
-    console.log("Main:");
-    console.log(station);
-    console.log(station.stationId)
     return (
         <div id='main'>
             <Station stationId = {station.stationId}/>
@@ -16,10 +13,8 @@ function Main(station){
     )
 }
 function Station({stationId}){    
-    console.log("Station Id: " + stationId);
 
     const [station, setStation] = useState();
-
 
     useEffect(() => {
         async function getStation(stationId) {
@@ -47,4 +42,32 @@ function Station({stationId}){
     return (
         station && <div id='station' grid-area='station'>Station: {station.name} - {station.stationId}</div>
     )
+}
+
+function UpdatedAt({ stationId }){
+    const [updatedAt, setUpdatedAt] = useState() // gets the ISO864 format of 1970-01-01
+
+    useEffect(() => {
+        async function getUpdatedAt(stationId){
+            try{
+                const response = await fetch('http://gracian.ca/laravel/public/api/future?stationId='+{stationId}+'&order=desc&limit=1');
+                if(!response.ok){
+                    throw new Error('Failed to fetch')
+                }
+
+                const data = await response.json();
+
+                if(data.length < 1){
+                    throw new Error("Data is empty");
+                }
+
+                setUpodatedAt(data.updated_at);
+            }
+            catch(error){
+                console.log(error)
+            }
+        }
+    }, [stationId]);
+
+    return (updatedAt && <div id='updatedAt' grid-area='updated'>Updated At: {updatedAt}</div>)
 }
