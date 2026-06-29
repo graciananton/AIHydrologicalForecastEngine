@@ -90,6 +90,8 @@ function Graph({ stationId }){
 }
 
 function Stats({ stationId }){
+    console.log("Stats funciton");
+    
     const [stats, setStats] = useState();
 
     useEffect(() => {
@@ -110,7 +112,7 @@ function Stats({ stationId }){
             }
         }
         getStats(stationId);
-        
+
     }, [stationId]);
 
     console.log(stats);
