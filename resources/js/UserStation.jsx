@@ -11,6 +11,7 @@ function Main(station){
             <Station stationId = {station.stationId}/>
             <UpdatedAt stationId = {station.stationId} />
             <Graph stationId = {station.stationId} />
+            <Stats stationId = {station.stationId} />
         </div>
     )
 }
@@ -106,7 +107,7 @@ function Stats({ stationId }){
                     throw new Error('Data is empty');
                 }
                 console.log(data);
-                
+
                 setStats(data[0]);
             }
             catch(error){
