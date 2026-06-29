@@ -9,6 +9,7 @@ function Main(station){
     return (
         <div id='main'>
             <Station stationId = {station.stationId}/>
+            <UpdatedAt stationId = {station.stationId} />
         </div>
     )
 }
@@ -61,13 +62,16 @@ function UpdatedAt({ stationId }){
                     throw new Error("Data is empty");
                 }
 
-                setUpdatedAt(data.updated_at);
+                setUpdatedAt(data[0].updated_at);
             }
             catch(error){
                 console.log(error)
             }
         }
     }, [stationId]);
+
+    console.log("Updated At");
+    console.log(updatedAt);
 
     return (updatedAt && <div id='updatedAt' grid-area='updated'>Updated At: {updatedAt}</div>)
 }
