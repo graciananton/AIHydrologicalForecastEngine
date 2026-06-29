@@ -10,7 +10,7 @@ function Main(station){
     console.log(station);
     return (
         <div id='main'>
-            <Station stationId = {station[2]}/>
+            <Station stationId = {station.station[2]}/>
         </div>
     )
 }
