@@ -9,16 +9,24 @@
 </head>
 <body>
     <?php
+    /*
     $data = [
     "request" => $request
     ];
 
     $json = json_encode($data);
+    */
     ?>
     <script>
-        console.log(@json($request));
+        
+        data = @json(
+            [
+            'request' => 'dashboard'
+            ]
+            )
 
-        window.__REACT_DATA__ = {!! $json !!};
+        console.log(data);
+        window.__REACT_DATA__ = data;
     </script>
 
     <div id="react-root"></div>

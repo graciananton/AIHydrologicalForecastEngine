@@ -25,12 +25,9 @@ export default function App() {
   );
 }
 function getReq(data){
-  console.log("getReq");
   const result = Object.entries(data).find(([key, value]) => {
-    console.log(key,value);
     return key == "request";
   });
-  console.log(result);
   return result[1];
 }
 createRoot(document.getElementById("react-root")).render(
