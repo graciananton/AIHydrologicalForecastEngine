@@ -25,18 +25,18 @@ export default function VerificationCode({ data }){
                         <input type="hidden" name="_token" value={document.querySelector('meta[name="csrf-token"]').getAttribute("content")}/>
                         <div id='title'>Enter verification code</div>
                         {
-                        (data[0].error) && 
+                        (data.error) && 
 
-                        (<div id='error'>{ data[0].error }</div>)
+                        (<div id='error'>{ data.error }</div>)
 
                         }
                         <div id='explanation'>
                             A verification code has been sent to:
                             <br/>
-                            {data[1].email}
+                            {data.email}
                         </div>
                         <div id='boxes'>
-                            <input type='hidden' name='email' value={data[1].email}/>
+                            <input type='hidden' name='email' value={data.email}/>
                             {
                                 boxes.map((value,index) => {
                                     return (
