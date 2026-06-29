@@ -10,6 +10,7 @@ function Main(station){
         <div id='main'>
             <Station stationId = {station.stationId}/>
             <UpdatedAt stationId = {station.stationId} />
+            <Graph stationId = {station.stationId} />
         </div>
     )
 }
@@ -61,7 +62,6 @@ function UpdatedAt({ stationId }){
                 if(data.length < 1){
                     throw new Error("Data is empty");
                 }
-                console.log(data);
 
                 setUpdatedAt(data[0].updated_at);
             }
@@ -72,12 +72,19 @@ function UpdatedAt({ stationId }){
         getUpdatedAt(stationId);
     }, [stationId]);
 
+    console.log("updated at");
     console.log(updatedAt);
-    return 
-    (
+    return (
         updatedAt && 
-        <div id='updatedAt' grid-area='updated'>
-            Updated At: 
+        <div id = 'updatedAt' grid-area = 'updated'>
+            Updated At: {updatedAt}
+        </div>
+    )
+}
+function Graph({ stationId }){
+    return (
+        <div id='graph' grid-area = 'graph'>
+            <img src={'/images/future/' + stationId + '.png'} />
         </div>
     )
 }
