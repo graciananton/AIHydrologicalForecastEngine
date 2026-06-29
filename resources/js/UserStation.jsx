@@ -91,7 +91,7 @@ function Graph({ stationId }){
 
 function Stats({ stationId }){
     console.log("Stats funciton");
-    
+
     const [stats, setStats] = useState();
 
     useEffect(() => {
@@ -105,6 +105,8 @@ function Stats({ stationId }){
                 if(data.length < 1){
                     throw new Error('Data is empty');
                 }
+                console.log(data);
+                
                 setStats(data[0]);
             }
             catch(error){
