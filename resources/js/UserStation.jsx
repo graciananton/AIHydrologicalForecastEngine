@@ -23,10 +23,23 @@ function Station({stationId}){
 
     useEffect(() => {
         async function getStation(stationId) {
-            const response = await fetch('http://gracian.ca/laravel/public/api/stations?stationId='+String(stationId));
-            const data = await response.json();
-            console.log(data);
-            setStation(data[0]);
+            try{
+                const response = await fetch('http://gracian.ca/laravel/public/api/stations?stationId='+String(stationId));
+                
+                if (!response.ok) {
+                    throw new Error("Failed to fetch");
+                }
+
+                const data = await response.json();
+
+                if(data.length < 1){
+                    throw new Error("Data is empty");
+                }
+                setStation(data[0]);
+            }
+            catch(error){
+                console.log(error);
+            }
         }
         getStation(stationId);
     },[stationId]);
