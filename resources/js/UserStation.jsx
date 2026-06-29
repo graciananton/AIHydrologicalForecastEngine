@@ -13,8 +13,9 @@ function Main(station){
         </div>
     )
 }
-function Station(stationId){
-
+function Station(stationId){    
+    console.log("STation Id: " + stationId);
+    
     const [station, setStation] = useState([]);
 
     useEffect(() => {
