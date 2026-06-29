@@ -10,9 +10,9 @@
 
         data = @json(
             [
-                ['request' => $request],
-                ['email' => $email],
-                ['stationId' => $stationId]
+                'request' => $request,
+                'email' => $email,
+                'stationId' => $stationId
             ]
         );
         
