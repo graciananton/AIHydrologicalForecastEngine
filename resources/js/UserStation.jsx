@@ -3,10 +3,10 @@ import '../css/UserStation.css';
 import { useState, useEffect } from "react";
 
 export default function UserStation({ data }){
-    console.log(data);
-    return (<Main station = {data}/>);
+    return (<Main {...data}/>);
 }
 function Main(station){
+    console.log(station);
     return (
         <div id='main'>
             <Station stationId = {station.stationId}/>
@@ -14,8 +14,8 @@ function Main(station){
     )
 }
 function Station(stationId){    
-    console.log("STation Id: " + stationId);
-    
+    console.log("Station Id: " + stationId);
+
     const [station, setStation] = useState([]);
 
     useEffect(() => {
