@@ -68,6 +68,7 @@ function UpdatedAt({ stationId }){
                 console.log(error)
             }
         }
+        getUpdatedAt(stationId);
     }, [stationId]);
 
     console.log("Updated At");
