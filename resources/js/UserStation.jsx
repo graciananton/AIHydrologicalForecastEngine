@@ -6,14 +6,6 @@ export default function UserStation(){
     console.log(data);
     return (<Main />);
 }
-function convertArrayToObject(data){
-    const objectData = {};
-    let counter = -1
-    data.forEach(key => {
-        objectData.key = data[counter++]
-    });
-    return objectData;
-}
 function Main(){
     return (
         <div id='main'>
@@ -22,7 +14,17 @@ function Main(){
     )
 }
 function station(){
+    const [station, setStation] = useState([]);
+
+    useEffect(() => {
+        async function getStation(stationId) {
+            const response = await fetch('/')
+            const data = await response.json();
+            setStation([data.station, data.stationId])
+        }
+    });
+
     return (
-        <div></div>
+        <div>Station: {{station}} - {{stationId}}</div>
     )
 }
