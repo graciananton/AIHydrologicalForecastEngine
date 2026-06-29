@@ -98,6 +98,8 @@ function Stats({ stationId }){
     useEffect(() => {
         async function getStats(stationId){
             try{
+                console.log("Station Id");
+                console.log(stationId);
                 response = await fetch('http://gracian.ca/laravel/public/api/stats?stationId='+stationId);
                 if(!response.ok){
                     throw new Error('Failed to fetch');
