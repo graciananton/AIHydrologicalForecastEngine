@@ -61,7 +61,7 @@ function UpdatedAt({ stationId }){
                     throw new Error("Data is empty");
                 }
 
-                setUpodatedAt(data.updated_at);
+                setUpdatedAt(data.updated_at);
             }
             catch(error){
                 console.log(error)
