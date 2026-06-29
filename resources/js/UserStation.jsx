@@ -100,11 +100,11 @@ function Stats({ stationId }){
             try{
                 console.log("Station Id");
                 console.log(stationId);
-                response = await fetch('http://gracian.ca/laravel/public/api/stats?stationId='+stationId);
+                const response = await fetch('http://gracian.ca/laravel/public/api/stats?stationId='+stationId);
                 if(!response.ok){
                     throw new Error('Failed to fetch');
                 }
-                data = response.json();
+                const data = await response.json();
                 if(data.length < 1){
                     throw new Error('Data is empty');
                 }
@@ -123,6 +123,17 @@ function Stats({ stationId }){
     console.log(stats);
 
     return (
-        stats && <div></div>
+        stats && 
+        <div>
+            <ul>
+                <li>Current Level - {stats.currentLevel } </li>
+                <li>Trend - {stats.trend} </li>
+                <li>Change - {stats.change} </li>
+                <li>Last Updated - {stats.lastUpdated} </li>
+                <li>Maximum Forecast - {stats.maximumForecast}</li>
+                <li>Minimum Forecast - {stats.minimumForecast}</li>
+                <li>Peak Time - {stats.peakTime}</li>
+            </ul>
+        </div>
     )
 }
