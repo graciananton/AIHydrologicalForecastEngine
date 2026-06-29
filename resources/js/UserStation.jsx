@@ -84,7 +84,35 @@ function UpdatedAt({ stationId }){
 function Graph({ stationId }){
     return (
         <div id='graph' grid-area = 'graph'>
-            <img src={'/images/future/' + stationId + '.png'} />
+            <img src={'../images/future/' + stationId + '.png'} />
         </div>
+    )
+}
+
+function Stats({ stationId }){
+    const [stats, setStats] = useState();
+    useEffect(() => {
+        async function getStats(stationId){
+            try{
+                response = await fetch('http://gracian.ca/laravel/public/api/stats?stationId='+stationId);
+                if(!response.ok){
+                    throw new Error('Failed to fetch');
+                }
+                data = response.json();
+                if(data.length < 1){
+                    throw new Error('Data is empty');
+                }
+                setStats(data[0]);
+            }
+            catch(error){
+                console.log(error);
+            }
+        }
+    }, [stationId]);
+
+    console.log(stats);
+    
+    return (
+        stats && <div></div>
     )
 }
