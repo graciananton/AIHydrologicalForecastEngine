@@ -51,28 +51,33 @@ function UpdatedAt({ stationId }){
     useEffect(() => {
         async function getUpdatedAt(stationId){
             try{
-                const response = await fetch('http://gracian.ca/laravel/public/api/future?stationId='+{stationId}+'&order=desc&limit=1');
+                const response = await fetch('http://gracian.ca/laravel/public/api/future?stationId='+String(stationId)+'&order=desc&limit=1');
                 if(!response.ok){
                     throw new Error('Failed to fetch')
                 }
 
                 const data = await response.json();
-
+                
                 if(data.length < 1){
                     throw new Error("Data is empty");
                 }
+                console.log(data);
 
                 setUpdatedAt(data[0].updated_at);
             }
             catch(error){
-                console.log(error)
+                console.log(error);
             }
         }
         getUpdatedAt(stationId);
     }, [stationId]);
 
-    console.log("Updated At");
     console.log(updatedAt);
-
-    return (updatedAt && <div id='updatedAt' grid-area='updated'>Updated At: {updatedAt}</div>)
+    return 
+    (
+        updatedAt && 
+        <div id='updatedAt' grid-area='updated'>
+            Updated At: 
+        </div>
+    )
 }
