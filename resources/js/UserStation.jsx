@@ -7,16 +7,13 @@ export default function UserStation(){
     return (<Main station = {station}/>);
 }
 function Main(station){
-    console.log(station);
     return (
         <div id='main'>
-            <Station stationId = {station.station[2]}/>
+            <Station stationId = {station.stationId}/>
         </div>
     )
 }
 function Station(stationId){
-    console.log("station:")
-    console.log(stationId);
 
     const [station, setStation] = useState([]);
 
