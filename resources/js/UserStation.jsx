@@ -91,15 +91,12 @@ function Graph({ stationId }){
 }
 
 function Stats({ stationId }){
-    console.log("Stats funciton");
 
     const [stats, setStats] = useState();
 
     useEffect(() => {
         async function getStats(stationId){
             try{
-                console.log("Station Id");
-                console.log(stationId);
                 const response = await fetch('http://gracian.ca/laravel/public/api/stats?stationId='+stationId);
                 if(!response.ok){
                     throw new Error('Failed to fetch');
@@ -108,8 +105,6 @@ function Stats({ stationId }){
                 if(data.length < 1){
                     throw new Error('Data is empty');
                 }
-                console.log("Data");
-                console.log(data);
 
                 setStats(data[0]);
             }
@@ -120,9 +115,6 @@ function Stats({ stationId }){
         getStats(stationId);
 
     }, [stationId]);
-
-    console.log("These are the stats");
-    console.log(stats);
 
     return (
         stats && 
