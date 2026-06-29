@@ -108,6 +108,7 @@ function Stats({ stationId }){
                 if(data.length < 1){
                     throw new Error('Data is empty');
                 }
+                console.log("Data");
                 console.log(data);
 
                 setStats(data[0]);
@@ -117,9 +118,10 @@ function Stats({ stationId }){
             }
         }
         getStats(stationId);
-        
+
     }, [stationId]);
 
+    console.log("These are the stats");
     console.log(stats);
 
     return (
