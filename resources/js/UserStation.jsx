@@ -117,7 +117,7 @@ function Stats({ stationId }){
             }
         }
         getStats(stationId);
-
+        
     }, [stationId]);
 
     console.log(stats);
