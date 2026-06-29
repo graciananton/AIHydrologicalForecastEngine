@@ -1,30 +1,34 @@
 import React from "react";
 import '../css/UserStation.css';
+import { useState, useEffect } from "react";
 
 export default function UserStation(){
-    const data = window.__REACT_DATA__;
-    console.log(data);
-    return (<Main />);
+    const station = window.__REACT_DATA__;
+    return (<Main station = {station}/>);
 }
-function Main(){
+function Main(station){
+    console.log(station);
     return (
         <div id='main'>
-            
+            <Station stationId = {station[2]}/>
         </div>
     )
 }
-function station(){
+function Station(stationId){
+    console.log("station:")
+    console.log(stationId);
+
     const [station, setStation] = useState([]);
 
     useEffect(() => {
         async function getStation(stationId) {
-            const response = await fetch('/')
+            const response = await fetch('http://gracian.ca/laravel/public/api/stations?stationId='+str(stationId));
             const data = await response.json();
-            setStation([data.station, data.stationId])
+            setStation(data);
         }
-    });
+    },[stationId]);
 
     return (
-        <div>Station: {{station}} - {{stationId}}</div>
+        station && <div id='station' grid-area='station'>Station: {station.name} - {station.stationId}</div>
     )
 }
