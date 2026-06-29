@@ -2,8 +2,8 @@ import React from "react";
 import '../css/UserStation.css';
 import { useState, useEffect } from "react";
 
-export default function UserStation(){
-    const station = window.__REACT_DATA__;
+export default function UserStation({ station }){
+    console.log(station);
     return (<Main station = {station}/>);
 }
 function Main(station){
