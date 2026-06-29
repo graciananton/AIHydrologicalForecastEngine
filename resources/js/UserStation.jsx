@@ -2,9 +2,9 @@ import React from "react";
 import '../css/UserStation.css';
 import { useState, useEffect } from "react";
 
-export default function UserStation({ station }){
-    console.log(station);
-    return (<Main station = {station}/>);
+export default function UserStation({ data }){
+    console.log(data);
+    return (<Main station = {data}/>);
 }
 function Main(station){
     return (

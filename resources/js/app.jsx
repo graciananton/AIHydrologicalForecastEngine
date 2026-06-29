@@ -15,7 +15,7 @@ export default function App() {
   var req = getReq(data);
   console.log("REQ: ");
   console.log(req);
-  
+  console.log(data);
   return (
     <>
     {req === 'workflow' && <Workflow /> }
