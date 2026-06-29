@@ -24,9 +24,9 @@ function Station({stationId}){
     useEffect(() => {
         async function getStation(stationId) {
             const response = await fetch('http://gracian.ca/laravel/public/api/stations?stationId='+String(stationId));
-            const data = await response.json()[0];
+            const data = await response.json();
             console.log(data);
-            setStation(data);
+            setStation(data[0]);
         }
         getStation(stationId);
     },[stationId]);
