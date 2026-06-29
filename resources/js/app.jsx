@@ -13,9 +13,6 @@ import "../css/app.css";
 export default function App() {
   const data = window.__REACT_DATA__ || {};
   var req = getReq(data);
-  console.log("REQ: ");
-  console.log(req);
-  console.log(data);
   return (
     <>
     {req === 'workflow' && <Workflow /> }
@@ -28,10 +25,12 @@ export default function App() {
   );
 }
 function getReq(data){
+  console.log("getReq");
   const result = Object.entries(data).find(([key, value]) => {
-    return key === "request";
+    console.log(key,value);
+    return key == "request";
   });
-
+  console.log(result);
   return result[1];
 }
 createRoot(document.getElementById("react-root")).render(

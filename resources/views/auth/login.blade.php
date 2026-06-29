@@ -9,13 +9,23 @@
 </head>
 <body>
     <script>
-        window.__REACT_DATA__ = @json(
+        /*window.__REACT_DATA__ = @json(
             [
-                ['error' => session('error')],
-                ['email' => session('email')],
-                ['request'  => 'login']
+                'error' => session('error'),
+                'email' => session('email'),
+                'request'  => 'login'
             ]
         );
+        */
+        data = @json(
+            [
+                'error' => session('error'),
+                'email' => session('email'),
+                'stationId' => 'login'
+            ]
+        );
+
+        window.__REACT_DATA__ = data;
     </script>
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <div id="react-root"></div>
