@@ -6,6 +6,7 @@ export default function UserStation({ data }){
     return (<Main {...data}/>);
 }
 function Main(station){
+    console.log("Main:");
     console.log(station);
     return (
         <div id='main'>
