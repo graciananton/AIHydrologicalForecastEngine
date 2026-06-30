@@ -12,6 +12,7 @@ function Main(station){
             <UpdatedAt stationId = {station.stationId} />
             <Graph stationId = {station.stationId} />
             <Stats stationId = {station.stationId} />
+            <Predictions stationId = {station.stationId} />
         </div>
     )
 }
@@ -94,6 +95,7 @@ function Stats({ stationId }){
 
     const [stats, setStats] = useState();
 
+    // react re-renders useEffect after updating the state stats
     useEffect(() => {
         async function getStats(stationId){
             try{
@@ -106,7 +108,8 @@ function Stats({ stationId }){
                     throw new Error('Data is empty');
                 }
 
-                setStats(data[0]);
+                console.log(data);
+                setStats(data);
             }
             catch(error){
                 console.log(error);
@@ -116,18 +119,90 @@ function Stats({ stationId }){
 
     }, [stationId]);
 
+    console.log("Stats");
+    console.log(stats);
+
     return (
         stats && 
         <div>
             <ul>
-                <li>Current Level - {stats.currentLevel } </li>
-                <li>Trend - {stats.trend} </li>
-                <li>Change - {stats.change} </li>
-                <li>Last Updated - {stats.lastUpdated} </li>
-                <li>Maximum Forecast - {stats.maximumForecast}</li>
-                <li>Minimum Forecast - {stats.minimumForecast}</li>
-                <li>Peak Time - {stats.peakTime}</li>
+                {
+                Object.keys(stats).map(key => (
+                    <li>correctlyCapitalize({key}) - {stats.key} </li>
+                ))
+                }
             </ul>
         </div>
     )
+}
+
+//prediction => Prediction
+//predictedFor => Predicted For:
+//predictedAtFor => Predicted At For
+//updated_at => Updated At
+function correctlyCapitalize(label){
+    labelChars = [...label];
+    correctLabelChars = [];
+    space = false;
+
+    for(let i = 0; i < labelChars.length; i++){
+        char = labelChars[i]
+
+        if(char == char.toUpperCase()){
+            correctLabelChars.push(" ")
+            space = true;
+        }
+        else if(char == "_"){
+            correctLabelChar.push(" ")
+            space = true
+        }
+        else{
+            if(space == true){
+                correctLabelChar.push(char.toUpperCase());
+                space = false
+            }
+            else{
+                correctLabelChar.push(char);
+            }
+        }
+    }
+
+    return correctLabelChars.join("");
+}
+function Predictions({ stationId }){
+    const current = new Date().toISOString();
+    const [predictions, setPredictions] = useState();
+    useEffect(() => {
+        async function getPredictions(stationId){
+            const response = await fetch('http://gracian.ca/laravel/public/api/future?stationId='+stationId+'&order=desc&limit=24&from='+current);
+            const data = await response.json();
+            setPredictions(data);
+        }
+        getPredictions(stationId);
+    }, [stationId]);
+
+    console.log(predictions);
+    //generate html
+    return (
+        predictions && <div> 
+            <table>
+                <thead>
+                    <th>Prediction:</th>
+                    <th>Predicted For:</th>
+                </thead>
+                <tbody>
+                    {
+                        predictions.map((prediction, index) => {
+                            return (
+                                <tr key={index}>
+                                    <td>{prediction.prediction}</td>
+                                    <td>{prediction.predictedFor}</td>
+                                </tr>
+                            );
+                        })
+                    }
+                </tbody>
+            </table>
+        </div>
+    );
 }
