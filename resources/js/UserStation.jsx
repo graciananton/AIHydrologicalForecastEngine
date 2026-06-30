@@ -155,7 +155,6 @@ function correctlyCapitalize(label){
         else if(char >= "A" && char <= "Z"){
             correctLabelChars.push(" ");
             correctLabelChars.push(char);
-            space = true;
         }
         else if(char == "_"){
             correctLabelChars.push(" ")
