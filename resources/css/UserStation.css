@@ -11,8 +11,7 @@
 
 #station{
     grid-area: station;
-    border:1px solid red;
-    place-self: center center; /* align-self justify-self */
+    border:1px solid green;
 }
 #station #title, #station #id{
     color:#5D6570;

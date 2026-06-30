@@ -47,11 +47,13 @@ function Station({stationId}){
         station && 
         <div id='station'>
             <div id='title'>Station</div> 
-            <div id='name'>{station.name}</div>
+            <div id='name'>{capitalizeFirstLetter(station.name)}</div>
             <div id='id'>ID: {station.stationId}</div>
         </div>
     )
 }
+
+
 
 function UpdatedAt({ stationId }){
     const [updatedAt, setUpdatedAt] = useState() // gets the ISO864 format of 1970-01-01
@@ -141,6 +143,18 @@ function Stats({ stationId }){
     )
 }
 
+function capitalizeFirstLetter(name){
+    let nameCharList = name.split(" ");
+
+    for(let i = 0; i < nameCharList.length; i++){
+        nameCharList[i] = (nameCharList[i]).toLowerCase();
+        nameCharList[i] = [...nameCharList[i]];
+        nameCharList[i][0] = nameCharList[i][0].toUpperCase();
+        nameCharList[i] = nameCharList[i].join("");
+    }
+
+    return nameCharList.join(" ");
+}
 //prediction => Prediction
 //predictedFor => Predicted For:
 //predictedAtFor => Predicted At For
