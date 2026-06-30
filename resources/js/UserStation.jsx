@@ -121,14 +121,14 @@ function Stats({ stationId }){
 
     console.log("Stats");
     console.log(stats);
-
+    console.log(correctlyCapitalize("updated_at"));
     return (
         stats && 
         <div>
             <ul>
                 {
                 Object.keys(stats).map(key => (
-                    <li>correctlyCapitalize({key}) - {stats.key} </li>
+                    <li>{correctlyCapitalize(key) - stats.key }</li>
                 ))
                 }
             </ul>
@@ -141,10 +141,11 @@ function Stats({ stationId }){
 //predictedAtFor => Predicted At For
 //updated_at => Updated At
 function correctlyCapitalize(label){
-    labelChars = [...label];
-    correctLabelChars = [];
-    space = false;
+    const labelChars = [...label];
+    let correctLabelChars = [];
+    let space = false;
 
+    let char;
     for(let i = 0; i < labelChars.length; i++){
         char = labelChars[i]
 
@@ -158,11 +159,11 @@ function correctlyCapitalize(label){
         }
         else{
             if(space == true){
-                correctLabelChar.push(char.toUpperCase());
+                correctLabelChars.push(char.toUpperCase());
                 space = false
             }
             else{
-                correctLabelChar.push(char);
+                correctLabelChars.push(char);
             }
         }
     }
@@ -186,10 +187,6 @@ function Predictions({ stationId }){
     return (
         predictions && <div> 
             <table>
-                <thead>
-                    <th>Prediction:</th>
-                    <th>Predicted For:</th>
-                </thead>
                 <tbody>
                     {
                         predictions.map((prediction, index) => {
