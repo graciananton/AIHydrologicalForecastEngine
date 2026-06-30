@@ -2,7 +2,7 @@
     display:grid;
     height:100vh;
     grid-template-columns: 1fr 1fr 1fr;
-    grid-template-rows: 1fr 6fr 1fr 0.5fr;
+    grid-template-rows: 1fr 5fr 1.5fr 0.5fr;
     grid-template-areas:
     "station updatedAt currentWeather"
     "graph  stats predictions"
@@ -11,7 +11,61 @@
     gap: 5px 2px; /* row column gap*/
     margin-left:5%;
     margin-right:5%;
+    margin-top:2%;
+    margin-bottom:2%;
 }
+#currentWeather{
+    grid-area:currentWeather;
+    border:1px solid white;
+    display:grid;
+    height:100%;
+    grid-template-columns:1fr 5fr;
+    grid-template-rows:1fr 1fr 1fr;
+    grid-template-areas:
+    'currentWeatherImage title'
+    'currentWeatherImage temperature'
+    'currentWeatherImage description';
+    column-gap:2px;
+    padding-left:5%;
+    background-color:#FEFEFE;
+    box-shadow: 0 4px 12px rgba(15, 23, 42, 0.08);
+}
+#currentWeather #image{
+    grid-area:currentWeatherImage;
+    border:0px solid red;
+    height:100%;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+}
+
+#currentWeather #title{
+    grid-area:title;
+    color:#5D6570;
+    font-weight:600;
+    font-size:0.85rem;
+    border:0px solid red;
+    display:flex;
+    align-items:flex-end;
+}
+#currentWeather #temperature{
+    grid-area:temperature;
+    font-weight:bold;
+    font-size:1rem;
+    border:0px solid red;
+}
+#currentWeather #description{
+    grid-area:description;
+    color:#5D6570;
+    font-weight:600;
+    font-size:0.85rem;
+    border:0px solid red;
+    display:flex;
+    align-items:flex-start;
+}
+
+
+
 #station{
     grid-area: station;
     border:1px solid white;
@@ -24,7 +78,7 @@
     "stationImage name"
     "stationImage id";
     column-gap:2px;
-    padding-left:7%;
+    padding-left:5%;
     background-color:#FEFEFE;
     box-shadow: 0 4px 12px rgba(15, 23, 42, 0.08);
 }
@@ -65,21 +119,26 @@
 #updatedAt{
     grid-area:updatedAt;
     border:1px solid white;
+    display:grid;
     grid-template-areas:
     "updatedAtImage title"
     "updatedAtImage ago"
     "updatedAtImage time";
     grid-template-columns:1fr 5fr;
     grid-template-rows: 1fr 1fr 1fr;
+    height:100%;
     column-gap:2px;
-    padding-left:7%;
+    padding-left:5%;
     background-color:#FEFEFE;
     box-shadow: 0 4px 12px rgba(15, 23, 42, 0.08);
 }
 
 #updatedAt #image{
     grid-area:updatedAtImage;
-    border:1px solid red;
+    border:0px solid red;
+    display:flex;
+    justify-content:center;
+    align-items:center;
 }
 
 #updatedAt #title{
@@ -87,7 +146,7 @@
     color:#5D6570;
     font-weight:600;
     font-size:0.85rem;
-    border:1px solid red;
+    border:0px solid red;
     display:flex;
     align-items:flex-end;
 }
@@ -95,28 +154,94 @@
     grid-area:ago;
     font-weight:bold;
     font-size:1rem;
-    border:1px solid red;
+    border:0px solid red;
 }
 #updatedAt #time{
     grid-area:time;
     color:#5D6570;
     font-weight:600;
     font-size:0.85rem;
-    border:1px solid red;
+    border:0px solid red;
     display:flex;
     align-items:flex-start;
 }
 
 #currentWeather{
     grid-area:currentWeather;
-    border:1px solid red;
+    border:1px solid white;
+    display:grid;
+    grid-template-areas:
+    "currentWeatherImage title"
+    "currentWeatherImage temperature"
+    "currentWeatherImage message";
+    grid-template-columns:1fr 5fr;
+    grid-template-rows: 1fr 1fr 1fr;
+    height:100%;
+    column-gap:2px;
+    padding-left:5%;
+    background-color:#FEFEFE;
+    box-shadow: 0 4px 12px rgba(15, 23, 42, 0.08);
+    border:0px solid red;
 }
+
+#currentWeather #image{
+    grid-area:currentWeatherImage;
+    border:0px solid red;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+}
+#currentWeather #title{
+    grid-area:title;
+    color:#5D6570;
+    font-weight:600;
+    font-size:0.85rem;
+    border:0px solid red;
+    display:flex;
+    align-items:flex-end;
+}
+#currentWeather #temperature{
+    grid-area:temperature;
+    font-weight:bold;
+    font-size:1rem;
+    border:0px solid red;
+}
+#currentWeather #message{
+    grid-area:message;
+    color:#5D6570;
+    font-weight:600;
+    font-size:0.85rem;
+    border:0px solid red;
+    display:flex;
+    align-items:flex-start;
+}
+
 #graph{
     grid-area:graph;
-    border:1px solid red;
+    border:1px solid white;
+    display:flex;
+    flex-direction:column;
+    justify-content:space-evenly;
+    background-color:#FEFEFE;
+    box-shadow: 0 4px 12px rgba(15, 23, 42, 0.08);
 }
+#graph #title{
+    color:black;
+    font-weight:600;
+    padding-left:5%;
+    display:flex;
+}
+#graph #title div:nth-child(2){
+    align-self:center;
+}
+#graph #image{
+    border:1px solid white;
+}
+
 #stats{
     grid-area:stats;
+    display:flex;
+    flex-direction:column; /* by default row */
     border:1px solid red;
 }
 #predictions{

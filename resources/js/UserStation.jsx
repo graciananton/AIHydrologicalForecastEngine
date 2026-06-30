@@ -62,13 +62,35 @@ function CurrentWeather({stationId}){
 
     console.log("Current Weather");
     console.log(currentWeather);
-
-    return (currentWeather && 
-        <div id='currentWeather'>
-            Temperature: {currentWeather.weather.temperature_2m}
-            Rain: {currentWeather.weather.rain}
-        </div>
-    )
+    if(currentWeather){
+        const rain = currentWeather.weather.rain
+        let message;
+        let image;
+        if(rain == 0){
+            message = "No Rain";
+            image = 'sunny'
+        }
+        else if(rain < 5){
+            message = "Light Rain";
+            image = 'drizzle'
+        }
+        else{
+            message = "Rain"
+            image = 'rain'
+        }
+        return (
+            <div id='currentWeather'>
+                <div id='image'>
+                    <img src={'../images/user/weather/'+image+'.png'} alt=''/>
+                </div>
+                <div id='title'>Current Weather:</div>
+                <div id='temperature'>{currentWeather.weather.temperature_2m} &deg;C</div>
+                <div id='message'>
+                    {message}
+                </div>
+            </div>
+        )
+    }
 }
 function Weather({stationId}){
     const [weather, setWeather] = useState();
@@ -257,7 +279,17 @@ function UpdatedAt({ stationId }){
 function Graph({ stationId }){
     return (
         <div id='graph'>
-            <img src={'../images/future/' + stationId + '.png'} />
+            <div id='title'>
+                <div>
+                    <img src='../images/user/forecast.png' alt=''/>
+                </div>
+                <div>
+                    Water Level Forecast
+                </div>
+            </div>
+            <div id='image'>
+                <img src={'../images/future/' + stationId + '.png'} />
+            </div>
         </div>
     )
 }
