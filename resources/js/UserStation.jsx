@@ -44,7 +44,12 @@ function Station({stationId}){
     },[stationId]);
     
     return (
-        station && <div id='station' grid-area='station'>Station: {station.name} - {station.stationId}</div>
+        station && 
+        <div id='station'>
+            <div id='title'>Station</div> 
+            <div id='name'>{station.name}</div>
+            <div id='id'>ID: {station.stationId}</div>
+        </div>
     )
 }
 
@@ -78,14 +83,14 @@ function UpdatedAt({ stationId }){
     console.log(updatedAt);
     return (
         updatedAt && 
-        <div id = 'updatedAt' grid-area = 'updated'>
+        <div id = 'updatedAt'>
             Updated At: {updatedAt}
         </div>
     )
 }
 function Graph({ stationId }){
     return (
-        <div id='graph' grid-area = 'graph'>
+        <div id='graph'>
             <img src={'../images/future/' + stationId + '.png'} />
         </div>
     )
@@ -122,7 +127,7 @@ function Stats({ stationId }){
     console.log("Stats");
     return (
         stats && 
-        <div>
+        <div id='stats'>
             <ul>
                 {
                     Object.keys(stats).map(key => (
@@ -188,7 +193,8 @@ function Predictions({ stationId }){
     console.log(predictions);
     //generate html
     return (
-        predictions && <div> 
+        predictions && 
+        <div id='predictions'> 
             <table>
                 <tbody>
                     {

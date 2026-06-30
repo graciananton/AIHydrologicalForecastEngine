@@ -1,10 +1,42 @@
 #main{
     display:grid;
-    grid-template-columns: 1fr 1fr 2fr;
-    grid-template-rows: 1fr 5fr 3fr;
+    height:100vh;
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-rows: 1fr 6.5fr;
     grid-template-areas:
-    "station updated predictions"
-    "graph  stats predictions"
-    "status status predictions";
+    "station updatedAt predictions"
+    "graph  stats predictions";
+    gap: 30px 30px; /* row column gap*/
 }
 
+#station{
+    grid-area: station;
+    border:1px solid red;
+    place-self: center center; /* align-self justify-self */
+}
+#station #title, #station #id{
+    color:#5D6570;
+    font-weight:500;
+    font-size:0.85rem;
+}
+#station #name{
+    font-weight:bold;
+    font-size:1rem;
+}
+
+#updatedAt{
+    grid-area:updatedAt;
+    border:1px solid red;
+}
+#predictions{
+    grid-area:predictions;
+    border:1px solid red;
+}
+#graph{
+    grid-area:graph;
+    border:1px solid red;
+}
+#stats{
+    grid-area:stats;
+    border:1px solid red;
+}
