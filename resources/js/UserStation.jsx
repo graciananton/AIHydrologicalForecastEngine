@@ -75,13 +75,13 @@ function Readings({stationId}){
     useEffect(() => {
         async function getReadings(){
             const response = await fetch("http://gracian.ca/laravel/public/api/readings?stationId="+stationId+"&order=desc&limit=3");
-            const data = response.json();
+            const data = await response.json();
             setReadings(data);
         }
     },[stationId]);
 
-    console.log("Data");
-    console.log(data);
+    console.log("Data - Readings");
+    console.log(readings);
     return (
         readings && 
         <div>
@@ -90,7 +90,7 @@ function Readings({stationId}){
                     console.log(reading);
                     return (
                         <div>
-                            { reading.level }
+                            { index + 1 } { reading.level }
                         </div>
                     );
                 })
