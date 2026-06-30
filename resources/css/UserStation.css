@@ -2,22 +2,26 @@
     display:grid;
     height:100vh;
     grid-template-columns: 1fr 1fr 1fr;
-    grid-template-rows: 1.5fr 6.5fr 1fr 0.5fr;
+    grid-template-rows: 2fr 6fr 1fr 0.5fr;
     grid-template-areas:
     "station updatedAt currentWeather"
     "graph  stats predictions"
     "weather weather readings"
     "footer footer footer";
-    gap: 15px 30px; /* row column gap*/
+    gap: 15px 15px; /* row column gap*/
 }
-
 #station{
     grid-area: station;
     border:1px solid green;
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    align-items:flex-start;
+    padding-left:15%;
 }
 #station #title, #station #id{
     color:#5D6570;
-    font-weight:500;
+    font-weight:600;
     font-size:0.85rem;
 }
 #station #name{
@@ -25,12 +29,19 @@
     font-size:1rem;
 }
 
+
+
+
+
+
+
+
 #updatedAt{
     grid-area:updatedAt;
     border:1px solid red;
 }
-#predictions{
-    grid-area:predictions;
+#currentWeather{
+    grid-area:currentWeather;
     border:1px solid red;
 }
 #graph{
@@ -41,8 +52,8 @@
     grid-area:stats;
     border:1px solid red;
 }
-#currentWeather{
-    grid-area:currentWeather;
+#predictions{
+    grid-area:predictions;
     border:1px solid red;
 }
 #weather{
