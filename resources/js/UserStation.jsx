@@ -185,7 +185,7 @@ function Station({stationId}){
     return (
         station && 
         <div id='station'>
-            <div id='title'>Station</div> 
+            <div id='title'>Station:</div> 
             <div id='name'>{capitalizeFirstLetter(station.name)}</div>
             <div id='id'>ID: {station.stationId}</div>
         </div>
@@ -227,6 +227,7 @@ function UpdatedAt({ stationId }){
         </div>
     )
 }
+
 function Graph({ stationId }){
     return (
         <div id='graph'>
@@ -265,15 +266,13 @@ function Stats({ stationId }){
     return (
         stats && 
         <div id='stats'>
-            <ul>
                 {
                     Object.keys(stats).map(key => (
-                        <li key={key}>
+                        <div key={key}>
                             {correctlyCapitalize(key)} - {stats[key]}
-                        </li>
+                        </div>
                     ))
                 }
-            </ul>
         </div>
     )
 }
