@@ -16,10 +16,45 @@ function Main(station){
             <Predictions stationId = {stationId} />
             <Weather stationId = {stationId} />
             <Readings stationId = {stationId} />
+            <CurrentWeather stationId = {stationId} />
         </div>
     )
 }
 
+function CurrentWeather({stationId}){
+    const [currentWeather, setCurrentWeather] = useState();
+
+    useEffect(() => {
+        async function getCurrentWeather(stationId){
+            try{
+                const response = await fetch('http://gracian.ca/laravel/public/api/weather?stationId='+ stationId+'&from='+from+'&to='+to);
+                
+                if(!response.ok){
+                    throw new Error("Failed to fetch");
+                }
+
+                const data = await response.json();
+                if(data.length < 1){
+                    throw new Error("Data length < 1");
+                }
+
+                setCurrentWeather(data[0]);
+            }
+            catch(error){
+                console.log(error);
+            }
+        }
+        getCurrentWeather(stationId);
+    },[stationId]);
+
+
+    return (currentWeather && 
+        <div>
+            Temperature: {currentWeather.temperature_2m}
+            Rain: {currentWeather.rain}
+        </div>
+    )
+}
 function Weather({stationId}){
     const [weather, setWeather] = useState();
 
@@ -74,22 +109,35 @@ function Readings({stationId}){
 
     useEffect(() => {
         async function getReadings(){
-            const response = await fetch("http://gracian.ca/laravel/public/api/readings?stationId="+stationId+"&order=desc&limit=3");
-            const data = await response.json();
-            setReadings(data);
+            try{
+                const response = await fetch("http://gracian.ca/laravel/public/api/readings?stationId="+stationId+"&order=desc&limit=3");
+                if(!response.ok){
+                    throw new Error("Failed to fetch");
+                }
+                const data = await response.json();
+                if(data.length < 3){
+                    throw new Error("Data length < 3")
+                }
+                setReadings(data);
+            }
+            catch(error){
+                console.log(error)
+            }
         }
+        getReadings();
     },[stationId]);
 
     console.log("Data - Readings");
     console.log(readings);
     return (
         readings && 
-        <div>
+        <div id='readings'>
             {
                 readings.map((reading,index) => {
                     console.log(reading);
                     return (
-                        <div>
+                        <div key={index}>
+                            {console.log(reading.level)}
                             { index + 1 } { reading.level }
                         </div>
                     );
