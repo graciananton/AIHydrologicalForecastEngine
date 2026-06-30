@@ -17,16 +17,29 @@ function Main(station){
             <Weather stationId = {stationId} />
             <Readings stationId = {stationId} />
             <CurrentWeather stationId = {stationId} />
+            <Footer />
         </div>
     )
 }
-
+function Footer(){
+    return (
+        <div>@{new Date().getFullYear()} AI Hydrological Forecasting Engine. All rights reserved.</div>
+    )
+}
 function CurrentWeather({stationId}){
     const [currentWeather, setCurrentWeather] = useState();
 
     useEffect(() => {
         async function getCurrentWeather(stationId){
             try{
+                let from = new Date().toISOString();
+                
+                let to = new Date(from);
+
+                to.setUTCMinutes(to.getUTCMinutes() + 59);
+
+                to = to.toISOString();
+
                 const response = await fetch('http://gracian.ca/laravel/public/api/weather?stationId='+ stationId+'&from='+from+'&to='+to);
                 
                 if(!response.ok){
@@ -47,11 +60,13 @@ function CurrentWeather({stationId}){
         getCurrentWeather(stationId);
     },[stationId]);
 
+    console.log("Current Weather");
+    console.log(currentWeather);
 
     return (currentWeather && 
-        <div>
-            Temperature: {currentWeather.temperature_2m}
-            Rain: {currentWeather.rain}
+        <div id='currentWeather'>
+            Temperature: {currentWeather.weather.temperature_2m}
+            Rain: {currentWeather.weather.rain}
         </div>
     )
 }
@@ -88,8 +103,6 @@ function Weather({stationId}){
         getWeather(stationId);
     }, [stationId])
 
-    console.log("Weather:");
-    console.log(weather);
     return (weather && 
         
 
@@ -127,17 +140,13 @@ function Readings({stationId}){
         getReadings();
     },[stationId]);
 
-    console.log("Data - Readings");
-    console.log(readings);
     return (
         readings && 
         <div id='readings'>
             {
                 readings.map((reading,index) => {
-                    console.log(reading);
                     return (
                         <div key={index}>
-                            {console.log(reading.level)}
                             { index + 1 } { reading.level }
                         </div>
                     );
@@ -211,8 +220,6 @@ function UpdatedAt({ stationId }){
         getUpdatedAt(stationId);
     }, [stationId]);
 
-    console.log("updated at");
-    console.log(updatedAt);
     return (
         updatedAt && 
         <div id = 'updatedAt'>
@@ -245,7 +252,6 @@ function Stats({ stationId }){
                     throw new Error('Data is empty');
                 }
 
-                console.log(data);
                 setStats(data);
             }
             catch(error){
@@ -256,7 +262,6 @@ function Stats({ stationId }){
 
     }, [stationId]);
 
-    console.log("Stats");
     return (
         stats && 
         <div id='stats'>
@@ -334,7 +339,6 @@ function Predictions({ stationId }){
         getPredictions(stationId);
     }, [stationId]);
 
-    console.log(predictions);
     //generate html
     return (
         predictions && 
