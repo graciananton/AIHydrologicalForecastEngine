@@ -122,6 +122,7 @@ function Stats({ stationId }){
     console.log("Stats");
     console.log(stats);
     console.log(correctlyCapitalize("updated_at"));
+    console.log(correctlyCapitalize("predictedFor"));
     return (
         stats && 
         <div>
@@ -148,16 +149,18 @@ function correctlyCapitalize(label){
     let char;
     for(let i = 0; i < labelChars.length; i++){
         char = labelChars[i]
-        
+
         if(i == 0){
             correctLabelChars.push(char.toUpperCase());
         }
         else if(char == char.toUpperCase()){
             correctLabelChars.push(" ")
+            correctLabelChars.push(char.toUpperCase());
             space = true;
         }
         else if(char == "_"){
             correctLabelChar.push(" ")
+            correctLabelChars.push(char.toUpperCase());
             space = true
         }
         else{
