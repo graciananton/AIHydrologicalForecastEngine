@@ -120,17 +120,16 @@ function Stats({ stationId }){
     }, [stationId]);
 
     console.log("Stats");
-    console.log(stats);
-    console.log(correctlyCapitalize("updated_at"));
-    console.log(correctlyCapitalize("predictedFor"));
     return (
         stats && 
         <div>
             <ul>
                 {
-                Object.keys(stats).map(key => (
-                    <li>{correctlyCapitalize(key) - stats.key }</li>
-                ))
+                    Object.keys(stats).map(key => (
+                        <li key={key}>
+                            {correctlyCapitalize(key)} - {stats[key]}
+                        </li>
+                    ))
                 }
             </ul>
         </div>
@@ -153,14 +152,13 @@ function correctlyCapitalize(label){
         if(i == 0){
             correctLabelChars.push(char.toUpperCase());
         }
-        else if(char == char.toUpperCase()){
-            correctLabelChars.push(" ")
-            correctLabelChars.push(char.toUpperCase());
+        else if(char >= "A" && char <= "Z"){
+            correctLabelChars.push(" ");
+            correctLabelChars.push(char);
             space = true;
         }
         else if(char == "_"){
-            correctLabelChar.push(" ")
-            correctLabelChars.push(char.toUpperCase());
+            correctLabelChars.push(" ")
             space = true
         }
         else{
