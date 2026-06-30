@@ -21,7 +21,19 @@
     background-color:#FEFEFE;
     box-shadow: 0 4px 12px rgba(15, 23, 42, 0.08);
 }
-#station #title, #station #id{
+#updatedAt{
+    grid-area:updatedAt;
+    border:1px solid white;
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    align-items:flex-start;
+    padding-left:15%;
+    background-color:#FEFEFE;
+    box-shadow: 0 4px 12px rgba(15, 23, 42, 0.08);
+}
+
+#station #title, #station #id, #updatedAt #title, #updatedAt #id{
     color:#5D6570;
     font-weight:600;
     font-size:0.85rem;
@@ -30,18 +42,12 @@
     font-weight:bold;
     font-size:1rem;
 }
-
-
-
-
-
-
-
-
-#updatedAt{
-    grid-area:updatedAt;
-    border:1px solid red;
+#updatedAt #name{
+    font-weight:bold;
+    font-size:1rem;
 }
+
+
 #currentWeather{
     grid-area:currentWeather;
     border:1px solid red;

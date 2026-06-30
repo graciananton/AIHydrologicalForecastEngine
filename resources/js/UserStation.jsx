@@ -220,10 +220,30 @@ function UpdatedAt({ stationId }){
         getUpdatedAt(stationId);
     }, [stationId]);
 
+    let updatedAtUTC = new Date(updatedAt);
+    let month = updatedAtUTC.toLocaleString('en-US',{
+        month: "long",
+        timeZone: "UTC"
+    });
+    let dayOfMonth = updatedAtUTC.getUTCDate();
+    let year = updatedAtUTC.getUTCFullYear();
+    let hour = updatedAtUTC.getUTCHours();
+
+    let timePeriod;
+    if(hour > 12){
+        hour = hour % 12;
+        timePeriod = "PM"
+    }
+    else{
+        timePeriod = "AM"
+    }
+    let minute = updatedAtUTC.getUTCMinutes();
     return (
         updatedAt && 
         <div id = 'updatedAt'>
-            Updated At: {updatedAt}
+            <div id='title'>Last Updated:</div> 
+            <div id='name'>{(Math.round((new Date() - new Date(updatedAt)) / (1000 * 60 * 60))*100)/100} hrs. ago</div>
+            <div id='id'>{month} {dayOfMonth}, {year} {hour}:{minute} {timePeriod}</div>
         </div>
     )
 }
