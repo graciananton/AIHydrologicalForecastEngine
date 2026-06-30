@@ -6,13 +6,95 @@ export default function UserStation({ data }){
     return (<Main {...data}/>); //sends data to Main component as object, not as property of object
 }
 function Main(station){
+    const stationId = station.stationId;
     return (
         <div id='main'>
-            <Station stationId = {station.stationId}/>
-            <UpdatedAt stationId = {station.stationId} />
-            <Graph stationId = {station.stationId} />
-            <Stats stationId = {station.stationId} />
-            <Predictions stationId = {station.stationId} />
+            <Station stationId = {stationId}/>
+            <UpdatedAt stationId = {stationId} />
+            <Graph stationId = {stationId} />
+            <Stats stationId = {stationId} />
+            <Predictions stationId = {stationId} />
+            <Weather stationId = {stationId} />
+            <Readings stationId = {stationId} />
+        </div>
+    )
+}
+
+function Weather({stationId}){
+    const [weather, setWeather] = useState();
+
+    useEffect(() => {
+        async function getWeather(stationId){
+            try{
+                let from = new Date().toISOString();
+                
+                let to = new Date(from);
+
+                to.setUTCMinutes(to.getUTCMinutes() + 59);
+
+                to = to.toISOString();
+
+                const response = await fetch('http://gracian.ca/laravel/public/api/weather?stationId='+ stationId+'&from='+from+'&to='+to);
+                if(!response.ok){
+                    throw new Error("Failed to fetch");
+                }
+
+                const data = await response.json();
+                if(data.length < 1){
+                    throw new Error("Data length < 1");
+                }
+
+                setWeather(data[0]);
+            }
+            catch(error){
+                console.log(error);
+            }
+        }
+        getWeather(stationId);
+    }, [stationId])
+
+    console.log("Weather:");
+    console.log(weather);
+    return (weather && 
+        
+
+        <div id='weather'>
+            <div>Temperature - {weather.weather.temperature_2m}</div>
+            <div>Precipitation - {weather.weather.precipitation}</div>
+            <div>Snowfall - {weather.weather.snowfall}</div>
+            <div>Relative Humidity - {weather.weather.relative_humidity_2m}</div>
+            <div>Presure - {weather.weather.presure_msl}</div>
+            <div>Rain - {weather.weather.rain}</div>
+            <div>Wind Speed - {weather.weather.wind_speed_10m}</div>
+        </div>
+    );
+}
+function Readings({stationId}){
+    const [readings, setReadings] = useState();
+
+    useEffect(() => {
+        async function getReadings(){
+            const response = await fetch("http://gracian.ca/laravel/public/api/readings?stationId="+stationId+"&order=desc&limit=3");
+            const data = response.json();
+            setReadings(data);
+        }
+    },[stationId]);
+
+    console.log("Data");
+    console.log(data);
+    return (
+        readings && 
+        <div>
+            {
+                readings.map((reading,index) => {
+                    console.log(reading);
+                    return (
+                        <div>
+                            { reading.level }
+                        </div>
+                    );
+                })
+            }
         </div>
     )
 }

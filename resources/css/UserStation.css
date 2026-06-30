@@ -2,10 +2,12 @@
     display:grid;
     height:100vh;
     grid-template-columns: 1fr 1fr 1fr;
-    grid-template-rows: 1fr 6.5fr;
+    grid-template-rows: 1.5fr 6.5fr 1fr 0.5fr;
     grid-template-areas:
-    "station updatedAt predictions"
-    "graph  stats predictions";
+    "station updatedAt currentWeather"
+    "graph  stats predictions"
+    "weather weather readings"
+    "footer footer footer";
     gap: 30px 30px; /* row column gap*/
 }
 
@@ -37,5 +39,21 @@
 }
 #stats{
     grid-area:stats;
+    border:1px solid red;
+}
+#currentWeather{
+    grid-area:currentWeather;
+    border:1px solid red;
+}
+#weather{
+    grid-area:weather;
+    border:1px solid red;
+}
+#readings{
+    grid-area:readings;
+    border:1px solid red;
+}
+#footer{
+    grid-area:footer;
     border:1px solid red;
 }
