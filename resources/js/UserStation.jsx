@@ -185,6 +185,9 @@ function Station({stationId}){
     return (
         station && 
         <div id='station'>
+            <div id='image'>
+                <img src='../images/user/station.png' alt='' />
+            </div>
             <div id='title'>Station:</div> 
             <div id='name'>{capitalizeFirstLetter(station.name)}</div>
             <div id='id'>ID: {station.stationId}</div>
@@ -241,9 +244,12 @@ function UpdatedAt({ stationId }){
     return (
         updatedAt && 
         <div id = 'updatedAt'>
+            <div id='image'>
+                <img src='../images/user/updatedAt.png' alt='' />
+            </div>
             <div id='title'>Last Updated:</div> 
-            <div id='name'>{(Math.round((new Date() - new Date(updatedAt)) / (1000 * 60 * 60))*100)/100} hrs. ago</div>
-            <div id='id'>{month} {dayOfMonth}, {year} {hour}:{minute} {timePeriod}</div>
+            <div id='ago'>{(Math.round((new Date() - new Date(updatedAt)) / (1000 * 60 * 60))*100)/100} hrs. ago</div>
+            <div id='time'>{month} {dayOfMonth}, {year} {hour}:{minute} {timePeriod}</div>
         </div>
     )
 }

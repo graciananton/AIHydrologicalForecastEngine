@@ -2,51 +2,110 @@
     display:grid;
     height:100vh;
     grid-template-columns: 1fr 1fr 1fr;
-    grid-template-rows: 1.75fr 6fr 1fr 0.5fr;
+    grid-template-rows: 1fr 6fr 1fr 0.5fr;
     grid-template-areas:
     "station updatedAt currentWeather"
     "graph  stats predictions"
     "weather weather readings"
     "footer footer footer";
-    gap: 15px 2px; /* row column gap*/
+    gap: 5px 2px; /* row column gap*/
+    margin-left:5%;
+    margin-right:5%;
 }
 #station{
     grid-area: station;
     border:1px solid white;
-    display:flex;
-    flex-direction:column;
-    justify-content:center;
-    align-items:flex-start;
-    padding-left:15%;
+    display: grid;
+    height:100%;
+    grid-template-columns:1fr 5fr;
+    grid-template-rows: 1fr 1fr 1fr;
+    grid-template-areas: 
+    "stationImage title"
+    "stationImage name"
+    "stationImage id";
+    column-gap:2px;
+    padding-left:7%;
     background-color:#FEFEFE;
     box-shadow: 0 4px 12px rgba(15, 23, 42, 0.08);
 }
-#updatedAt{
-    grid-area:updatedAt;
-    border:1px solid white;
-    display:flex;
-    flex-direction:column;
-    justify-content:center;
-    align-items:flex-start;
-    padding-left:15%;
-    background-color:#FEFEFE;
-    box-shadow: 0 4px 12px rgba(15, 23, 42, 0.08);
-}
-
-#station #title, #station #id, #updatedAt #title, #updatedAt #id{
+#station #title{
+    grid-area:title;
     color:#5D6570;
     font-weight:600;
     font-size:0.85rem;
+    border:0px solid red;
+    display:flex;
+    align-items:flex-end;
+}
+#station #id{
+    grid-area:id;
+    color:#5D6570;
+    font-weight:600;
+    font-size:0.85rem;
+    border:0px solid red;
+    display:flex;
+    align-items:flex-start;
+
 }
 #station #name{
+    grid-area:name;
     font-weight:bold;
     font-size:1rem;
+    border:0px solid red;
 }
-#updatedAt #name{
-    font-weight:bold;
-    font-size:1rem;
+#station #image{
+    grid-area:stationImage;
+    border:0px solid red;
+    height:100%;
+    display:flex;
+    justify-content:center;
+    align-items:center;
 }
 
+#updatedAt{
+    grid-area:updatedAt;
+    border:1px solid white;
+    grid-template-areas:
+    "updatedAtImage title"
+    "updatedAtImage ago"
+    "updatedAtImage time";
+    grid-template-columns:1fr 5fr;
+    grid-template-rows: 1fr 1fr 1fr;
+    column-gap:2px;
+    padding-left:7%;
+    background-color:#FEFEFE;
+    box-shadow: 0 4px 12px rgba(15, 23, 42, 0.08);
+}
+
+#updatedAt #image{
+    grid-area:updatedAtImage;
+    border:1px solid red;
+}
+
+#updatedAt #title{
+    grid-area:title;
+    color:#5D6570;
+    font-weight:600;
+    font-size:0.85rem;
+    border:1px solid red;
+    display:flex;
+    align-items:flex-end;
+}
+#updatedAt #ago{
+    grid-area:ago;
+    font-weight:bold;
+    font-size:1rem;
+    border:1px solid red;
+}
+#updatedAt #time{
+    grid-area:time;
+    color:#5D6570;
+    font-weight:600;
+    font-size:0.85rem;
+    border:1px solid red;
+    display:flex;
+    align-items:flex-start;
+}
 
 #currentWeather{
     grid-area:currentWeather;
