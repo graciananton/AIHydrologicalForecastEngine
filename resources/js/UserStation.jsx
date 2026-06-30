@@ -148,8 +148,11 @@ function correctlyCapitalize(label){
     let char;
     for(let i = 0; i < labelChars.length; i++){
         char = labelChars[i]
-
-        if(char == char.toUpperCase()){
+        
+        if(i == 0){
+            correctLabelChars.push(char.toUpperCase());
+        }
+        else if(char == char.toUpperCase()){
             correctLabelChars.push(" ")
             space = true;
         }
