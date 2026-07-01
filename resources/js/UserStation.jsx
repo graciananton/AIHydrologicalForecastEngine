@@ -217,7 +217,33 @@ function Station({stationId}){
     )
 }
 
+function convertUTCToFormattedDate(UTCDate){
+    let updatedAtUTC = new Date(UTCDate); // convert to ISO format
 
+    let month = updatedAtUTC.toLocaleString('en-US',{
+        month: "long",
+        timeZone: "UTC"
+    });
+    let dayOfMonth = updatedAtUTC.getUTCDate();
+    let year = updatedAtUTC.getUTCFullYear();
+    let hour = updatedAtUTC.getUTCHours();
+
+    let timePeriod;
+    if(hour > 12){
+        hour = hour % 12;
+        timePeriod = "PM"
+    }
+    else{
+        timePeriod = "AM"
+    }
+    let minute = updatedAtUTC.getUTCMinutes();
+
+    return (
+        <>
+        {month} {dayOfMonth}, {year} {hour}:{minute} {timePeriod}
+        </>
+    );
+}
 
 function UpdatedAt({ stationId }){
     const [updatedAt, setUpdatedAt] = useState() // gets the ISO864 format of 1970-01-01
@@ -245,6 +271,7 @@ function UpdatedAt({ stationId }){
         getUpdatedAt(stationId);
     }, [stationId]);
 
+    /*
     let updatedAtUTC = new Date(updatedAt);
     let month = updatedAtUTC.toLocaleString('en-US',{
         month: "long",
@@ -263,6 +290,8 @@ function UpdatedAt({ stationId }){
         timePeriod = "AM"
     }
     let minute = updatedAtUTC.getUTCMinutes();
+    */
+    const formattedDate = convertUTCToFormattedDate(updatedAt);
     return (
         updatedAt && 
         <div id = 'updatedAt'>
@@ -271,7 +300,7 @@ function UpdatedAt({ stationId }){
             </div>
             <div id='title'>Last Updated:</div> 
             <div id='ago'>{(Math.round((new Date() - new Date(updatedAt)) / (1000 * 60 * 60))*100)/100} hrs. ago</div>
-            <div id='time'>{month} {dayOfMonth}, {year} {hour}:{minute} {timePeriod}</div>
+            <div id='time'>{formattedDate}</div>
         </div>
     )
 }
@@ -294,58 +323,13 @@ function Graph({ stationId }){
     )
 }
 
-function Stats({ stationId }){
-
-    const [stats, setStats] = useState();
-
-    // react re-renders useEffect after updating the state stats
-    useEffect(() => {
-        async function getStats(stationId){
-            try{
-                const response = await fetch('http://gracian.ca/laravel/public/api/stats?stationId='+stationId);
-                if(!response.ok){
-                    throw new Error('Failed to fetch');
-                }
-                const data = await response.json();
-                if(data.length < 1){
-                    throw new Error('Data is empty');
-                }
-
-                setStats(data);
-            }
-            catch(error){
-                console.log(error);
-            }
-        }
-        getStats(stationId);
-
-    }, [stationId]);
-
-    return (
-        stats && 
-        <div id='stats'>
-            <div id='title'>
-                <div>
-                    <img src='../images/user/stats.png' alt=''/>
-                </div>
-                <div>
-                    Stastics:
-                </div>
-            </div>
-            <div id='stastics'>
-                <ul>
-                    {
-                        Object.keys(stats).map(key => (
-                            <li key={key}>
-                                <span>{correctlyCapitalize(key)}: </span>
-                                <span>{stats[key]}</span>
-                            </li>
-                        ))
-                    }
-                </ul>
-            </div>
-        </div>
-    )
+// this function checks is a given value is numeric (including strings which contain only numerical characters) and returns true or false
+function isNumeric(value) {
+    return typeof value === "number"
+        ? !Number.isNaN(value)
+        : typeof value === "string" &&
+          value.trim() !== "" &&
+          !Number.isNaN(Number(value));
 }
 
 function capitalizeFirstLetter(name){
@@ -414,24 +398,88 @@ function Predictions({ stationId }){
     return (
         predictions && 
         <div id='predictions'> 
-            <table>
-                <tbody>
-                    {
-                    
-                        predictions.map((prediction, index) => {
-                            counter ++;
-                            if(counter < 10){
-                                return (
-                                    <tr key={index}>
-                                        <td>{prediction.prediction}</td>
-                                        <td>{prediction.predictedFor}</td>
-                                    </tr>
-                                );
-                            }
-                        })
-                    }
-                </tbody>
-            </table>
+            <div id='title'>
+                <div>
+                    <img src='../images/user/predictions.png' alt=''/>
+                </div>
+                <div>
+                    Predictions:
+                </div>
+            </div>
+            <div id='predict'>
+                <table>
+                    <tbody>
+                        {
+                        
+                            predictions.map((prediction, index) => {
+                                counter ++;
+                                if(counter < 30){
+                                    return (
+                                        <tr key={index}>
+                                            <td>{prediction.predictedFor}</td>
+                                            <td>{Math.round(prediction.prediction*10000)/10000}</td>
+                                        </tr>
+                                    );
+                                }
+                            })
+                        }
+                    </tbody>
+                </table>
+            </div>
         </div>
     );
+}
+
+function Stats({ stationId }){
+
+    const [stats, setStats] = useState();
+
+    // react re-renders useEffect after updating the state stats
+    useEffect(() => {
+        async function getStats(stationId){
+            try{
+                const response = await fetch('http://gracian.ca/laravel/public/api/stats?stationId='+stationId);
+                if(!response.ok){
+                    throw new Error('Failed to fetch');
+                }
+                const data = await response.json();
+                if(data.length < 1){
+                    throw new Error('Data is empty');
+                }
+
+                setStats(data);
+            }
+            catch(error){
+                console.log(error);
+            }
+        }
+        getStats(stationId);
+
+    }, [stationId]);
+
+    return (
+        stats && 
+        <div id='stats'>
+            <div id='title'>
+                <div>
+                    <img src='../images/user/stats.png' alt=''/>
+                </div>
+                <div>
+                    Stastics:
+                </div>
+            </div>
+            <div id='stastics'>
+                <ul>
+                    {
+                        Object.keys(stats).map(key => (
+                            <li key={key}>
+                                <span>{correctlyCapitalize(key)}: </span>
+                                <span>{(isNumeric(stats[key]) && !Number.isNaN(stats[key])) ? Math.round(stats[key]*10000)/10000 : stats[key]}</span>
+                            </li>
+                        ))
+                    }
+                </ul>
+            </div>
+        </div>
+    )
 }
