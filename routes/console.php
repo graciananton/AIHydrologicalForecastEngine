@@ -31,7 +31,7 @@ Schedule::command('test:scheduler')
     ->withoutOverlapping();
 
 Schedule::command('future:scheduler')
-    ->dailyAt('02:30')
+    ->hourly()
     ->withoutOverlapping();
 
 Schedule::command('dailyReport:scheduler')

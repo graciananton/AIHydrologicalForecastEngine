@@ -245,22 +245,30 @@ function convertUTCToFormattedDate(UTCDate){
     );
 }
 function convertUTCToFormattedTime(UTCDate){
-    let updatedAtUTC = new Date(UTCDate); // convert to ISO format
-    const torontoTime = updatedAtUTC.toLocaleString("en-CA", {
-        timeZone: "America/Toronto"
-    });
+    let dateObject = new Date(UTCDate); // convert to ISO format
+    console.log("Date object without timezone offset");
+    console.log(dateObject);
+    console.log("after date object without timezone offset");
 
-    let month = torontoTime.toLocaleString('en-US',{
-        month: "long",
-        timeZone: "UTC"
-    });
-    let dayOfMonth = torontoTime.getUTCDate();
-    let hour = torontoTime.getUTCHours();
+    let timeZoneOffset = dateObject.getTimezoneOffset();
+    console.log(timeZoneOffset);
+    dateObject.setMinutes(dateObject.getMinutes() - (timeZoneOffset));
 
+    console.log("Date object with timezone offset");
+    console.log(dateObject);
+    console.log("after date object with timezone offset");
+
+    const getAMPM = (hour) => hour >= 12 ? "PM" : "AM";
+    
+    const getTimeOffset = (hour) => hour > 12 ? hour - 12 : hour;
+
+    const monthName = dateObject.toLocaleString("en-US", {
+        month: "long"
+    });
 
     return (
         <>
-        {month} {dayOfMonth}, {hour}
+        {monthName} {dateObject.getUTCDate()}, {getTimeOffset(dateObject.getUTCHours())}:{String(dateObject.getMinutes()).padStart(2,"0")} {getAMPM(dateObject.getUTCHours())}
         </>
     )
 }
@@ -405,6 +413,8 @@ function Predictions({ stationId }){
     const [predictions, setPredictions] = useState();
     useEffect(() => {
         async function getPredictions(stationId){
+            console.log("Curent time:");
+            console.log(current);
             const response = await fetch('http://gracian.ca/laravel/public/api/future?stationId='+stationId+'&order=desc&limit=24&from='+current);
             const data = await response.json();
             setPredictions(data);
@@ -412,7 +422,6 @@ function Predictions({ stationId }){
         getPredictions(stationId);
     }, [stationId]);
 
-    let counter = 0;
     //generate html
     return (
         predictions && 
@@ -432,14 +441,12 @@ function Predictions({ stationId }){
                         
                             predictions.map((prediction, index) => {
                                 counter ++;
-                                if(counter < 30){
                                     return (
                                         <tr key={index}>
                                             <td>{convertUTCToFormattedTime(prediction.predictedFor)}</td>
                                             <td>{Math.round(prediction.prediction*10000)/10000}</td>
                                         </tr>
                                     );
-                                }
                             })
                         }
                     </tbody>
