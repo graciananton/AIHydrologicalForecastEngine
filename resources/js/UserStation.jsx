@@ -185,11 +185,15 @@ function Readings({stationId}){
                 <ul>
                     {
                         readings.map((reading,index) => {
+                            console.log("Reading:");
                             console.log(reading);
+                            console.log(index);
+                            let prev = readings[index+1];
                             return (
                                 <li key={index}>
-                                    <span></span>
+                                    <span>{ convertUTCToFormattedTime(reading.measuredAt, ['month', 'date', 'hour', 'minute', 'timePeriod']) }</span>
                                     <span>{ reading.level }</span>
+                                    <span>{ reading.level - prev.level}</span>
                                 </li>
                             );
                         })

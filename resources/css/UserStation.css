@@ -319,6 +319,8 @@
 }
 #weather #title div:nth-child(2){
     align-self:center;
+    color:black;
+    font-weight:600;
 }
 
 #weather #details{
@@ -344,6 +346,30 @@
     grid-area:readings;
     border:1px solid red;
 }
+#readings #title{
+    display:flex;
+    flex-direction:row;
+    padding-left:3%;
+    gap:3px;
+}
+#readings #title div:nth-child(2){
+    align-self:center;
+    color:black;
+    font-weight:600;
+}
+#readings #details ul{
+    display:flex;
+    flex-direction:column;
+    justify-content:space-evenly;
+    border:1px solid red;
+}
+#readings #details ul li{
+    border:1px solid red;
+    display:flex;
+    flex-direction:row;
+    justify-content:space-evenly;
+}
+
 #footer{
     grid-area:footer;
     border:0px solid red;
