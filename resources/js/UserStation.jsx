@@ -153,7 +153,7 @@ function Readings({stationId}){
     useEffect(() => {
         async function getReadings(){
             try{
-                const response = await fetch("http://gracian.ca/laravel/public/api/readings?stationId="+stationId+"&order=desc&limit=3");
+                const response = await fetch("http://gracian.ca/laravel/public/api/readings?stationId="+stationId+"&order=desc&limit=5");
                 if(!response.ok){
                     throw new Error("Failed to fetch");
                 }
@@ -185,17 +185,21 @@ function Readings({stationId}){
                 <ul>
                     {
                         readings.map((reading,index) => {
-                            console.log("Reading:");
-                            console.log(reading);
-                            console.log(index);
-                            let prev = readings[index+1];
-                            return (
-                                <li key={index}>
-                                    <span>{ convertUTCToFormattedTime(reading.measuredAt, ['month', 'date', 'hour', 'minute', 'timePeriod']) }</span>
-                                    <span>{ reading.level }</span>
-                                    <span>{ reading.level - prev.level}</span>
-                                </li>
-                            );
+                            if(index + 1 < readings.length){
+                                console.log("Reading:");
+                                console.log(reading);
+                                console.log(index);
+                                let prev = readings[index+1];
+                                console.log("Prev:");
+                                console.log(prev);
+                                return (
+                                    <li key={index}>
+                                        <span>{ convertUTCToFormattedTime(reading.measuredAt, ['month', 'date', 'hour', 'minute', 'timePeriod']) }</span>
+                                        <span>{ reading.level }</span>
+                                        <span>{ (String(Math.round((reading.level - prev.level)*1000)/1000)).padStart(4,"0")}</span>
+                                    </li>
+                                );
+                            }
                         })
                     }
                 </ul>
