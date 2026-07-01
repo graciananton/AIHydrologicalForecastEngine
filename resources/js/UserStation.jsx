@@ -259,6 +259,7 @@ function convertUTCToFormattedTime(UTCDate){
     const monthName = dateObject.toLocaleString("en-US", {
         month: "long"
     });
+    
     console.log("Date object");
     console.log(dateObject);
     return (
