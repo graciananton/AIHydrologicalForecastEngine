@@ -23,7 +23,7 @@ function Main(station){
 }
 function Footer(){
     return (
-        <div>@{new Date().getFullYear()} AI Hydrological Forecasting Engine. All rights reserved.</div>
+        <div id='footer'>&copy;{new Date().getFullYear()} AI Hydrological Forecasting Engine. All rights reserved.</div>
     )
 }
 function CurrentWeather({stationId}){
@@ -126,16 +126,24 @@ function Weather({stationId}){
     }, [stationId])
 
     return (weather && 
-        
-
         <div id='weather'>
-            <div>Temperature - {weather.weather.temperature_2m}</div>
-            <div>Precipitation - {weather.weather.precipitation}</div>
-            <div>Snowfall - {weather.weather.snowfall}</div>
-            <div>Relative Humidity - {weather.weather.relative_humidity_2m}</div>
-            <div>Presure - {weather.weather.presure_msl}</div>
-            <div>Rain - {weather.weather.rain}</div>
-            <div>Wind Speed - {weather.weather.wind_speed_10m}</div>
+            <div id='title'>
+                <div>
+                    <img src='../images/user/weather.png' alt=''/>
+                </div>
+                <div>
+                    Current Weather Details:
+                </div>
+            </div>
+            <div id='details'>
+                <div><span>Temperature:</span><span>{weather.weather.temperature_2m}</span></div>
+                <div><span>Precipitation:</span><span>{weather.weather.precipitation}</span></div>
+                <div><span>Snowfall:</span><span>{weather.weather.snowfall}</span></div>
+                <div><span>Relative Humidity:</span><span>{weather.weather.relative_humidity_2m}</span></div>
+                <div><span>Pressure:</span><span>{weather.weather.pressure_msl}</span></div>
+                <div><span>Rain:</span><span>{weather.weather.rain}</span></div>
+                <div><span>Wind Speed:</span><span>{weather.weather.wind_speed_10m}</span></div>
+            </div>
         </div>
     );
 }
@@ -161,19 +169,33 @@ function Readings({stationId}){
         }
         getReadings();
     },[stationId]);
-
+    
     return (
         readings && 
         <div id='readings'>
-            {
-                readings.map((reading,index) => {
-                    return (
-                        <div key={index}>
-                            { index + 1 } { reading.level }
-                        </div>
-                    );
-                })
-            }
+            <div id='title'>
+                <div>
+                    <img src='../images/user/weather.png' alt=''/>
+                </div>
+                <div>
+                    Latest Readings:
+                </div>
+            </div>
+            <div id='details'>
+                <ul>
+                    {
+                        readings.map((reading,index) => {
+                            console.log(reading);
+                            return (
+                                <li key={index}>
+                                    <span></span>
+                                    <span>{ reading.level }</span>
+                                </li>
+                            );
+                        })
+                    }
+                </ul>
+            </div>
         </div>
     )
 }
@@ -261,7 +283,7 @@ function convertUTCToFormattedTime(UTCDate, options){
     console.log(options);
     return (
         <>
-        {options.include("month") ? String(monthName) + " ": ""}{options.include("date") ? String(dateObject.getUTCDate()) + ", ": ""}{options.include("hour") ? String(getTimeOffset(dateObject.getUTCHours())) + " ": ""}:{options.include("minute") ? String(String(dateObject.getMinutes()).padStart(2,"0")) + " ":""}{options.include("timePeriod") ? getAMPM(dateObject.getUTCHours()): ""}
+        {options.includes("month") ? String(monthName) + " ": ""}{options.includes("date") ? String(dateObject.getUTCDate()) + ", ": ""}{options.includes("hour") ? String(getTimeOffset(dateObject.getUTCHours())): ""}:{options.includes("minute") ? String(String(dateObject.getMinutes()).padStart(2,"0")) + " ":""}{options.includes("timePeriod") ? getAMPM(dateObject.getUTCHours()): ""}
         </>
     )
 }
@@ -408,7 +430,7 @@ function Predictions({ stationId }){
     const [predictions, setPredictions] = useState();
     useEffect(() => {
         async function getPredictions(stationId){
-            const response = await fetch('http://gracian.ca/laravel/public/api/future?stationId='+stationId+'&order=asc&limit=24&from='+current);
+            const response = await fetch('http://gracian.ca/laravel/public/api/future?stationId='+stationId+'&order=asc&limit=11&from='+current);
             const data = await response.json();
             setPredictions(data);
         }
@@ -473,7 +495,7 @@ function Stats({ stationId }){
         getStats(stationId);
 
     }, [stationId]);
-
+    let counter = 0;
     return (
         stats && 
         <div id='stats'>

@@ -16,6 +16,8 @@
 }
 #main > div{
     border-radius:15px;
+    background-color:#FEFEFE;
+    box-shadow: 0 4px 12px rgba(15, 23, 42, 0.08);
 }
 #currentWeather{
     grid-area:currentWeather;
@@ -30,8 +32,6 @@
     'currentWeatherImage description';
     column-gap:2px;
     padding-left:5%;
-    background-color:#FEFEFE;
-    box-shadow: 0 4px 12px rgba(15, 23, 42, 0.08);
 }
 #currentWeather #image{
     grid-area:currentWeatherImage;
@@ -82,8 +82,6 @@
     "stationImage id";
     column-gap:2px;
     padding-left:5%;
-    background-color:#FEFEFE;
-    box-shadow: 0 4px 12px rgba(15, 23, 42, 0.08);
 }
 #station #title{
     grid-area:title;
@@ -132,8 +130,6 @@
     height:100%;
     column-gap:2px;
     padding-left:5%;
-    background-color:#FEFEFE;
-    box-shadow: 0 4px 12px rgba(15, 23, 42, 0.08);
 }
 #updatedAt #image{
     grid-area:updatedAtImage;
@@ -181,8 +177,6 @@
     height:100%;
     column-gap:2px;
     padding-left:5%;
-    background-color:#FEFEFE;
-    box-shadow: 0 4px 12px rgba(15, 23, 42, 0.08);
     border:0px solid red;
 }
 
@@ -224,8 +218,6 @@
     display:flex;
     flex-direction:column;
     justify-content:space-evenly;
-    background-color:#FEFEFE;
-    box-shadow: 0 4px 12px rgba(15, 23, 42, 0.08);
 }
 #graph #title{
     color:black;
@@ -245,8 +237,6 @@
     border:0px solid black;
     height:100%;
     display:flex;
-    background-color:#FEFEFE;
-    box-shadow: 0 4px 12px rgba(15, 23, 42, 0.08);
     flex-direction:column;
 }
 #stats #title{
@@ -276,7 +266,7 @@
 
 #predictions{
     grid-area:predictions;
-    border:1px solid red;
+    border:0px solid red;
     height:100%;
     display:flex;
     flex-direction:column;
@@ -288,11 +278,11 @@
     color:black;
     font-weight:600;
 }
-#predictions #title div:nth-child(2){
+#title div:nth-child(2){
     align-self:center;
 }
 #predictions #predict{
-    border:1px solid red;
+    border:0px solid red;
     flex:1;
     height:100%;
 }
@@ -300,7 +290,7 @@
     display:flex;
     flex-direction:column;
     height:100%;
-    border:1px solid red;
+    border:0px solid red;
     justify-content:space-evenly;
 }
 #predictions #predict ul li{
@@ -316,9 +306,39 @@
 }
 #weather{
     grid-area:weather;
-    border:1px solid red;
+    border:0px solid red;
+    display:flex;
+    flex-direction:column;
+    justify-content:space-evenly;
+}
+#weather #title{
     display:flex;
     flex-direction:row;
+    padding-left:3%;
+    gap:3px;
+}
+#weather #title div:nth-child(2){
+    align-self:center;
+}
+
+#weather #details{
+    display:flex;
+    flex-direction:row;
+    justify-content:space-evenly;
+}
+#weather #details div{
+    display:flex;
+    flex-direction:column;
+    justify-content:space-evenly;
+    border:0px solid red;
+}
+#weather #details div span{
+    margin:auto;
+}
+#weather #details div span:nth-child(1){
+    color:#5D6570;
+    font-weight:600;
+    font-size:1rem;
 }
 #readings{
     grid-area:readings;
@@ -326,5 +346,9 @@
 }
 #footer{
     grid-area:footer;
-    border:1px solid red;
+    border:0px solid red;
+    margin:auto;
+    color:#5D6570;
+    font-weight:600;
+    font-size:0.9rem;
 }
