@@ -243,13 +243,23 @@
     border:1px solid black;
     height:100%;
 }
-#stats ul{
+#stats #title{
+    display:flex;
+    flex-direction:row;
+}
+#stats #stastics ul{
     display:flex;
     flex-direction:column; /* by default row */
     justify-content:space-evenly;
     border:1px solid red;
     height:100%;
 }
+#stats #stastics ul li span:nth-child(1){
+    color:#5D6570;
+    font-weight:600;
+    font-size:1rem;
+}
+
 #predictions{
     grid-area:predictions;
     border:1px solid red;

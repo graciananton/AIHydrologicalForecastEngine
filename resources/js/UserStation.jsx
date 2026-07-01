@@ -324,16 +324,26 @@ function Stats({ stationId }){
     return (
         stats && 
         <div id='stats'>
-            <ul>
-                {
-                    Object.keys(stats).map(key => (
-                        <li key={key}>
-                            <span>{correctlyCapitalize(key)}: </span>
-                            <span>{stats[key]}</span>
-                        </li>
-                    ))
-                }
-            </ul>
+            <div id='title'>
+                <div>
+                    <img src='../images/user/stats.png' alt=''/>
+                </div>
+                <div>
+                    Stastics:
+                </div>
+            </div>
+            <div id='stastics'>
+                <ul>
+                    {
+                        Object.keys(stats).map(key => (
+                            <li key={key}>
+                                <span>{correctlyCapitalize(key)}: </span>
+                                <span>{stats[key]}</span>
+                            </li>
+                        ))
+                    }
+                </ul>
+            </div>
         </div>
     )
 }
