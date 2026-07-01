@@ -135,7 +135,6 @@
     background-color:#FEFEFE;
     box-shadow: 0 4px 12px rgba(15, 23, 42, 0.08);
 }
-
 #updatedAt #image{
     grid-area:updatedAtImage;
     border:0px solid red;
@@ -295,6 +294,25 @@
 #predictions #predict{
     border:1px solid red;
     flex:1;
+    height:100%;
+}
+#predictions #predict ul{
+    display:flex;
+    flex-direction:column;
+    height:100%;
+    border:1px solid red;
+    justify-content:space-evenly;
+}
+#predictions #predict ul li{
+    display:flex;
+    flex-direction:row;
+    justify-content:flex-start;
+    gap:10px;
+}
+#predictions #predict ul li span:nth-child(1){
+    color:#5D6570;
+    font-weight:600;
+    font-size:1rem;
 }
 #weather{
     grid-area:weather;

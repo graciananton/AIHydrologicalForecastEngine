@@ -244,13 +244,10 @@ function convertUTCToFormattedDate(UTCDate){
         </>
     );
 }
-function convertUTCToFormattedTime(UTCDate){
+function convertUTCToFormattedTime(UTCDate, options){
     let dateObject = new Date(UTCDate); // convert to ISO format
     let timeZoneOffset = dateObject.getTimezoneOffset();
-    console.log(timeZoneOffset);
-    console.log(dateObject.getMinutes())
     dateObject.setMinutes(dateObject.getMinutes() - (timeZoneOffset));
-
 
     const getAMPM = (hour) => hour >= 12 ? "PM" : "AM";
     
@@ -260,11 +257,11 @@ function convertUTCToFormattedTime(UTCDate){
         month: "long"
     });
     
-    console.log("Date object");
-    console.log(dateObject);
+    console.log("Options");
+    console.log(options);
     return (
         <>
-        {monthName} {dateObject.getUTCDate()}, {getTimeOffset(dateObject.getUTCHours())}:{String(dateObject.getMinutes()).padStart(2,"0")} {getAMPM(dateObject.getUTCHours())}
+        {options.include("month") ? String(monthName) + " ": ""}{options.include("date") ? String(dateObject.getUTCDate()) + ", ": ""}{options.include("hour") ? String(getTimeOffset(dateObject.getUTCHours())) + " ": ""}:{options.include("minute") ? String(String(dateObject.getMinutes()).padStart(2,"0")) + " ":""}{options.include("timePeriod") ? getAMPM(dateObject.getUTCHours()): ""}
         </>
     )
 }
@@ -316,7 +313,7 @@ function UpdatedAt({ stationId }){
     }
     let minute = updatedAtUTC.getUTCMinutes();
     */
-    const formattedDate = convertUTCToFormattedDate(updatedAt);
+    const formattedDate = convertUTCToFormattedTime(updatedAt, ['month', 'date', 'hour', 'minute', 'timePeriod']);
     return (
         updatedAt && 
         <div id = 'updatedAt'>
@@ -431,22 +428,20 @@ function Predictions({ stationId }){
                 </div>
             </div>
             <div id='predict'>
-                <table>
-                    <tbody>
+                <ul>
                         {
                         
                             predictions.map((prediction, index) => {
                                     console.log(prediction.predictedFor);
                                     return (
-                                        <tr key={index}>
-                                            <td>{convertUTCToFormattedTime(prediction.predictedFor)}</td>
-                                            <td>{Math.round(prediction.prediction*10000)/10000}</td>
-                                        </tr>
+                                        <li key={index}>
+                                            <span>{convertUTCToFormattedTime(prediction.predictedFor, ['hour', 'minute', 'timePeriod'])}</span>
+                                            <span>{Math.round(prediction.prediction*10000)/10000}</span>
+                                        </li>
                                     );
                             })
                         }
-                    </tbody>
-                </table>
+                </ul>
             </div>
         </div>
     );
