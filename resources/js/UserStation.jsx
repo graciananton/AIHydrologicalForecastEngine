@@ -246,25 +246,21 @@ function convertUTCToFormattedDate(UTCDate){
 }
 function convertUTCToFormattedTime(UTCDate){
     let updatedAtUTC = new Date(UTCDate); // convert to ISO format
-    let month = updatedAtUTC.toLocaleString('en-US',{
+    const torontoTime = updatedAtUTC.toLocaleString("en-CA", {
+        timeZone: "America/Toronto"
+    });
+
+    let month = torontoTime.toLocaleString('en-US',{
         month: "long",
         timeZone: "UTC"
     });
-    let dayOfMonth = updatedAtUTC.getUTCDate();
-    let hour = updatedAtUTC.getUTCHours();
-    let timePeriod;
-    if(hour > 12){
-        hour = String(hour % 12)+":00";
-        console.log("hour: " + hour);
-        timePeriod = "PM";
-    }
-    else{
-        timePeriod = "AM"
-    }
+    let dayOfMonth = torontoTime.getUTCDate();
+    let hour = torontoTime.getUTCHours();
+
 
     return (
         <>
-        {month} {dayOfMonth}, {hour} {timePeriod}
+        {month} {dayOfMonth}, {hour}
         </>
     )
 }
