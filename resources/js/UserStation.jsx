@@ -324,13 +324,16 @@ function Stats({ stationId }){
     return (
         stats && 
         <div id='stats'>
+            <ul>
                 {
                     Object.keys(stats).map(key => (
-                        <div key={key}>
-                            {correctlyCapitalize(key)} - {stats[key]}
-                        </div>
+                        <li key={key}>
+                            <span>{correctlyCapitalize(key)}</span>
+                            <span>{stats[key]}</span>
+                        </li>
                     ))
                 }
+            </ul>
         </div>
     )
 }
