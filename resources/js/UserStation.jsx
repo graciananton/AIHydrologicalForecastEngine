@@ -247,6 +247,8 @@ function convertUTCToFormattedDate(UTCDate){
 function convertUTCToFormattedTime(UTCDate){
     let dateObject = new Date(UTCDate); // convert to ISO format
     let timeZoneOffset = dateObject.getTimezoneOffset();
+    console.log(timeZoneOffset);
+    console.log(dateObject.getMinutes())
     dateObject.setMinutes(dateObject.getMinutes() - (timeZoneOffset));
 
 
@@ -257,7 +259,7 @@ function convertUTCToFormattedTime(UTCDate){
     const monthName = dateObject.toLocaleString("en-US", {
         month: "long"
     });
-    
+    console.log("Date object");
     console.log(dateObject);
     return (
         <>
@@ -265,6 +267,8 @@ function convertUTCToFormattedTime(UTCDate){
         </>
     )
 }
+
+
 function UpdatedAt({ stationId }){
     const [updatedAt, setUpdatedAt] = useState() // gets the ISO864 format of 1970-01-01
 
@@ -406,7 +410,7 @@ function Predictions({ stationId }){
     const [predictions, setPredictions] = useState();
     useEffect(() => {
         async function getPredictions(stationId){
-            const response = await fetch('http://gracian.ca/laravel/public/api/future?stationId='+stationId+'&order=desc&limit=24&from='+current);
+            const response = await fetch('http://gracian.ca/laravel/public/api/future?stationId='+stationId+'&order=asc&limit=24&from='+current);
             const data = await response.json();
             setPredictions(data);
         }
