@@ -328,7 +328,7 @@ function Stats({ stationId }){
                 {
                     Object.keys(stats).map(key => (
                         <li key={key}>
-                            <span>{correctlyCapitalize(key)}</span>
+                            <span>{correctlyCapitalize(key)}: </span>
                             <span>{stats[key]}</span>
                         </li>
                     ))
@@ -399,6 +399,7 @@ function Predictions({ stationId }){
         getPredictions(stationId);
     }, [stationId]);
 
+    let counter = 0;
     //generate html
     return (
         predictions && 
@@ -406,13 +407,17 @@ function Predictions({ stationId }){
             <table>
                 <tbody>
                     {
+                    
                         predictions.map((prediction, index) => {
-                            return (
-                                <tr key={index}>
-                                    <td>{prediction.prediction}</td>
-                                    <td>{prediction.predictedFor}</td>
-                                </tr>
-                            );
+                            counter ++;
+                            if(counter < 10){
+                                return (
+                                    <tr key={index}>
+                                        <td>{prediction.prediction}</td>
+                                        <td>{prediction.predictedFor}</td>
+                                    </tr>
+                                );
+                            }
                         })
                     }
                 </tbody>

@@ -240,12 +240,15 @@
 
 #stats{
     grid-area:stats;
-    border:1px solid red;
+    border:1px solid black;
+    height:100%;
 }
 #stats ul{
     display:flex;
     flex-direction:column; /* by default row */
+    justify-content:space-evenly;
     border:1px solid red;
+    height:100%;
 }
 #predictions{
     grid-area:predictions;
