@@ -244,7 +244,30 @@ function convertUTCToFormattedDate(UTCDate){
         </>
     );
 }
+function convertUTCToFormattedTime(UTCDate){
+    let updatedAtUTC = new Date(UTCDate); // convert to ISO format
+    let month = updatedAtUTC.toLocaleString('en-US',{
+        month: "long",
+        timeZone: "UTC"
+    });
+    let dayOfMonth = updatedAtUTC.getUTCDate();
+    let hour = updatedAtUTC.getUTCHours();
+    let timePeriod;
+    if(hour > 12){
+        hour = String(hour % 12)+":00";
+        console.log("hour: " + hour);
+        timePeriod = "PM";
+    }
+    else{
+        timePeriod = "AM"
+    }
 
+    return (
+        <>
+        {month} {dayOfMonth}, {hour} {timePeriod}
+        </>
+    )
+}
 function UpdatedAt({ stationId }){
     const [updatedAt, setUpdatedAt] = useState() // gets the ISO864 format of 1970-01-01
 
@@ -416,7 +439,7 @@ function Predictions({ stationId }){
                                 if(counter < 30){
                                     return (
                                         <tr key={index}>
-                                            <td>{prediction.predictedFor}</td>
+                                            <td>{convertUTCToFormattedTime(prediction.predictedFor)}</td>
                                             <td>{Math.round(prediction.prediction*10000)/10000}</td>
                                         </tr>
                                     );
