@@ -12,12 +12,12 @@ class Level extends Model
     protected $fillable = [
         'stationId',
         'time',
-        'levels'
+        'level'
     ];
     // sets the data type for each fillable column
     protected $casts = [
         'stationId' => 'string',
         'time' => 'date',
-        'levels' => 'json'
+        'level' => 'json'
     ];
 }
