@@ -1,9 +1,7 @@
 <?php
 namespace App\Services;
 
-use App\Models\Status;
-use App\Models\Reading;
-use App\Models\Weather;
+use App\Models\Level;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Log;
 
@@ -15,7 +13,7 @@ class LevelService{
         ];
     }   
     public function filter(array $params):array{
-        $query = Levels::query();
+        $query = Level::query();
         $query->where('stationId', $params['stationId']);
         return $query->get()->toArray();
     }
