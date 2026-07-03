@@ -7,6 +7,7 @@ use App\Services\DailyReportService;
 class DailyReportController extends Controller
 {
     public function __construct(Request $request){
+        
     }
     public function process(DailyReportService $dailyReportService){
         $dailyReportService->sendDailyReport();

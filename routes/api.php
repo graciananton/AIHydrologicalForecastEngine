@@ -17,6 +17,7 @@ use App\Http\Controllers\TrainController;
 use App\Http\Controllers\StatsController;
 use App\Http\Controllers\DailyReportController;
 use App\Http\Controllers\LevelController;
+use App\Http\Controllers\LevelAnalysisController;
 
 # get the RMSE score of the test set
 
@@ -82,4 +83,6 @@ Route::get('/stats', [StatsController::class,'process']);
 
 Route::get('/dailyReport',[DailyReportController::class,'process']);
 
-Route::get('/levels', [LevelController::class, 'sync']);
+Route::get('/levels', [LevelController::class, 'process']);
+
+Route::get('/levelAnalysis', [LevelAnalysisController::class, 'process']);
