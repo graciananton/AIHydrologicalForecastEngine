@@ -8,33 +8,16 @@ use Carbon\Carbon;
 use Illuminate\Support\Facades\Log;
 
 class LevelService{
-    
+
     public function normalizeParams(array $params): array{
         return [
-            'from' => isset($params['from']) ? Carbon::parse($params['from']) : Carbon::createFromTimestamp(0), // start of time 1970-01-00
-
-            'to' => isset($params['to']) ? Carbon::parse($params['to']) : Carbon::now(),
-
-            'limit' => isset($params['limit']) ? (int) $params['limit'] : null,
-
-            'order' => strtoupper($params['order'] ?? 'ASC') === 'DESC' ? 'DESC': 'ASC',
-
-            'f' => $params['f'] ?? 'json'
+            'stationId' => $params['stationId'] ?? '02KF001'
         ];
     }   
     public function filter(array $params):array{
-        $query = Status::query();
-        $query->whereBetween('updated_at', [
-            $params['from'],
-            $params['to']
-        ]);
+        $query = Levels::query();
 
-        $query->orderBy('updated_at', $params['order']);
-
-        if ($params['limit'] !== null) {
-            $query->limit($params['limit']);
-        }
-
+        $query->where('stationId', $params['stationId']);
         return $query->get()->toArray();
     }
 }
