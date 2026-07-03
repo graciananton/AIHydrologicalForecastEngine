@@ -16,4 +16,19 @@ class LevelController extends Controller
     public function process(){
        return response()->json($this->LevelService->filter($this->params));
     }
+    public function sync(){
+        if($this->LevelService->sync()){
+            return redirect()->back()->with(
+                'success',
+                'Level sync completed successfully'
+            );
+        }
+        else{
+            return redirect()->back()->with(
+                'error',
+                'Level sync completed successfully'
+            );
+        }
+
+    }
 }
