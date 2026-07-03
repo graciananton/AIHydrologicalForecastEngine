@@ -82,4 +82,4 @@ Route::get('/stats', [StatsController::class,'process']);
 
 Route::get('/dailyReport',[DailyReportController::class,'process']);
 
-Route::get('/levels', [LevelController::class, 'process']);
+Route::get('/levels', [LevelController::class, 'sync']);
