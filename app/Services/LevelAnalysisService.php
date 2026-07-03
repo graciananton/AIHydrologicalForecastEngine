@@ -33,7 +33,6 @@ class LevelAnalysisService{
 
             return $result;
         }
-
         catch(Throwable $e){
 
         }
