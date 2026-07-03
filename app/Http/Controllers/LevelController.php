@@ -9,15 +9,17 @@ class LevelController extends Controller
 {
     private array $params;
     private LevelService $LevelService;
+    private $request;
     public function __construct(LevelService $LevelService, Request $request){
         $this->LevelService = $LevelService;
+        $this->request = $request;
         $this->params = $this->LevelService->normalizeParams($request->query());
     }
     public function process(){
        return response()->json($this->LevelService->filter($this->params));
     }
     public function sync(){
-        if($this->LevelService->sync()){
+        if($this->LevelService->sync($this->request->stationId)){
             return redirect()->back()->with(
                 'success',
                 'Level sync completed successfully'

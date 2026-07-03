@@ -23,10 +23,11 @@ class LevelService{
         $query = Level::query();
         try{
             $rows = Http::get("https://api.weather.gc.ca/collections/hydrometric-daily-mean/items?STATION_NUMBER={$stationId}&f=json&limit=10000&filter=properties.LEVEL IS NOT NULL");
-        
-            for($i = 0;$i<count($data);$i++){
-                $row = $data[$i];
-                $result = User::firstOrCreate(['stationId' => $row['STATION_NUMBER'], 'level' => $row['LEVEL'], 'time' => $row['DATE']]);                
+            $rows = json_decode($rows, true);
+            $rows = $rows['features'];
+            for($i = 0;$i<count($rows);$i++){
+                $row = $rows[$i];
+                $result = Level::firstOrCreate(['stationId' => $row['properties']['STATION_NUMBER'], 'levels' => $row['properties']['LEVEL'], 'time' => $row['properties']['DATE']]);                
             }
         }
 
