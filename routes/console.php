@@ -19,7 +19,7 @@ Schedule::command('plotTest:scheduler')
     ->withoutOverlapping();
 
 Schedule::command('plotFuture:scheduler')
-    ->dailyAt('01:00')
+    ->hourly()
     ->withoutOverlapping();
 
 Schedule::command('train:scheduler')

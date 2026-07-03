@@ -1,0 +1,19 @@
+<?php
+
+namespace App\Http\Controllers;
+use Illuminate\Http\Request;
+use App\Services\LevelService;
+use App\Services\Formatter\ResponseFormatter;
+
+class LevelController extends Controller
+{
+    private array $params;
+    private LevelService $LevelService;
+    public function __construct(LevelService $LevelService, Request $request){
+        $this->LevelService = $LevelService;
+        $this->params = $this->LevelService->normalizeParams($request->query());
+    }
+    public function process(){
+       return response()->json($this->LevelService->filter($this->params));
+    }
+}

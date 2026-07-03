@@ -136,13 +136,13 @@ function Weather({stationId}){
                 </div>
             </div>
             <div id='details'>
-                <div><span>Temperature:</span><span>{weather.weather.temperature_2m}</span></div>
-                <div><span>Precipitation:</span><span>{weather.weather.precipitation}</span></div>
-                <div><span>Snowfall:</span><span>{weather.weather.snowfall}</span></div>
-                <div><span>Relative Humidity:</span><span>{weather.weather.relative_humidity_2m}</span></div>
-                <div><span>Pressure:</span><span>{weather.weather.pressure_msl}</span></div>
-                <div><span>Rain:</span><span>{weather.weather.rain}</span></div>
-                <div><span>Wind Speed:</span><span>{weather.weather.wind_speed_10m}</span></div>
+                <div><span>Temperature:</span><span>{weather.weather.temperature_2m}°C</span></div>
+                <div><span>Precipitation:</span><span>{weather.weather.precipitation} mm</span></div>
+                <div><span>Snowfall:</span><span>{weather.weather.snowfall} cm</span></div>
+                <div><span>Relative Humidity:</span><span>{weather.weather.relative_humidity_2m}%</span></div>
+                <div><span>Pressure:</span><span>{weather.weather.pressure_msl} hPa</span></div>
+                <div><span>Rain:</span><span>{weather.weather.rain} mm</span></div>
+                <div><span>Wind Speed:</span><span>{weather.weather.wind_speed_10m} km/h</span></div>
             </div>
         </div>
     );
@@ -195,8 +195,8 @@ function Readings({stationId}){
                                 return (
                                     <li key={index}>
                                         <span>{ convertUTCToFormattedTime(reading.measuredAt, ['month', 'date', 'hour', 'minute', 'timePeriod']) }</span>
-                                        <span>{ reading.level }</span>
-                                        <span>{ (String(Math.round((reading.level - prev.level)*1000)/1000)).padStart(4,"0")}</span>
+                                        <span>{ reading.level } m</span>
+                                        <span>{ (String(Math.round((reading.level - prev.level)*1000)/1000)).padStart(4,"0") + " m"}</span>
                                     </li>
                                 );
                             }
@@ -466,7 +466,7 @@ function Predictions({ stationId }){
                                     return (
                                         <li key={index}>
                                             <span>{convertUTCToFormattedTime(prediction.predictedFor, ['hour', 'minute', 'timePeriod'])}</span>
-                                            <span>{Math.round(prediction.prediction*10000)/10000}</span>
+                                            <span>{Math.round(prediction.prediction*10000)/10000} m</span>
                                         </li>
                                     );
                             })
@@ -521,7 +521,21 @@ function Stats({ stationId }){
                         Object.keys(stats).map(key => (
                             <li key={key}>
                                 <span>{correctlyCapitalize(key)}: </span>
-                                <span>{(isNumeric(stats[key]) && !Number.isNaN(stats[key])) ? Math.round(stats[key]*10000)/10000 : stats[key]}</span>
+                                <span>
+                                {
+                                    (isNumeric(stats[key]) && !Number.isNaN(stats[key])) 
+                                    ? 
+                                    (Math.round(stats[key]*10000)/10000 + " m.")
+                                    : 
+                                    (
+                                    isISO8601(stats[key]) 
+                                    ?  
+                                    convertUTCToFormattedTime(stats[key], ['month', 'date', 'hour', 'minute', 'timePeriod']) 
+                                    :
+                                    stats[key]
+                                    )
+                                }
+                                </span>
                             </li>
                         ))
                     }
@@ -529,4 +543,8 @@ function Stats({ stationId }){
             </div>
         </div>
     )
+}
+function isISO8601(str) {
+    const date = new Date(str);
+    return !isNaN(date.getTime()) && str === date.toISOString();
 }
