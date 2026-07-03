@@ -21,14 +21,18 @@ class LevelService{
 
     public function sync($stationId){
         $query = Level::query();
-        $rows = Http::get("https://api.weather.gc.ca/collections/hydrometric-daily-mean/items?STATION_NUMBER={$stationId}&f=json&limit=10000&filter=properties.LEVEL IS NOT NULL");
-
-        for($i = 0;$i<count($data);$i++){
-            $row = $data[$i];
-            $result = User::firstOrCreate(['stationId' => $row['STATION_NUMBER'], 'level' => $row['LEVEL'], 'time' => $row['DATE']]);
-            // result stores the user if the row already exists
-            
+        try{
+            $rows = Http::get("https://api.weather.gc.ca/collections/hydrometric-daily-mean/items?STATION_NUMBER={$stationId}&f=json&limit=10000&filter=properties.LEVEL IS NOT NULL");
+        
+            for($i = 0;$i<count($data);$i++){
+                $row = $data[$i];
+                $result = User::firstOrCreate(['stationId' => $row['STATION_NUMBER'], 'level' => $row['LEVEL'], 'time' => $row['DATE']]);                
+            }
         }
 
+        catch(Throwable $e){
+            report($e);
+            return false;
+        }
     }
 }
