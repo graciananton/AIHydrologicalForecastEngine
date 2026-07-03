@@ -7,7 +7,6 @@ use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Http;
 
 class LevelAnalysisService{
-
     public function normalizeParams(array $params): array{
         return [
             'stationId' => $params['stationId'] ?? '02KF001',
@@ -16,10 +15,23 @@ class LevelAnalysisService{
         ];
     }   
 
-    public function sync($stationId){
-        try{
-            $rows = Http::get("https://api.weather.gc.ca/collections/hydrometric-daily-mean/items?STATION_NUMBER={$stationId}&f=json&limit=10000&filter=properties.LEVEL IS NOT NULL");
-            
+    public function sync($params){
+        try{  
+            /* 
+            $result contains:
+            - percentile
+            - message warning (e.g. warning, steady, etc)
+            - AI message
+            */
+            $result = Http::get(
+                "https://fast-api-54so.onrender.com/levelAnalysis?station_id="
+                +$params['stationId']
+                +"&time="+$params['time']
+                +"&level="
+                +$params['level']
+            );
+
+            return $result;
         }
 
         catch(Throwable $e){

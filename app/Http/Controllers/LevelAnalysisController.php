@@ -16,19 +16,6 @@ class LevelAnalysisController extends Controller
         $this->params = $this->LevelAnalysisService->normalizeParams($request->query());
     }
     public function process(){
-       return response()->json($this->LevelAnalysisService->filter($this->params));
-    }
-    public function sync(){
-        if($this->LevelAnalysisService->sync($this->request->stationId)){
-            return response()->json([
-                'message' => sprintf('Inserted levels for station %s', $this->request->stationId)
-            ]); 
-        }
-        else{
-            return response()->json([
-                'message' => sprintf('Inserted levels for station %s', $this->request->stationId)
-            ]); 
-        }
-
+       return response()->json($this->LevelAnalysisService->sync($this->params));
     }
 }
