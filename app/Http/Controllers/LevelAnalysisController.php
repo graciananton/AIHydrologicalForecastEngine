@@ -8,18 +8,18 @@ use App\Services\Formatter\ResponseFormatter;
 class LevelAnalysisController extends Controller
 {
     private array $params;
-    private LevelAnalysisService $LevelService;
+    private LevelAnalysisService $LevelAnalysisService;
     private $request;
-    public function __construct(LevelService $LevelService, Request $request){
-        $this->LevelService = $LevelService;
+    public function __construct(LevelAnalysisService $LevelAnalysisService, Request $request){
+        $this->LevelAnalysisService = $LevelAnalysisService;
         $this->request = $request;
-        $this->params = $this->LevelService->normalizeParams($request->query());
+        $this->params = $this->LevelAnalysisService->normalizeParams($request->query());
     }
     public function process(){
-       return response()->json($this->LevelService->filter($this->params));
+       return response()->json($this->LevelAnalysisService->filter($this->params));
     }
     public function sync(){
-        if($this->LevelService->sync($this->request->stationId)){
+        if($this->LevelAnalysisService->sync($this->request->stationId)){
             return response()->json([
                 'message' => sprintf('Inserted levels for station %s', $this->request->stationId)
             ]); 
