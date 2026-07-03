@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('levels', function (Blueprint $table) {
             $table->id();
+            $table->string('stationId');
             $table->json('levels');
             $table->timestamps();
         });

@@ -16,7 +16,6 @@ class LevelService{
     }   
     public function filter(array $params):array{
         $query = Levels::query();
-
         $query->where('stationId', $params['stationId']);
         return $query->get()->toArray();
     }
