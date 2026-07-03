@@ -20,16 +20,14 @@ class LevelController extends Controller
     }
     public function sync(){
         if($this->LevelService->sync($this->request->stationId)){
-            return redirect()->back()->with(
-                'success',
-                'Level sync completed successfully'
-            );
+            return response()->json([
+                'message' => sprintf('Inserted levels for station %s', $this->request->stationId)
+            ]); 
         }
         else{
-            return redirect()->back()->with(
-                'error',
-                'Level sync completed successfully'
-            );
+            return response()->json([
+                'message' => sprintf('Inserted levels for station %s', $this->request->stationId)
+            ]); 
         }
 
     }
