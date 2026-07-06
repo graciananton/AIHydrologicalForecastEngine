@@ -187,8 +187,9 @@ class ModelService{
     public function futureSet($stationId){
         try{
             $url = sprintf('https://fast-api-54so.onrender.com/future_set?station_id=%s',$stationId);
-            $response = Http::connectTimeout(1200)->timeout(1200)->get($url);            
             
+            $response = Http::connectTimeout(1200)->timeout(1200)->get($url);            
+        
             # this checks if the query to the API endpoint was successful
             if (!$response->successful()) { // this is for 200-299 (success)
                 throw new \RuntimeException(
