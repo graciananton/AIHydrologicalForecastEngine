@@ -186,7 +186,6 @@ class ModelService{
 
     public function futureSet($stationId){
         try{
-
             $url = sprintf('https://fast-api-54so.onrender.com/future_set?station_id=%s',$stationId);
             $response = Http::connectTimeout(1200)->timeout(1200)->get($url);            
             
