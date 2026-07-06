@@ -10,18 +10,9 @@ class LevelService{
 
     public function normalizeParams(array $params): array{
         return [
-            'stationId' => $params['stationId'] ?? '02KF001',
-            'level' => $params['level'] ?? 0,
-            'time' => new Date(0)
+            'stationId' => $params['stationId'] ?? '02KF001'
         ];
     }   
-    public function filter(array $params):array{
-        $query = Level::query();
-        $query->where('stationId', $params['stationId']);
-        $query->where('time', $params['time']);
-        $query->where('level', $params['level']);
-        return $query->get()->toArray();
-    }
 
     public function sync($stationId){
         $query = Level::query();
