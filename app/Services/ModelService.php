@@ -196,7 +196,6 @@ class ModelService{
                 );
             }   
 
-
             $futurePredictions = $response->json();
 
             if (!is_array($futurePredictions)) {
