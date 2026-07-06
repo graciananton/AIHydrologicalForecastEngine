@@ -16,6 +16,6 @@ class LevelAnalysisController extends Controller
         $this->params = $this->LevelAnalysisService->normalizeParams($request->query());
     }
     public function process(){
-       return response()->json($this->LevelAnalysisService->sync($this->params));
+       return response()->json($this->LevelAnalysisService->process($this->params));
     }
 }

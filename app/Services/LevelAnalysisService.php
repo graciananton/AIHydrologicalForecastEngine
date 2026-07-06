@@ -15,7 +15,7 @@ class LevelAnalysisService{
         ];
     }   
 
-    public function sync($params){
+    public function process($params){
         try{  
             /* 
             $result contains:
@@ -24,11 +24,7 @@ class LevelAnalysisService{
             - AI message
             */
             $result = Http::get(
-                "https://fast-api-54so.onrender.com/levelAnalysis?station_id="
-                +$params['stationId']
-                +"&time="+$params['time']
-                +"&level="
-                +$params['level']
+                "https://fast-api-54so.onrender.com/levelAnalysis?station_id=".$params['stationId']."&time=".$params['time']."&level=".$params['level']
             );
 
             return $result;
