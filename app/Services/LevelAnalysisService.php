@@ -10,7 +10,7 @@ class LevelAnalysisService{
     public function normalizeParams(array $params): array{
         return [
             'stationId' => $params['stationId'] ?? '02KF001',
-            'time' => new Date($params['time']).toISOString() ?? new Date(0).toISOString(),
+            'time' => Carbon::parse($params['time']) ?? Carbon::create(1970, 0, 0, 0, 0, 0),
             'level' => (string) $params['level'] ?? (string) 0.0
         ];
     }   

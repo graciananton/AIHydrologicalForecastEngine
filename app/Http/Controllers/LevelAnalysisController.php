@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 use Illuminate\Http\Request;
-use App\Services\LevelService;
+use App\Services\LevelAnalysisService;
 use App\Services\Formatter\ResponseFormatter;
 
 class LevelAnalysisController extends Controller
