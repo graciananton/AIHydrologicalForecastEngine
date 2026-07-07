@@ -32,7 +32,7 @@ class LevelAnalysisService{
             return $response;
         }
         catch(Throwable $e){
-
+            return json_encode(["error" =>$e->getMessage()]);
         }
     }
 }
