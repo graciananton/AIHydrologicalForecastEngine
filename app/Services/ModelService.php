@@ -259,7 +259,14 @@ class ModelService{
                 );
             }   
 
+            $image = imagecreatefromstring($response->body());
 
+            if($image == false){
+                throw new \RuntimeException(
+                    "plotFuture FastAPI raw data not converted to image for ".$stationId
+                );
+            }
+            
             $dir = base_path("images/future");
             $filePath = $dir . '/'. $stationId . '.png';
 
@@ -270,7 +277,7 @@ class ModelService{
 
             if($output == false){
                 throw new \RuntimeException(
-                    "unable to save FastAPI request image for ".$stationId
+                    "unable to save FastAPI response image for ".$stationId
                 );
             }
 
