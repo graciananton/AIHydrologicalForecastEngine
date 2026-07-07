@@ -10,6 +10,6 @@ class DailyReportController extends Controller
         
     }
     public function process(DailyReportService $dailyReportService){
-        $dailyReportService->sendDailyReport();
+        return $dailyReportService->sendDailyReport();
     }
 }

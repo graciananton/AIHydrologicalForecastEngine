@@ -13,7 +13,7 @@ class DailyReportService{
         try{
             $errors = ApplicationErrors::where('created_at', '>', Carbon::now()->subDay())->get()->toArray();
             Mail::to("GracianAnton@cmail.carleton.ca")->send(new DailyReportMail($errors));
-            return response()->json("DailyReport sent for "+Carbon::now()->day());
+            return response()->json("DailyReport sent for ". Carbon::now()->toDateString());
         }
         catch(\Throwable $e){
             throw $e;
