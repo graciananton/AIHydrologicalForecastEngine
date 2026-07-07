@@ -25,7 +25,8 @@ class LevelAnalysisService{
             - AI message
             */
 
-            $url = "https://fast-api-54so.onrender.com/levelAnalysis?station_id=".$params['stationId']."&time=".$params['time']."&level=".$params['level']."&mode=".$params['mode'];
+            $url = "https://fast-api-54so.onrender.com/levelAnalysis?station_id="
+                   .$params['stationId']."&time=".$params['time']."&level=".$params['level']."&mode=".$params['mode'];
             
             $response = Http::connectTimeout(1200)->timeout(1200)->get($url);
 
