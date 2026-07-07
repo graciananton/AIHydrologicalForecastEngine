@@ -11,9 +11,9 @@ use App\Models\ApplicationErrors;
 class DailyReportService{
     public function sendDailyReport(){
         try{
-            $query = ApplicationErrors::query();
-            $errors = $query->get()->toArray();
+            $errors = ApplicationErrors::where('created_at', '>', Carbon::now()->subDay())->get()->toArray();
             Mail::to("GracianAnton@cmail.carleton.ca")->send(new DailyReportMail($errors));
+            return response()->json("DailyReport sent for "+Carbon::now()->day());
         }
         catch(\Throwable $e){
             throw $e;
