@@ -29,9 +29,7 @@ class LevelAnalysisService{
             
             $response = Http::connectTimeout(1200)->timeout(1200)->get($url);
 
-            $result = Http::get($url);
-
-            return $result;
+            return $response;
         }
         catch(Throwable $e){
 
