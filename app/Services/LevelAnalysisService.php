@@ -26,7 +26,7 @@ class LevelAnalysisService{
             - AI message
             */
             Log::channel("laravel")->info("entering try catch statement");
-            
+
             $url = "https://fast-api-54so.onrender.com/levelAnalysis?station_id="
                    .$params['stationId']."&time=".$params['time']."&level=".$params['level']."&mode=".$params['mode'];
             

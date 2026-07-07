@@ -18,9 +18,7 @@ class LevelAnalysisController extends Controller
     }
     public function process(){
        $result = $this->LevelAnalysisService->process($this->params);
-       Log::channel("laravel")->info("Result: ");
-       Log::channel("laravel")->info($result);
-       
-       return $result;
+       $result = json_decode($result);
+       return response()->json($result);
     }
 }
