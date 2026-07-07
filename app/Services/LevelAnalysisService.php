@@ -11,7 +11,8 @@ class LevelAnalysisService{
         return [
             'stationId' => $params['stationId'] ?? '02KF001',
             'time' => Carbon::parse($params['time']) ?? Carbon::create(1970, 0, 0, 0, 0, 0),
-            'level' => (string) $params['level'] ?? (string) 0.0
+            'level' => (string) $params['level'] ?? (string) 0.0,
+            'mode' => $params['mode']
         ];
     }   
 
@@ -23,9 +24,12 @@ class LevelAnalysisService{
             - message warning (e.g. warning, steady, etc)
             - AI message
             */
-            $result = Http::get(
-                "https://fast-api-54so.onrender.com/levelAnalysis?station_id=".$params['stationId']."&time=".$params['time']."&level=".$params['level']
-            );
+
+            $url = "https://fast-api-54so.onrender.com/levelAnalysis?station_id=".$params['stationId']."&time=".$params['time']."&level=".$params['level']."&mode=".$params['mode'];
+            
+            $response = Http::connectTimeout(1200)->timeout(1200)->get($url);
+
+            $result = Http::get($url);
 
             return $result;
         }

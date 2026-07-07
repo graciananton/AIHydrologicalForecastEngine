@@ -7,6 +7,7 @@ use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Bus\Queueable;
 use Imtigger\LaravelJobStatus\Trackable;
+use App\Models\ApplicationErrors;
 
 class PlotFutureJob implements ShouldQueue
 {

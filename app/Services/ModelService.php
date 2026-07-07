@@ -266,18 +266,29 @@ class ModelService{
                     "plotFuture FastAPI raw data not converted to image for ".$stationId
                 );
             }
-            
+
             $dir = base_path("images/future");
             $filePath = $dir . '/'. $stationId . '.png';
 
-            $output = file_put_contents(
+            /*$output = file_put_contents(
                 $filePath,
                 $response->body()
-            );
+            );*/
+            $result = imagepng($image, $filePath);
 
-            if($output == false){
+            
+
+            if($result == false){
                 throw new \RuntimeException(
                     "unable to save FastAPI response image for ".$stationId
+                );
+            }
+
+            $result = imagedestroy($image);
+
+            if($result == false){
+                throw new \RuntimeException(
+                    "unable to destroy FastAPI response image for ".$stationId
                 );
             }
 
