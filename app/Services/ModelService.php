@@ -262,10 +262,17 @@ class ModelService{
 
             $dir = base_path("images/future");
             $filePath = $dir . '/'. $stationId . '.png';
-            file_put_contents(
+
+            $output = file_put_contents(
                 $filePath,
                 $response->body()
             );
+
+            if($output == false){
+                throw new \RuntimeException(
+                    "unable to save FastAPI request image for ".$stationId
+                );
+            }
 
             # this checks if image is not valid, not corrupted, or not obviously truncated
             # if any of these steps does not work, then it reutrns false
