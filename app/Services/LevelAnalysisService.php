@@ -32,8 +32,6 @@ class LevelAnalysisService{
             
             $response = Http::connectTimeout(1200)->timeout(1200)->get($url);
 
-            Log::channel("laravel")->info("Response: ");
-            Log::channel("laravel")->info($response);
             return $response;
         }
         catch(Throwable $e){
