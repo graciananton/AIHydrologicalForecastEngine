@@ -212,6 +212,8 @@ class ModelService{
                 
                 $currentLevelStatus = Http::get($url);
                 $currentLevelPercentile = $currentLevelStatus['percentile'];
+                Log::channel("laravel")->info("Current Level Percentile:");
+                Log::channel("laravel")->info($currentLevelPercentile);
 
                 $prediction = Predictions::updateOrCreate(
                     [

@@ -12,7 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('predictions', function (Blueprint $table) {
-            $table->string('percentile');
+            $table->string('percentile')->default("Normal")->change();
         });
     }
 
