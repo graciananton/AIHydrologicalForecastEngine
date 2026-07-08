@@ -9,8 +9,7 @@ use Illuminate\Support\Facades\Log;
 
 class WeatherService {
     public function sync(){
-
-        $interval = 24;
+        $interval = 48;
         $query = Station::query();
         $stations = $query->get()->toArray();
                 
