@@ -527,13 +527,7 @@ function Stats({ stationId }){
                                     ? 
                                     (Math.round(stats[key]*10000)/10000 + " m.")
                                     : 
-                                    (
-                                    isISO8601(stats[key]) 
-                                    ?  
-                                    convertUTCToFormattedTime(stats[key], ['month', 'date', 'hour', 'minute', 'timePeriod']) 
-                                    :
                                     stats[key]
-                                    )
                                 }
                                 </span>
                             </li>

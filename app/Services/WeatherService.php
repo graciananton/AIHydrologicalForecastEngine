@@ -131,11 +131,7 @@ class WeatherService {
         Log::channel("laravel")->info("SQL query:");
         Log::channel("laravel")->info($query->toSql());
 
-        Log::channel("laravel")->info($query->get()->toArray());
-
-        $arrayAsString = print_r($query->get()->toArray());
-
-        Log::channel("laravel")->info($arrayAsString);
+        Log::channel("laravel")->info(json_encode($query->get()->toArray()));
 
         return $this->formatResults($query->get()->toArray());
     }
@@ -165,7 +161,7 @@ class WeatherService {
             'rainAtMost' => $params['rainAtMost'] ?? null,
 
             'from' => isset($params['from']) ? Carbon::parse($params['from']) : Carbon::createFromTimestamp(0), // start of time 1970-01-00
-            'to' => isset($params['to']) ? Carbon::parse($params['to']) : Carbon::now()->addDay(),
+            'to' => isset($params['to']) ? Carbon::parse($params['to']) : Carbon::now()->addDays(2),
 
             'order' => strtoupper($params['order'] ?? 'ASC') === 'DESC' ? 'DESC': 'ASC',
             'f' => $params['f'] ?? 'json',

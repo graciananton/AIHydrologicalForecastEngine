@@ -206,10 +206,18 @@ class ModelService{
             }
 
             foreach($futurePredictions as $futurePrediction) {
+                $url = "http://gracian.ca/laravel/public/api/levelAnalysis?stationId=".$futurePrediction['stationId'].
+                       "&level=".$futurePrediction['levelAtHour']."
+                        &time=".$futurePrediction['levelAtHour']."&mode=percentile";
+                
+                $currentLevelStatus = Http::get($url);
+                $currentLevelPercentile = $currentLevelStatus['percentile'];
+
                 $prediction = Predictions::updateOrCreate(
                     [
                         'stationId'   => $futurePrediction['stationId'],
-                        'predictedFor' => $futurePrediction['measuredAt']
+                        'predictedFor' => $futurePrediction['measuredAt'],
+                        'percentile' => $currentLevelPercentile
                     ],
                     [
                         'prediction' => $futurePrediction['levelAtHour']
