@@ -128,7 +128,14 @@ class WeatherService {
 
         $query->take($params['limit']);
         
-        //Log::channel("weather")->info($query->toSql());
+        Log::channel("laravel")->info("SQL query:");
+        Log::channel("laravel")->info($query->toSql());
+
+        Log::channel("laravel")->info($query->get()->toArray());
+
+        $arrayAsString = print_r($query->get()->toArray());
+
+        Log::channel("laravel")->info($arrayAsString);
 
         return $this->formatResults($query->get()->toArray());
     }
