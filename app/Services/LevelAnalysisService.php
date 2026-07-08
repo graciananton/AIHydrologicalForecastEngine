@@ -18,15 +18,12 @@ class LevelAnalysisService{
 
     public function process($params){
         try{  
-            
             /* 
             $result contains:
             - percentile
             - message warning (e.g. warning, steady, etc)
             - AI message
             */
-            Log::channel("laravel")->info("entering try catch statement");
-
             $url = "https://fast-api-54so.onrender.com/levelAnalysis?station_id="
                    .$params['stationId']."&time=".$params['time']."&level=".$params['level']."&mode=".$params['mode'];
             
@@ -35,7 +32,6 @@ class LevelAnalysisService{
             return $response;
         }
         catch(Throwable $e){
-            Log::channel("laravel")->info("Catching error");
             return json_encode(["error" =>$e->getMessage()]);
         }
     }
