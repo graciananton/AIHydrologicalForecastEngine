@@ -1,7 +1,7 @@
 <?php
 namespace App\Jobs;
 
-use App\Services\ModelService;
+use App\Services\StationMessageService;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Support\Facades\Log;
@@ -22,7 +22,7 @@ class StationMessageJob implements ShouldQueue
         $this->prepareStatus();
     }
 
-    public function handle(ModelService $ModelService)
+    public function handle(StationMessageService $StationMessageService)
     {
         try{
             Log::channel("laravel")->info("Processing training model");
@@ -44,7 +44,7 @@ class StationMessageJob implements ShouldQueue
 
             $this->setInput(['stationId' => $this->stationId]);
 
-            $ModelService->futureSet($this->stationId);
+            $StationMessageService->generateStationMessage($this->stationId);
 
             $this->update([
                 'job_id' => $this->getJobStatusId()
@@ -84,7 +84,7 @@ class StationMessageJob implements ShouldQueue
             ApplicationErrors::create(
                 [
                     'message' => $e->getMessage(),
-                    'category' => 'App\Jobs\FutureModelJob',
+                    'category' => 'App\Jobs\StationMessageService',
                     'status' => 'failed'
                 ]
             );
