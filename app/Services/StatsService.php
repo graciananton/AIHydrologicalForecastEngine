@@ -42,14 +42,14 @@ class StatsService
             ->where('predictedFor', $currentHour)
             ->first();
         
-        $url = "http://gracian.ca/laravel/public/api/levelAnalysis?stationId=".$params['stationId']."&level=".$currentLevel->prediction."
+        /*$url = "http://gracian.ca/laravel/public/api/levelAnalysis?stationId=".$params['stationId']."&level=".$currentLevel->prediction."
                                &time=".$currentHour."&mode=percentile";
 
         Log::channel("laravel")->info("URL:");
         Log::channel("laravel")->info($url);
         $currentLevelStatus = Http::get($url);
         $currentLevelPercentile = $currentLevelStatus['percentile'];
-
+        */
         // it must have at least 2 predictions, or else just choose the first prediction
         if(count($predictions) >= 2){
             $latestFuturePrediction = $predictions[count($predictions) - 1];
@@ -59,21 +59,19 @@ class StatsService
         }
 
         $oldestFuturePrediction = $predictions[0];
-
+        /*
         Log::channel('laravel')->info("current level status");
         Log::channel("laravel")->info(json_encode($currentLevelStatus));
-
+        
         $status = $currentLevelPercentile < 10 ? "Much Below Normal"
                   : ($currentLevelPercentile < 25 ? "Fair"
                   : ($currentLevelPercentile < 75 ? "Normal"
                   : ($currentLevelPercentile < 90 ? "Above Normal"
                   : "Much Above Normal"
                   )));
-
+        */
         return [
             'currentLevel' => $currentLevel->prediction,
-            'relativeToPreviousWaterLevels' => str(round($currentLevelPercentile, 2)). " <sup>th</sup> Percentile",
-            'currentLevelStatus' => $status,
             'trend' => ($latestFuturePrediction->prediction - $oldestFuturePrediction->prediction > 0.0) ? "rising": "falling",
             'change' => $latestFuturePrediction->prediction - $oldestFuturePrediction->prediction,
             'lastUpdated' => $latestFuturePrediction->updated_at,

@@ -12,12 +12,14 @@ class Predictions extends Model
     protected $fillable = [
         'stationId',
         'prediction',
-        'predictedFor'
+        'predictedFor',
+        'percentile'
     ];
     // sets the data type for each fillable column
     protected $casts = [
         'stationId' => 'string',
         'prediction' => 'double',
-        'predictedFor' => 'datetime'
+        'predictedFor' => 'datetime',
+        'percentile' => 'string'
     ];
 }

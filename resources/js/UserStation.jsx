@@ -438,7 +438,7 @@ function Predictions({ stationId }){
     const [predictions, setPredictions] = useState();
     useEffect(() => {
         async function getPredictions(stationId){
-            const response = await fetch('http://gracian.ca/laravel/public/api/future?stationId='+stationId+'&order=asc&limit=11&from='+current);
+            const response = await fetch('http://gracian.ca/laravel/public/api/future?stationId='+stationId+'&order=asc&limit=8&from='+current);
             const data = await response.json();
             setPredictions(data);
         }
@@ -459,23 +459,36 @@ function Predictions({ stationId }){
             </div>
             <div id='predict'>
                 <ul>
-                        {
-                        
+                            <li>
+                                <span>Time</span>
+                                <span>Prediction</span>
+                                <span>Relative To <br/>Previous Water Levels</span>
+                            </li>
+                            {
                             predictions.map((prediction, index) => {
-                                    console.log(prediction.predictedFor);
                                     return (
                                         <li key={index}>
                                             <span>{convertUTCToFormattedTime(prediction.predictedFor, ['hour', 'minute', 'timePeriod'])}</span>
                                             <span>{Math.round(prediction.prediction*10000)/10000} m</span>
+                                            <span>
+                                                <span>{Math.round(parseFloat(prediction.percentile) * 10000)/10000} <sup>th</sup></span><br/>
+                                                <progress 
+                                                    value= {prediction.percentile} 
+                                                    max='100'
+                                                > 
+                                                {Math.round(parseFloat(prediction.percentile) * 10000)/10000} 
+                                                </progress>
+                                            </span>
                                         </li>
                                     );
                             })
-                        }
+                            }
                 </ul>
             </div>
         </div>
     );
 }
+
 
 function Stats({ stationId }){
 

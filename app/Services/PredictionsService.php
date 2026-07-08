@@ -20,7 +20,7 @@ class PredictionsService
             $params['from'],
             $params['to']
         ]);
-
+        
         $query->whereBetween('prediction', [
             $params['minPrediction'],
             $params['maxPrediction']
