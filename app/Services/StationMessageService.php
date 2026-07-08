@@ -40,20 +40,19 @@ class StationMessageService
         return $query->get()->toArray();
     }   
     public function generateStationMessage($stationId){
-        $currentHour = Carbon::now()->startOfHour(); // 2026-07-08-18:00:00Z
-
         try{
             
             $url = "https://fast-api-54so.onrender.com/stationMessages?station_id=".$params['stationId'];
             $stationMessage = Http::connectTimeout(1200)->timeout(1200)->get($url);
-            
+
             StationMessages::create(
                 [
                 'stationId' => $stationId,
-                'currentTime' => $currentHour,
                 'message' => $stationMessage
                 ]
             );
+
+            return $stationMessage;
         }
         catch(\Throwable $e){
             Log::error(
