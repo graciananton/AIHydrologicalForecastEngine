@@ -86,4 +86,5 @@ Route::get('/levels', [LevelController::class, 'process']);
 
 Route::get('/levelAnalysis', [LevelAnalysisController::class, 'process']);
 
+Route::get('/stationMessage', [StationMessageController::class, 'process']);
 

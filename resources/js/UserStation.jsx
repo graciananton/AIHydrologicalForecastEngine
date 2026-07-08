@@ -444,7 +444,7 @@ function Predictions({ stationId }){
         }
         getPredictions(stationId);
     }, [stationId]);
-
+    
     //generate html
     return (
         predictions && 
