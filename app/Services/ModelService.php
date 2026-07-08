@@ -219,9 +219,9 @@ class ModelService{
                     [
                         'stationId'   => $futurePrediction['stationId'],
                         'predictedFor' => $futurePrediction['measuredAt'],
-                        'percentile' => $currentLevelPercentile
                     ],
                     [
+                        'percentile' => $currentLevelPercentile,
                         'prediction' => $futurePrediction['levelAtHour']
                     ]
                 );
