@@ -75,6 +75,7 @@ class ChatQuery():
         
             response = self.client.responses.create(
                 model="gpt-4.1",
+                instructions = "Whenever a user asks a question regarding the system, use the document provided in the tools. If not, then use the custom functions",
                 tools=self.tools,
                 input=messages
             )
@@ -108,9 +109,30 @@ class ChatQuery():
                 })
 
             if len(messages_output) > 0:
+                minimized_response =  self.client.responses.create(
+                    model = "gpt-4.1-nano-2025-04-14",
+                    instructions = 
+                    "Summarize the text given this chunk and user query.",
+                    input = [
+                        messages[0],
+                        {
+                            "role":"system",
+                            "content": [
+                                {
+                                    "type":"input_text",
+                                    "text": messages_output[0].content[0].text
+                                }
+                            ]
+                        }
+
+                    ]
+                )
+                
+                minimized_response = minimized_response.output_text
+
                 messages.append({
                     "role": "assistant",
-                    "content": messages_output[0].content[0].text
+                    "content": minimized_response
                 })
 
 
