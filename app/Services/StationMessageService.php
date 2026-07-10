@@ -45,6 +45,9 @@ class StationMessageService
             $url = "https://fast-api-54so.onrender.com/station_message?station_id=".$stationId;
             $stationMessage = Http::connectTimeout(1200)->timeout(1200)->get($url);
 
+            Log::channel("laravel")->info("Station message");
+            Log::channel("laravel")->info($stationMessage);
+            
             StationMessages::create(
                 [
                 'stationId' => $stationId,
