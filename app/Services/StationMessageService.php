@@ -42,7 +42,7 @@ class StationMessageService
     public function generateStationMessage($stationId){
         try{
             
-            $url = "https://fast-api-54so.onrender.com/stationMessages?station_id=".$params['stationId'];
+            $url = "https://fast-api-54so.onrender.com/station_messages?station_id=".$params['stationId'];
             $stationMessage = Http::connectTimeout(1200)->timeout(1200)->get($url);
 
             StationMessages::create(
@@ -52,7 +52,7 @@ class StationMessageService
                 ]
             );
 
-            return $stationMessage;
+            #return $stationMessage;
         }
         catch(\Throwable $e){
             Log::error(

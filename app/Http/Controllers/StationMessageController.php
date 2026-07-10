@@ -22,7 +22,6 @@ class StationsController extends Controller{
         foreach ($stationIds as $stationId) {
             StationMessageJob::dispatch($stationId);
         }
- 
-    }
 
+    }
 }
