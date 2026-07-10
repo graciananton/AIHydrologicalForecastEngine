@@ -18,6 +18,7 @@ use App\Http\Controllers\StatsController;
 use App\Http\Controllers\DailyReportController;
 use App\Http\Controllers\LevelController;
 use App\Http\Controllers\LevelAnalysisController;
+use App\Http\Controllers\StationMessageController;
 
 # get the RMSE score of the test set
 

@@ -3,13 +3,19 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Services\StationService;
 use App\Services\Formatter\ResponseFormatter;
+use App\Services\StationMessageService;
 use App\Services\ModelService;
 
-class StationsController extends Controller{
+use App\Jobs\StationMessageJob;
+
+class StationMessageController extends Controller{
     private array $params = [];
     private StationMessageService $StationMessageService;
-    public function __construct(StationMessageService $StationMessageService, Request $request){
+    private ModelService $ModelService;
+
+    public function __construct(ModelService $ModelService, StationMessageService $StationMessageService, Request $request){
         $this->StationMessageService = $StationMessageService;
+        $this->ModelService = $ModelService;
         $this->params = $this->StationMessageService->normalizeParams($request->query());
     }
     public function process(){
@@ -22,6 +28,5 @@ class StationsController extends Controller{
         foreach ($stationIds as $stationId) {
             StationMessageJob::dispatch($stationId);
         }
-
     }
 }
