@@ -13,26 +13,12 @@ export default function StationId({ data }){
                 )
                 }
                 <div id='title'>Station Id Selection:</div>
-                <form method="POST" action={`/laravel/public/verificationCode`}>
+                <form method="GET" action={`/laravel/public/verificationCode`}>
                     <input type="hidden" name="_token" value={document.querySelector('meta[name="csrf-token"]').getAttribute("content")}/>
                     <div className='form-group'>
-                         <label for="cars">What station do you want to choose:</label>
+                        <label htmlFor="cars">What station do you want to choose:</label>
                         <select name="cars" id="cars">
-                            {
-                                const [station, setStations] = useState(<></>);
-                                useEffect(() => {
-                                    async function getStations(){
-                                        const data = await fetch("http://gracian.ca/laravel/public/api/stations");
-                                        const stations = await data.json();
-                                        const elts = stations.map((station) => {
-                                            return (<option value = {station.stationId} >{station.name}</option>)
-                                        })
-                                        setStations(elts);
-                                    }
-                                    getStations();
-                                }, []);
-                            }
-                            {stationElts}
+                            {getStations()}
                         </select> 
                     </div>
                     <button type='submit'>Submit</button>
@@ -40,4 +26,36 @@ export default function StationId({ data }){
             </div>
         </div>
     );
+}
+
+function getStations(){
+    console.log("getting stations");
+    const [stations, setStations] = useState(<></>)
+
+    useEffect(() => {
+        console.log("inside useEffect");
+        async function getStations(){
+            const url = "http://gracian.ca/laravel/public/api/stations";
+            const data = await fetch(url);
+            console.log(data);
+            const stations = await data.json();
+
+
+            console.log(stations)
+            
+            const stationElts = stations.map((station) => {
+                console.log(station);
+                return (
+                    <option value={station.stationId} >{station.name}</option>
+                )
+            })
+
+            setStations(stationElts);
+        }
+        getStations();
+    }, [])
+
+    console.log(stations);
+
+    return stations;
 }
