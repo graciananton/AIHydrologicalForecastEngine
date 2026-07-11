@@ -24,7 +24,8 @@
                 'request' => 'stationId'
             ]
         );
-
+        console.log(data);
+        
         window.__REACT_DATA__ = data;
     </script>
     <meta name="csrf-token" content="{{ csrf_token() }}">

@@ -1,5 +1,7 @@
 import React from "react";
 import '../css/Login.css';
+import { useState, useEffect } from "react";
+
 export default function StationId({ data }){
     console.log(data);
 
@@ -17,17 +19,20 @@ export default function StationId({ data }){
                          <label for="cars">What station do you want to choose:</label>
                         <select name="cars" id="cars">
                             {
+                                const [station, setStations] = useState(<></>);
                                 useEffect(() => {
-                                    function getStations(){
-                                        data = await fetch("http://gracian.ca/laravel/public/api/stations");
-                                        stations = data.json();
-                                        stations.map((station) => {
-                                            <option value = {station.stationId} >{station.name}</option>
+                                    async function getStations(){
+                                        const data = await fetch("http://gracian.ca/laravel/public/api/stations");
+                                        const stations = await data.json();
+                                        const elts = stations.map((station) => {
+                                            return (<option value = {station.stationId} >{station.name}</option>)
                                         })
+                                        setStations(elts);
                                     }
                                     getStations();
-                                }, [])
+                                }, []);
                             }
+                            {stationElts}
                         </select> 
                     </div>
                     <button type='submit'>Submit</button>

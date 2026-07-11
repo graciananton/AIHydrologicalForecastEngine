@@ -7,6 +7,7 @@ import Header from "./Header";
 import Dashboard from "./Dashboard";
 import VerificationCode from "./VerificationCode";
 import UserStation from "./UserStation";
+import StationId from "./StationId";
 
 import "../css/app.css";
 
@@ -21,6 +22,7 @@ export default function App() {
     {req == "dashboard" && <Dashboard />}
     {req == "verificationCode" && <VerificationCode data={data}/>}
     {req == "userStation" && <UserStation data={data}/>}
+    {req == "stationId" && <StationId data={data} />}
     </>
   );
 }
