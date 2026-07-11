@@ -47,11 +47,13 @@ class StationMessageService
 
             Log::channel("laravel")->info("Station message");
             Log::channel("laravel")->info($stationMessage);
-            
+
+            $stationMessage = json_decode($stationMessage, true);
+
             StationMessages::create(
                 [
                 'stationId' => $stationId,
-                'message' => $stationMessage
+                'message' => $stationMessage['message']
                 ]
             );
 

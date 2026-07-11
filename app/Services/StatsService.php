@@ -18,7 +18,7 @@ class StatsService
     public function filter(array $params):array{
         $currentHour = Carbon::now('UTC')->startOfHour();
 
-        $futureHour = Carbon::now('UTC')->startOfHour()->addHours(24);
+        $futureHour = Carbon::now('UTC')->startOfHour()->addHours(48);
 
         $predictions = Predictions::where('stationId', $params['stationId'])
             ->whereBetween('predictedFor', [$currentHour, $futureHour])
