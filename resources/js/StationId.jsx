@@ -3,6 +3,7 @@ import '../css/Login.css';
 import { useState, useEffect } from "react";
 
 export default function StationId({ data }){
+    console.log("Data");
     console.log(data);
 
     return (
@@ -16,6 +17,7 @@ export default function StationId({ data }){
                 <form method="GET" action={`/laravel/public/verificationCode`}>
                     <input type="hidden" name="_token" value={document.querySelector('meta[name="csrf-token"]').getAttribute("content")}/>
                     <div className='form-group'>
+                        <input type='hidden' name='email' value={data.email} />
                         <label htmlFor="cars">What station do you want to choose:</label>
                         <select name="cars" id="cars">
                             {getStations()}
