@@ -23,7 +23,9 @@ class StatsService
         $predictions = Predictions::where('stationId', $params['stationId'])
             ->whereBetween('predictedFor', [$currentHour, $futureHour])
             ->orderBy('prediction', 'desc')
-            ->get();
+            ->get()
+            ->take(48)
+            ;
 
         Log::channel("laravel")->info("predictions count");
         Log::channel("laravel")->info(count($predictions));
@@ -51,6 +53,14 @@ class StatsService
         $currentLevelPercentile = $currentLevelStatus['percentile'];
         */
         // it must have at least 2 predictions, or else just choose the first prediction
+
+        $sumPercentiles = 0;
+        foreach ($predictions as $prediction){
+            $sumPercentiles += $prediction['percentile'];
+        }
+
+        $meanPercentile = $sumPercentiles/count($predictions);
+
         if(count($predictions) >= 2){
             $latestFuturePrediction = $predictions[count($predictions) - 1];
         }
@@ -59,19 +69,13 @@ class StatsService
         }
 
         $oldestFuturePrediction = $predictions[0];
-        /*
-        Log::channel('laravel')->info("current level status");
-        Log::channel("laravel")->info(json_encode($currentLevelStatus));
         
-        $status = $currentLevelPercentile < 10 ? "Much Below Normal"
-                  : ($currentLevelPercentile < 25 ? "Fair"
-                  : ($currentLevelPercentile < 75 ? "Normal"
-                  : ($currentLevelPercentile < 90 ? "Above Normal"
-                  : "Much Above Normal"
-                  )));
-        */
+        
+        
         return [
             'currentLevel' => $currentLevel->prediction,
+            'meanPercentile' => $meanPercentile,
+            'meanStatus' => $this->classify($meanPercentile),
             'trend' => ($latestFuturePrediction->prediction - $oldestFuturePrediction->prediction > 0.0) ? "rising": "falling",
             'change' => $latestFuturePrediction->prediction - $oldestFuturePrediction->prediction,
             'lastUpdated' => $latestFuturePrediction->updated_at,
@@ -80,4 +84,12 @@ class StatsService
             'peakTime' => $maxPrediction->updated_at
         ];
     }   
+    private function classify($percentile){
+        return match(true){
+            $percentile < 25 => "lower than usual",
+            $percentile < 65 => "normal",
+            $percentile < 80 => "above normal",
+            default => "extremely high"
+        };
+    }
 }
