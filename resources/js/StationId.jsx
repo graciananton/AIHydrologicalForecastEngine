@@ -9,7 +9,7 @@ export default function StationId({ data }){
         <div id='station_page'>
             <div id='login' className='container-fluid'>
                 {data.error && (
-                <div id='error'>{data.error}</div>
+                    <div id='error'>{data.error}</div>
                 )
                 }
                 <div id='title'>Station Id Selection:</div>
