@@ -14,7 +14,7 @@ export default function StationId({ data }){
                 )
                 }
                 <div id='title'>Station Id Selection:</div>
-                <form method="GET" action={`/laravel/public/verificationCode`}>
+                <form method="POST" action={`/laravel/public/stationIdSubmit`}>
                     <input type="hidden" name="_token" value={document.querySelector('meta[name="csrf-token"]').getAttribute("content")}/>
                     <div className='form-group'>
                         <input type='hidden' name='email' value={data.email} />

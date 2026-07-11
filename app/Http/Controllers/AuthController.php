@@ -18,6 +18,11 @@ class AuthController extends Controller
     public function stationId():View{
         return view("auth.stationId");
     }
+    public function stationIdSubmit(Request $request, OtpMailService $otpMailService){
+        try{
+            User::where('email', $request->email)->update(['stationId' => $request->stationId])
+        }
+    }
     public function loginSubmit(Request $request, OtpMailService $otpMailService){
         Log::channel("laravel")->info("logging submit");
         $result = $otpMailService->handleLogin($request);
