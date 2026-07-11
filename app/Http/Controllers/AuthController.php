@@ -15,6 +15,9 @@ class AuthController extends Controller
     public function login():View{
         return view("auth.login");
     }
+    public function stationId():View{
+        return view("auth.stationId");
+    }
     public function loginSubmit(Request $request, OtpMailService $otpMailService){
         Log::channel("laravel")->info("logging submit");
         $result = $otpMailService->handleLogin($request);
@@ -25,7 +28,12 @@ class AuthController extends Controller
         else{
             if($result->success && !$result->loggedIn){
                 Log::channel("laravel")->info("Not logged in but result is true");
-                return redirect('/verificationCode');
+                if($result->exists){
+                    return redirect('/verificationCode');
+                }
+                else{
+                    return redirect('/stationId');
+                }
             }
             else if(!$result->success){
                 return redirect('/login')->with('error', $request->error);

@@ -22,6 +22,7 @@ Route::get('login', [AuthController::class,'login'])->name('login');
 Route::post('/loginSubmit',[AuthController::class,'loginSubmit']);
 
 Route::get('/verificationCode', [AuthController::class,'verificationCode']);
+Route::get('/stationId', [AuthController::class,'stationId']);
 
 Route::post('/verificationCodeSubmit', [AuthController::class,'verificationCodeSubmit']);
 

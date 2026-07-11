@@ -129,7 +129,8 @@ class OtpMailService{
                             'success' => true,
                             'role' => $user->role,
                             'loggedIn' => false,
-                            'error' => null
+                            'error' => null,
+                            'exists' => true,
                         ];
                     }
 
@@ -148,6 +149,7 @@ class OtpMailService{
                 }
             }
             else{
+                // if user is not null (first time creating account)
                 try{
                     $user = User::create([
                         'email' => $request->email,
@@ -185,7 +187,8 @@ class OtpMailService{
                         'success' => true,
                         'error' => null,
                         'loggedIn' => false,
-                        'role' => $user->role
+                        'role' => $user->role,
+                        'exists' => false
                     ];
                 }
                 catch(QueryException $e){
