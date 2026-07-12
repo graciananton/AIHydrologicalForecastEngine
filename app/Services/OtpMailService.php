@@ -31,7 +31,7 @@ class OtpMailService{
             // response is array given that is valid data, if not, it throws ValidationException
             $response = $request->validate([
                 'email' => 'required|email:rfc,dns',
-                'stationId' => 'required|string'
+                'stationId' => 'required|string|min:7|max:50'
             ]);
 
             return true;
@@ -58,17 +58,20 @@ class OtpMailService{
                         'email' => $request->email,
                         'name' => $this->extract_name_from_email($request->email),
                         'stationId' => $request->stationId,
-                        'role' => 'user'
+                        'role' => 'user',
                     ]);
 
-                    $emailVerification = EmailVerifications::create([
-                        'otp' => $this->hashOtp($otp),
-                        'email' => $request->email,
-                        'expires_at' => now()->addMinutes(15),
-                        'last_sent_at' => now(),
-                        'attempts_start_at' => now(),
-                        'attempts' => 1
-                    ]);
+                    $emailVerification = EmailVerifications::updatedOrCreate(
+                        ['email' => $request->email],
+                        [
+                            'otp' => $this->hashOtp($otp),
+                            'email' => $request->email,
+                            'expires_at' => now()->addMinutes(15),
+                            'last_sent_at' => now(),
+                            'attempts_start_at' => now(),
+                            'attempts' => 1,
+                        ]
+                    );
 
                     session([
                         'email' => $request->email
@@ -250,7 +253,7 @@ class OtpMailService{
             }
             // this else statement I can get rid of for login, use only for signup
             else{
-                // if user is not null (first time creating account)
+                // if user is null (first time creating account)
                 try{
                     $user = User::create([
                         'email' => $request->email,
