@@ -13,12 +13,19 @@ export default function Signup({ data }){
                 <div id='title'>Signup:</div>
                 <form method="POST" action={`/laravel/public/signupSubmit`}>
                     <input type="hidden" name="_token" value={document.querySelector('meta[name="csrf-token"]').getAttribute("content")}/>
+                    
                     <div className='form-group'>
                         <input type='hidden' name='email' value={data.email} />
-                        <label htmlFor="stationId">What station do you want to choose:</label>
-                        <select name="stationId" id="stationId">
-                            {getStations()}
-                        </select> 
+                        <div className='form-group'>
+                            <label htmlFor='Email'>Email:</label><br/>
+                            <input type='email' id='email' name='email' required/>
+                        </div>
+                        <div className='form-group'>
+                            <label htmlFor="stationId">What station do you want to choose:</label>
+                            <select name="stationId" id="stationId">
+                                {getStations()}
+                            </select> 
+                        </div>
                     </div>
                     <button type='submit'>Submit</button>
                 </form>

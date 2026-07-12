@@ -21,7 +21,9 @@ Route::get('login', [AuthController::class,'login'])->name('login');
 
 Route::post('/loginSubmit',[AuthController::class,'loginSubmit']);
 
-Route::get('/signup', [AuthController::class, 'login'])->name('signup');
+Route::get('/signup', [AuthController::class, 'signup'])->name('signup');
+Route::post('/signupSubmit', [AuthController::class, 'signupSubmit']);
+
 
 Route::get('/verificationCode', [AuthController::class,'verificationCode']);
 

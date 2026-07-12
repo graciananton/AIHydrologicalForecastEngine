@@ -92,8 +92,7 @@ class OtpMailService{
                         'success' => true,
                         'error' => null,
                         'loggedIn' => false,
-                        'role' => $user->role,
-                        'exists' => false
+                        'role' => $user->role
                     ];
                 }
                 catch(QueryException $e){
