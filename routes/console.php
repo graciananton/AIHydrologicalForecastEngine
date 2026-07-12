@@ -42,5 +42,10 @@ Schedule::command('stationMessage:scheduler')
     ->dailyAt('03:30')
     ->withoutOverlapping();
 
+Schedule::command('stationMessageDailyReport:scheduler')
+    ->dailyAt('04:00')
+    ->withoutOverlapping();
+
+
 
 

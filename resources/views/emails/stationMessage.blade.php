@@ -3,7 +3,7 @@
 </p>
 <p>
     <span style="font-size:0.8rem;">
-        <b> {{ $otp }} </b>
+        <b> {{ $stationMessage }} </b>
     </span>
 </p>
 <p>

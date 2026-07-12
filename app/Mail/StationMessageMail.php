@@ -45,9 +45,9 @@ class StationMessageMail extends Mailable
     {
         Log::channel("laravel")->info("Creating content details");
         return new Content(
-            view: 'emails.otp',
+            view: 'emails.stationMessage',
             with: [
-                'otp'=> $this->otp
+                'stationMessage'=> $this->stationMessage
             ]
         );
     }
