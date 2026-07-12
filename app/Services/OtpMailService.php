@@ -252,7 +252,7 @@ class OtpMailService{
             }
             // this else statement I can get rid of for login, use only for signup
             else{
-
+                Log::channel("laravel")->info("otp mail service: error");
                 return (object) [
                     'success' => false,
                     'role' => null,
@@ -351,6 +351,7 @@ class OtpMailService{
         $user = $this->userExists(session('email'));
 
         Log::channel("laravel")->info("Eamil verification otp");
+        Log::channel("laravel")->info(session('email'));
         Log::channel("laravel")->info($emailVerification->otp);
         // user otp
         Log::channel("laravel")->info($request->otp);
