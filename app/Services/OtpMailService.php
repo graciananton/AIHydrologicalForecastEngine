@@ -257,7 +257,7 @@ class OtpMailService{
                     'success' => false,
                     'role' => null,
                     'loggedIn' => false,
-                    'error' => "Account not yet created, go to <a href='https://gracian.ca/laravel/public/signup'>https://gracian.ca/laravel/public/signup</a> in order to create account"
+                    'error' => "Account not yet created for ".$request->email. ", go to https://gracian.ca/laravel/public/signup in order to create account"
                 ];
                 // if user is null (first time creating account)
                 /*try{

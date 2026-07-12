@@ -4,29 +4,26 @@ import { useState, useEffect } from "react";
 
 export default function Signup({ data }){
     return (
-        <div id='login_page'>
-            <div id='login' className='container-fluid'>
+        <div class='page'>
+            <div class='card'>
+                <div class='title'>Signup:</div>
                 {data.error && (
-                    <div id='error'>{data.error}</div>
+                    <div class='error'>{data.error}</div>
                 )
                 }
-                <div id='title'>Signup:</div>
-                <form method="POST" action={`/laravel/public/signupSubmit`}>
+                <form class='form' method="POST" action={`/laravel/public/signupSubmit`}>
                     <input type="hidden" name="_token" value={document.querySelector('meta[name="csrf-token"]').getAttribute("content")}/>
-                    
-                    <div className='form-group'>
                         <input type='hidden' name='email' value={data.email} />
-                        <div className='form-group'>
-                            <label htmlFor='Email'>Email:</label><br/>
+                        <div class='form-group'>
+                            <label for='Email'>Email:</label><br/>
                             <input type='email' id='email' name='email' required/>
                         </div>
-                        <div className='form-group'>
-                            <label htmlFor="stationId">What station do you want to choose:</label>
+                        <div class='form-group'>
+                            <label for="stationId">What station do you want to choose:</label>
                             <select name="stationId" id="stationId">
                                 {getStations()}
                             </select> 
                         </div>
-                    </div>
                     <button type='submit'>Submit</button>
                 </form>
             </div>
@@ -52,7 +49,7 @@ function getStations(){
             const stationElts = stations.map((station) => {
                 console.log(station);
                 return (
-                    <option value={station.stationId} >{station.name}</option>
+                    <option value={station.stationId} >{station.name} ({station.stationId})</option>
                 )
             })
 

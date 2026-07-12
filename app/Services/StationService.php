@@ -9,7 +9,8 @@ class StationService
         $params = [
             'stationId' => $params['stationId'] ?? "",
             'province' => $params['province'] ?? "",
-            'f' => $params['f'] ?? 'json'
+            'f' => $params['f'] ?? 'json',
+            'order' => $params['order'] ?? "ASC"
         ];
         return $params;
     }
@@ -22,6 +23,8 @@ class StationService
         if(array_key_exists('province',$params) && $params['province'] != ""){
             $query->where('province',$params['province']);
         }
+        $query->orderBy('created_at', $params['order']);
+
 
         return $query->get()->toArray();
     }

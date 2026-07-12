@@ -1,11 +1,11 @@
-.login-page{
+.page{
     height:100vh;
     display:flex;
     justify-content:center;
     align-items:center;
 }
 
-.login-card{
+.card{
     width:30%;
     height:50%;
     display:flex;
@@ -16,12 +16,19 @@
     background-color:white;
     border-radius:1rem;
 }
-
-.login-title{
+.error{
+    font-size:0.8rem;
+    color:black;
+    text-align:center;
+    color: red;
+    padding-left:1rem;
+    padding-right:1rem;
+}
+.title{
     font-size:1.5rem;
     font-weight:bold;
 }
-.login-form{
+.form{
     display:flex;
     flex-direction:column;
     gap:2rem;
@@ -43,4 +50,11 @@ button{
     width:100%;
     border-radius:0.5rem;
     padding-left:0.5rem;
+}
+.form-group select{
+    border:1px solid black;
+    border-radius:0.5rem;
+    padding-left:0.5rem;
+    padding:0.15rem;
+    width:100%;
 }

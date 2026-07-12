@@ -33,6 +33,7 @@
 }
 #verification_page #verification_form #error{
     color:red;
+    font-size:0.8rem;
 }
 #verification_page #verification_form #boxes{
     display:flex;
