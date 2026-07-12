@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 
 export default function Signup({ data }){
     return (
-        <div id='station_page'>
+        <div id='login_page'>
             <div id='login' className='container-fluid'>
                 {data.error && (
                     <div id='error'>{data.error}</div>

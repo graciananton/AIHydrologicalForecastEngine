@@ -7,6 +7,7 @@ function distributeCode(e, index, boxes, setBoxes){
     console.log(e);
     let codeList = (e.target.value).split("");
 
+    
     const boxesCopy = [...boxes];
 
     for(let i=index;i<boxes.length;i++){

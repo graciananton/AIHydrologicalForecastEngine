@@ -58,7 +58,7 @@ class OtpMailService{
                         'email' => $request->email,
                         'name' => $this->extract_name_from_email($request->email),
                         'stationId' => $request->stationId,
-                        'role' => 'user',
+                        'role' => 'user'
                     ]);
 
                     $emailVerification = EmailVerifications::updateOrCreate(
