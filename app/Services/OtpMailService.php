@@ -43,6 +43,7 @@ class OtpMailService{
     }
     public function handleSignup(Request $request){
         $response = $this->validateRequestSignup($request);
+        $otp = $this->createOtp();
         if(!is_array($response) && $response == true){
             $user = $this->userExists($request->email);
             if($user){
@@ -52,7 +53,6 @@ class OtpMailService{
                 ];
             }
             else{
-                $otp = $this->createOtp();
                 try{
                     $user = User::create([
                         'email' => $request->email,
@@ -340,6 +340,11 @@ class OtpMailService{
 
         $emailVerification = $this->getEmailVerification(session('email'));
         $user = $this->userExists(session('email'));
+
+        Log::channel("laravel")->info("Eamil verification otp");
+        Log::channel("laravel")->info($emailVerification->otp);
+        // user otp
+        Log::channel("laravel")->info($request->otp);
 
         if(Hash::check($request->otp, $emailVerification->otp)){   
             Log::channel("laravel")->info("User logging in");

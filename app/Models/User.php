@@ -23,7 +23,8 @@ class User extends Authenticatable
     protected $fillable = [
         'name',
         'email',
-        'role'
+        'role',
+        'stationId'
     ];
 
     /**
@@ -45,7 +46,8 @@ class User extends Authenticatable
         return [
             'name' => 'string',
             'email' => 'string',
-            'role' => 'string'
+            'role' => 'string',
+            'stationId' => 'string'
         ];
     }
 }
