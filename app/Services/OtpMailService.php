@@ -14,7 +14,7 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Validation\ValidationException;
 
 class OtpMailService{
-    public function validateRequestLogin(Request $request):?bool{
+    public function validateRequestLogin(Request $request){
         try{
             $request->validate([
                 'email' => 'required|email:rfc,dns'
@@ -23,10 +23,10 @@ class OtpMailService{
         }
         catch (ValidationException $e) {
             Log::error($e->getMessage());
-            return $e->errors;
+            return $e->errors();
         }
     }
-    public function validateRequestSignup(Request $request):?bool{
+    public function validateRequestSignup(Request $request){
         try{
             // response is array given that is valid data, if not, it throws ValidationException
             $response = $request->validate([
@@ -38,7 +38,7 @@ class OtpMailService{
         }
         catch(ValidationException $e){
             Log::error($e->getMessage());
-            return $e->errors;
+            return $e->errors();
         }
     }
     public function handleSignup(Request $request){
@@ -61,7 +61,7 @@ class OtpMailService{
                         'role' => 'user',
                     ]);
 
-                    $emailVerification = EmailVerifications::updatedOrCreate(
+                    $emailVerification = EmailVerifications::updateOrCreate(
                         ['email' => $request->email],
                         [
                             'otp' => $this->hashOtp($otp),
@@ -232,8 +232,7 @@ class OtpMailService{
                             'success' => true,
                             'role' => $user->role,
                             'loggedIn' => false,
-                            'error' => null,
-                            'exists' => true,
+                            'error' => null
                         ];
                     }
 
@@ -253,8 +252,15 @@ class OtpMailService{
             }
             // this else statement I can get rid of for login, use only for signup
             else{
+
+                return (object) [
+                    'success' => false,
+                    'role' => null,
+                    'loggedIn' => false,
+                    'error' => "Account not yet created, go to <a href='https://gracian.ca/laravel/public/signup'>https://gracian.ca/laravel/public/signup</a> in order to create account"
+                ];
                 // if user is null (first time creating account)
-                try{
+                /*try{
                     $user = User::create([
                         'email' => $request->email,
                         'name' => $this->extract_name_from_email($request->email),
@@ -306,7 +312,7 @@ class OtpMailService{
                         'Unexpected OTP service error.',
                         $e->getMessage()
                     );
-                }
+                }*/
             }
         }
         else{

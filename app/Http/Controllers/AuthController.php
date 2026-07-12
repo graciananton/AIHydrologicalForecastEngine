@@ -47,7 +47,7 @@ class AuthController extends Controller
                     return redirect('/dashboard');
                 }
                 else if($result->role == 'user'){
-                    return redirect('/dashboard');
+                    return redirect('/userStation');
                 }
             }
         }
