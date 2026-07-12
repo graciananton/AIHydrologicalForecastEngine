@@ -1,5 +1,7 @@
 import React from "react";
 import '../css/Login.css';
+import { useState, useEffect } from "react";
+
 export default function Login({ data }){
     console.log(data);
 
@@ -23,3 +25,4 @@ export default function Login({ data }){
         </div>
     );
 }
+

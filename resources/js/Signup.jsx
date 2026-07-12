@@ -2,10 +2,7 @@ import React from "react";
 import '../css/Login.css';
 import { useState, useEffect } from "react";
 
-export default function StationId({ data }){
-    console.log("Data");
-    console.log(data);
-
+export default function Signup({ data }){
     return (
         <div id='station_page'>
             <div id='login' className='container-fluid'>
@@ -13,13 +10,13 @@ export default function StationId({ data }){
                     <div id='error'>{data.error}</div>
                 )
                 }
-                <div id='title'>Station Id Selection:</div>
-                <form method="POST" action={`/laravel/public/stationIdSubmit`}>
+                <div id='title'>Signup:</div>
+                <form method="POST" action={`/laravel/public/signupSubmit`}>
                     <input type="hidden" name="_token" value={document.querySelector('meta[name="csrf-token"]').getAttribute("content")}/>
                     <div className='form-group'>
                         <input type='hidden' name='email' value={data.email} />
-                        <label htmlFor="cars">What station do you want to choose:</label>
-                        <select name="cars" id="cars">
+                        <label htmlFor="stationId">What station do you want to choose:</label>
+                        <select name="stationId" id="stationId">
                             {getStations()}
                         </select> 
                     </div>
@@ -61,3 +58,4 @@ function getStations(){
 
     return stations;
 }
+

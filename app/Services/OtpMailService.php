@@ -14,7 +14,7 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Validation\ValidationException;
 
 class OtpMailService{
-    public function validateRequest(Request $request):?bool{
+    public function validateRequestLogin(Request $request):?bool{
         try{
             $request->validate([
                 'email' => 'required|email:rfc,dns'
@@ -26,8 +26,109 @@ class OtpMailService{
             return $e->errors;
         }
     }
+    public function validateRequestSignup(Request $request):?bool{
+        try{
+            // response is array given that is valid data, if not, it throws ValidationException
+            $response = $request->validate([
+                'email' => 'required|email:rfc,dns',
+                'stationId' => 'required|string'
+            ]);
+
+            return true;
+        }
+        catch(ValidationException $e){
+            Log::error($e->getMessage());
+            return $e->errors;
+        }
+    }
+    public function handleSignup(Request $request){
+        $response = $this->validateRequestSignup($request);
+        if(!is_array($response) && $response == true){
+            $user = $this->userExists($request->email);
+            if($user){
+                return (object) [
+                    'success' => false,
+                    'error' => $request->email . " already exists in the system, try re-logging in here "."<a href='https://gracian.ca/laravel/public/login'> since the account already exists"
+                ];
+            }
+            else{
+                $otp = $this->createOtp();
+                try{
+                    $user = User::create([
+                        'email' => $request->email,
+                        'name' => $this->extract_name_from_email($request->email),
+                        'stationId' => $request->stationId,
+                        'role' => 'user'
+                    ]);
+
+                    $emailVerification = EmailVerifications::create([
+                        'otp' => $this->hashOtp($otp),
+                        'email' => $request->email,
+                        'expires_at' => now()->addMinutes(15),
+                        'last_sent_at' => now(),
+                        'attempts_start_at' => now(),
+                        'attempts' => 1
+                    ]);
+
+                    session([
+                        'email' => $request->email
+                    ]);
+                    
+                    Log::channel("laravel")->info("Account created for the first time");
+                    Log::channel("laravel")->info(session('email'));
+
+                    $result = $this->sendOtp($otp, $emailVerification);
+
+                    if(!$result){
+                        return (object) [
+                            'success' => false,
+                            'role' => $user->role,
+                            'loggedIn' => false,
+                            'error' => 'Could not send otp'
+                        ];
+                    }
+
+                    return (object) [ 
+                        'success' => true,
+                        'error' => null,
+                        'loggedIn' => false,
+                        'role' => $user->role,
+                        'exists' => false
+                    ];
+                }
+                catch(QueryException $e){
+                    Log::channel("laravel")->error(
+                        'Database query failed while creating OTP record.',
+                        $e->getMessage()
+                    );
+                }
+                catch(Exception $e){
+                    Log::channel("laravel")->error(
+                        'Unexpected OTP service error.',
+                        $e->getMessage()
+                    );
+                }
+            }
+        }
+        else{
+            
+            return (object) [
+                'success' => false,
+                'error' => $this->formatErrors($response)
+            ];
+        }
+    }
+
+    private function formatErrors($errors){
+        $errorsStr = "";
+        foreach($errors as $error){
+            $errorsStr += (String) $error + "\n";
+        }
+        return $errorsStr;
+    }
+
     public function handleLogin(Request $request){
-        $response = $this->validateRequest($request);
+        $response = $this->validateRequestLogin($request);
         if($response){
             $user = $this->userExists($request->email);
             $emailVerification = $this->getEmailVerification($request->email);
@@ -148,6 +249,7 @@ class OtpMailService{
                     }
                 }
             }
+            // this else statement I can get rid of for login, use only for signup
             else{
                 // if user is not null (first time creating account)
                 try{

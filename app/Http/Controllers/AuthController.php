@@ -15,12 +15,16 @@ class AuthController extends Controller
     public function login():View{
         return view("auth.login");
     }
-    public function stationId():View{
-        return view("auth.stationId");
+    public function signup():View{
+        return view("auth.signup");
     }
-    public function stationIdSubmit(Request $request, OtpMailService $otpMailService){
-        try{
-            User::where('email', $request->email)->update(['stationId' => $request->stationId])
+    public function signupSubmit(Request $request, OtpMailService $otpMailService){
+        $result = $otpMailService->handleSignup($request);
+        if($result->success){
+            return redirect('/verificationCode');
+        }
+        else{
+            return redirect('/signup')->with('error', $request->error);
         }
     }
     public function loginSubmit(Request $request, OtpMailService $otpMailService){
@@ -33,12 +37,7 @@ class AuthController extends Controller
         else{
             if($result->success && !$result->loggedIn){
                 Log::channel("laravel")->info("Not logged in but result is true");
-                if($result->exists){
-                    return redirect('/verificationCode');
-                }
-                else{
-                    return redirect('/stationId');
-                }
+                return redirect('/verificationCode');
             }
             else if(!$result->success){
                 return redirect('/login')->with('error', $request->error);
