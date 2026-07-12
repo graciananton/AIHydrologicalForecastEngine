@@ -4,18 +4,13 @@ import { useState, useEffect } from "react";
 
 export default function Login({ data }){
     console.log(data);
-
     return (
-        <div id='login_page'>
-            <div id='login' className='container-fluid'>
-                {data.error && (
-                <div id='error'>{data.error}</div>
-                )
-                }
-                <div id='title'>Login</div>
-                <form method="POST" action={`/laravel/public/loginSubmit`}>
+        <div class='login-page'>
+            <div class='login-card'>
+                <div class='login-title'>Login</div>
+                <form method="POST" class='login-form' action={`/laravel/public/loginSubmit`}>
                     <input type="hidden" name="_token" value={document.querySelector('meta[name="csrf-token"]').getAttribute("content")}/>
-                    <div className='form-group'>
+                    <div class='form-group'>
                         <label htmlFor='Email'>Email:</label><br/>
                         <input type='email' id='email' name='email' required/>
                     </div>
