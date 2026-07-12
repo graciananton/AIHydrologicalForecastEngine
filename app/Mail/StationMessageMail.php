@@ -47,7 +47,7 @@ class StationMessageMail extends Mailable
         return new Content(
             view: 'emails.stationMessage',
             with: [
-                'stationMessage'=> $this->stationMessage
+                'stationMessage'=> $this->message
             ]
         );
     }

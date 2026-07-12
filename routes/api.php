@@ -19,6 +19,7 @@ use App\Http\Controllers\DailyReportController;
 use App\Http\Controllers\LevelController;
 use App\Http\Controllers\LevelAnalysisController;
 use App\Http\Controllers\StationMessageController;
+use App\Http\Controllers\StationMessageDailyReportController;
 
 # get the RMSE score of the test set
 
@@ -88,7 +89,6 @@ Route::get('/levels', [LevelController::class, 'process']);
 Route::get('/levelAnalysis', [LevelAnalysisController::class, 'process']);
 
 Route::get('/stationMessage', [StationMessageController::class, 'process']);
-
 
 Route::get('/stationMessageDailyReport', [StationMessageDailyReportController::class, 'process']);
 
