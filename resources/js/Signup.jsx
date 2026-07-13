@@ -4,22 +4,22 @@ import { useState, useEffect } from "react";
 
 export default function Signup({ data }){
     return (
-        <div class='page'>
-            <div class='card'>
-                <div class='title'>Signup:</div>
+        <div className='page'>
+            <div className='card'>
+                <div className='title'>Signup:</div>
                 {data.error && (
-                    <div class='error'>{data.error}</div>
+                    <div className='error'>{data.error}</div>
                 )
                 }
-                <form class='form' method="POST" action={`/laravel/public/signupSubmit`}>
+                <form className='form' method="POST" action={`/laravel/public/signupSubmit`}>
                     <input type="hidden" name="_token" value={document.querySelector('meta[name="csrf-token"]').getAttribute("content")}/>
                         <input type='hidden' name='email' value={data.email} />
-                        <div class='form-group'>
-                            <label for='Email'>Email:</label><br/>
+                        <div className='form-group'>
+                            <label htmlFor='Email'>Email:</label><br/>
                             <input type='email' id='email' name='email' required/>
                         </div>
-                        <div class='form-group'>
-                            <label for="stationId">What station do you want to choose:</label>
+                        <div className='form-group'>
+                            <label htmlFor="stationId">What station do you want to choose:</label>
                             <select name="stationId" id="stationId">
                                 {getStations()}
                             </select> 

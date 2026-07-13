@@ -8,6 +8,7 @@ import Dashboard from "./Dashboard";
 import VerificationCode from "./VerificationCode";
 import UserStation from "./UserStation";
 import Signup from "./Signup";
+import VerificationMessage from "./VerificationMessage";
 
 import "../css/app.css";
 
@@ -23,6 +24,7 @@ export default function App() {
     {req == "verificationCode" && <VerificationCode data={data}/>}
     {req == "userStation" && <UserStation data={data}/>}
     {req == "signup" && <Signup data={data} />}
+    {req == "verificationMessage" && <VerificationMessage data={data} />}
     </>
   );
 }

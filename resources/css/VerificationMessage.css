@@ -1,0 +1,11 @@
+.message{
+    height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+}
+.message-card{
+    text-align:center;
+    width:45%;
+    border:1px solid black;
+}

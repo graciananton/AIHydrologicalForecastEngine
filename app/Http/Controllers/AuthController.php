@@ -56,6 +56,9 @@ class AuthController extends Controller
     public function verificationCode():View{
         return view("auth.verificationCode");
     }
+    public function verificationMessage():View{
+        return view("auth.verificationMessage");
+    }
     public function verificationCodeSubmit(Request $request, OtpMailService $otpMailService){
         if($request->accept == "json"){
             $request->otp = $request->verificationCode;
@@ -75,7 +78,7 @@ class AuthController extends Controller
                     return redirect('/dashboard');
                 }
                 else if($result->role == "user"){
-                    return redirect("/userStation");
+                    return redirect("/verificationMessage");
                 }
             }
             else{
