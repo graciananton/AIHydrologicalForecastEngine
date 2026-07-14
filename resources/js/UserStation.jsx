@@ -40,7 +40,7 @@ function CurrentWeather({stationId}){
 
                 to = to.toISOString();
 
-                const response = await fetch('http://gracian.ca/laravel/public/api/weather?stationId='+ stationId+'&from='+from+'&to='+to);
+                const response = await fetch('https://gracian.ca/laravel/public/api/weather?stationId='+ stationId+'&from='+from+'&to='+to);
                 
                 if(!response.ok){
                     throw new Error("Failed to fetch");
@@ -106,7 +106,7 @@ function Weather({stationId}){
 
                 to = to.toISOString();
 
-                const response = await fetch('http://gracian.ca/laravel/public/api/weather?stationId='+ stationId+'&from='+from+'&to='+to);
+                const response = await fetch('https://gracian.ca/laravel/public/api/weather?stationId='+ stationId+'&from='+from+'&to='+to);
                 if(!response.ok){
                     throw new Error("Failed to fetch");
                 }
@@ -153,7 +153,7 @@ function Readings({stationId}){
     useEffect(() => {
         async function getReadings(){
             try{
-                const response = await fetch("http://gracian.ca/laravel/public/api/readings?stationId="+stationId+"&order=desc&limit=5");
+                const response = await fetch("https://gracian.ca/laravel/public/api/readings?stationId="+stationId+"&order=desc&limit=5");
                 if(!response.ok){
                     throw new Error("Failed to fetch");
                 }
@@ -214,7 +214,7 @@ function Station({stationId}){
     useEffect(() => {
         async function getStation(stationId) {
             try{
-                const response = await fetch('http://gracian.ca/laravel/public/api/stations?stationId='+String(stationId));
+                const response = await fetch('https://gracian.ca/laravel/public/api/stations?stationId='+String(stationId));
                 
                 if (!response.ok) {
                     throw new Error("Failed to fetch");
@@ -303,7 +303,7 @@ function UpdatedAt({ stationId }){
     useEffect(() => {
         async function getUpdatedAt(stationId){
             try{
-                const response = await fetch('http://gracian.ca/laravel/public/api/future?stationId='+String(stationId)+'&order=desc&limit=1');
+                const response = await fetch('https://gracian.ca/laravel/public/api/future?stationId='+String(stationId)+'&order=desc&limit=1');
                 if(!response.ok){
                     throw new Error('Failed to fetch')
                 }
@@ -438,7 +438,7 @@ function Predictions({ stationId }){
     const [predictions, setPredictions] = useState();
     useEffect(() => {
         async function getPredictions(stationId){
-            const response = await fetch('http://gracian.ca/laravel/public/api/future?stationId='+stationId+'&order=asc&limit=8&from='+current);
+            const response = await fetch('https://gracian.ca/laravel/public/api/future?stationId='+stationId+'&order=asc&limit=8&from='+current);
             const data = await response.json();
             setPredictions(data);
         }
@@ -498,7 +498,7 @@ function Stats({ stationId }){
     useEffect(() => {
         async function getStats(stationId){
             try{
-                const response = await fetch('http://gracian.ca/laravel/public/api/stats?stationId='+stationId);
+                const response = await fetch('https://gracian.ca/laravel/public/api/stats?stationId='+stationId);
                 if(!response.ok){
                     throw new Error('Failed to fetch');
                 }

@@ -11,6 +11,7 @@ class UserStationController extends Controller
     
     }
     public function process(UserStationService $userStationService){
+        Log::channel("laravel")->info("prcocessing user station controller");
         $user = $userStationService->getUser(session('email'));
 
         Log::channel("laravel")->info(($user) ?  "user is defined" :  "User not defined");

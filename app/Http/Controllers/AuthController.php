@@ -20,6 +20,9 @@ class AuthController extends Controller
     }
     public function signupSubmit(Request $request, OtpMailService $otpMailService){
         $result = $otpMailService->handleSignup($request);
+        Log::channel("laravel")->info("Request response signup.");
+        Log::channel("laravel")->info($request->success);
+        Log::channel("laravel")->info($request->error);
         if($result->success){
             return redirect('/verificationCode');
         }
@@ -78,7 +81,8 @@ class AuthController extends Controller
                     return redirect('/dashboard');
                 }
                 else if($result->role == "user"){
-                    return redirect("/verificationMessage");
+                    return redirect("/userStation");
+                    //return redirect("/verificationMessage");
                 }
             }
             else{
