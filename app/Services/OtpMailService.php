@@ -33,7 +33,7 @@ class OtpMailService{
                 'email' => 'required|email:rfc,dns',
                 'stationId' => 'required|string|min:7|max:50'
             ]);
-
+            
             return true;
         }
         catch(ValidationException $e){
@@ -46,10 +46,17 @@ class OtpMailService{
         $otp = $this->createOtp();
         if(!is_array($response) && $response == true){
             $user = $this->userExists($request->email);
+            $exists = $this->stationIdExists($request->stationId);
             if($user){
                 return (object) [
                     'success' => false,
                     'error' => $request->email . " already exists in the system, try re-logging in here "."<a href='https://gracian.ca/laravel/public/login'> since the account already exists"
+                ];
+            }
+            else if(!$exists){
+                return (object)[
+                    'success' => false,
+                    'error' => $request->stationId . " is not a valid id, try again using a valid id from the selection box below."
                 ];
             }
             else{
