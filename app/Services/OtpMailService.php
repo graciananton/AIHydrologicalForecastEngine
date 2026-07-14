@@ -130,9 +130,11 @@ class OtpMailService{
 
     private function formatErrors($errors){
         $errorsStr = "";
-        foreach($errors as $error){
-            $errorsStr += (String) $error + "\n";
+
+        foreach ($errors as $error) {
+            $errorsStr .= $error[0] . "\n";
         }
+
         return $errorsStr;
     }
 
