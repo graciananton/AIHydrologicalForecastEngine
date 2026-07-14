@@ -425,6 +425,18 @@ class OtpMailService{
         }
         return $user;
     }
+    public function stationIdExists(string $stationId):bool{
+        try{
+            $exists = Stations::where('stationId')->exists();
+            return ($exists) ? true: false;
+        }
+        catch(Exception $e){
+            Log::channel("laravel")->error(
+                'Unexpected error while checking if station id exists.',
+                $e->getMessage()
+            );
+        }
+    }
     private function createOtp():int{
         return random_int(100000, 999999);
     }
