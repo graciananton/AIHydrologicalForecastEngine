@@ -18,9 +18,16 @@ export default function StationMessages({ data }){
 }
 
 function getMessages(data){
+    console.log("getMessages");
     console.log(data);
-    const url = "https://gracian.ca/laravel/public/api/stationMessage?order=desc&stationId="+data.stationId+"&from="+data.createdAt;
+    console.log(data.createdAt);
+    console.log(data.createdAt);
+    const url = "https://gracian.ca/laravel/public/api/stationMessage?order=desc&stationId="
+                +data.stationId
+                +"&from="+data.createdAt;
     
+    console.log(url);
+
     const [messages, setMessages] = useState([]);
     useEffect(() => {
         async function getMessages(){
@@ -33,19 +40,52 @@ function getMessages(data){
 
     console.log(messages);
 
-    let id = 0;
+    let id = 1;
     return (
-        <ul>
+        messages.length > 0 ? (
+        <>
+        <div>These are emails sent to your inbox so far.</div>
+        <table>
+            <thead>
+                <th>ID:</th>
+                <th>Message:</th>
+                <th>Created At:</th>
+            </thead>
+            <tbody>
             {
             messages.map((message) => (
-                <li>
-                    <span>{id++}</span>
-                    <span>{message.created_at}</span>
-                    <span>{message.message}</span>
-                </li>
+                <tr>
+                    <td>{id++}</td>
+                    <td>{message.message}</td>
+                    <td>{convertUTCToFormattedTime(message.created_at, ['month', 'date', 'hour', 'minute', 'timePeriod'])}</td>
+                </tr>
             ))
             }
-        </ul>
+            </tbody>
+        </table>
+        </>
+        ) : (<div>No emails sent to your inbox so far</div>)
     );
 }
 
+function convertUTCToFormattedTime(UTCDate, options){
+    let dateObject = new Date(UTCDate); // convert to ISO format
+    let timeZoneOffset = dateObject.getTimezoneOffset();
+    dateObject.setMinutes(dateObject.getMinutes() - (timeZoneOffset));
+
+    const getAMPM = (hour) => hour >= 12 ? "PM" : "AM";
+    
+    const getTimeOffset = (hour) => hour > 12 ? hour - 12 : hour;
+
+    const monthName = dateObject.toLocaleString("en-US", {
+        month: "long"
+    });
+    
+    console.log("Options");
+    console.log(options);
+    return (
+        <>
+        {options.includes("month") ? String(monthName) + " ": ""}{options.includes("date") ? String(dateObject.getUTCDate()) + ", ": ""}{options.includes("hour") ? String(getTimeOffset(dateObject.getUTCHours())): ""}:{options.includes("minute") ? String(String(dateObject.getMinutes()).padStart(2,"0")) + " ":""}{options.includes("timePeriod") ? getAMPM(dateObject.getUTCHours()): ""}
+        </>
+    )
+}

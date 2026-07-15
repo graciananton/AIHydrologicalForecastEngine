@@ -398,10 +398,36 @@ class OtpMailService{
         //return (object) $otpSubmit;
     }
     private function extract_name_from_email(string $email):string{
-        $pattern = "/@/";
-        $parts = preg_split($pattern, $email);
-        return ucfirst($parts[0]);
+        $emailStr = str_split(trim($email));
+
+        //basil_anton
+        //psanthia
+        //GracianAnton
+        // split by _
+        // capitalize first letter
+        // if letter is capitalized, separate it
+        $charStr = [];
+        for($i = 0;$i<count($emailStr);$i++){
+            $char = $emailStr[$i];
+
+            if(strtoupper($char) == $char && $i > 0){
+                $charStr[] = " ";
+                $charStr[] = $char;
+            }
+            else if($char == "_"){
+                $charStr[] = " ";
+            }
+            else if($char == "@"){
+                break;
+            }
+            else{
+                $charStr[] = $char;
+            }
+        }
+
+        return ucfirst(join("", $charStr));
     } 
+
     private function getEmailVerification(string $email){
         try{
             $emailVerification = EmailVerifications::where('email',$email)->first();
