@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\OtpMail;
 use App\Models\User;
+use App\Models\Station;
 use App\Models\EmailVerifications;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -438,7 +439,7 @@ class OtpMailService{
     }
     public function stationIdExists(string $stationId):bool{
         try{
-            $exists = Stations::where('stationId')->exists();
+            $exists = Station::where('stationId')->exists();
             return ($exists) ? true: false;
         }
         catch(Exception $e){
