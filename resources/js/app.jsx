@@ -11,18 +11,12 @@ import Signup from "./Signup";
 import VerificationMessage from "./VerificationMessage";
 import { useState, useEffect } from "react";
 import StationMessages from "./StationMessages";
-
-
 import "../css/app.css";
 
 export default function App() {
-  console.log("Render app;");
   const data = window.__REACT_DATA__ || {};
   var req = getReq(data);
 
-  console.log(data);
-  console.log("REQ: "+req);
-  
   let showHeader = false;
   if(req == "userStation" || req == "stationMessages"){
     showHeader = true;
