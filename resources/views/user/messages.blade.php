@@ -10,6 +10,7 @@
 </head>
 <body>
     <?php
+
     $data = [
                 'request' => $request,
                 'email' => $email,

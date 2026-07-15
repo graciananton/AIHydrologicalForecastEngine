@@ -3,6 +3,7 @@ import '../css/StationMessages.css';
 import { useState, useEffect } from "react";
 
 export default function StationMessages({ data }){
+    console.log("StationMessages data:");
     console.log(data);
     return (
         <div className='page'>
@@ -16,7 +17,7 @@ export default function StationMessages({ data }){
     );
 }
 
-function getMessages({ data }){
+function getMessages(data){
     console.log(data);
     const url = "https://gracian.ca/laravel/public/api/stationMessage?order=desc&stationId="+data.stationId+"&from="+data.createdAt;
     
@@ -29,6 +30,7 @@ function getMessages({ data }){
         }
         getMessages();
     },[]);
+
     console.log(messages);
 
     let id = 0;

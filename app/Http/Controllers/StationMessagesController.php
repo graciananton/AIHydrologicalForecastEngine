@@ -15,7 +15,11 @@ class StationMessagesController extends Controller
         $email = session('email');
         $user = User::where('email', session('email'))->first();
         $stationId = $user->stationId;
-        $createdAt = $user->createdAt;
+        $createdAt = $user->created_at;
+
+        Log::channel("laravel")->info("Email: " . $email);
+        Log::channel("laravel")->info("created at: " . $createdAt);
+        Log::channel("laravel")->info("station id: " . $stationId);
 
         return view("user.messages", 
             [
