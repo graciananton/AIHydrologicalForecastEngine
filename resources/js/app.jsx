@@ -9,21 +9,26 @@ import VerificationCode from "./VerificationCode";
 import UserStation from "./UserStation";
 import Signup from "./Signup";
 import VerificationMessage from "./VerificationMessage";
+import { useState, useEffect } from "react";
 
 import "../css/app.css";
 
 export default function App() {
+  console.log("Render app;");
   const data = window.__REACT_DATA__ || {};
   var req = getReq(data);
 
+  console.log(data);
+  console.log("REQ: "+req);
+  
   const [header, setHeader] = useState(false);
   if(req == "userStation" || req == "stationMessages"){
     setHeader(true);
   }
-  
+
   return (
     <>
-    {header == true && <Header />}
+    {header && <Header />}
     {req === 'workflow' && <Workflow /> }
     {req == "login" && <Login data={data} />}
     {req == "home" && <Home />}

@@ -7,10 +7,10 @@ export default function UserStation({ data }){
 }
 function Main(station){
     const stationId = station.stationId;
+    console.log("User Station.jsx");
     return (
         <>
         <div id='main'>
-            <NavBar stationId={stationId} />
             <Station stationId = {stationId}/>
             <UpdatedAt stationId = {stationId} />
             <Graph stationId = {stationId} />
@@ -22,16 +22,6 @@ function Main(station){
             <Footer />
         </div>
         </>
-    )
-}
-function NavBar({stationId}){
-    return (
-    <div id='navBar'>
-        <ul>
-            <li><a href='?userDashboard'>User Dashboard</a></li>
-            <li><a href='?stationMessages'>Station Messages</a></li>
-        </ul>
-    </div>
     )
 }
 function Footer(){

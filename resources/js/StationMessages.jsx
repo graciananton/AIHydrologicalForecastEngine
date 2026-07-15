@@ -4,7 +4,6 @@ import { useState, useEffect } from "react";
 
 export default function StationMessages({ data }){
     console.log(data);
-
     return (
         <div className='page'>
             <div className='title'>
@@ -29,6 +28,7 @@ function getMesages({ data }){
         }
         getMessages();
     },[]);
+    console.log(messages);
     
     let id = 0;
     return (
