@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Services\UserStationService;
 use Illuminate\Support\Facades\Log;
+use App\Models\User;
 
 class UserStationController extends Controller
 {

@@ -16,7 +16,8 @@ export default function StationMessages({ data }){
     );
 }
 
-function getMesages({ data }){
+function getMessages({ data }){
+    console.log(data);
     const url = "https://gracian.ca/laravel/public/api/stationMessage?order=desc&stationId="+data.stationId+"&from="+data.createdAt;
     
     const [messages, setMessages] = useState([]);
@@ -29,7 +30,7 @@ function getMesages({ data }){
         getMessages();
     },[]);
     console.log(messages);
-    
+
     let id = 0;
     return (
         <ul>

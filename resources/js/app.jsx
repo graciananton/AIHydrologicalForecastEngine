@@ -10,6 +10,8 @@ import UserStation from "./UserStation";
 import Signup from "./Signup";
 import VerificationMessage from "./VerificationMessage";
 import { useState, useEffect } from "react";
+import StationMessages from "./StationMessages";
+
 
 import "../css/app.css";
 
@@ -21,24 +23,24 @@ export default function App() {
   console.log(data);
   console.log("REQ: "+req);
   
-  const [header, setHeader] = useState(false);
+  let showHeader = false;
   if(req == "userStation" || req == "stationMessages"){
-    setHeader(true);
+    showHeader = true;
   }
 
   return (
-    <>
-    {header && <Header />}
-    {req === 'workflow' && <Workflow /> }
-    {req == "login" && <Login data={data} />}
-    {req == "home" && <Home />}
-    {req == "dashboard" && <Dashboard />}
-    {req == "verificationCode" && <VerificationCode data={data}/>}
-    {req == "userStation" && <UserStation data={data}/>}
-    {req == "signup" && <Signup data={data} />}
-    {req == "verificationMessage" && <VerificationMessage data={data} />}
-    {req == "stationMessages" && <StationMessages data={data} />}
-    </>
+    <div id='mainPage'>
+      {showHeader && <Header />}
+      {req === 'workflow' && <Workflow /> }
+      {req == "login" && <Login data={data} />}
+      {req == "home" && <Home />}
+      {req == "dashboard" && <Dashboard />}
+      {req == "verificationCode" && <VerificationCode data={data}/>}
+      {req == "userStation" && <UserStation data={data}/>}
+      {req == "signup" && <Signup data={data} />}
+      {req == "verificationMessage" && <VerificationMessage data={data} />}
+      {req == "stationMessages" && <StationMessages data={data} />}
+    </div>
   );
 }
 function getReq(data){

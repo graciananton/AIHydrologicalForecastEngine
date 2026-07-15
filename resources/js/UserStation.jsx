@@ -9,19 +9,17 @@ function Main(station){
     const stationId = station.stationId;
     console.log("User Station.jsx");
     return (
-        <>
         <div id='main'>
             <Station stationId = {stationId}/>
             <UpdatedAt stationId = {stationId} />
+            <CurrentWeather stationId = {stationId} />
             <Graph stationId = {stationId} />
             <Stats stationId = {stationId} />
             <Predictions stationId = {stationId} />
             <Weather stationId = {stationId} />
             <Readings stationId = {stationId} />
-            <CurrentWeather stationId = {stationId} />
             <Footer />
         </div>
-        </>
     )
 }
 function Footer(){

@@ -9,3 +9,13 @@
     --font-sans: 'Instrument Sans', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',
         'Segoe UI Symbol', 'Noto Color Emoji';
 }
+
+#mainPage{
+    width:100vw;
+    height:100vh;
+    background-color:white;
+    padding-left:5%;
+    padding-right:5%;
+    padding-top:1.5%;
+    padding-bottom:2%;
+}

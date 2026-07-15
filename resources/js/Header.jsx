@@ -6,8 +6,8 @@ export default function Header(){
     return (
     <div id='header'>
         <ul>
-            <li><a href='?userDashboard'>User Dashboard</a></li>
-            <li><a href='?stationMessages'>Station Messages</a></li>
+            <li><a href='/laravel/public/userStation'>User Dashboard</a></li>
+            <li><a href='/laravel/public/stationMessages'>Station Messages</a></li>
         </ul>
     </div>
     )

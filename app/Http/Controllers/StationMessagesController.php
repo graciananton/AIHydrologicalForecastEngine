@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Services\UserStationService;
 use Illuminate\Support\Facades\Log;
+use App\Models\User;
 
 class StationMessagesController extends Controller
 {
@@ -11,13 +12,17 @@ class StationMessagesController extends Controller
 
     }
     public function process(){
-        $createdAt = User::where('email', session('email'))->get('created_at');
+        $email = session('email');
+        $user = User::where('email', session('email'))->first();
+        $stationId = $user->stationId;
+        $createdAt = $user->createdAt;
 
         return view("user.messages", 
             [
             'request' => 'stationMessages',
-            'email' => session('email'),
-            'createdAt' => $createdAt
+            'email' => $email,
+            'createdAt' => $createdAt,
+            'stationId' => $stationId,
             ]
         );
 
