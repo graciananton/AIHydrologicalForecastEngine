@@ -2,8 +2,9 @@
     display:grid;
     height:100vh;
     grid-template-columns: 1fr 1fr 1fr;
-    grid-template-rows: 1fr 5fr 1.5fr 0.5fr;
+    grid-template-rows: 1fr 1fr 5fr 1.5fr 0.5fr;
     grid-template-areas:
+    "navBar navBar navBar"
     "station updatedAt currentWeather"
     "graph  stats predictions"
     "weather weather readings"
@@ -14,11 +15,14 @@
     margin-top:2%;
     margin-bottom:2%;
 }
+
 #main > div{
     border-radius:15px;
     background-color:#FEFEFE;
     box-shadow: 0 4px 12px rgba(15, 23, 42, 0.08);
 }
+
+
 #currentWeather{
     grid-area:currentWeather;
     border:1px solid white;

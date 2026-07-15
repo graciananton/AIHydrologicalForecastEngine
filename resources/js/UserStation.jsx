@@ -9,6 +9,7 @@ function Main(station){
     const stationId = station.stationId;
     return (
         <div id='main'>
+            <NavBar stationId = {stationId}/>
             <Station stationId = {stationId}/>
             <UpdatedAt stationId = {stationId} />
             <Graph stationId = {stationId} />
@@ -19,6 +20,16 @@ function Main(station){
             <CurrentWeather stationId = {stationId} />
             <Footer />
         </div>
+    )
+}
+function NavBar({stationId}){
+    return (
+    <div id='navBar'>
+        <ul>
+            <li><a href='?userDashboard'>User Dashboard</a></li>
+            <li><a href='?stationMessages'>Station Messages</a></li>
+        </ul>
+    </div>
     )
 }
 function Footer(){

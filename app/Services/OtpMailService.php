@@ -368,7 +368,8 @@ class OtpMailService{
         // user otp
         Log::channel("laravel")->info($request->otp);
 
-        if(Hash::check($request->otp, $emailVerification->otp)){   
+        if(Hash::check($request->otp, $emailVerification->otp)){ 
+
             Log::channel("laravel")->info("User logging in");
             Auth::login($user);
 

@@ -79,7 +79,14 @@ class AuthController extends Controller
                     return redirect('/dashboard');
                 }
                 else if($result->role == "user"){
-                    return redirect("/userStation");
+                    $user = User::where('email', session('email'))->first();
+                    if($user->verified){
+                        return redirect("/userStation");
+                    }
+                    else{
+                        User::where('email', session('email'))->update(['verified' => true]);
+                        return redirect('/verificationMessage');
+                    }
                     //return redirect("/verificationMessage");
                 }
             }
