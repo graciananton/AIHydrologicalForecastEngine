@@ -16,12 +16,12 @@ export default function Signup({ data }){
                     <input type="hidden" name="_token" value={document.querySelector('meta[name="csrf-token"]').getAttribute("content")}/>
                         <div className='form-group'>
                             <label htmlFor='Email'>Email:</label><br/>
-                            <input type='email' id='email' name='email'  value = {data.email ?? ""} required/>
+                            <input type='email' id='email' name='email'  defaultValue = {data.email ?? ""} required/>
                         </div>
                         <div className='form-group'>
                             <label htmlFor="stationId">What station do you want to choose:</label>
-                            <select name="stationId" id="stationId">
-                                {getStations(data.stationId)}
+                            <select name="stationId" id="stationId" value = '02KF012'>
+                                {getStations()}
                             </select> 
                         </div>
                     <button type='submit'>Submit</button>
@@ -31,7 +31,7 @@ export default function Signup({ data }){
     );
 }
 
-function getStations(stationId){
+function getStations(){
     console.log("getting stations");
     const [stations, setStations] = useState(<></>)
 
@@ -41,15 +41,10 @@ function getStations(stationId){
             const url = "https://gracian.ca/laravel/public/api/stations";
             const data = await fetch(url);
             console.log(data);
-            const stations = await data.json();
-
-
-            console.log(stations)
-            
+            const stations = await data.json();            
             const stationElts = stations.map((station) => {
-                console.log(station);
                 return (
-                    <option value={station.stationId} selected = { station.stationId == stationId ? selected : "" } >{station.name} ({station.stationId})</option>
+                    <option value={station.stationId}>{station.name} ({station.stationId})</option>
                 )
             })
 

@@ -16,7 +16,7 @@ export default function Login({ data }){
                     <input type="hidden" name="_token" value={document.querySelector('meta[name="csrf-token"]').getAttribute("content")}/>
                     <div className='form-group'>
                         <label htmlFor='Email'>Email:</label><br/>
-                        <input type='email' id='email' name='email' required/>
+                        <input type='email' id='email' name='email' defaultValue = {data.email ?? ""} required/>
                     </div>
                     <button type='submit'>Submit</button>
                 </form>

@@ -51,7 +51,7 @@ class OtpMailService{
             if($user){
                 return (object) [
                     'success' => false,
-                    'error' => $request->email . " already exists in the system, try re-logging in here "."<a href='https://gracian.ca/laravel/public/login'> since the account already exists"
+                    'error' => $request->email . " already exists in the system, try re-logging in here https://gracian.ca/laravel/public/login"
                 ];
             }
             else if(!$exists){
@@ -439,7 +439,7 @@ class OtpMailService{
     }
     public function stationIdExists(string $stationId):bool{
         try{
-            $exists = Station::where('stationId')->exists();
+            $exists = Station::where('stationId', $stationId)->exists();
             return ($exists) ? true: false;
         }
         catch(Exception $e){

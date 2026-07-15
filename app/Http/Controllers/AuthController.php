@@ -13,6 +13,7 @@ class AuthController extends Controller
 {
     private OtpMailService $otpMailService;
     public function login():View{
+        Log::channel('laravel')->info("login route");
         return view("auth.login");
     }
     public function signup():View{
@@ -20,12 +21,6 @@ class AuthController extends Controller
     }
     public function signupSubmit(Request $request, OtpMailService $otpMailService){
         $result = $otpMailService->handleSignup($request);
-        Log::channel("laravel")->info("Result echoing out");
-        Log::channel("laravel")->info(json_encode($result, JSON_PRETTY_PRINT));
-
-        Log::channel("laravel")->info("Request response signup.");
-        Log::channel("laravel")->info($result->success);
-        Log::channel("laravel")->info($result->error);
         if($result->success){
             return redirect('/verificationCode');
         }
@@ -47,7 +42,7 @@ class AuthController extends Controller
             }
             else if(!$result->success){
                 Log::channel("laravel")->info("Error !result->success ". $result->error);
-                return redirect('/login')->with('error', $result->error);
+                return redirect('/login')->withInput()->with('error', $result->error);
             }
             else if($result->success && $result->loggedIn){
                 if($result->role == 'admin'){
