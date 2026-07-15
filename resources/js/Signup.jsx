@@ -14,7 +14,6 @@ export default function Signup({ data }){
                 }
                 <form className='form' method="POST" action={`/laravel/public/signupSubmit`}>
                     <input type="hidden" name="_token" value={document.querySelector('meta[name="csrf-token"]').getAttribute("content")}/>
-                        <input type='hidden' name='email' value={data.email} />
                         <div className='form-group'>
                             <label htmlFor='Email'>Email:</label><br/>
                             <input type='email' id='email' name='email' required/>

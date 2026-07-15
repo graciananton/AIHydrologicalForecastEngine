@@ -121,9 +121,11 @@ class OtpMailService{
         }
         else{
             Log::channel("laravel")->info("formatting errors");
+            $errors = $this->formatErrors($response);
+            Log::channel("laravel")->info("This is errors ". $errors);
             return (object) [
                 'success' => false,
-                'error' => $this->formatErrors($response)
+                'error' => $errors
             ];
         }
     }

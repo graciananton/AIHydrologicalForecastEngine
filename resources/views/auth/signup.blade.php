@@ -8,6 +8,10 @@
     <title>AI Forecast Engine - Station Id</title>
 </head>
 <body>
+    <?php
+    Log::channel("laravel")->info("laravel data");
+    Log::channel("laravel")->info(json_encode(session()->all(), JSON_PRETTY_PRINT));
+    ?>
     <script>
         data = @json(
             [

@@ -20,14 +20,17 @@ class AuthController extends Controller
     }
     public function signupSubmit(Request $request, OtpMailService $otpMailService){
         $result = $otpMailService->handleSignup($request);
+        Log::channel("laravel")->info("Result echoing out");
+        Log::channel("laravel")->info(json_encode($result, JSON_PRETTY_PRINT));
+
         Log::channel("laravel")->info("Request response signup.");
-        Log::channel("laravel")->info($request->success);
-        Log::channel("laravel")->info($request->error);
+        Log::channel("laravel")->info($result->success);
+        Log::channel("laravel")->info($result->error);
         if($result->success){
             return redirect('/verificationCode');
         }
         else{
-            return redirect('/signup')->with('error', $request->error);
+            return redirect('/signup')->with('error', $result->error)->with('status','alert');
         }
     }
     public function loginSubmit(Request $request, OtpMailService $otpMailService){
