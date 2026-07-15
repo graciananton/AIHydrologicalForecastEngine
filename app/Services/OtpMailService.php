@@ -120,7 +120,7 @@ class OtpMailService{
             }
         }
         else{
-            
+            Log::channel("laravel")->info("formatting errors");
             return (object) [
                 'success' => false,
                 'error' => $this->formatErrors($response)
