@@ -15,8 +15,15 @@ import "../css/app.css";
 export default function App() {
   const data = window.__REACT_DATA__ || {};
   var req = getReq(data);
+
+  const [header, setHeader] = useState(false);
+  if(req == "userStation" || req == "stationMessages"){
+    setHeader(true);
+  }
+  
   return (
     <>
+    {header == true && <Header />}
     {req === 'workflow' && <Workflow /> }
     {req == "login" && <Login data={data} />}
     {req == "home" && <Home />}

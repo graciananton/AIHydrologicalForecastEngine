@@ -8,7 +8,9 @@ export default function UserStation({ data }){
 function Main(station){
     const stationId = station.stationId;
     return (
+        <>
         <div id='main'>
+            <NavBar stationId={stationId} />
             <Station stationId = {stationId}/>
             <UpdatedAt stationId = {stationId} />
             <Graph stationId = {stationId} />
@@ -19,6 +21,7 @@ function Main(station){
             <CurrentWeather stationId = {stationId} />
             <Footer />
         </div>
+        </>
     )
 }
 function NavBar({stationId}){
