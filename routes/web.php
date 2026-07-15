@@ -8,6 +8,7 @@ use App\Http\Controllers\WorkflowController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\UserStationController;
+use App\Http\Controllers\StationMessagesController;
 use App\Services\OtpMailService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
@@ -24,7 +25,6 @@ Route::post('/loginSubmit',[AuthController::class,'loginSubmit']);
 Route::get('/signup', [AuthController::class, 'signup'])->name('signup');
 Route::post('/signupSubmit', [AuthController::class, 'signupSubmit']);
 
-
 Route::get('/verificationCode', [AuthController::class,'verificationCode']);
 
 Route::post('/verificationCodeSubmit', [AuthController::class,'verificationCodeSubmit']);
@@ -34,6 +34,7 @@ Route::get('/verificationMessage', [AuthController::class, 'verificationMessage'
 Route::get('/dashboard', [DashboardController::class, 'process'])->middleware('auth','admin');
 
 Route::get('/userStation', [UserStationController::class,'process'])->middleware('auth');
+Route::get('/stationMessages', [StationMessagesController::class,'process'])->middleware('auth');
 
 Route::get('/status', [StatusController::class, 'process'])->middleware('auth');
 
