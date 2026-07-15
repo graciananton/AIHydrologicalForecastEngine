@@ -5,7 +5,7 @@ import { useState, useEffect } from "react";
 export default function Signup({ data }){
     console.log(data);
     return (
-        <div className='page'>
+        <div className='page' style={{border:"1px solid black", display:"flex", justifyContent:"center", alignItems:"center"}}>
             <div className='card'>
                 <div className='title'>Signup:</div>
                 {data.error && (

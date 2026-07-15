@@ -27,9 +27,7 @@ export default function VerificationCode({ data }){
                         <div id='title'>Enter verification code</div>
                         {
                         (data.error) && 
-
                         (<div id='error'>{ data.error }</div>)
-
                         }
                         <div id='explanation'>
                             A verification code has been sent to:
