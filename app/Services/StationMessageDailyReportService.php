@@ -12,7 +12,7 @@ use Illuminate\Support\Facades\Http;
 class StationMessageDailyReportService{
     public function sendStationMessageDailyReport(){
         try{
-            $users = User::get()->toArray();
+            $users = User::where('role','user')->get()->toArray();
 
             $usersList = [];
             for($i=0;$i<count($users);$i++){
