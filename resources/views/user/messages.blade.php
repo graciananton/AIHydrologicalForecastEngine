@@ -10,6 +10,7 @@
             [
                 'request' => $request,
                 'email' => $email,
+                'createdAt' => $createdAt
             ]
         );
         

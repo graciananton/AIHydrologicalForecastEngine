@@ -25,6 +25,7 @@ export default function App() {
     {req == "userStation" && <UserStation data={data}/>}
     {req == "signup" && <Signup data={data} />}
     {req == "verificationMessage" && <VerificationMessage data={data} />}
+    {req == "stationMessages" && <StationMessages data={data} />}
     </>
   );
 }

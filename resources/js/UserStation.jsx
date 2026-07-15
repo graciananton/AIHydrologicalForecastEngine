@@ -9,7 +9,6 @@ function Main(station){
     const stationId = station.stationId;
     return (
         <div id='main'>
-            <NavBar stationId = {stationId}/>
             <Station stationId = {stationId}/>
             <UpdatedAt stationId = {stationId} />
             <Graph stationId = {stationId} />
