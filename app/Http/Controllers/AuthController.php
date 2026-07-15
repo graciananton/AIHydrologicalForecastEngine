@@ -30,7 +30,7 @@ class AuthController extends Controller
             return redirect('/verificationCode');
         }
         else{
-            return redirect('/signup')->withInput();
+            return redirect('/signup')->withInput()->with('error', $result->error);
         }
     }
     public function loginSubmit(Request $request, OtpMailService $otpMailService){

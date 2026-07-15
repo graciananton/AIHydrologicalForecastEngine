@@ -1,12 +1,3 @@
-<?php
-    Log::channel("laravel")->info("laravel data");
-    Log::channel("laravel")->info(json_encode(session()->all(), JSON_PRETTY_PRINT));
-    $email = session()->getOldInput('email');
-    $stationId = trim(session()->getOldInput('stationId'));
-    Log::channel("laravel")->info($email);
-    Log::channel("laravel")->info($stationId);
-
-    ?>
 <!doctype html>
 <html>
 <head>
@@ -17,16 +8,21 @@
     <title>AI Forecast Engine - Station Id</title>
 </head>
 <body>
+    <?php
+        $email = session()->getOldInput('email');
+        $stationId = trim(session()->getOldInput('stationId'));
+
+        $data = json_encode([
+            "error" => session('error') ?? "",
+            "email" => $email ? $email : "",
+            "stationId" => $stationId ? $stationId : "",
+            "request" => "signup",
+        ]);
+    ?>
     <script>
-        data = @json(
-            [
-                'error' => session('error'),
-                'email' => session('email'),
-                'request' => 'signup'
-            ]
-        );
+        const data = JSON.parse(@json($data));
         console.log(data);
-        
+
         window.__REACT_DATA__ = data;
     </script>
     <meta name="csrf-token" content="{{ csrf_token() }}">
