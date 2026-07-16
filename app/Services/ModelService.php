@@ -47,22 +47,20 @@ class ModelService{
 
     // plotTrain - JOB
     public function plotTrain($stationId){
-        foreach($plots as $plot){
-            try{
-                foreach($plots as $plot){
-                    $this->plotCategory('train', $plot, $stationId);
-                }
+        try{
+            foreach($this->plots as $plot){
+                $this->plotCategory('train', $plot, $stationId);
             }
-            catch(\Throwable $e){
-                Log::error(
-                    "plotTrain failed",
-                    [
-                        'stationId' => $stationId,
-                        'error' => $e->getMessage()
-                    ]
-                );
-                throw $e;
-            }
+        }
+        catch(\Throwable $e){
+            Log::error(
+                "plotTrain failed",
+                [
+                    'stationId' => $stationId,
+                    'error' => $e->getMessage()
+                ]
+            );
+            throw $e;
         }
     }
 
@@ -287,7 +285,7 @@ class ModelService{
     // plotFuture - JOB
     public function plotFuture(string $stationId){
         try{
-            foreach($plots as $plot){
+            foreach($this->plots as $plot){
                 $this->plotCategory('future', $plot, $stationId);
             }
         }
