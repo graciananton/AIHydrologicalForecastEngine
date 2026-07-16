@@ -6,6 +6,8 @@ use App\Models\TestEvaluations;
 use App\Models\Predictions;
 
 class ModelService{
+    private $plots = ['precipitation','temperature','wind_speed'];
+    
     // trainModel - JOB
     public function trainModel($stationId){
         try{
@@ -250,71 +252,72 @@ class ModelService{
         }
     }
 
+    // $category is test, train, future
+    // against is temperature, wind speed, etc
+    private function plotCategory(string $category, string $against, string $stationId):null{
+        $url = sprintf('https://fast-api-54so.onrender.com/plot_%s/v/%s?station_id=%s',$category, $against, $stationId);
+        $response = Http::connectTimeout(1200)->timeout(1200)->get($url);
 
+        # this checks if the query to the API endpoint was successful
+        if (!$response->successful()) { // this is for 200-299 (success)
+            throw new \RuntimeException(
+                "plotFuture FastAPI request failed for ".$stationId
+            );
+        }   
+
+        $image = imagecreatefromstring($response->body());
+
+        if($image == false){
+            throw new \RuntimeException(
+                "plotFuture FastAPI raw data not converted to image for ".$stationId
+            );
+        }
+
+        $dir = base_path("images/future");
+        $filePath = $dir . '/'. $stationId . '.png';
+
+        /*$output = file_put_contents(
+            $filePath,
+            $response->body()
+        );*/
+        $result = imagepng($image, $filePath);
+
+        if($result == false){
+            throw new \RuntimeException(
+                "unable to save FastAPI response image for ".$stationId
+            );
+        }
+
+        $result = imagedestroy($image);
+
+        if($result == false){
+            throw new \RuntimeException(
+                "unable to destroy FastAPI response image for ".$stationId
+            );
+        }
+
+        # this checks if image is not valid, not corrupted, or not obviously truncated
+        # if any of these steps does not work, then it reutrns false
+        $imageInfo = @imagecreatefrompng($filePath);
+
+        if($imageInfo == false){
+            Log::error('plotFuture image is not valid, corrupted, or obviously truncated');
+
+            throw new \UnexpectedValueException(
+                "plotFuture image is not valid, corrupted, or obviously truncated"
+            );
+        }
+
+        Log::channel("laravel")->info("plotFuture successfully for ". $stationId);   
+    }   
 
 
     // plotFuture - JOB
-    public function plotFuture($stationId){
+    public function plotFuture(string $stationId){
         try{
-            Log::channel("laravel")->info("plotFuture for ". $stationId);
-
-            $url = sprintf('https://fast-api-54so.onrender.com/plot_future?station_id=%s',$stationId);
-            
-            $response = Http::connectTimeout(1200)->timeout(1200)->get($url);
-
-            # this checks if the query to the API endpoint was successful
-            if (!$response->successful()) { // this is for 200-299 (success)
-                throw new \RuntimeException(
-                    "plotFuture FastAPI request failed for ".$stationId
-                );
-            }   
-
-            $image = imagecreatefromstring($response->body());
-
-            if($image == false){
-                throw new \RuntimeException(
-                    "plotFuture FastAPI raw data not converted to image for ".$stationId
-                );
+            foreach($plots as $plot){
+                $this->plotCategory('future', $plot, $stationId);
             }
-
-            $dir = base_path("images/future");
-            $filePath = $dir . '/'. $stationId . '.png';
-
-            /*$output = file_put_contents(
-                $filePath,
-                $response->body()
-            );*/
-            $result = imagepng($image, $filePath);
-
-            
-
-            if($result == false){
-                throw new \RuntimeException(
-                    "unable to save FastAPI response image for ".$stationId
-                );
-            }
-
-            $result = imagedestroy($image);
-
-            if($result == false){
-                throw new \RuntimeException(
-                    "unable to destroy FastAPI response image for ".$stationId
-                );
-            }
-
-            # this checks if image is not valid, not corrupted, or not obviously truncated
-            # if any of these steps does not work, then it reutrns false
-            $imageInfo = @imagecreatefrompng($filePath);
-
-            if($imageInfo == false){
-                Log::error('plotFuture image is not valid, corrupted, or obviously truncated');
-
-                throw new \UnexpectedValueException(
-                    "plotFuture image is not valid, corrupted, or obviously truncated"
-                );
-            }
-
-            Log::channel("laravel")->info("plotFuture successfully for ". $stationId);
         }
         catch(\Throwable $e){
             Log::error(
