@@ -20,7 +20,7 @@ export default function VerificationCode({ data }){
     console.log(data);
     const [boxes, setBoxes] = useState(['','','','','','']);
     return (    
-        <form id='form' action='/laravel/public/verificationCodeSubmit' method='POST'>
+        <form id='form' action='/laravel/public/verificationCodeSubmit' method='POST' style={{width:"100%", height:"100%"}}>
             <div id='verification_page'>
                 <div id='verification_form'>
                         <input type="hidden" name="_token" value={document.querySelector('meta[name="csrf-token"]').getAttribute("content")}/>

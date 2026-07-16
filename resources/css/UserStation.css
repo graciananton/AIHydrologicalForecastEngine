@@ -1,6 +1,6 @@
 #main{
     display:grid;
-    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-columns: 1.5fr 1fr 1fr;
     grid-template-rows: 1fr 5fr 1.5fr 0.5fr;
     grid-template-areas:
     "station updatedAt currentWeather"
@@ -208,25 +208,47 @@
     align-items:flex-start;
 }
 
-#graph{
+.graph{
     grid-area:graph;
-    border:1px solid white;
+    border:0px solid red;
     display:flex;
     flex-direction:column;
-    justify-content:space-evenly;
+    justify-content:flex-start;
 }
-#graph #title{
+.graph .title{
     color:black;
     font-weight:600;
     padding-left:5%;
     display:flex;
+    border:1px solid black;
+    font-size:1rem;
 }
-#graph #title div:nth-child(2){
+.graph .title div:nth-child(2){
     align-self:center;
 }
-#graph #image{
-    border:1px solid white;
+.graph .forecast{
+    border:1px solid blue;
+    flex:1;
+    display:flex;
+    flex-direction:column;
 }
+.graph .forecast .tabs{
+    display:flex;
+    flex-direction:row;
+    gap:0.5rem;
+    border:1px solid blue;
+    padding-top:0.5rem;
+    padding-bottom:0.5rem;
+    padding-left:0.5rem;
+}
+.graph .forecast .tabs span{
+    border:1px solid black;
+}
+.graph .forecast .image{
+    border:1px solid blue;
+    flex:1;
+}
+
 
 #stats{
     grid-area:stats;

@@ -37,12 +37,14 @@ function CurrentWeather({stationId}){
                 
                 let to = new Date(from);
 
-                to.setUTCMinutes(to.getUTCMinutes() + 59);
+                to.setUTCMinutes(to.getUTCMinutes() + 60);
 
                 to = to.toISOString();
 
                 const response = await fetch('https://gracian.ca/laravel/public/api/weather?stationId='+ stationId+'&from='+from+'&to='+to);
                 
+                console.log("Url")
+                console.log('https://gracian.ca/laravel/public/api/weather?stationId='+ stationId+'&from='+from+'&to='+to)
                 if(!response.ok){
                     throw new Error("Failed to fetch");
                 }
@@ -358,10 +360,14 @@ function UpdatedAt({ stationId }){
     )
 }
 
+function Tab({ image, category, stationId }){
+    setImage()
+}
 function Graph({ stationId }){
+    const [imageUrl, setImageUrl] = useState('../images/future/' + stationId + '_precipitation.png')
     return (
-        <div id='graph'>
-            <div id='title'>
+        <div class='graph'>
+            <div class='title'>
                 <div>
                     <img src='../images/user/forecast.png' alt=''/>
                 </div>
@@ -369,8 +375,15 @@ function Graph({ stationId }){
                     Water Level Forecast
                 </div>
             </div>
-            <div id='image'>
-                <img src={'../images/future/' + stationId + '.png'} />
+            <div class='forecast'>
+                <div class='tabs'>
+                    <span onclick={() => setImageUrl('..img/images/future' + stationId + '_precipitation.png')}>Precipitation</span>
+                    <span onclick={() =>setImageUrl('..img/images/future' + stationId + '_temperature.png')}>Temperature</span>
+                    <span onclick={() =>setImageUrl('..img/images/future' + stationId + '_wind_speed.png')}>Wind Speed</span>
+                </div>
+                <div class='image'>
+                    <img src={image} alt=''/>
+                </div>
             </div>
         </div>
     )

@@ -399,7 +399,7 @@ class OtpMailService{
     }
     private function extract_name_from_email(string $email):string{
         $emailStr = str_split(trim($email));
-
+        // [G,r,a,c,i,a,n,A,n,t,o,n]
         //basil_anton
         //psanthia
         //GracianAnton
