@@ -273,8 +273,10 @@ class ModelService{
             );
         }
 
-        $dir = base_path("images/future");
+        $dir = base_path(sprintf("images/%s",$category));
         $filePath = $dir . '/'. $stationId . '.png';
+
+        $filePath = sprintf('%s/%s_%s.png', $dir, $stationId, $against);
 
         /*$output = file_put_contents(
             $filePath,
@@ -284,7 +286,7 @@ class ModelService{
 
         if($result == false){
             throw new \RuntimeException(
-                "unable to save FastAPI response image for ".$stationId
+                "unable to save FastAPI response image for ".$stationId.'_'.$against
             );
         }
 
@@ -292,7 +294,7 @@ class ModelService{
 
         if($result == false){
             throw new \RuntimeException(
-                "unable to destroy FastAPI response image for ".$stationId
+                "unable to destroy FastAPI response image for ".$stationId.'_'.$against
             );
         }
 
