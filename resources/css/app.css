@@ -9,14 +9,14 @@
     --font-sans: 'Instrument Sans', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',
         'Segoe UI Symbol', 'Noto Color Emoji';
 }
-
+/* this is the top level div */
 #mainPage{
-    width:90vw;
-    height:96.5vh;
     background-color:white;
     margin-left:5%;
     margin-right:5%;
-    margin-top:1.5%;
+    margin-top:2%;
     margin-bottom:2%;
-    border:0px solid black;
+    border:3px solid black;
+    height:96vh;
+    width:90vw;
 }

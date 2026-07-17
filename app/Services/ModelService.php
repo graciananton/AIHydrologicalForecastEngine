@@ -192,14 +192,14 @@ class ModelService{
 
     // $category is test, train, future
     // against is temperature, wind speed, etc
-    private function plotCategory(string $category, string $against, string $stationId):null{
+    private function plotCategory(string $category, string $against, string $stationId){
         $url = sprintf('https://fast-api-54so.onrender.com/plot_%s/v/%s?station_id=%s',$category, $against, $stationId);
         $response = Http::connectTimeout(1200)->timeout(1200)->get($url);
 
         # this checks if the query to the API endpoint was successful
         if (!$response->successful()) { // this is for 200-299 (success)
             throw new \RuntimeException(
-                "plotFuture FastAPI request failed for ".$stationId
+                "plot".$category." FastAPI request failed for ".$stationId
             );
         }   
 
@@ -207,15 +207,17 @@ class ModelService{
 
         if($image == false){
             throw new \RuntimeException(
-                "plotFuture FastAPI raw data not converted to image for ".$stationId
+                "plot".$category." FastAPI raw data not converted to image for ".$stationId
             );
         }
 
         $dir = base_path(sprintf("images/%s",$category));
-        $filePath = $dir . '/'. $stationId . '.png';
 
         $filePath = sprintf('%s/%s_%s.png', $dir, $stationId, $against);
 
+        Log::channel("laravel")->info("This is the file path");
+        Log::channel("laravel")->info($filePath);
+        
         /*$output = file_put_contents(
             $filePath,
             $response->body()

@@ -19,7 +19,7 @@ export default function App() {
 
   let showHeader = false;
   if(req == "userStation" || req == "stationMessages"){
-    showHeader = true;
+    showHeader = false;
   }
 
   return (

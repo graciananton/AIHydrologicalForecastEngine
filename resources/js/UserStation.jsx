@@ -13,12 +13,7 @@ function Main(station){
             <Station stationId = {stationId}/>
             <UpdatedAt stationId = {stationId} />
             <CurrentWeather stationId = {stationId} />
-            <Graph stationId = {stationId} />
-            <Stats stationId = {stationId} />
-            <Predictions stationId = {stationId} />
-            <Weather stationId = {stationId} />
-            <Readings stationId = {stationId} />
-            <Footer />
+            
         </div>
     )
 }
@@ -325,27 +320,6 @@ function UpdatedAt({ stationId }){
         }
         getUpdatedAt(stationId);
     }, [stationId]);
-
-    /*
-    let updatedAtUTC = new Date(updatedAt);
-    let month = updatedAtUTC.toLocaleString('en-US',{
-        month: "long",
-        timeZone: "UTC"
-    });
-    let dayOfMonth = updatedAtUTC.getUTCDate();
-    let year = updatedAtUTC.getUTCFullYear();
-    let hour = updatedAtUTC.getUTCHours();
-
-    let timePeriod;
-    if(hour > 12){
-        hour = hour % 12;
-        timePeriod = "PM"
-    }
-    else{
-        timePeriod = "AM"
-    }
-    let minute = updatedAtUTC.getUTCMinutes();
-    */
     const formattedDate = convertUTCToFormattedTime(updatedAt, ['month', 'date', 'hour', 'minute', 'timePeriod']);
     return (
         updatedAt && 
@@ -359,15 +333,12 @@ function UpdatedAt({ stationId }){
         </div>
     )
 }
-
-function Tab({ image, category, stationId }){
-    setImage()
-}
 function Graph({ stationId }){
-    const [imageUrl, setImageUrl] = useState('../images/future/' + stationId + '_precipitation.png')
+    const [imageUrl, setImageUrl] = useState('../images/future/' + stationId + '_temperature.png')
+    const [backgroundColor, setBackgroundColor] = useState(["#3F76B8","#9FC2FB","#9FC2FB"]);
     return (
-        <div class='graph'>
-            <div class='title'>
+        <div className='graph'>
+            <div className='title'>
                 <div>
                     <img src='../images/user/forecast.png' alt=''/>
                 </div>
@@ -375,14 +346,14 @@ function Graph({ stationId }){
                     Water Level Forecast
                 </div>
             </div>
-            <div class='forecast'>
-                <div class='tabs'>
-                    <span onclick={() => setImageUrl('..img/images/future' + stationId + '_precipitation.png')}>Precipitation</span>
-                    <span onclick={() =>setImageUrl('..img/images/future' + stationId + '_temperature.png')}>Temperature</span>
-                    <span onclick={() =>setImageUrl('..img/images/future' + stationId + '_wind_speed.png')}>Wind Speed</span>
+            <div className='forecast'>
+                <div className='tabs'>
+                    <span style={{backgroundColor:backgroundColor[0]}} onClick={() => {setImageUrl('../images/future/' + stationId + '_temperature.png'); setBackgroundColor(["#3F76B8","#9FC2FB","#9FC2FB"]);}}>Temperature</span>
+                    <span style={{backgroundColor:backgroundColor[1]}} onClick={() => {setImageUrl('../images/future/' + stationId + '_precipitation.png'); updateBackgroundColor();setBackgroundColor(["#9FC2FB","#3F76B8","#9FC2FB"]);}}>Precipitation</span>
+                    <span style={{backgroundColor:backgroundColor[2]}} onClick={() => {setImageUrl('../images/future/' + stationId + '_wind_speed.png'); updateBackgroundColor();setBackgroundColor(["#9FC2FB","#9FC2FB","#3F76B8"]);}}>Wind Speed</span>
                 </div>
-                <div class='image'>
-                    <img src={image} alt=''/>
+                <div className='image'>
+                    <img src={imageUrl} alt=''/>
                 </div>
             </div>
         </div>
@@ -563,6 +534,30 @@ function Stats({ stationId }){
                 </ul>
             </div>
         </div>
+    )
+}
+
+function StationMessage({ stationId }){
+    const [message, setMessage] = useState("");
+
+    useEffect(() => {
+        async function getStationMessage(){
+            const data = await fetch("http://gracian.ca/laravel/public/api/stationMessage?stationId="+stationId+"&order=desc&limit=1")
+            const message = await data.json();
+            console.log("Message:");
+            console.log(message);
+            setMessage(message[0]);
+        }
+        getStationMessage();
+    })
+    console.log("Messages:");
+    console.log(message);
+    return (
+    <div class='stationMessage'>
+        {
+            message.message
+        }
+    </div>
     )
 }
 function isISO8601(str) {
