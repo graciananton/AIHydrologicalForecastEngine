@@ -150,7 +150,11 @@ class ModelService{
                        "&level=".$futurePrediction['levelAtHour']."
                         &time=".$futurePrediction['levelAtHour']."&mode=percentile";
                 
+                Log::channel("laravel")->info("URL: ->");
+                Log::channel("laravel")->info($url);
                 $currentLevelStatus = Http::get($url);
+                $currentLevelStatus = json_decode($currentLevelStatus, true);
+
                 $currentLevelPercentile = $currentLevelStatus['percentile'];
                 Log::channel("laravel")->info("Current Level Percentile:");
                 Log::channel("laravel")->info($currentLevelPercentile);

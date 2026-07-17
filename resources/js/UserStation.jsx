@@ -13,7 +13,13 @@ function Main(station){
             <Station stationId = {stationId}/>
             <UpdatedAt stationId = {stationId} />
             <CurrentWeather stationId = {stationId} />
-            
+            <Graph stationId = {stationId} />
+            <Stats stationId = {stationId} />
+            <Predictions stationId = {stationId} />
+            <StationMessage stationId={stationId} />
+            <Weather stationId = {stationId} />
+            <Readings stationId = {stationId} />
+            <Footer />
         </div>
     )
 }
@@ -349,8 +355,8 @@ function Graph({ stationId }){
             <div className='forecast'>
                 <div className='tabs'>
                     <span style={{backgroundColor:backgroundColor[0]}} onClick={() => {setImageUrl('../images/future/' + stationId + '_temperature.png'); setBackgroundColor(["#3F76B8","#9FC2FB","#9FC2FB"]);}}>Temperature</span>
-                    <span style={{backgroundColor:backgroundColor[1]}} onClick={() => {setImageUrl('../images/future/' + stationId + '_precipitation.png'); updateBackgroundColor();setBackgroundColor(["#9FC2FB","#3F76B8","#9FC2FB"]);}}>Precipitation</span>
-                    <span style={{backgroundColor:backgroundColor[2]}} onClick={() => {setImageUrl('../images/future/' + stationId + '_wind_speed.png'); updateBackgroundColor();setBackgroundColor(["#9FC2FB","#9FC2FB","#3F76B8"]);}}>Wind Speed</span>
+                    <span style={{backgroundColor:backgroundColor[1]}} onClick={() => {setImageUrl('../images/future/' + stationId + '_precipitation.png'); setBackgroundColor();setBackgroundColor(["#9FC2FB","#3F76B8","#9FC2FB"]);}}>Precipitation</span>
+                    <span style={{backgroundColor:backgroundColor[2]}} onClick={() => {setImageUrl('../images/future/' + stationId + '_wind_speed.png'); setBackgroundColor();setBackgroundColor(["#9FC2FB","#9FC2FB","#3F76B8"]);}}>Wind Speed</span>
                 </div>
                 <div className='image'>
                     <img src={imageUrl} alt=''/>
@@ -553,10 +559,16 @@ function StationMessage({ stationId }){
     console.log("Messages:");
     console.log(message);
     return (
-    <div class='stationMessage'>
-        {
-            message.message
-        }
+    <div id='stationMessage'>
+       <div id='title'>
+            <div>
+                <img src='../images/user/stationMessage.png' alt=''/>
+            </div>
+            <div>
+                Station Message (AI Message):
+            </div>
+       </div>
+       <div id='message'>{message.message}</div>
     </div>
     )
 }

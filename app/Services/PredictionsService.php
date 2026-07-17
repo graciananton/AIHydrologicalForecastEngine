@@ -31,8 +31,6 @@ class PredictionsService
         if ($params['limit'] !== null) {
             $query->limit($params['limit']);
         }
-        Log::channel("laravel")->info("Query");
-        Log::channel("laravel")->info($query->toSql());
 
         return $query->get()->toArray();
     }
