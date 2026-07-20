@@ -245,7 +245,7 @@ function Station({stationId}){
                 <img src='../images/user/station.png' alt='' />
             </div>
             <div id='title'>Station:</div> 
-            <div id='name'>{capitalizeFirstLetter(station.name)}</div>
+            <div id='name'><a target="_blank" href={station.link}>{capitalizeFirstLetter(station.name)}</a></div>
             <div id='id'>ID: {station.stationId}</div>
         </div>
     )
@@ -561,14 +561,11 @@ function StationMessage({ stationId }){
     return (
     <div id='stationMessage'>
        <div id='title'>
-            <div>
-                <img src='../images/user/stationMessage.png' alt=''/>
-            </div>
-            <div>
-                Station Message (AI Message):
-            </div>
+            Station Message:
        </div>
-       <div id='message'>{message.message}</div>
+       <div id='message'>
+        {message.message}
+        </div>
     </div>
     )
 }
