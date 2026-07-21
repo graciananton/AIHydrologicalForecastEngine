@@ -1,23 +1,44 @@
-.home header{
+.map-stations{
     display:flex;
+    width:100%;
+    flex-direction:row;
+    border:1px solid black;
+    height:50%;
 }
-.home header figure{
-    flex-basis:30%;
-    border:0px solid red;
+#map { 
+    border:1px solid black;
+    flex:1.5;
+    height:100%;
+    margin:0 auto;
 }
-.home header nav{
+.station {
     display:flex;
-    flex-basis:70%;
-    border:0px solid red;
-    justify-content:flex-end;
-    align-items:center;
+    flex-direction:column;
+    /*gap:clamp(6px, 2vh, 10px);*/
+    height:100%;
+    padding:clamp(6px, 2vh, 10px);
+    border:3px solid green;
+    flex:1;
+    overflow:scroll;
+    justify-content: stretch;
 }
-.home header nav ul{
-   display:flex;
-   gap:10px;
+.station > * {
+    border:1px solid red;
 }
-.home header nav ul li{
-    display:inline;
-    font-size:1.1rem;
-    padding:10px;
+.name{
+    font-weight:bold;
+    font-size:clamp(8px, 1vw, 20px);
+    flex-grow:1;
+}
+.description{
+    font-style:italic;
+    flex-grow:2;
+}
+.view .signup{
+    flex-grow:1;
+    border:1px solid red;
+}
+.view a, .signup a{
+    border-radius:4px;
+    background-color:#2D84CB;
 }

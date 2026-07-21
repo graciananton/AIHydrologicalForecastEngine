@@ -48,3 +48,6 @@ Route::get('/statuses_sync',[StatusController::class,'sync'])->middleware('auth'
 
 #->middleware('auth')
 
+Route::get('/home', function(){
+    return view('home');
+});
