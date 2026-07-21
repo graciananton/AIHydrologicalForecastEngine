@@ -40,9 +40,11 @@ export default function Home(){
 
             stations.forEach((station) => {
                 var marker = L.marker([station.latitude,station.longitude]).addTo(map);
+                marker.bindPopup("");
                 
                 marker.on("click", function(e){
                     map.invalidateSize();
+
 
                     setStation(station);
                     console.log('Click action performed');
@@ -53,18 +55,24 @@ export default function Home(){
                     console.log(bounds);
 
                     const boundOptions = {
-                        duration: 0.1,
+                        duration: 0.35,
                         easeLinearity: 0.1,
-                        paddingTopLeft: [50, 50],
-                        paddingBottomRight: [50, 50]
+                        paddingTopLeft: [50, 275],
+                        paddingBottomRight: [275, 50]
                     };
                     console.log("updated map");
                     const updatedMap = map.flyToBounds(bounds, boundOptions);
                     console.log(updatedMap);
 
-                    marker.bindPopup(format(station.name)).openPopup();
-                });
 
+                    marker.bindPopup(
+                        "<strong>" + format(station.name) + "</strong><br/><br/> " + "<img src='../images/stations/rideau.png'/>",{
+                            autoPanPaddingTopLeft:[15,15],
+                            autoPanPaddingBottomRight:[80,80],
+                        }
+                    ).openPopup();
+
+                });
             })
             
         }
@@ -88,8 +96,8 @@ export default function Home(){
             (   <div className='station'>
                     <div className='name'>{station.name}</div>
                     <div className='description'>{station.description}</div>
-                    <div className='view'><a href='laravel/userStation'>View Station</a></div>
-                    <div className='signup'><a href='laravel/login'>Signup</a></div>
+                    <div className='view'><a href='../public/userStation' target="_blank">View Station Dashboard</a></div>
+                    <div className='signup'><a href='../public/login' target="_blank">Login/Signup</a></div>
                 </div>
             ) :
             (

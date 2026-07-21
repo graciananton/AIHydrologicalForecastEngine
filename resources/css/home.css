@@ -14,31 +14,32 @@
 .station {
     display:flex;
     flex-direction:column;
-    /*gap:clamp(6px, 2vh, 10px);*/
+    gap:clamp(10px, 12px, 12px);
     height:100%;
     padding:clamp(6px, 2vh, 10px);
-    border:3px solid green;
+    border:0px solid green;
     flex:1;
     overflow:scroll;
     justify-content: stretch;
 }
-.station > * {
-    border:1px solid red;
+.station > *{
+    border:0px solid red;
 }
 .name{
     font-weight:bold;
-    font-size:clamp(8px, 1vw, 20px);
+    font-size:clamp(16px, 16px, 20px);
     flex-grow:1;
 }
 .description{
     font-style:italic;
     flex-grow:2;
 }
-.view .signup{
+.view, .signup{
     flex-grow:1;
-    border:1px solid red;
+    border:0px solid red;
 }
 .view a, .signup a{
     border-radius:4px;
     background-color:#2D84CB;
+    padding:7px 7px 7px 7px;
 }
