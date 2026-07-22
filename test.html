@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Ottawa River Hydrometric Station Maps</title>
+
+    <link rel="stylesheet" href="css/style.css">
+
+    <!-- Font Awesome -->
+    <link
+        rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
+    >
+
+    <!-- Google Font -->
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"
+        rel="stylesheet"
+    >
+</head>
+
+<body>
+
+<!-- ========================================= -->
+<!-- NAVBAR -->
+<!-- ========================================= -->
+
+<header>
+
+    <nav class="navbar">
+
+        <div class="logo">
+
+            <img src="images/logo.png" alt="Logo">
+
+            <div class="logo-text">
+                <h2>OTTAWA RIVER</h2>
+                <span>HYDROMETRIC STATION MAPS</span>
+            </div>
+
+        </div>
+
+        <ul class="nav-links">
+
+            <li><a class="active" href="#">Home</a></li>
+
+            <li><a href="#">Stations</a></li>
+
+            <li><a href="#">Data & Forecasts</a></li>
+
+            <li><a href="#">About</a></li>
+
+            <li><a href="#">Resources</a></li>
+
+            <li><a href="#">Contact</a></li>
+
+        </ul>
+
+        <a href="#" class="login-button">
+
+            <i class="fa-regular fa-user"></i>
+
+            Login / Signup
+
+        </a>
+
+    </nav>
+
+</header>
+
+
+<!-- ========================================= -->
+<!-- HERO -->
+<!-- ========================================= -->
+
+<section class="hero">
+
+    <div class="hero-slider">
+
+        <div class="slide active">
+
+            <img src="images/hero1.jpg" alt="">
+
+        </div>
+
+        <div class="slide">
+
+            <img src="images/hero2.jpg" alt="">
+
+        </div>
+
+        <div class="slide">
+
+            <img src="images/hero3.jpg" alt="">
+
+        </div>
+
+    </div>
+
+
+    <div class="hero-overlay">
+
+        <h1>Ottawa River</h1>
+
+        <h2>Hydrometric Station Maps</h2>
+
+        <p>
+
+            Explore real-time water levels, flows,
+            and forecasts at hydrometric stations
+            along the Ottawa River.
+
+        </p>
+
+        <a href="#" class="hero-button">
+
+            <i class="fa-regular fa-map"></i>
+
+            Explore Stations on Map
+
+        </a>
+
+    </div>
+
+
+    <button class="slider-arrow previous">
+
+        <i class="fa-solid fa-chevron-left"></i>
+
+    </button>
+
+    <button class="slider-arrow next">
+
+        <i class="fa-solid fa-chevron-right"></i>
+
+    </button>
+
+
+    <div class="slider-dots">
+
+        <span class="dot active"></span>
+
+        <span class="dot"></span>
+
+        <span class="dot"></span>
+
+    </div>
+
+</section>
+
+
+<!-- ========================================= -->
+<!-- MAIN CONTENT -->
+<!-- ========================================= -->
+
+<main>
+
+    <section class="landing-content">
+
+
+        <!-- LEFT SIDE -->
+
+        <div class="map-container">
+
+            <div id="map"></div>
+
+        </div>
+
+
+        <!-- RIGHT SIDE -->
+
+        <aside class="information-card">
+
+            <div class="card-header">
+
+                <i class="fa-solid fa-droplet"></i>
+
+                <h2>Ottawa River Station Maps</h2>
+
+            </div>
+
+            <hr>
+
+            <div class="card-item">
+
+                <i class="fa-solid fa-location-dot"></i>
+
+                <p>
+
+                    The map displays the geographical
+                    location of hydrometric stations
+                    along the Ottawa River.
+
+                </p>
+
+            </div>
+
+            <div class="card-item">
+
+                <i class="fa-solid fa-map-pin"></i>
+
+                <p>
+
+                    Click a station to view the
+                    station name, description,
+                    and related information.
+
+                </p>
+
+            </div>
+
+            <div class="card-item">
+
+                <i class="fa-solid fa-chart-line"></i>
+
+                <p>
+
+                    Access real-time observations,
+                    historical records,
+                    and forecast information.
+
+                </p>
+
+            </div>
+
+            <hr>
+
+            <a href="#" class="methodology-button">
+
+                <i class="fa-solid fa-chart-column"></i>
+
+                View Methodology
+
+            </a>
+
+            <a href="#" class="login-outline-button">
+
+                <i class="fa-regular fa-user"></i>
+
+                Login / Signup
+
+            </a>
+
+        </aside>
+
+    </section>
+
+</main>
+
+
+<!-- ========================================= -->
+<!-- FOOTER -->
+<!-- ========================================= -->
+
+<footer>
+
+    <div class="footer-left">
+
+        <div class="footer-logo">
+
+            <i class="fa-solid fa-water"></i>
+
+            <div>
+
+                <h3>
+
+                    Ottawa River Hydrometric Station Maps
+
+                </h3>
+
+                <p>
+
+                    Reliable data.
+                    Informed decisions.
+                    Safer communities.
+
+                </p>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <div class="footer-center">
+
+        © 2026 Ottawa River Hydrometric Station Maps
+
+        <br>
+
+        All rights reserved.
+
+    </div>
+
+
+    <div class="footer-right">
+
+        <a href="#">
+
+            <i class="fa-regular fa-book-open"></i>
+
+            Privacy Policy
+
+        </a>
+
+        <a href="#">
+            <i class="fa-solid fa-shield-halved"></i>
+            Terms of Use
+        </a>
+
+        <a href="#">
+            <i class="fa-regular fa-envelope"></i>
+            Contact Us
+        </a>
+
+    </div>
+
+</footer>
+
+<script src="js/script.js"></script>
+
+</body>
+</html>

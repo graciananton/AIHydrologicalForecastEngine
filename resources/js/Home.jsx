@@ -38,8 +38,8 @@ function Banner(){
             console.log("setting index"+String(index));
             setIndex((index + 1) % images.length);
         }, 3000);
-    }, [index])
-
+    }, [index]);
+    
     return (
         <div className='banner'>
             <img src={images[index]} alt={index}/>
