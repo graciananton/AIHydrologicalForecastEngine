@@ -3,6 +3,14 @@ import "../css/home.css";
 import { useRef, useEffect, useState} from 'react'
 
 export default function Home(){
+    return (
+        <div className='home'>
+            <Map />
+        </div>
+    )
+}
+
+function Map(){
     const map = useRef(null);
     const [station, setStation] = useState({});
     
@@ -24,12 +32,12 @@ export default function Home(){
 
             const mapCenter = bounds.getCenter(); 
             
-            var map = L.map('map').setView(mapCenter, 13);
+            var map = L.map('map').setView(mapCenter, 19);
             
             map.current = map
 
             L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
-                maxZoom: 13,
+                maxZoom: 19,
                 attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
             }).addTo(map);
 
@@ -57,8 +65,8 @@ export default function Home(){
                     const boundOptions = {
                         duration: 0.35,
                         easeLinearity: 0.1,
-                        paddingTopLeft: [50, 275],
-                        paddingBottomRight: [275, 50]
+                        paddingTopLeft: [50, 475],
+                        paddingBottomRight: [50, 275]
                     };
                     console.log("updated map");
                     const updatedMap = map.flyToBounds(bounds, boundOptions);
@@ -80,12 +88,6 @@ export default function Home(){
         processStations();
     },[])
 
-    let name = "";
-    let description = "";
-
-    console.log("Station:");
-    console.log(station);
-
     return (
         <div className='map-stations'>
             <div id='map' ref={map}>
@@ -101,19 +103,29 @@ export default function Home(){
                 </div>
             ) :
             (
-                <></>
+                <div className='station'>
+                    <div className='name'>Ottawa River Station Maps</div>
+                    <div className='description'>
+                        <ol>
+                            <li>1. The map to the left displays the geographical location of hydrometric stations along the Ottawa River</li>
+                            <li>2. By clicking on the station, you can view the station name, description, and related links</li>
+                            <li>3. Access real-time data, forecasts, and messages by using the supported links</li>
+                        </ol>
+                    </div>
+                    <div className='view'><a href='../public/methodology' target="_blank">View Methodology</a></div>
+                    <div className='signup'><a href='../public/login' target="_blank">Login/Signup</a></div>
+                </div>
             )
             }
         </div>
     )
 }
-
 function format(string){
     let stringList = string.split(" ");
-    for(let i = 0;i < stringList.length;i++){
+    for(let i = 0; i < stringList.length; i++){
         let wordList = stringList[i].split("");
         let word = "";
-        for(let j = 0;j<wordList.length;j++){
+        for(let j = 0; j<wordList.length; j++){
             if(j > 0){
                 word += wordList[j].toLowerCase();
             }

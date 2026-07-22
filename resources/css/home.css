@@ -1,12 +1,17 @@
+.home{
+    display:flex;
+    flex-direction:column;
+    gap:0px;
+}
 .map-stations{
     display:flex;
     width:100%;
     flex-direction:row;
-    border:1px solid black;
+    border:3px solid black;
     height:50%;
 }
 #map { 
-    border:1px solid black;
+    border:0px solid green;
     flex:1.5;
     height:100%;
     margin:0 auto;
@@ -18,12 +23,9 @@
     height:100%;
     padding:clamp(6px, 2vh, 10px);
     border:0px solid green;
-    flex:1;
+    flex:1.5;
     overflow:scroll;
     justify-content: stretch;
-}
-.station > *{
-    border:0px solid red;
 }
 .name{
     font-weight:bold;
@@ -31,7 +33,7 @@
     flex-grow:1;
 }
 .description{
-    font-style:italic;
+    font-style:normal;
     flex-grow:2;
 }
 .view, .signup{

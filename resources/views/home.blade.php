@@ -17,7 +17,7 @@
         crossorigin=""
     ></script>
     
-    <title>AI Forecast Engine - Login</title>
+    <title>AI Forecast Engine</title>
 </head>
 <body>
     <script>
