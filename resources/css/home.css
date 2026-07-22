@@ -1,14 +1,62 @@
 .home{
+    border:1px solid red;
+    height:100%;
+    width:100%;
     display:flex;
     flex-direction:column;
-    gap:0px;
+}
+.home > *{
+    border:1px solid red;
 }
 .map-stations{
     display:flex;
     width:100%;
     flex-direction:row;
-    border:3px solid black;
-    height:50%;
+    border:0px solid black;
+    flex:1;
+}
+.banner{
+    flex:1;
+    overflow:hidden;
+}
+.menu, .footer{
+    flex:0.40
+}
+.menu{
+    display:flex;
+    flex-direction:row;
+    border:0px solid red;
+    background-image: linear-gradient(to bottom left, rgba(84, 153, 199, 0.95) , rgba(220, 227, 229, 0.95));
+}
+.menu .logo{
+    flex:0.4;
+}
+img{
+    width:100%;
+    height:auto;
+}
+.menu .links{
+    border:0px solid red;
+    flex:1;
+    display:flex;
+    flex-direction:row;
+    justify-content:flex-end;
+    align-items:center;
+    padding-right:clamp(20px, 3vw, 25px);
+    gap:clamp(20px, 3vw, 25px);
+}
+.menu .links span a{
+    font-weight:600;
+    color:black;
+    font-size:clamp(0.875rem, 1vw + 0.5rem, 1.125rem);
+    text-wrap:nowrap;
+}
+.menu .links span a:hover{
+    padding-bottom:clamp(1px, 1vh, 2px);
+    padding-left:4px;
+    padding-right:4px;
+    border-bottom:2px solid black;
+    font-weight:600;
 }
 #map { 
     border:0px solid green;

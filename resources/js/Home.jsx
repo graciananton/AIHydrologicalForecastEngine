@@ -5,8 +5,50 @@ import { useRef, useEffect, useState} from 'react'
 export default function Home(){
     return (
         <div className='home'>
+            <Menu />
+            <Banner />
             <Map />
+            <Footer />
         </div>
+    )
+}
+function Menu(){
+    return (
+        <div className='menu'>
+            <div className = 'logo'>
+                <img src='../images/loo.png' alt=''/>
+            </div>
+            <div className = 'links'>
+                <span><a>Home</a></span>
+                <span><a>Methodology</a></span>
+                <span><a>Login/Signup</a></span>
+            </div>
+        </div>
+    )
+}
+function Banner(){
+    let dir = '../images/banner/';
+    let images = [dir + 'slide1.png', dir + 'slide2.png', dir + 'slide3.png'];
+
+    const [index, setIndex] = useState(0)
+
+    useEffect(() => {
+        console.log("calling useEffect");
+        setTimeout(function(){
+            console.log("setting index"+String(index));
+            setIndex((index + 1) % images.length);
+        }, 3000);
+    }, [index])
+
+    return (
+        <div className='banner'>
+            <img src={images[index]} alt={index}/>
+        </div>
+    )
+}
+function Footer(){
+    return (
+        <div className='footer'></div>
     )
 }
 
