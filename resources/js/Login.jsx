@@ -5,8 +5,15 @@ import { useState, useEffect } from "react";
 export default function Login({ data }){
     console.log(data);
     return (
-        <div className='page' style={{border:"1px solid black", display:"flex", justifyContent:"center", alignItems:"center"}}>
+        <div className='page' style={{border:"1px solid black"}}>
             <div className='card'>
+                <div className='logo'>
+                    <img src='../images/logo.png'/>
+                    <div className='text'>
+                        <h2>OTTAWA RIVER</h2>
+                        <span><a href='https://gracian.ca/laravel/public'>HYDROMETRIC STATION MAPS</a></span>
+                    </div>
+                </div>
                 <div className='title'>Login</div>
                 {data.error && (
                     <div className='error'>{data.error}</div>
