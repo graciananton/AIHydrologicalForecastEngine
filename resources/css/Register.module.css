@@ -1,4 +1,9 @@
-
+.page{
+    border:1px solid red;
+    height:100%;
+    display:flex;
+    flex-direction:row;
+}
 .card{
     flex-basis:40%;
     display:flex;

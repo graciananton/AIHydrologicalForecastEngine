@@ -15,8 +15,8 @@
     height:120vh;
     width:100vw;
     display:flex;
-    justify-content:center;
     flex-direction:row;
+    justify-content:center;
     align-items:center;
     border:0px solid orange;
     background-color:white;

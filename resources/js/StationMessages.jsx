@@ -3,8 +3,6 @@ import '../css/StationMessages.module.css';
 import { useState, useEffect } from "react";
 
 export default function StationMessages({ data }){
-    console.log("StationMessages data:");
-    console.log(data);
     return (
         <div className='page'>
             <div className='title'>

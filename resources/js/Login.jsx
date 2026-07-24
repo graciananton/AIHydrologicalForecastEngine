@@ -3,8 +3,6 @@ import '../css/Register.module.css';
 import { useState, useEffect } from "react";
 
 export default function Login({ data }){
-    console.log("Login - .jsx");
-    console.log(data);
     return (
         <div className='page'>
             <div className='card'>
