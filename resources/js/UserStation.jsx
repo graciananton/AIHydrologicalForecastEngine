@@ -531,7 +531,7 @@ function Stats({ stationId }){
                                     ? 
                                     (Math.round(stats[key]*10000)/10000 + " m.")
                                     : 
-                                    stats[key]
+                                    stats[key].slice(0,16)
                                 }
                                 </span>
                             </li>

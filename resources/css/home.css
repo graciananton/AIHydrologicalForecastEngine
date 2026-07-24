@@ -1,3 +1,376 @@
+/* These are the default variables for the entire page */
+:root{
+
+    --primary:#1B67D1;
+    --primary-dark:#0E53B7;
+
+    --secondary:#4FA3E3;
+
+    --light-blue:#EDF5FC;
+
+    --text:#1F2E46;
+
+    --white:#FFFFFF;
+
+    --border:#D9E5F1;
+
+    --shadow:
+        0 12px 30px rgba(0,0,0,.12);
+
+    --transition:
+        .30s ease;
+
+    --radius:
+        18px;
+
+}
+
+*{
+
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+
+}
+
+html{
+    scroll-behavior:smooth;
+}
+
+body{
+    font-family:'Inter',sans-serif;
+    background:#F4F8FC;
+    color:var(--text);
+   /* overflow-x:hidden; */
+    overflow-x:none; 
+}
+
+img{
+
+    display:block;
+    width:100%;
+    height:auto;
+}
+
+a{
+
+    text-decoration:none;
+
+}
+
+ul{
+
+    list-style:none;
+
+}
+/* End of default variables */
+
+.home{
+    height:100%;
+    width:80%;
+    display:flex;
+    flex-direction:column;
+    border:0px solid red;
+}
+/* Header - Navbar */
+header{
+    position:sticky;
+    top:0;
+    width:100%;
+    z-index:1001;
+    flex:1.5;  
+}
+
+.navbar{
+
+    height:100%;
+
+    display:flex;
+
+    flex-direction:row;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+    gap:20px;
+
+    border:0px solid red;
+
+    /*padding-bottom: clamp(5px, 6px, 7px);
+    padding-top: clamp(5px, 6px, 7px);*/
+
+    background:
+    white;
+
+    box-shadow:
+        0 5px 18px rgba(0,0,0,.12);
+
+}
+@media (max-width: 600px) {
+    .navbar{
+        display:flex;
+        flex-direction:column;
+        justify-content:space-evenly;
+        height:100%;
+    }
+}
+@media (max-width:1272px){
+    img{
+        width:100%;
+        height:100%;
+    }
+}
+
+.navbar > *{
+    border:0px solid green;
+}
+.logo{
+    display:flex;
+    flex-direction:row;
+    align-items:center;
+    border:0px solid red;
+    gap:10px;
+    padding-left:5px;
+    padding-right:5px;
+    margin-left:20px;
+}
+.logo img{
+    width:35px;
+}
+.logo .text{
+    display:flex;
+    flex-direction:column;
+}
+.logo h2{
+
+    font-size:22px;
+
+    color:black;
+
+    letter-spacing:1px;
+
+    font-weight:bold;
+
+}
+
+.logo span{
+
+    color:var(--primary);
+
+    font-size:13px;
+
+    font-weight:600;
+
+    letter-spacing:1px;
+
+}
+
+.nav-links{
+    display:flex;
+    flex-direction:row;
+    gap:clamp(1px, 20px, 24px);
+    padding-right:clamp(1px, 20px, 24px);
+    padding-bottom:clamp(2px, 2vh, 9px);
+}
+.nav-links li:not(:last-child){
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+}
+.nav-links li:last-child{
+    padding:7px 7px 7px 7px;
+    background:
+
+    linear-gradient(
+        135deg,
+        #2E7BFF,
+        #0B59D7
+    );
+    font-size:clamp(18px, 18px, 18px);
+    border-radius:18px;
+    padding-right:clamp(8px, 12px, 12px);
+}
+i{
+    padding-right:10px;
+    padding-left:10px;
+    color:white;
+}
+.nav-links li:last-child a{
+    color:white;
+}
+.nav-links li a{
+
+    position:relative;
+
+    color:#23426E;
+
+    font-size:clamp(12px, 14px, 16px);
+
+    font-weight:600;
+
+    transition:var(--transition);
+
+}
+
+.nav-links a:hover{
+
+    color:var(--primary);
+
+}
+
+.nav-links a.active{
+
+    color:var(--primary);
+
+}
+
+.nav-links a.active::after{
+
+    content:"";
+
+    position:absolute;
+
+    bottom:-10px;
+    left:0;
+
+    width:100%;
+
+    height:3px;
+
+    border-radius:10px;
+
+    background:var(--primary);
+
+}
+
+.banner{
+    flex:4.5;
+    overflow-y:hidden;
+    height:100%;
+    border-bottom:0px solid black;
+}
+
+.map-stations{
+    display:flex;
+    width:100%;
+    flex-direction:row;
+    border-bottom:1px solid black;
+    padding:15px 15px 30px 15px;
+    flex:5;
+    overflow-y:hidden;
+    height:100%;
+    gap:15px;
+    background-color:#F4F8FC;
+}
+#map { 
+    border:0px solid green;
+    flex:2.5;
+    height:100%;
+    margin:0 auto;
+    border-radius:12px;
+}
+.station {
+    display:flex;
+    flex-direction:column;
+    gap:clamp(10px, 12px, 12px);
+    height:100%;
+    padding:clamp(6px, 2vh, 10px);
+    border:0px solid green;
+    flex:1.5;
+    overflow:scroll;
+    justify-content: stretch;
+    background-color: white;;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    border-radius:12px;
+}
+.name{
+    font-weight:bold;
+    font-size:clamp(16px, 16px, 20px);
+    flex-grow:1;
+}
+.description{
+    font-style:normal;
+    flex-grow:2;
+    font-size:clamp(12px, 12px, 18px);
+}
+.view, .signup{
+    flex-grow:1;
+    text-align:center;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    border-radius:12px;
+    background:
+
+        linear-gradient(
+            135deg,
+            #2E7BFF,
+            #0C5BD8
+        );
+
+    color:white;
+
+    font-weight:650;
+
+    font-size:17px;
+
+    box-shadow:
+
+        0 12px 25px
+        rgba(27,103,209,.25);
+    padding:7px 7px 7px 7px;
+    width:100%;
+    margin:0 auto;
+}
+
+
+.view a, .signup a{
+    font-size:clamp(8px, 13px, 16px);
+}
+
+
+
+footer{
+    flex:1;
+    padding:
+        35px
+        40px;
+
+    background:
+        linear-gradient(
+            to right,
+            #123B72,
+            #0E4F95
+        );
+
+    color:white;
+
+    display:flex;
+
+    flex-direction:row;
+
+    justify-content:space-between;
+
+    align-items:flex-start;
+
+    gap:clamp(5px, 5vw, 40px);
+}
+
+.footer-right{
+    display:flex;
+    flex-direction:row;
+    gap:5px;
+    font-size:clamp(14px, 15px, 16px);
+}
+p{
+    font-size:clamp(12px, 13px, 14px);
+}
+
+/* End of Header - Navbar */
+
+/* Beginning of my code */
+/*
 .home{
     border:1px solid red;
     height:100%;

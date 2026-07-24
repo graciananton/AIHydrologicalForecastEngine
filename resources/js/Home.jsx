@@ -12,23 +12,43 @@ export default function Home(){
         </div>
     )
 }
+
 function Menu(){
     return (
-        <div className='menu'>
-            <div className = 'logo'>
-                <img src='../images/loo.png' alt=''/>
-            </div>
-            <div className = 'links'>
-                <span><a>Home</a></span>
-                <span><a>Methodology</a></span>
-                <span><a>Login/Signup</a></span>
-            </div>
-        </div>
+        <header>
+            <nav className="navbar">
+
+                <div className="logo">
+                    <img src='../images/logo.png'/>
+                    <div className='text'>
+                        <h2>OTTAWA RIVER</h2>
+                        <span><a href='https://gracian.ca/laravel/public'>HYDROMETRIC STATION MAPS</a></span>
+                    </div>
+                </div>
+
+                <ul className="nav-links">
+
+                    <li><a className="active" href="#">Home</a></li>
+
+                    <li><a href="#">Methodology</a></li>
+                    <li>              
+                        <i class="fa-regular fa-user"></i>
+  
+                        <a href="#" class="login-button">
+                            Login / Signup
+                        </a>
+                    </li>
+                </ul>
+
+            </nav>
+
+        </header>
+
     )
 }
 function Banner(){
     let dir = '../images/banner/';
-    let images = [dir + 'slide1.png', dir + 'slide2.png', dir + 'slide3.png'];
+    let images = [dir + 'slides1.png', dir + 'slides2.png'];
 
     const [index, setIndex] = useState(0)
 
@@ -41,14 +61,44 @@ function Banner(){
     }, [index]);
     
     return (
-        <div className='banner'>
-            <img src={images[index]} alt={index}/>
-        </div>
+        <section className='banner'>
+                {<img src={images[index]} alt={index}/>}
+        </section>
     )
 }
 function Footer(){
     return (
-        <div className='footer'></div>
+        <footer className='footer'>
+            <div class="footer-left">
+                <div class="footer-logo">
+                    <div>
+                        <h3>
+                            Ottawa River Hydrometric Station Maps
+                        </h3>
+                        <p>
+                            Reliable data.
+                            Informed decisions.
+                            Safer communities.
+                        </p>
+                        <br/>
+                        <p>©2026 Ottawa River Hydrometric Station Maps. All rights reserved</p>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-right">
+                <a href="#">
+                    <i class="fa-regular fa-book-open"></i>Privacy Policy
+                </a>
+                <a href="#">
+                    <i class="fa-solid fa-shield-halved"></i>
+                    Terms of Use
+                </a>
+                <a href="#">
+                   <i class="fa-regular fa-envelope"></i>
+                    Contact Us
+                </a>
+            </div>
+        </footer>
     )
 }
 
@@ -140,8 +190,14 @@ function Map(){
             (   <div className='station'>
                     <div className='name'>{station.name}</div>
                     <div className='description'>{station.description}</div>
-                    <div className='view'><a href='../public/userStation' target="_blank">View Station Dashboard</a></div>
-                    <div className='signup'><a href='../public/login' target="_blank">Login/Signup</a></div>
+                    <div className='view'>
+                        <i class="fa-solid fa-chart-column"></i>
+                        <a href='../public/userDashboard' target='_blank'>View Station Dashboard</a>
+                    </div>
+                    <div className='signup' style={{backgroundColor:"white"}}>
+                        <i class="fa-regular fa-user"></i>
+                        <a href='../public/login' target="_blank">Login/Signup</a>
+                    </div>
                 </div>
             ) :
             (
@@ -154,8 +210,13 @@ function Map(){
                             <li>3. Access real-time data, forecasts, and messages by using the supported links</li>
                         </ol>
                     </div>
-                    <div className='view'><a href='../public/methodology' target="_blank">View Methodology</a></div>
-                    <div className='signup'><a href='../public/login' target="_blank">Login/Signup</a></div>
+                    <div className='view'>                     
+                        <i class="fa-solid fa-chart-column"></i>
+                        <a href='../public/methodology' target="_blank">View Methodology</a></div>
+                    <div className='signup'>         
+                        <i class="fa-regular fa-user"></i>
+                        <a href='../public/login' target="_blank">Login/Signup </a>
+                    </div>
                 </div>
             )
             }
