@@ -1,5 +1,5 @@
 import React from "react";
-import '../css/StationMessages.css';
+import '../css/StationMessages.module.css';
 import { useState, useEffect } from "react";
 
 export default function StationMessages({ data }){

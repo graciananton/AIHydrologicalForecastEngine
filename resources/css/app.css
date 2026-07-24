@@ -22,7 +22,7 @@
     background-color:white;
 }
 #mainPage > *{
-    width:80%;
+    flex-basis:80%;
 }
 
 .logo{

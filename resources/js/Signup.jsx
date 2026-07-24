@@ -1,5 +1,5 @@
 import React from "react";
-import '../css/Login.css';
+import '../css/Register.module.css';
 import { useState, useEffect } from "react";
 
 export default function Signup({ data }){

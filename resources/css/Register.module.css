@@ -1,12 +1,4 @@
-.page{
-    height:100%;
-    width:100%;
-    display:flex;
-    flex-direction:row;
-    justify-content:center;
-    align-items:center;
-    border:10px solid green;
-}
+
 .card{
     flex-basis:40%;
     display:flex;

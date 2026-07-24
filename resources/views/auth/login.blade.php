@@ -20,6 +20,7 @@
     <script>
         console.log('script login blade page');
         const data = JSON.parse(@json($data));
+        console.log("Data");
         console.log(data);
 
         window.__REACT_DATA__ = data;

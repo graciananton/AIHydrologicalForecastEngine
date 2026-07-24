@@ -1,11 +1,12 @@
 import React from "react";
-import '../css/Login.css';
+import '../css/Register.module.css';
 import { useState, useEffect } from "react";
 
 export default function Login({ data }){
+    console.log("Login - .jsx");
     console.log(data);
     return (
-        <div className='page' style={{border:"1px solid black"}}>
+        <div className='page'>
             <div className='card'>
                 <div className='logo'>
                     <img src='../images/logo.png'/>
