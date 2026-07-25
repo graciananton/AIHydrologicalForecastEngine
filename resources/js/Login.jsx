@@ -1,5 +1,5 @@
 import React from "react";
-import '../css/Register.module.css';
+import '../css/Register.css';
 import { useState, useEffect } from "react";
 
 export default function Login({ data }){
