@@ -1,57 +1,43 @@
-#verification_page{
-    width:100%;
+/*
+.verification{
+    border:0px solid black;
+    display:flex;
+    justify-content:center;
+    align-items:center;
     height:100%;
+    width:100%;
+}
+.form{
+    border:0px solid black;
     display:flex;
     justify-content:center;
-    align-items:center;
-    border:0px solid red;
-}
-#verification_page #verification_form{
-    display:flex;
     flex-direction:column;
-    border:1px solid black;
-    padding-top:10px;
-    padding-bottom:10px;
-    padding-left:10px;
-    padding-right:10px;
-    width:35%;
-    height:40%;
+    width:50%;
+    background-color:#F4F8FC;
+    border-radius:1rem;
 }
-
-#verification_page #verification_form > div{
-    /*border:1px solid red;*/
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    flex:1;
+.form > * {
+    border:0px solid red;
     text-align:center;
 }
-#verification_page #verification_form #title{
-    font-weight:600;
-    font-size:1.4rem;
-}
-#verification_page #verification_form #error{
-    color:red;
-    font-size:0.8rem;
-}
-#verification_page #verification_form #boxes{
+.boxes{
     display:flex;
     flex-direction:row;
-    flex-wrap: nowrap;
-    justify-content:space-around;
+    width:100%;
     border:0px solid red;
-    height:23%;
+    height:50px;
 }
-#verification_page #verification_form #boxes #box{
-    width:12%;
+.boxes > .box{
+    border:0px solid green;
+    min-width:0;
+    flex:1;
     height:100%;
-    border:1px solid black;
-    border-radius:15%;
 }
-#verification_page #verification_form #boxes #box input{
+.boxes > .box input{
     width:100%;
     height:100%;
     text-align:center;
-    border-radius:15%;
-    font-size:1.4rem;
+    line-height:50px;
+    border:1px solid black;
 }
+

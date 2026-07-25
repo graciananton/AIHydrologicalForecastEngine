@@ -1,5 +1,6 @@
 import React from "react";
 import { createRoot } from "react-dom/client";
+import VerificationMessage from "./VerificationMessage";
 import Login  from "./Login";
 import Workflow from "./Workflow";
 import Header from "./Header";
@@ -8,7 +9,6 @@ import VerificationCode from "./VerificationCode";
 import UserStation from "./UserStation";
 import Home from "./Home";
 import Signup from "./Signup";
-import VerificationMessage from "./VerificationMessage";
 import { useState, useEffect } from "react";
 import "../css/app.css";
 

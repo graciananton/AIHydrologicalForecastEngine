@@ -19,39 +19,43 @@ function distributeCode(e, index, boxes, setBoxes){
 export default function VerificationCode({ data }){
     console.log(data);
     const [boxes, setBoxes] = useState(['','','','','','']);
-    return (    
-        <form id='form' action='/laravel/public/verificationCodeSubmit' method='POST' style={{width:"100%", height:"100%"}}>
-            <div id='verification_page'>
-                <div id='verification_form'>
-                        <input type="hidden" name="_token" value={document.querySelector('meta[name="csrf-token"]').getAttribute("content")}/>
-                        <div id='title'>Enter verification code</div>
-                        {
-                        (data.error) && 
-                        (<div id='error'>{ data.error }</div>)
-                        }
-                        <div id='explanation'>
-                            A verification code has been sent to:
-                            <br/>
-                            {data.email}
-                        </div>
-                        <div id='boxes'>
-                            <input type='hidden' name='email' value={data.email}/>
-                            {
-                                boxes.map((value,index) => {
-                                    return (
-                                    <div id="box" key={`box${index+1}`}>
-                                        <input type='text' name={`box${index+1}`} id={`box${index+1}`} value={value} maxLength={6} onChange={(e) => distributeCode(e, index, boxes, setBoxes)}/>
-                                    </div>
-                                    )
-                                })
-                            }
-                        </div>
-                        <div id='submit'>
-                            <input type='submit' value='Submit' name='submit'/>
+    return (  
+        <div class='page' id='verificationCode'>
+            
+            <form class='card' action='/laravel/public/verificationCodeSubmit' method='POST'>
+                <div className="logo">
+                        <img src='../images/logo.png'/>
+                        <div className='text'>
+                            <h2>OTTAWA RIVER</h2>
+                            <span><a href='https://gracian.ca/laravel/public'>HYDROMETRIC STATION MAPS</a></span>
                         </div>
                 </div>
-            </div>
-        </form>
+                <input type="hidden" name="_token" value={document.querySelector('meta[name="csrf-token"]').getAttribute("content")}/>
+                <div class='title'>Enter verification code</div>
+                {
+                (data.error) && 
+                (<div class='error'>{ data.error }</div>)
+                }
+                <div class='explanation'>
+                    A verification code has been sent to:
+                    <br/>
+                    {data.email}
+                </div>
+                <div class='boxes'>
+                    <input type='hidden' name='email' value={data.email}/>
+                    {
+                        boxes.map((value,index) => {
+                            return (
+                            <div class="box" key={`box${index+1}`}>
+                                <input type='text' name={`box${index+1}`} class={`box${index+1}`} value={value} maxLength={6} onChange={(e) => distributeCode(e, index, boxes, setBoxes)}/>
+                            </div>
+                            )
+                        })
+                    }
+                </div>
+                <button type='submit' value='Submit' name='submit'>Submit</button>
+            </form>
+        </div>  
     )
 }
 

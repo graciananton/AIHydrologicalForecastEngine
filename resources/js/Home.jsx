@@ -30,11 +30,11 @@ function Menu(){
 
                     <li><a className="active" href="#">Home</a></li>
 
-                    <li><a href="#">Methodology</a></li>
+                    <li><a href="../public/methodology" target="_blank">Methodology</a></li>
                     <li>              
                         <i class="fa-regular fa-user"></i>
   
-                        <a href="#" class="login-button">
+                        <a target="_blank" href="../public/login" class="login-button">
                             Login / Signup
                         </a>
                     </li>
