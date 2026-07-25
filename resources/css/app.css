@@ -45,7 +45,7 @@
 }
 .logo h2{
 
-    font-size:22px;
+    font-size:clamp(12px, 22px, 30px);
 
     color:black;
 
@@ -59,10 +59,34 @@
 
     color:var(--primary);
 
-    font-size:13px;
+    font-size:clamp(8px, 12px, 14px);
 
     font-weight:600;
 
     letter-spacing:1px;
+
+}
+
+button{
+    background:
+    linear-gradient(
+        135deg,
+        #2E7BFF,
+        #0B59D7
+    );
+    font-size:clamp(18px, 18px, 18px);
+    border-radius:18px;
+    padding-right:clamp(8px, 12px, 12px);
+    
+    font-weight:650;
+
+    font-size:17px;
+
+    box-shadow:
+        0 12px 25px
+        rgba(27,103,209,.25);
+    padding:7px 7px 7px 7px;
+    width:100%;
+    color:white;
 
 }

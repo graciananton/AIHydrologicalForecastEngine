@@ -5,7 +5,7 @@
         'resources/css/app.css',
         'resources/js/app.jsx'
     ])
-    <title>AI Forecast Engine - Station Id</title>
+    <title>AI Forecast Engine - Signup</title>
 </head>
 <body>
     <?php

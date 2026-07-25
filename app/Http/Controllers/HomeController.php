@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 use Illuminate\Http\Request;
-use App\Services\LevelService;
+use App\Services\HomeService;
 use App\Services\Formatter\ResponseFormatter;
 
 class HomeController extends Controller

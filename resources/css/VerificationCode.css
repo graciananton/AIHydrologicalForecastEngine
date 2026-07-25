@@ -4,7 +4,7 @@
     display:flex;
     justify-content:center;
     align-items:center;
-    border:1px solid red;
+    border:0px solid red;
 }
 #verification_page #verification_form{
     display:flex;

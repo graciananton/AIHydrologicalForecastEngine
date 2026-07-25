@@ -10,7 +10,7 @@ export default function Login({ data }){
                     <img src='../images/logo.png'/>
                     <div className='text'>
                         <h2>OTTAWA RIVER</h2>
-                        <span><a href='https://gracian.ca/laravel/public'>HYDROMETRIC STATION MAPS</a></span>
+                        <span><a href='/laravel/public'>HYDROMETRIC STATION MAPS</a></span>
                     </div>
                 </div>
                 <div className='title'>Login</div>
