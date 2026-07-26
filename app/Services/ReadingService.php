@@ -30,7 +30,7 @@ class ReadingService
 
                 try{
                     // need to make this more efficient by just inserting, updating does nothing
-                    $model = $query->updateOrCreate(
+                    /*$model = $query->updateOrCreate(
                         # checks duplicate unique values
                         [
                             'stationId'  => $record['STATION_NUMBER'],
@@ -41,7 +41,7 @@ class ReadingService
                             'level' => $record['LEVEL'],
                         ]
                         # or inserts with 'stationId', 'measuredAt', 'level'
-                    );
+                    );*/
 
                     $model = Readings::firstOrCreate(
                         [

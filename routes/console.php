@@ -5,7 +5,7 @@ use Illuminate\Support\Facades\Log;
 Log::channel("weather")->info("Console readings");
 
 Schedule::command('weather:scheduler')->hourly()->withoutOverlapping();
-Schedule::command('reading:scheduler')->everyMinute()->withoutOverlapping();
+Schedule::command('reading:scheduler')->hourly()->withoutOverlapping(expiresAt: 30);
 Schedule::command('status:scheduler')->monthly()->withoutOverlapping();
 
 
