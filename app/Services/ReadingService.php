@@ -43,9 +43,15 @@ class ReadingService
                         # or inserts with 'stationId', 'measuredAt', 'level'
                     );
 
-                    $model = Readings::create(['stationId' => $record['STATION_NUMBER'], 'measuredAt' => $record['DATETIME'], 'level' => $record['LEVEL']])
-                            ->where(['measuredAt', '!=', $record['measuredAt']],
-                                    ['stationId','!=', $record['stationId']]);
+                    $model = Readings::firstOrCreate(
+                        [
+                            'stationId' => $record['STATION_NUMBER'],
+                            'measuredAt' => $record['DATETIME'],
+                        ],
+                        [
+                            'level' => $record['LEVEL'],
+                        ]
+                    );
                     
 
                     //if(!$model->wasRecentlyCreated){
