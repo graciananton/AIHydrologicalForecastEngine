@@ -45,8 +45,7 @@ class ReadingService
 
                     $model = Readings::create(['stationId' => $record['STATION_NUMBER'], 'measuredAt' => $record['DATETIME'], 'level' => $record['LEVEL']])
                             ->where(['measuredAt', '!=', $record['measuredAt']],
-                                    ['stationId','!=', $record['stationId']],
-                                    );
+                                    ['stationId','!=', $record['stationId']]);
                     
 
                     //if(!$model->wasRecentlyCreated){
