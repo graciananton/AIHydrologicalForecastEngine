@@ -11,7 +11,7 @@ class ReadingService
     public function sync(){
         $query = Station::query();
         $stations = $query->get()->toArray();
-        $query = Reading::query();
+        //$query = Reading::query();
         $stationCounter = 0;
         for($i=0;$i<count($stations);$i++){
             $stationId = $stations[$i]['stationId'];
@@ -42,6 +42,13 @@ class ReadingService
                         ]
                         # or inserts with 'stationId', 'measuredAt', 'level'
                     );
+
+                    $model = Readings::create(['stationId' => $record['STATION_NUMBER'], 'measuredAt' => $record['DATETIME'], 'level' => $record['LEVEL']])
+                            ->where(['measuredAt', '!=', $record['measuredAt']],
+                                    ['stationId','!=', $record['stationId']],
+                                    );
+                    
+
                     //if(!$model->wasRecentlyCreated){
                     //   break;
                     //}
