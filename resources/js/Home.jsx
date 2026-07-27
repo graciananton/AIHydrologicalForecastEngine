@@ -123,7 +123,9 @@ function Map(){
             console.log(bounds);
 
             const mapCenter = bounds.getCenter(); 
-            
+            console.log("Map center: ");
+            console.log(mapCenter);
+
             var map = L.map('map').setView(mapCenter, 19);
             
             map.current = map
@@ -137,14 +139,14 @@ function Map(){
                 padding: [35,35] 
             });
 
+            const markerGroup = L.layerGroup().addTo(map);
 
             stations.forEach((station) => {
-                var marker = L.marker([station.latitude,station.longitude]).addTo(map);
+                var marker = L.marker([station.latitude,station.longitude]).addTo(markerGroup);
                 marker.bindPopup("");
                 
                 marker.on("click", function(e){
                     map.invalidateSize();
-
 
                     setStation(station);
                     console.log('Click action performed');
@@ -174,9 +176,48 @@ function Map(){
 
                 });
             })
-            
+
+            const Reset = L.Control.extend({
+                options: {
+                    position: 'topleft'
+                },
+
+                onAdd: function (map) {
+                    const reset = L.DomUtil.create('div', 'reset');
+                    reset.innerHTML = '<button>Reset</button>';
+
+                    L.DomEvent.on(reset, 'click', function (event) {
+                        console.log("Button clicked");
+
+                        L.DomEvent.stopPropagation(event);
+                        
+                        console.log("Map center: ");
+
+                        console.log(mapCenter);
+
+                        markerGroup.eachLayer(function (layer) {
+                            if (layer instanceof L.Marker) {
+                                layer.closePopup();             
+                            }
+                        });
+
+                        map.setView(mapCenter, 19);
+                        map.fitBounds(stationCoordinates, {
+                            padding: [35,35] 
+                        });
+                        
+
+                    });
+                
+                    return reset;
+                }
+
+            });
+
+            map.addControl(new Reset());
         }
 
+        
         processStations();
     },[])
 
