@@ -9,6 +9,7 @@ import VerificationCode from "./VerificationCode";
 import UserStation from "./UserStation";
 import Home from "./Home";
 import Signup from "./Signup";
+import Register from "./Register";
 import { useState, useEffect } from "react";
 import "../css/app.css";
 

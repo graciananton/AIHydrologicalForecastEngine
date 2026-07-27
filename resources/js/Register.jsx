@@ -14,17 +14,22 @@ export default function Register({ data }){
                     </div>
                 </div>
                 <div className='title'>Register</div>
-                {data.error && (
-                    <div className='error'>{data.error}</div>
-                )
-                }
-                <form method="POST" className='form' action={`/laravel/public/loginSubmit`}>
+                <form method="POST" className='form' action={`/laravel/public/registerSubmit`}>
                     <input type="hidden" name="_token" value={document.querySelector('meta[name="csrf-token"]').getAttribute("content")}/>
                     <div className='form-group'>
-                        <label htmlFor='Email'>Email:</label><br/>
-                        <input type='email' id='email' name='email' defaultValue = {data.email ?? ""} required/>
+                        <p>Choose registeration method based on current signup status.</p>
+                        <div class='options'>
+                            <span>
+                                <input type='radio' name='option' value='login'/>
+                                <label for='login'>Login</label>
+                            </span>
+                            <span>
+                                <input type='radio' name='option' value='signup'/>
+                                <label for='signup'>Signup</label>
+                            </span>
+                        </div>
                     </div>
-                    <button type='submit'>Submit</button>
+                    <button type='submit'>Continue</button>
                 </form>
             </div>
         </div>
