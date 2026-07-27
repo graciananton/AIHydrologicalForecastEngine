@@ -42,6 +42,9 @@ Route::get('/weather_sync',[WeatherController::class,'sync'])->middleware('auth'
 
 Route::get('/readings_sync',[ReadingsController::class,'sync'])->middleware('auth');
 
+Route::get('/register', function(){
+    return view('auth.register');
+});
 #Route::get('/delete_records',[StatusController::class,'deleteRecords'])->middleware('auth');
 
 Route::get('/statuses_sync',[StatusController::class,'sync'])->middleware('auth');
