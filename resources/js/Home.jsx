@@ -94,7 +94,7 @@ function Footer(){
                     <i class="fa-solid fa-shield-halved"></i>
                     Terms of Use
                 </a>
-                <a href="GracianAnton@cmail.carleton.ca">
+                <a href="gracian.anton@gmail.com">
                    <i class="fa-regular fa-envelope"></i>
                     Contact Us
                 </a>
