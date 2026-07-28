@@ -86,8 +86,9 @@ function Footer(){
                 </div>
             </div>
             <div class="footer-right">
-                <a href="#">
-                    <i class="fa-regular fa-book-open"></i>Privacy Policy
+                <a href="/termsofuse.html">
+                    <i class="fa-regular fa-book-open"></i>
+                    Privacy Policy
                 </a>
                 <a href="#">
                     <i class="fa-solid fa-shield-halved"></i>
