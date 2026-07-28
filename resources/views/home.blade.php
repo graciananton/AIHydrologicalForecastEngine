@@ -30,8 +30,9 @@
 </head>
 <body>
     <script>
+
     window.__REACT_DATA__ = @json([
-                        'request'  => 'home'
+                        'request'  => $request
                     ]);
     </script>
     <div id="react-root"></div>

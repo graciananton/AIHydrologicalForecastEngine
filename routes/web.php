@@ -65,5 +65,13 @@ Route::get('/statuses_sync',[StatusController::class,'sync'])->middleware('auth'
 #->middleware('auth')
 
 Route::get('/home', function(){
-    return view('home');
+    return view('home', ['request' => 'home']);
+});
+
+Route::get('/privacyPolicy', function(){
+    return view('home', ['request' => 'privacyPolicy']);
+});
+
+Route::get('/termsOfUse', function(){
+    return view('home', ['request' => 'termsOfUse']);
 });

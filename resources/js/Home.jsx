@@ -2,17 +2,26 @@ import React from "react";
 import "../css/home.css";
 import { useRef, useEffect, useState} from 'react'
 
-export default function Home(){
+export default function Home({ data }){
     return (
         <div className='home'>
             <Menu />
             <Banner />
-            <Map />
+            {
+                (data.request == "home" && <Map />) ||
+                (data.request == "privacyPolicy" && <PrivacyPolicy />) || 
+                (data.request == "termsOfUse" && <TermsOfUse />)
+            }
             <Footer />
         </div>
     )
 }
-
+function PrivacyPolicy(){
+    return <></>
+}
+function TermsOfUse(){
+    return <></>
+}
 function Menu(){
     return (
         <header>
@@ -116,6 +125,7 @@ function findMessageInStationMessages(stationMessages, stationId){
 function Map(){
     const map = useRef(null);
     const [station, setStation] = useState({});
+    const [stationMessages, setStationMessages] = useState([]);
 
     useEffect(() => {
         async function processStations(){
@@ -133,19 +143,15 @@ function Map(){
             const result = await fetch("https://gracian.ca/laravel/public/api/stationMessage?order=desc&limit=10000");
 
             const messages = await result.json();
-            console.log(messages);
 
             const stationMessages = [];
-            console.log("station Ids");
-            console.log(stationIds);
-            console.log(messages);
 
             let stationIdsCopy = await [...stationIds]
-
+            
             let index = 0;
-            while(stationIdsCopy){
-                console.log(messages[index]);
-                
+            console.log(stationIdsCopy);
+
+            while(stationIdsCopy.length > 0 && index < messages.length){
                 if(stationIdsCopy.includes(messages[index].stationId)){
                     stationMessages.push({
                         'stationId': messages[index].stationId,
@@ -153,12 +159,18 @@ function Map(){
                     });
                     
                     let indexOfStation = stationIdsCopy.indexOf(messages[index].stationId);
-                    stationIdsCopy = stationIdsCopy.slice(indexOfStation);
+
+                    let firstHalf = stationIdsCopy.slice(0,indexOfStation);
+                    let secondHalf = stationIdsCopy.slice(indexOfStation+1, stationIdsCopy.length);
+
+                    stationIdsCopy = firstHalf.concat(secondHalf);
+
                 }
                 index ++
             }
-
-
+            console.log("STation Messages --");
+            console.log(stationMessages);
+            setStationMessages(stationMessages);
 
             const bounds = L.latLngBounds(stationCoordinates);
 
@@ -209,10 +221,9 @@ function Map(){
                     const updatedMap = map.flyToBounds(bounds, boundOptions);
                     console.log(updatedMap);
                     
-                    const message = findMessageInStationMessages(stationMessages, station.stationId);
 
                     marker.bindPopup(
-                        "<strong>" + format(station.name) + "</strong><br/>" + message ,{
+                        "<strong>" + format(station.name) + "</strong><br/>",{
                             autoPanPaddingTopLeft:[15,15],
                             autoPanPaddingBottomRight:[80,80],
                         }
@@ -274,7 +285,7 @@ function Map(){
             Object.keys(station).length > 0  ?
             (   <div className='station'>
                     <div className='name'>{station.name}</div>
-                    <div className='description'>{station.description}</div>
+                    <div className='description'><span>Prediction Summary:</span> <br/>{findMessageInStationMessages(stationMessages, station.stationId)}</div>
                     <div className='view'>
                         <i class="fa-solid fa-chart-column"></i>
                         <a href='../public/userDashboard' target='_blank'>View Station Dashboard</a>

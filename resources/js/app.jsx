@@ -19,7 +19,7 @@ export default function App() {
 
   return (
     <div id='mainPage'>
-      {req == "home" && <Home />}
+      {(req == "home" || req == "privacyPolicy" || req == "termsOfUse") && <Home data={data}/>}
       {req === 'workflow' && <Workflow /> }
       {req == "login" && <Login data={data} />}
       {req == "dashboard" && <Dashboard />}
