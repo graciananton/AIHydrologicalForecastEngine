@@ -26,7 +26,7 @@
         rel="stylesheet"
     >
 
-    <title>AI Forecast Engine</title>
+    <title>AI Forecast Engine - Home</title>
 </head>
 <body>
     <script>

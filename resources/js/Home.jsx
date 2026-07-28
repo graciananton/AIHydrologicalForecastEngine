@@ -34,7 +34,7 @@ function Menu(){
                     <li>              
                         <i class="fa-regular fa-user"></i>
   
-                        <a target="_blank" href="../public/login" class="login-button">
+                        <a target="_blank" href="../public/register" class="login-button">
                             Login / Signup
                         </a>
                     </li>
@@ -237,7 +237,7 @@ function Map(){
                     </div>
                     <div className='signup' style={{backgroundColor:"white"}}>
                         <i class="fa-regular fa-user"></i>
-                        <a href='../public/login' target="_blank">Login/Signup</a>
+                        <a href='../public/register' target="_blank">Login/Signup</a>
                     </div>
                 </div>
             ) :
@@ -256,7 +256,7 @@ function Map(){
                         <a href='../public/methodology' target="_blank">View Methodology</a></div>
                     <div className='signup'>         
                         <i class="fa-regular fa-user"></i>
-                        <a href='../public/login' target="_blank">Login/Signup </a>
+                        <a href='../public/register' target="_blank">Login/Signup </a>
                     </div>
                 </div>
             )

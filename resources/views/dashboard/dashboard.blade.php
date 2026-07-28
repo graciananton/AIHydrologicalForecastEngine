@@ -1,5 +1,6 @@
 <!doctype html>
 <html>
+<title>AI Forecast Engine - Dashboard</title>
 <head>
     @vite([
         'resources/css/app.css',

@@ -1,5 +1,7 @@
 <!doctype html>
 <html>
+<title>AI Forecast Engine - Workflow</title>
+
 <head>
     @vite([
         'resources/css/app.css',

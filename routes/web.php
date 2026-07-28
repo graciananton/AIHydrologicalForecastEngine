@@ -46,7 +46,7 @@ Route::get('/readings_sync',[ReadingsController::class,'sync'])->middleware('aut
 Route::get('/register', function(){
     return view('auth.register');
 });
-Route::get('/registerSubmit', [RegisterController::class,'process']);
+Route::post('/registerSubmit', [RegisterController::class,'process']);
 
 #Route::get('/delete_records',[StatusController::class,'deleteRecords'])->middleware('auth');
 

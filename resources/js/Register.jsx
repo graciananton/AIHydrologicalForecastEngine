@@ -3,6 +3,8 @@ import '../css/Register.css';
 import { useState, useEffect } from "react";
 
 export default function Register({ data }){
+    console.log("Data");
+    console.log(data);
     return (
         <div className='page'>
             <div className='card'>
@@ -14,6 +16,10 @@ export default function Register({ data }){
                     </div>
                 </div>
                 <div className='title'>Register</div>
+                {data.error && (
+                    <div className='error'>{data.error}</div>
+                )}
+
                 <form method="POST" className='form' action={`/laravel/public/registerSubmit`}>
                     <input type="hidden" name="_token" value={document.querySelector('meta[name="csrf-token"]').getAttribute("content")}/>
                     <div className='form-group'>
