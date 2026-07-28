@@ -103,20 +103,62 @@ function Footer(){
     )
 }
 
+function findMessageInStationMessages(stationMessages, stationId){
+    for(let i = 0;i < stationMessages.length;i++){
+        let stationMessage = stationMessages[i]
+        if(stationId == stationMessage.stationId){
+            return stationMessage.message
+        }
+    }
+
+    return "Station Message not found";
+}
 function Map(){
     const map = useRef(null);
     const [station, setStation] = useState({});
-    
+
     useEffect(() => {
         async function processStations(){
             const data = await fetch('https://gracian.ca/laravel/public/api/stations');
             const stations = await data.json();
             
+            const stationIds = [];
             const stationCoordinates = []
 
             stations.forEach((station) => {
+                stationIds.push(station.stationId);
                 stationCoordinates.push([station.latitude, station.longitude])
             }, []);
+
+            const result = await fetch("https://gracian.ca/laravel/public/api/stationMessage?order=desc&limit=10000");
+
+            const messages = await result.json();
+            console.log(messages);
+
+            const stationMessages = [];
+            console.log("station Ids");
+            console.log(stationIds);
+            console.log(messages);
+
+            let stationIdsCopy = await [...stationIds]
+
+            let index = 0;
+            while(stationIdsCopy){
+                console.log(messages[index]);
+                
+                if(stationIdsCopy.includes(messages[index].stationId)){
+                    stationMessages.push({
+                        'stationId': messages[index].stationId,
+                        'message': messages[index].message
+                    });
+                    
+                    let indexOfStation = stationIdsCopy.indexOf(messages[index].stationId);
+                    stationIdsCopy = stationIdsCopy.slice(indexOfStation);
+                }
+                index ++
+            }
+
+
 
             const bounds = L.latLngBounds(stationCoordinates);
 
@@ -166,10 +208,11 @@ function Map(){
                     console.log("updated map");
                     const updatedMap = map.flyToBounds(bounds, boundOptions);
                     console.log(updatedMap);
-
+                    
+                    const message = findMessageInStationMessages(stationMessages, station.stationId);
 
                     marker.bindPopup(
-                        "<strong>" + format(station.name) + "</strong><br/><br/> " + "<img src='../images/stations/rideau.png'/>",{
+                        "<strong>" + format(station.name) + "</strong><br/>" + message ,{
                             autoPanPaddingTopLeft:[15,15],
                             autoPanPaddingBottomRight:[80,80],
                         }
