@@ -86,15 +86,15 @@ function Footer(){
                 </div>
             </div>
             <div class="footer-right">
-                <a href="/termsofuse.html">
+                <a href="/laravel/public/privacyPolicy" target="_blank">
                     <i class="fa-regular fa-book-open"></i>
                     Privacy Policy
                 </a>
-                <a href="#">
+                <a href="/laravel/public/termsOfUse" target="_blank">
                     <i class="fa-solid fa-shield-halved"></i>
                     Terms of Use
                 </a>
-                <a href="#">
+                <a href="GracianAnton@cmail.carleton.ca">
                    <i class="fa-regular fa-envelope"></i>
                     Contact Us
                 </a>
