@@ -16,12 +16,6 @@ export default function Home({ data }){
         </div>
     )
 }
-function PrivacyPolicy(){
-    return <></>
-}
-function TermsOfUse(){
-    return <></>
-}
 function Menu(){
     return (
         <header>
@@ -37,7 +31,7 @@ function Menu(){
 
                 <ul className="nav-links">
 
-                    <li><a className="active" href="#">Home</a></li>
+                    <li><a className="active" href="/home">Home</a></li>
 
                     <li><a href="../public/methodology" target="_blank">Methodology</a></li>
                     <li>              
@@ -95,11 +89,11 @@ function Footer(){
                 </div>
             </div>
             <div class="footer-right">
-                <a href="/laravel/public/privacyPolicy" target="_blank">
+                <a href="/laravel/public/privacyPolicy">
                     <i class="fa-regular fa-book-open"></i>
                     Privacy Policy
                 </a>
-                <a href="/laravel/public/termsOfUse" target="_blank">
+                <a href="/laravel/public/termsOfUse">
                     <i class="fa-solid fa-shield-halved"></i>
                     Terms of Use
                 </a>
@@ -336,4 +330,64 @@ function format(string){
     }
     console.log(stringList.join(" "));
     return stringList.join(" ");
+}
+
+function PrivacyPolicy(){
+    return (
+        <div className='map-stations'>
+            <h3>
+                Privacy Notice
+                <p>
+                    <strong>Owner:</strong> Gracian Anton<br/>
+                    <strong>Website:</strong> AI Forecast Engine
+                </p>
+            </h3>
+            This website may collect information including the following: 
+            <ul>
+                <li>IP address</li>
+                <li>Email address</li>
+                <li>Device Cookies</li>
+                <li>Other Device Fingerprints</li>
+            </ul>
+            This website will not collect the following information:
+            <ul>
+                <li>Passwords</li>
+                <li>One-time verification codes</li>
+                <li>Confidential legal information</li>
+            </ul>
+            <p>
+                <b>Email:</b> <a href="mailto:gracian.anton@gmail.com">gracian.anton@gmail.com</a>
+            </p>
+        </div>
+    );
+}
+function TermsOfUse(){
+    return (
+        <div className='map-stations'>
+            <h3>
+                Privacy Notice
+                <p>
+                    <strong>Owner:</strong> Gracian Anton<br/>
+                    <strong>Website:</strong> AI Forecast Engine
+                </p>
+            </h3>
+            The website enhances user experience via a system assistant chatbot. The chatbot can also signup/login users to
+            individual accounts using agentic tool calling. The following include data that the website owner and/or external applications may
+            collect.
+            <ul>
+                <li>Collection of user chats/responses to train, test, and fine-tune algorithms</li>
+                <li>Agentic tool use</li>
+            </ul>
+            Users have the right to the following:
+            <ul>
+                <li>Delete information on their accounts</li>
+                <li>Logout of existing accounts</li>
+                <li>Contact system support for any technical challenges and/or errors in website</li>
+            </ul>
+            <p>
+                <b>Email:</b> <a href="mailto:gracian.anton@gmail.com">gracian.anton@gmail.com</a>
+            </p>
+
+        </div>
+    )
 }
