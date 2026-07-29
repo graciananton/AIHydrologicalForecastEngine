@@ -23,30 +23,14 @@ class ChatQuery():
         self.tools = [
             # each of these are functions
             {
-                # description: "facilitate the user into the account by asking them for station id and email address"
-                # the user must submit both the email address and the station id on one line
                 "type": "function",
                 "name": "get_user_details",
                 "description": "This function begins the signup process for a user by asking the user for basic details about their prospective account. This should be the first function that is used when a user wants to create an account on the website",
             },
-            """
-            {   
-                # description: "extract and format the station id and email address the user just submitted"
-                "type": "function",
-                "name": "extract_user_details",
-                "description": "This function extracts the station id and the email address the user just submitted and formats it",
-                "parameters": {
-                    "type": "object",
-                    "properties": {
-                        ""
-                    }
-                }
-            },
-            """
             {
                 "type": "function",
                 "name": "send_otp",
-                "description": "This function sends the otp verification code to the user using the email address",
+                "description": "This function sends the otp verification code to the user using the email address and the station id the user submitted",
                 "parameters": {
                     "type": "object",
                     "properties": {
@@ -54,12 +38,12 @@ class ChatQuery():
                             "type": "string",
                             "description": "user email address input",
                         },
-                        "station_id": {
+                        "stationId": {
                             "type": "string",
                             "description": "user station id input"
                         }
                     },
-                    "required": ["email", "station_id"]
+                    "required": ["email", "stationId"]
                 },
             },
             {
@@ -88,6 +72,9 @@ class ChatQuery():
                 },
             }
         ]
+
+    def get_user_details(self):
+        return "To create an account, enter you email address and your preferred station id. Make sure to enter both details on one line (not separately)."
 
     def generate_response(self, query):
         messages = [
@@ -167,25 +154,17 @@ class ChatQuery():
                     "content": tool_outputs[0]['output']
                 })
 
-            print(messages)
+           # print(messages)
             pprint(messages[-1])
 
             query = input("->")
             messages.append({"role": "user", "content": query})
 
-
-    def choose_option(self, data:dict)->str:
-        if data['option'] == "login":
-            return "Enter your email address"
-        elif data['option'] == "signup":
-            return "Enter you email address"
-        else:
-            return "Invalid option selected, try again"
         
     def send_otp(self,data:dict)->str:
         self.session = requests.Session()
 
-        response = self.session.get("http://localhost/laravel/public/login")
+        response = self.session.get("http://localhost/laravel/public/signup")
 
         soup = BeautifulSoup(response.text, "html.parser")
 
@@ -200,26 +179,18 @@ class ChatQuery():
         }
 
         response = self.session.post(
-            "http://localhost/laravel/public/loginSubmit",
+            "http://localhost/laravel/public/signupSubmit",
             headers=headers,
             json = data
         )
+
         response = response.json()
 
-        if response['success'] == True and response['loggedIn'] == True:
-            return "You are logged in to system, to access your dashboard, click here: http://localhost/laravel/public/userStation"
-        elif response['success'] == True and response['loggedIn'] == False:
-            return "Your verification code was sent, enter it below"
-        
-        elif response['success'] == False and response['loggedIn'] == False and response['role'] == 'user':
-            return "Your verification code was sent, enter it below"
-        
-        elif response['success'] == False and response['loggedIn'] == False and response['role'] is None:
-            return "Invalid email address, re-enter correct email address below."
+        if response['success'] == False:
+            return response['error']
         else:
-            return "Verification Code unsuccessfully sent, enter email address again below."
-
-
+            return "Your verification code was sent, enter it below (expires in 15 minutes)"
+        
     def verify_otp(self,data:dict)->str:
         if self.session == None:
             return "You have not sent your email address yet, send email address then we can send a verification code"

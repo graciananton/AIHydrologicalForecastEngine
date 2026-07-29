@@ -95,7 +95,7 @@ class OtpMailService{
                             'success' => false,
                             'role' => $user->role,
                             'loggedIn' => false,
-                            'error' => 'Could not send otp'
+                            'error' => 'Could not send otp to your inbox. Try entering your email address again'
                         ];
                     }
 

@@ -21,11 +21,16 @@ class AuthController extends Controller
     }
     public function signupSubmit(Request $request, OtpMailService $otpMailService){
         $result = $otpMailService->handleSignup($request);
-        if($result->success){
-            return redirect('/verificationCode');
+        if($request->accept == "json"){
+            return $result;
         }
         else{
-            return redirect('/signup')->withInput()->with('error', $result->error);
+            if($result->success){
+                return redirect('/verificationCode');
+            }
+            else{
+                return redirect('/signup')->withInput()->with('error', $result->error);
+            }
         }
     }
     public function loginSubmit(Request $request, OtpMailService $otpMailService){
