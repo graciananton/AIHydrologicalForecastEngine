@@ -24,6 +24,21 @@ class ChatQuery():
             # each of these are functions
             {
                 "type": "function",
+                "name": "choose_option",
+                'description':"This function asks the user whether he wants to login or signup",
+                "parameters": {
+                    "type": "object",
+                    "properties": {
+                        "option": {
+                            "type": "string",
+                            "description": "user option: this can be either login or signup"
+                        }
+                    },
+                    "required": ["option"]
+                }
+            },
+            {
+                "type": "function",
                 "name": "send_otp",
                 "description": "This function sends the otp verification code to the user using the email address",
                 "parameters": {
@@ -92,7 +107,11 @@ class ChatQuery():
             tool_outputs = []
         
             for item in tool_calls:
-                if item.name == "send_otp":
+                if item.name == "choose_option":
+                    data = json.loads(item.arguments)
+                    result = self.choose_option(data)
+                
+                elif item.name == "send_otp":
                     data = json.loads(item.arguments)
                     data['accept'] = 'json'
                     result = self.send_otp(data)                        
@@ -148,6 +167,14 @@ class ChatQuery():
             messages.append({"role": "user", "content": query})
 
 
+    def choose_option(self, data:dict)->str:
+        if data['option'] == "login":
+            return "Enter your email address"
+        elif data['option'] == "signup":
+            return "Enter you email address"
+        else:
+            return "Invalid option selected, try again"
+        
     def send_otp(self,data:dict)->str:
         self.session = requests.Session()
 
