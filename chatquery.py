@@ -23,6 +23,27 @@ class ChatQuery():
         self.tools = [
             # each of these are functions
             {
+                # description: "facilitate the user into the account by asking them for station id and email address"
+                # the user must submit both the email address and the station id on one line
+                "type": "function",
+                "name": "get_user_details",
+                "description": "This function begins the signup process for a user by asking the user for basic details about their prospective account. This should be the first function that is used when a user wants to create an account on the website",
+            },
+            """
+            {   
+                # description: "extract and format the station id and email address the user just submitted"
+                "type": "function",
+                "name": "extract_user_details",
+                "description": "This function extracts the station id and the email address the user just submitted and formats it",
+                "parameters": {
+                    "type": "object",
+                    "properties": {
+                        ""
+                    }
+                }
+            },
+            """
+            {
                 "type": "function",
                 "name": "send_otp",
                 "description": "This function sends the otp verification code to the user using the email address",
@@ -32,9 +53,13 @@ class ChatQuery():
                         "email": {
                             "type": "string",
                             "description": "user email address input",
+                        },
+                        "station_id": {
+                            "type": "string",
+                            "description": "user station id input"
                         }
                     },
-                    "required": ["email"]
+                    "required": ["email", "station_id"]
                 },
             },
             {
@@ -187,7 +212,7 @@ class ChatQuery():
             return "Your verification code was sent, enter it below"
         
         elif response['success'] == False and response['loggedIn'] == False and response['role'] == 'user':
-            return "Enter your station id below (since you are creating an account for the first time)"
+            return "Your verification code was sent, enter it below"
         
         elif response['success'] == False and response['loggedIn'] == False and response['role'] is None:
             return "Invalid email address, re-enter correct email address below."
