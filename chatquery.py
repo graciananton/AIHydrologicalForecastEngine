@@ -182,11 +182,17 @@ class ChatQuery():
         response = response.json()
 
         if response['success'] == True and response['loggedIn'] == True:
-            return f"You are logged in to system, to access your dashboard, click here: http://localhost/laravel/public/userStation"
+            return "You are logged in to system, to access your dashboard, click here: http://localhost/laravel/public/userStation"
         elif response['success'] == True and response['loggedIn'] == False:
-            return f"Your verification code was sent, enter it below"
+            return "Your verification code was sent, enter it below"
+        
+        elif response['success'] == False and response['loggedIn'] == False and response['role'] == 'user':
+            return "Enter your station id below (since you are creating an account for the first time)"
+        
+        elif response['success'] == False and response['loggedIn'] == False and response['role'] is None:
+            return "Invalid email address, re-enter correct email address below."
         else:
-            return f"Verification Code unsuccessfully sent, enter email address again below."
+            return "Verification Code unsuccessfully sent, enter email address again below."
 
 
     def verify_otp(self,data:dict)->str:

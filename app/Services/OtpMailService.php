@@ -267,7 +267,7 @@ class OtpMailService{
                 Log::channel("laravel")->info("otp mail service: error");
                 return (object) [
                     'success' => false,
-                    'role' => null,
+                    'role' => 'user',
                     'loggedIn' => false,
                     'error' => "Account not yet created for ".$request->email. ", go to https://gracian.ca/laravel/public/signup in order to create account"
                 ];
@@ -331,7 +331,7 @@ class OtpMailService{
             # assume user if invalid email address
             return (object) [
                 'success' => false,
-                'role' => 'user',
+                'role' => null,
                 'loggedIn' => false,
                 'error' => "Incorrect email address"
             ];
