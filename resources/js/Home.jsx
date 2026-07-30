@@ -365,7 +365,7 @@ function TermsOfUse(){
     return (
         <div className='map-stations'>
             <h3>
-                Privacy Notice
+                Terms Of Use
                 <p>
                     <strong>Owner:</strong> Gracian Anton<br/>
                     <strong>Website:</strong> AI Forecast Engine
