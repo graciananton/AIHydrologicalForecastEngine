@@ -18,7 +18,7 @@ class UserStationController extends Controller
 
         $string = "";
         foreach($this->request as $key => $value){
-            $string .= $key ." => ". $value;
+            $string .= $key ." => ". $value."\n";
         }
         Log::channel('laravel')->info($string);
 
