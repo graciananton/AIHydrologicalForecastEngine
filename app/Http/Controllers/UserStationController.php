@@ -8,12 +8,19 @@ use App\Models\User;
 
 class UserStationController extends Controller
 {
+    private $request;
     public function __construct(Request $request){
-    
+        $this->request = $request;
     }
     public function process(UserStationService $userStationService){
         Log::channel("laravel")->info("prcocessing user station controller");
         $user = $userStationService->getUser(session('email'));
+
+        $string = "";
+        foreach($this->request as $key => $value){
+            $string .= $key ." => ". $value;
+        }
+        Log::channel('laravel')->info($string);
 
         Log::channel("laravel")->info(($user) ?  "user is defined" :  "User not defined");
         Log::channel("laravel")->info("STATION ID: ".$user->stationId);

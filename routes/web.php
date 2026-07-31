@@ -35,7 +35,9 @@ Route::get('/verificationMessage', [AuthController::class, 'verificationMessage'
 Route::get('/dashboard', [DashboardController::class, 'process'])->middleware('auth','admin');
 
 #Route::get('/userStation', [UserStationController::class,'process'])->middleware('auth');
-Route::get('/userStation', [UserStationController::class,'process']);
+#Route::get('/userStation', [UserStationController::class,'process']);
+Route::get('/userStation/{id?}', [UserStationController::class,'process'])->whereAlphaNumeric('id');
+
 
 Route::get('/stationMessages', [StationMessagesController::class,'process'])->middleware('auth');
 
