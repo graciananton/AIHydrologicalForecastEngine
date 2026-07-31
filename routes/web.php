@@ -75,3 +75,7 @@ Route::get('/privacyPolicy', function(){
 Route::get('/termsOfUse', function(){
     return view('home', ['request' => 'termsOfUse']);
 });
+
+Route::get('/methodology', function(){
+    return view('home', ['request' => 'methodology']);
+});

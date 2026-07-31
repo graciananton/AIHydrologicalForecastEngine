@@ -3,6 +3,7 @@ import "../css/home.css";
 import { useRef, useEffect, useState} from 'react'
 
 export default function Home({ data }){
+    console.log("inside home");
     return (
         <div className='home'>
             <Menu />
@@ -10,7 +11,8 @@ export default function Home({ data }){
             {
                 (data.request == "home" && <Map />) ||
                 (data.request == "privacyPolicy" && <PrivacyPolicy />) || 
-                (data.request == "termsOfUse" && <TermsOfUse />)
+                (data.request == "termsOfUse" && <TermsOfUse />) ||
+                (data.request == "methodology" && <Methodology />)
             }
             <Footer />
         </div>
@@ -25,19 +27,19 @@ function Menu(){
                     <img src='../images/logo.png'/>
                     <div className='text'>
                         <h2>OTTAWA RIVER</h2>
-                        <span><a href='https://gracian.ca/laravel/public'>HYDROMETRIC STATION MAPS</a></span>
+                        <span><a href='/laravel/public/home'>HYDROMETRIC STATION MAPS</a></span>
                     </div>
                 </div>
 
                 <ul className="nav-links">
 
-                    <li><a className="active" href="/home">Home</a></li>
+                    <li><a className="active" href="/laravel/public/home">Home</a></li>
 
-                    <li><a href="../public/methodology" target="_blank">Methodology</a></li>
+                    <li><a href="../public/methodology">Methodology</a></li>
                     <li>              
                         <i class="fa-regular fa-user"></i>
   
-                        <a target="_blank" href="../public/register" class="login-button">
+                        <a target="_blank" href="../public/register" className="login-button">
                             Login / Signup
                         </a>
                     </li>
@@ -72,8 +74,8 @@ function Banner(){
 function Footer(){
     return (
         <footer className='footer'>
-            <div class="footer-left">
-                <div class="footer-logo">
+            <div className="footer-left">
+                <div className="footer-logo">
                     <div>
                         <h3>
                             Ottawa River Hydrometric Station Maps
@@ -88,7 +90,7 @@ function Footer(){
                     </div>
                 </div>
             </div>
-            <div class="footer-right">
+            <div className="footer-right">
                 <a href="/laravel/public/privacyPolicy">
                     <i class="fa-regular fa-book-open"></i>
                     Privacy Policy
@@ -390,4 +392,7 @@ function TermsOfUse(){
 
         </div>
     )
+}
+function Methodology(){
+    return (<>Hello</>);
 }

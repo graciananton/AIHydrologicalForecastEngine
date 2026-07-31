@@ -30,7 +30,7 @@
 </head>
 <body>
     <script>
-
+    console.log("home.blade.php")
     window.__REACT_DATA__ = @json([
                         'request'  => $request
                     ]);
