@@ -9,27 +9,30 @@ use App\Models\User;
 class UserStationController extends Controller
 {
     private $request;
-    public function __construct(Request $request){
+    private $id;
+    public function __construct(UserStationService $userStationService, Request $request){
         $this->request = $request;
+        $this->id = $request->route('id', null);
     }
     public function process(UserStationService $userStationService){
-        Log::channel("laravel")->info("prcocessing user station controller");
-        $user = $userStationService->getUser(session('email'));
-
-        $string = "";
-        foreach($this->request as $key => $value){
-            $string .= $key ." => ". $value."\n";
+        if($this->id != null){
+            $stationId = $this->id;
         }
-        Log::channel('laravel')->info($string);
+        else if(session()->has('email')){ // this checks if email property exists and is not null
+            $user = $userStationService->getUser(session('email'));
+            $stationId = $user->stationId;
+        }
+        else{ // if the session is not set, then
+            $stationId = "02KF001";
+        }
 
-        Log::channel("laravel")->info(($user) ?  "user is defined" :  "User not defined");
-        Log::channel("laravel")->info("STATION ID: ".$user->stationId);
+        Log::channel("laravel")->info("STATION ID: ".$stationId);
 
         return view("user.station", 
             [
             'request' => 'userStation',
             'email' => session('email'),
-            'stationId' => ($user) ? $user->stationId : null
+            'stationId' => $stationId
             ]
         );
 

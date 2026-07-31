@@ -191,9 +191,27 @@ i{
 }
 /* I didn't set a flex for this since I want the height of the parent to equal the height of the image */
 .banner{
-    overflow-y:hidden;
     border-bottom:0px solid black;
     max-height:auto;
+}
+
+
+.methodology{
+    display:flex;
+    flex-direction:column;
+    gap:5px;
+    padding:15px 15px 30px 15px;
+    background-color:#F4F8FC;
+    border:0px solid red;
+    overflow:scroll;
+}
+.methodology > *:not(.title){
+    font-size: clamp(13px, 14px, 18px);
+}
+.methodology span{
+    font-size: clamp(19px, 22px, 25px);
+    font-weight:bold;
+    width:100%;
 }
 
 .map-stations{
@@ -203,7 +221,7 @@ i{
     border-bottom:1px solid black;
     padding:15px 15px 30px 15px;
     flex:5;
-    overflow-y:hidden;
+    overflow-y:scroll;
     height:100%;
     gap:15px;
     background-color:#F4F8FC;

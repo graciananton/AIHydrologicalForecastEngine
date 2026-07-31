@@ -284,7 +284,7 @@ function Map(){
                     <div className='description'><span>Prediction Summary:</span> <br/>{findMessageInStationMessages(stationMessages, station.stationId)}</div>
                     <div className='view'>
                         <i class="fa-solid fa-chart-column"></i>
-                        <a href='../public/userDashboard' target='_blank'>View Station Dashboard</a>
+                        <a href={'../public/userStation/'+ station.stationId} target='_blank'>View Station Dashboard</a>
                     </div>
                     <div className='signup' style={{backgroundColor:"white"}}>
                         <i class="fa-regular fa-user"></i>
@@ -394,5 +394,85 @@ function TermsOfUse(){
     )
 }
 function Methodology(){
-    return (<>Hello</>);
+    return (
+        <div className='methodology'>
+            <div className = 'title'>Hydrological Forecasting Engine Methodology (Machine Learning)</div>
+            <div className = 'goal'>
+                <div className='title'>Goal:</div>
+                The goal of the hydrological forecasting engine is to predict water levels along the Ottawa and Mississippi Rivers 
+                at hydrometric stations. The project was created due to a need by residentials in flooding-prone regions to access
+                accurate water level predictions during peak time periods. (i.e. early summary). 
+            </div>
+            <div className = 'training'>
+                <div className='title'>Training:</div>
+                This project utilized multiple regression to predict water levels; that is, many predictors were used to predict a 
+                single target variable.
+                <ul>
+                    <li><b>Dependent Variable: </b> water level (m)</li>
+                    <ul>
+                        <b>Independent Variables: </b> Temperature, Precipitation (Rain, Snow, etc), Wind Speed, Presure
+                    </ul>
+                </ul>
+
+                The model would be trained using past weather data (independent variables) and past water levels (dependent variable). 
+                It would then predict future water levels (up to 48 hours) using predicted weather data.
+            </div>
+            <div className = 'apis'>
+                <div className='title'>Data Collection:</div>
+                This project utilizes time-series processing, that is, the data is dynamically collected at certain defininte time intervals.
+                Due to this constraint, we utilized two real-time APIs, the Open Meteo API(<a href='https://open-meteo.com/'>https://open-meteo.com/</a>) from OpenMeteo GmbH
+                and the GeoMet-OGC-API (<a href='https://api.weather.gc.ca/'>https://api.weather.gc.ca/</a>) from Environment and Climate Change Canada. The Open-Meteo API
+                provides weather data predictions up to 167 hours into the future at 1 hour intervals. The GeoMet-OGC-API provides
+                past water levels at hydrometric stations with 5 minute intervals. Because of the varying time intervals, the data had to 
+                be sychronized to appear in the same time intervals. This was accomplished by taking an average of the water levels over 
+                the course of an hour to ensure accurate model training and prediction.
+            </div>
+            <div className = 'methodsEmployed'>
+                <div className='title'>Methods Employed:</div>
+                Python modules including Scikit-learn, Numpy, Pandas. These modules provide base models, graphing tools,
+                and mathemtical functions. In particular, we used the RandomRegressor modules coupled with hyperparameters. These hyperparameters were
+                selected using GridSearchCV. The following are the hyperparemters selected along with their values.
+                <table>
+                    <tr>
+                        <th>bootstrap</th>
+                        <th>criterion</th>
+                        <th>max_depth</th>
+                        <th>max_features</th>
+                        <th>min_samples_split</th>
+                        <th>n_estimators</th>
+                    </tr>
+                    <tr>
+                        <td>True</td>
+                        <td>absolute_error</td>
+                        <td>12</td>
+                        <td>3</td>
+                        <td>6</td>
+                        <td>109</td>
+                    </tr>
+                </table>
+
+                -- image of code for random forest regression -- 
+            </div>
+            <div className = 'testTrainSet'>
+                <div className='title'>Test/Train Set Selection:</div>
+                In order to evaluate the model, a test set had to be set aside with which the model was not trained on. In order to ensure
+                no data leakage while still providing a representative test sample, the first 20% of the past weather/water levels were designated
+                as a test set while the latter 80% of past weather/water levels were designated as apart of the training set. The model is re-trained
+                and re-tested once every day. This ensures that the model is trained and test on different sets since every time the model is re-trained, the 
+                part of the past data which was used for training the previous data is now used for testing only. Meaning that, the model will not be trained on that previous 
+                data and the new updated model will not have seen that data before. The training and testing occur once every day and a RMSE (Root Mean Squared Error) is approximated
+                every day for each test instance to ensure outliers and noise are not being overused by the model and to allow for constant maintance.
+
+                -- image of root mean squared error --
+            </div>
+            <div className = 'graphGeneration'>
+                <div className='title'>Graph Generation</div>
+                The plotting for this project was divided into three sections: test, train, and future. The plots for test and training and generated once every day while the future
+                plots are re-generated on an hourly basis. The format, however, is consistent among the three sections.
+                The plots utilize a secondary y-axis to illustrate the correlation, or lack of correlation, between an individual predictor and the target variable (water level).
+                Both axes are clearly labeled and pigmented to identify to the user which line is which. Below are sample images collected for training, testing, and future predictions.
+                -- image of graphs --
+            </div>
+        </div>
+    );
 }
