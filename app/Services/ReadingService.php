@@ -43,7 +43,7 @@ class ReadingService
                         # or inserts with 'stationId', 'measuredAt', 'level'
                     );*/
 
-                    $model = Readings::firstOrCreate(
+                    $model = Reading::firstOrCreate(
                         [
                             'stationId' => $record['STATION_NUMBER'],
                             'measuredAt' => $record['DATETIME'],
@@ -60,7 +60,7 @@ class ReadingService
                 }
                 catch(\Throwable $e){
                     $stationCounter = $stationCounter + 1;
-                    Log::channel('weather')->info("$stationId ['Reading'] record not inserted $e");
+                    Log::channel('weather')->info("$stationId ['Reading'] record not inserted ".$e->getMessage());
 
                 }
                 

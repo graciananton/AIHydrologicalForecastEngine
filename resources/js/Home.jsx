@@ -6,19 +6,19 @@ export default function Home({ data }){
     console.log("inside home");
     return (
         <div className='home'>
-            <Menu />
+            <Menu request = {data.request}/>
             <Banner />
             {
                 (data.request == "home" && <Map />) ||
+                (data.request == "methodology" && <Methodology />) ||
                 (data.request == "privacyPolicy" && <PrivacyPolicy />) || 
-                (data.request == "termsOfUse" && <TermsOfUse />) ||
-                (data.request == "methodology" && <Methodology />)
+                (data.request == "termsOfUse" && <TermsOfUse />) 
             }
             <Footer />
         </div>
     )
 }
-function Menu(){
+function Menu({ request }){
     return (
         <header>
             <nav className="navbar">
@@ -33,9 +33,9 @@ function Menu(){
 
                 <ul className="nav-links">
 
-                    <li><a className="active" href="/laravel/public/home">Home</a></li>
+                    <li><a className = {(request != "methodology")? 'active' : 'inactive'} href="/laravel/public/home">Home</a></li>
 
-                    <li><a href="../public/methodology">Methodology</a></li>
+                    <li><a className = {(request == "methodology")? 'active' : 'inactive'} href="../public/methodology">Methodology</a></li>
                     <li>              
                         <i class="fa-regular fa-user"></i>
   
@@ -85,8 +85,6 @@ function Footer(){
                             Informed decisions.
                             Safer communities.
                         </p>
-                        <br/>
-                        <p>©2026 Ottawa River Hydrometric Station Maps. All rights reserved</p>
                     </div>
                 </div>
             </div>
@@ -299,7 +297,7 @@ function Map(){
                         <ol>
                             <li>1. The map to the left displays the geographical location of hydrometric stations along the Ottawa River</li>
                             <li>2. By clicking on the station, you can view the station name, description, and related links</li>
-                            <li>3. Access real-time data, forecasts, and messages by using the supported links</li>
+                            <li>3. Access real-time data, forecasts, and messages by using the supported links below.</li>
                         </ol>
                     </div>
                     <div className='view'>                     
@@ -338,7 +336,7 @@ function PrivacyPolicy(){
     return (
         <div className='map-stations'>
             <h3>
-                Privacy Notice
+                <div className='title'>Privacy Notice</div>
                 <p>
                     <strong>Owner:</strong> Gracian Anton<br/>
                     <strong>Website:</strong> AI Forecast Engine
@@ -367,7 +365,7 @@ function TermsOfUse(){
     return (
         <div className='map-stations'>
             <h3>
-                Terms Of Use
+                <div className='title'>Terms Of Use</div>
                 <p>
                     <strong>Owner:</strong> Gracian Anton<br/>
                     <strong>Website:</strong> AI Forecast Engine
@@ -396,82 +394,97 @@ function TermsOfUse(){
 function Methodology(){
     return (
         <div className='methodology'>
-            <div className = 'title'>Hydrological Forecasting Engine Methodology (Machine Learning)</div>
+            <div className = 'title'>Hydrological Forecasting Engine Methodology (Machine Learning):</div>
             <div className = 'goal'>
                 <div className='title'>Goal:</div>
-                The goal of the hydrological forecasting engine is to predict water levels along the Ottawa and Mississippi Rivers 
-                at hydrometric stations. The project was created due to a need by residentials in flooding-prone regions to access
+                The goal of the hydrological forecasting engine is <b>to predict water levels along the Ottawa and Mississippi Rivers 
+                at hydrometric stations</b>. The project was created due to a need by residentials in flooding-prone regions to access
                 accurate water level predictions during peak time periods. (i.e. early summary). 
+                <img src='../images/methodology/process.png' alt='Process' style={{margin:"auto"}}/>
             </div>
             <div className = 'training'>
                 <div className='title'>Training:</div>
-                This project utilized multiple regression to predict water levels; that is, many predictors were used to predict a 
+                This project utilizes multiple regression to predict water levels; that is, many predictors were used to predict a 
                 single target variable.
                 <ul>
-                    <li><b>Dependent Variable: </b> water level (m)</li>
-                    <ul>
-                        <b>Independent Variables: </b> Temperature, Precipitation (Rain, Snow, etc), Wind Speed, Presure
-                    </ul>
+                    <li><b>Dependent Variable: </b> - water level (m)</li>
+                    <li>
+                        <b>Independent Variables: </b> -  Temperature, Precipitation (Rain, Snow, etc), Wind Speed, Presure
+                    </li>
                 </ul>
 
-                The model would be trained using past weather data (independent variables) and past water levels (dependent variable). 
-                It would then predict future water levels (up to 48 hours) using predicted weather data.
+                The model is trained using past weather data (independent variables) and past water levels (dependent variable). 
+                It then predicts future water levels (up to 48 hours) using predicted weather data.
             </div>
             <div className = 'apis'>
                 <div className='title'>Data Collection:</div>
-                This project utilizes time-series processing, that is, the data is dynamically collected at certain defininte time intervals.
-                Due to this constraint, we utilized two real-time APIs, the Open Meteo API(<a href='https://open-meteo.com/'>https://open-meteo.com/</a>) from OpenMeteo GmbH
-                and the GeoMet-OGC-API (<a href='https://api.weather.gc.ca/'>https://api.weather.gc.ca/</a>) from Environment and Climate Change Canada. The Open-Meteo API
-                provides weather data predictions up to 167 hours into the future at 1 hour intervals. The GeoMet-OGC-API provides
-                past water levels at hydrometric stations with 5 minute intervals. Because of the varying time intervals, the data had to 
+                Due to the project's reliance on time-series processing, we utilized two real-time APIs, the <a href='https://open-meteo.com/' target="_blank">Open Meteo API</a> from OpenMeteo GmbH
+                and the <a href='https://api.weather.gc.ca/' target="_blank">GeoMet-OGC-API</a> from Environment and Climate Change Canada. The Open-Meteo API
+                provides weather predictions up to 167 hours into the future at 1 hour intervals. The GeoMet-OGC-API provides
+                past water levels at hydrometric stations with 5 minute intervals. Because of these varying time frames, the data had to 
                 be sychronized to appear in the same time intervals. This was accomplished by taking an average of the water levels over 
                 the course of an hour to ensure accurate model training and prediction.
             </div>
             <div className = 'methodsEmployed'>
                 <div className='title'>Methods Employed:</div>
-                Python modules including Scikit-learn, Numpy, Pandas. These modules provide base models, graphing tools,
-                and mathemtical functions. In particular, we used the RandomRegressor modules coupled with hyperparameters. These hyperparameters were
-                selected using GridSearchCV. The following are the hyperparemters selected along with their values.
+                Python modules including <b>Scikit-learn, Numpy, and Pandas</b>were used. These modules provide base models, graphing tools,
+                and mathemtical functions. For <b>model training and prediction, we used the RandomRegressor modules</b> with customized hyperparameters. 
+                These hyperparameters were selected using GridSearchCV. The following are the selected hyperparemters and their values.
                 <table>
-                    <tr>
-                        <th>bootstrap</th>
-                        <th>criterion</th>
-                        <th>max_depth</th>
-                        <th>max_features</th>
-                        <th>min_samples_split</th>
-                        <th>n_estimators</th>
-                    </tr>
-                    <tr>
-                        <td>True</td>
-                        <td>absolute_error</td>
-                        <td>12</td>
-                        <td>3</td>
-                        <td>6</td>
-                        <td>109</td>
-                    </tr>
+                    <thead>
+                        <tr>
+                            <th style={{border:"1px solid black", padding: "2px 10px 2px 10px"}}>bootstrap</th>
+                            <th style={{border:"1px solid black", padding: "2px 10px 2px 10px"}}>criterion</th>
+                            <th style={{border:"1px solid black", padding: "2px 10px 2px 10px"}}>max_depth</th>
+                            <th style={{border:"1px solid black", padding: "2px 10px 2px 10px"}}>max_features</th>
+                            <th style={{border:"1px solid black", padding: "2px 10px 2px 10px"}}>min_samples_split</th>
+                            <th style={{border:"1px solid black", padding: "2px 10px 2px 10px"}}>n_estimators</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>True</td>
+                            <td>absolute_error</td>
+                            <td>12</td>
+                            <td>3</td>
+                            <td>6</td>
+                            <td>109</td>
+                        </tr>
+                    </tbody>
                 </table>
-
-                -- image of code for random forest regression -- 
             </div>
             <div className = 'testTrainSet'>
                 <div className='title'>Test/Train Set Selection:</div>
                 In order to evaluate the model, a test set had to be set aside with which the model was not trained on. In order to ensure
-                no data leakage while still providing a representative test sample, the first 20% of the past weather/water levels were designated
-                as a test set while the latter 80% of past weather/water levels were designated as apart of the training set. The model is re-trained
+                no data leakage occurred while still providing a representative test sample, the <b>first 20% of the past weather/water levels</b> were designated
+                as a test set while the <b>latter 80% of past weather/water levels</b> were designated as apart of the training set. The model is re-trained
                 and re-tested once every day. This ensures that the model is trained and test on different sets since every time the model is re-trained, the 
-                part of the past data which was used for training the previous data is now used for testing only. Meaning that, the model will not be trained on that previous 
-                data and the new updated model will not have seen that data before. The training and testing occur once every day and a RMSE (Root Mean Squared Error) is approximated
-                every day for each test instance to ensure outliers and noise are not being overused by the model and to allow for constant maintance.
-
-                -- image of root mean squared error --
+                part of the past data which was used for training during the previous day is now used for testing only. That is, the model will not be trained on that previous 
+                data and the new updated model will not have seen that data before. The training and testing occur once every day and a <b>RMSE (Root Mean Squared Error)</b> is approximated
+                every day for each test instance to ensure outliers and noise are not being overused by the model and provides a quick reference for this model's error rate.
             </div>
             <div className = 'graphGeneration'>
                 <div className='title'>Graph Generation</div>
-                The plotting for this project was divided into three sections: test, train, and future. The plots for test and training and generated once every day while the future
-                plots are re-generated on an hourly basis. The format, however, is consistent among the three sections.
-                The plots utilize a secondary y-axis to illustrate the correlation, or lack of correlation, between an individual predictor and the target variable (water level).
-                Both axes are clearly labeled and pigmented to identify to the user which line is which. Below are sample images collected for training, testing, and future predictions.
-                -- image of graphs --
+                The plotting for this project was <b>divided into three sections: test, train, and future</b>. The plots for testing and training are generated once every day while the future
+                plots are re-generated on an hourly basis. 
+                The plots utilize a secondary y-axis to illustrate the correlation, or lack of thereof, between an individual predictor and the target variable (water level).
+                Both axes are clearly labeled and pigmented to identify which line is represented by the axe. Below are sample images collected during training, testing, and prediction.
+               <div className='images'>
+                <img src='../images/methodology/graph.png' alt='graph' width='353' height='250'/>
+                <img src='../images/methodology/graph2.png' alt='graph' width='353' height='250'/>
+               </div>
+            </div>
+            <div className = "conclusion">
+                <div className='title'>Conclusion</div>
+                The Hydrological Forecasting Engine is designed to predict water levels in flooding-prone regions using machine learning technologies. The project outlines the four main parts
+                of any data science project: data collection, model training, model prediction, and evaluation. The source code for this project is open-source and is provided at Github in the affiliated 
+                links below. Any individual may propose updates to this project by emailing <a href='gracian.anton@gmail.com'>gracian.anton@gmail.com</a>.
+                <br/>
+                Github Repositories:
+                <ul>
+                    <li><a href='https://github.com/graciananton/fast-api' target="_blank">Forecasting Engine (ML)</a></li>
+                    <li><a href='https://github.com/graciananton/AIHydrologicalForecastEngine' target="_blank">Webpage & Synchronization</a></li>
+                </ul>
             </div>
         </div>
     );

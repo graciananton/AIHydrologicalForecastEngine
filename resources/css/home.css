@@ -68,7 +68,8 @@ header{
     top:0;
     width:100%;
     z-index:1001;
-    flex:1.5;  
+    flex:1.0;
+    border:1px solid red;  
 }
 
 .navbar{
@@ -159,18 +160,14 @@ i{
 
 }
 
-.nav-links a:hover{
+.nav-links a:hover, .nav-links a:active{
 
     color:var(--primary);
 
 }
-
 .nav-links a.active{
-
     color:var(--primary);
-
 }
-
 .nav-links a.active::after{
 
     content:"";
@@ -196,15 +193,6 @@ i{
 }
 
 
-.methodology{
-    display:flex;
-    flex-direction:column;
-    gap:5px;
-    padding:15px 15px 30px 15px;
-    background-color:#F4F8FC;
-    border:0px solid red;
-    overflow:scroll;
-}
 .methodology > *:not(.title){
     font-size: clamp(13px, 14px, 18px);
 }
@@ -213,18 +201,62 @@ i{
     font-weight:bold;
     width:100%;
 }
+.methodology a{
+    text-decoration:underline;
+    color: #2E7BFF;
+       
+}
+.methodology table, .methdology th, .methodology td{
+    border:1px solid black;
+    border-collapse:collapse;
+}
+.methdology th, .methodology td{
+    padding: 2px 10px 2px 10px;
+    text-align:center;
+}
+.methodology ul{
+    list-style-type:disc;
+    padding-left:25px;
+}
+.methodology, .map-stations{
+    scrollbar-width: thin;
+    scrollbar-color: #888 #f1f1f1;
+}
+.methodology::-webkit-scrollbar, .map-stations::-webkit-scrollbar {
+    width: 14px;
+}
+.methodology{
+    display:flex;
+    width:100%;
+    flex-direction:column;
+    gap:5px;
+    background-color:#F4F8FC;
+    border:0px solid red;
+    overflow-y:scroll;
+    flex:5;
+    padding:15px 15px 30px 15px;
+}
+.methodology .images{
+    display:flex;
+    flex-direction:row;
+    justify-content:space-evenly;
+    padding:20px 0px 17px 0px;
+}
 
 .map-stations{
     display:flex;
     width:100%;
     flex-direction:row;
-    border-bottom:1px solid black;
+    border-bottom:0px solid red;
     padding:15px 15px 30px 15px;
     flex:5;
     overflow-y:scroll;
     height:100%;
     gap:15px;
     background-color:#F4F8FC;
+}
+.map-stations button{
+    cursor:pointer;
 }
 .map-stations:has(ul){
     display:flex;
@@ -260,24 +292,26 @@ i{
     font-weight:bold;
     font-size:clamp(16px, 16px, 20px);
     flex-grow:1;
+    border:0px solid red;
 }
 .description{
     font-style:normal;
     flex-grow:2;
-    font-size:clamp(12px, 12px, 18px);
+    font-size:clamp(13px, 14px, 19px);
+    border:0px solid red;
 }
 .description > span{
     font-size:clamp(12px, 16px, 18px);
 }
 .view, .signup{
-    flex-grow:1;
+    border:0px solid red;
+    flex-grow:0.65;
     text-align:center;
     display:flex;
     align-items:center;
     justify-content:center;
     border-radius:12px;
     background:
-
         linear-gradient(
             135deg,
             #2E7BFF,
@@ -294,7 +328,6 @@ i{
 
         0 12px 25px
         rgba(27,103,209,.25);
-    padding:7px 7px 7px 7px;
     width:100%;
     margin:0 auto;
 }
@@ -307,9 +340,9 @@ i{
 
 
 footer{
-    flex:1;
+    flex:0.65;
     padding:
-        35px
+        15px
         40px;
 
     background:
@@ -330,6 +363,7 @@ footer{
     align-items:flex-start;
 
     gap:clamp(5px, 5vw, 40px);
+    overflow-y:hidden;
 }
 
 .footer-right{

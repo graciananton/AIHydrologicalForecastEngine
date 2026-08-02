@@ -10,6 +10,7 @@ Schedule::command('status:scheduler')->monthly()->withoutOverlapping();
 
 
 /* Running Jobs */
+/*
 Schedule::command('plotTrain:scheduler')
     ->dailyAt('00:00')
     ->withoutOverlapping();
@@ -17,23 +18,26 @@ Schedule::command('plotTrain:scheduler')
 Schedule::command('plotTest:scheduler')
     ->dailyAt('00:30')
     ->withoutOverlapping();
-
-Schedule::command('plotFuture:scheduler')
-    ->hourly()
-    ->withoutOverlapping();
+*/
 
 Schedule::command('train:scheduler')
-    ->dailyAt('01:30')
+    ->weekly()->at('01:30')
     ->withoutOverlapping();
 
 Schedule::command('test:scheduler')
-    ->dailyAt('02:00')
+    ->weekly()->at('02:00')
     ->withoutOverlapping();
 
 Schedule::command('future:scheduler')
     ->hourly()
     ->withoutOverlapping();
 
+
+    
+Schedule::command('plotFuture:scheduler')
+    ->hourly()
+    ->withoutOverlapping();
+ 
 Schedule::command('dailyReport:scheduler')
     ->dailyAt('03:00')
     ->withoutOverlapping();
@@ -45,7 +49,4 @@ Schedule::command('stationMessage:scheduler')
 Schedule::command('stationMessageDailyReport:scheduler')
     ->dailyAt('04:00')
     ->withoutOverlapping();
-
-
-
 
