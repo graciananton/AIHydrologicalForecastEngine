@@ -126,7 +126,7 @@ class ModelService{
 
     public function futureSet($stationId){
         try{
-            $url = sprintf('https://fast-api-54so.onrender.com/future_set?station_id=%s',$stationId);
+            $url = sprintf('https://fast-api-54so.onrender.com/future_set?station_id=%s&days=%s',$stationId, .2);
             
             $response = Http::connectTimeout(1200)->timeout(1200)->get($url);            
         
@@ -146,9 +146,13 @@ class ModelService{
             }
 
             foreach($futurePredictions as $futurePrediction) {
+                $time = new DateTime($futurePrediction['measuredAt']);
+                $day = $time->format('d');
+                $month = $time->format('m');
+
                 $url = "http://gracian.ca/laravel/public/api/levelAnalysis?stationId=".$futurePrediction['stationId'].
                        "&level=".$futurePrediction['levelAtHour']."
-                        &time=".$futurePrediction['levelAtHour']."&mode=percentile";
+                        &day=".$day."&month=".$month."&mode=percentile";
                 
                 Log::channel("laravel")->info("URL: ->");
                 Log::channel("laravel")->info($url);
@@ -196,8 +200,8 @@ class ModelService{
 
     // $category is test, train, future
     // against is temperature, wind speed, etc
-    private function plotCategory(string $category, string $against, string $stationId){
-        $url = sprintf('https://fast-api-54so.onrender.com/plot_%s/v/%s?station_id=%s',$category, $against, $stationId);
+    private function plotCategory(string $category, string $against, string $stationId, int $days){
+        $url = sprintf('https://fast-api-54so.onrender.com/plot_%s/v/%s?station_id=%s&days=%s',$category, $against, $stationId, $days);
         $response = Http::connectTimeout(1200)->timeout(1200)->get($url);
 
         # this checks if the query to the API endpoint was successful
@@ -256,12 +260,11 @@ class ModelService{
 
         Log::channel("laravel")->info("plotFuture successfully for ". $stationId);   
     }   
-
     // plotFuture - JOB
     public function plotFuture(string $stationId){
         try{
             foreach($this->plots as $plot){
-                $this->plotCategory('future', $plot, $stationId);
+                $this->plotCategory('future', $plot, $stationId, .2);
             }
         }
         catch(\Throwable $e){

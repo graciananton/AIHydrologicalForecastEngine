@@ -25,19 +25,22 @@ Schedule::command('train:scheduler')
     ->withoutOverlapping();
 
 Schedule::command('test:scheduler')
-    ->weekly()->at('02:00')
+    ->weekly()->at('02:30')
     ->withoutOverlapping();
 
+/* These are the main ones */
+// this is every 4 hrs
 Schedule::command('future:scheduler')
-    ->hourly()
+    ->cron('0 */4 * * *')
     ->withoutOverlapping();
 
-
-    
+// this is every 12hrs
 Schedule::command('plotFuture:scheduler')
-    ->hourly()
+    ->cron('0 */12 * * *')
     ->withoutOverlapping();
  
+
+
 Schedule::command('dailyReport:scheduler')
     ->dailyAt('03:00')
     ->withoutOverlapping();

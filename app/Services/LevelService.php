@@ -7,13 +7,23 @@ use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Http;
 
 class LevelService{
-
     public function normalizeParams(array $params): array{
         return [
-            'stationId' => $params['stationId'] ?? '02KF001'
+            'stationId' => $params['stationId'] ?? '02KF001',
+            'month' => $params['month'],
+            'day' => $params['day']
         ];
     }   
+    public function filter($params){
+        $predictions = Level::where('stationId', $params['stationId'])
+                        ->whereMonth('time', $params['month'])
+                        ->whereDay('time', $params['day'])
 
+                        ->get()->toArray();
+        
+        return $predictions;
+        //"SELECT * FROM Level WHERE stationId = ".$params['stationId']. "AND EXTRACT(MONTH FROM time) == ".$params['month']. " AND EXTRACT(DAY FROM time) == ".$params['day'];
+    }
     public function sync($stationId){
         $query = Level::query();
         try{
