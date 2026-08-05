@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
 use App\Models\TestEvaluations;
 use App\Models\Predictions;
+use Illuminate\Support\Carbon;
 
 class ModelService{
     private $plots = ['precipitation','temperature','wind_speed'];
@@ -67,7 +68,7 @@ class ModelService{
 
     public function testModel($stationId){
         try{
-            $url = sprintf('https://fast-api-54so.onrender.com/test_model?station_id=%s',$stationId);
+            $url = sprintf('https://fast-api-54so.onrender.com/test_model?station_id=%s&days=%s',$stationId, .2);
 
             $response = Http::connectTimeout(1200)->timeout(1200)->get($url);
 
@@ -77,9 +78,9 @@ class ModelService{
                 );
             }   
 
-            $rmse = $response->json();
+            $errors = $response->json();
             
-            if (!is_array($rmse)) {
+            if (!is_array($errors)) {
                 throw new \UnexpectedValueException(
                    'testModel response is not valid output for '.$stationId
                 );
@@ -87,10 +88,11 @@ class ModelService{
 
             TestEvaluations::create([
                 'stationId' => $stationId,
-                'error' => $rmse['RMSE']
+                'percentError' => $errors['PercentError'],
+                'RMSE' => $errors['RMSE']
             ]);
 
-            return $rmse;
+            return $errors;
         }
         catch(\Throwable $e){
             Log::error(
@@ -146,13 +148,13 @@ class ModelService{
             }
 
             foreach($futurePredictions as $futurePrediction) {
-                $time = new DateTime($futurePrediction['measuredAt']);
-                $day = $time->format('d');
-                $month = $time->format('m');
+                $time = Carbon::parse($futurePrediction['measuredAt']);
+                $day = $time->day;
+                $month = $time->month;
 
                 $url = "http://gracian.ca/laravel/public/api/levelAnalysis?stationId=".$futurePrediction['stationId'].
                        "&level=".$futurePrediction['levelAtHour']."
-                        &day=".$day."&month=".$month."&mode=percentile";
+                        &time=".$time."&mode=percentile";
                 
                 Log::channel("laravel")->info("URL: ->");
                 Log::channel("laravel")->info($url);
@@ -200,8 +202,10 @@ class ModelService{
 
     // $category is test, train, future
     // against is temperature, wind speed, etc
-    private function plotCategory(string $category, string $against, string $stationId, int $days){
+    private function plotCategory(string $category, string $against, string $stationId, float $days){
         $url = sprintf('https://fast-api-54so.onrender.com/plot_%s/v/%s?station_id=%s&days=%s',$category, $against, $stationId, $days);
+        Log::channel('weather')->info($url);
+
         $response = Http::connectTimeout(1200)->timeout(1200)->get($url);
 
         # this checks if the query to the API endpoint was successful

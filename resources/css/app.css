@@ -21,6 +21,8 @@
     border:0px solid orange;
     background-color:white;
     margin-bottom:1vh;
+    border:0px solid red;
+
 }
 
 @media(min-width:700px){

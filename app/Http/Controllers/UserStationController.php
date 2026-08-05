@@ -16,13 +16,16 @@ class UserStationController extends Controller
     }
     public function process(UserStationService $userStationService){
         if($this->id != null){
+            Log::channel("id is not null, id is provided");
             $stationId = $this->id;
         }
         else if(session()->has('email')){ // this checks if email property exists and is not null
+            Log::channel('laravel')->info('Email exists: ' . session('email'));
             $user = $userStationService->getUser(session('email'));
             $stationId = $user->stationId;
         }
         else{ // if the session is not set, then
+            Log::channel('laravel')->info("else statement");
             $stationId = "02KF001";
         }
 

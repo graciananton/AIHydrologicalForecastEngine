@@ -421,14 +421,14 @@ function Methodology(){
                 Due to the project's reliance on time-series processing, we utilized two real-time APIs, the <a href='https://open-meteo.com/' target="_blank">Open Meteo API</a> from OpenMeteo GmbH
                 and the <a href='https://api.weather.gc.ca/' target="_blank">GeoMet-OGC-API</a> from Environment and Climate Change Canada. The Open-Meteo API
                 provides weather predictions up to 167 hours into the future at 1 hour intervals. The GeoMet-OGC-API provides
-                past water levels at hydrometric stations with 5 minute intervals. Because of these varying time frames, the data had to 
+                past water levels at hydrometric stations at 5 minute intervals. Because of these varying time frames, the data had to 
                 be sychronized to appear in the same time intervals. This was accomplished by taking an average of the water levels over 
                 the course of an hour to ensure accurate model training and prediction.
             </div>
             <div className = 'methodsEmployed'>
                 <div className='title'>Methods Employed:</div>
-                Python modules including <b>Scikit-learn, Numpy, and Pandas</b>were used. These modules provide base models, graphing tools,
-                and mathemtical functions. For <b>model training and prediction, we used the RandomRegressor modules</b> with customized hyperparameters. 
+                Python modules leveraged include <b>Scikit-learn, Numpy, and Pandas</b>. These modules provide base models, graphing tools,
+                and mathemtical functions. For <b>model training and prediction, we used the Random Forest Regressor modules</b> with customized hyperparameters. 
                 These hyperparameters were selected using GridSearchCV. The following are the selected hyperparemters and their values.
                 <table>
                     <thead>
@@ -455,17 +455,17 @@ function Methodology(){
             </div>
             <div className = 'testTrainSet'>
                 <div className='title'>Test/Train Set Selection:</div>
-                In order to evaluate the model, a test set had to be set aside with which the model was not trained on. In order to ensure
+                In order to evaluate the model, a test set had to be set aside with which the model was not trained on. To ensure
                 no data leakage occurred while still providing a representative test sample, the <b>first 20% of the past weather/water levels</b> were designated
                 as a test set while the <b>latter 80% of past weather/water levels</b> were designated as apart of the training set. The model is re-trained
-                and re-tested once every day. This ensures that the model is trained and test on different sets since every time the model is re-trained, the 
-                part of the past data which was used for training during the previous day is now used for testing only. That is, the model will not be trained on that previous 
-                data and the new updated model will not have seen that data before. The training and testing occur once every day and a <b>RMSE (Root Mean Squared Error)</b> is approximated
-                every day for each test instance to ensure outliers and noise are not being overused by the model and provides a quick reference for this model's error rate.
+                and re-tested once every day. This ensures that the model is trained and test on different set. Every time the model is re-trained, 
+                any part of the past data which was used for training (and now is being tested) will not be used for training purposes. That is, the model will not be trained on that previous 
+                data (which is now used for testing) and the new updated model will not have seen that data before. The training and testing occur once every day and a <b>RMSE (Root Mean Squared Error) and Percent Error</b> is approximated
+                every day for each test instance to ensure outliers and noise are not being overused by the model and to provides a quick reference for the model's error rate.
             </div>
             <div className = 'graphGeneration'>
                 <div className='title'>Graph Generation</div>
-                The plotting for this project was <b>divided into three sections: test, train, and future</b>. The plots for testing and training are generated once every day while the future
+                Graph generation was <b>divided into three sections: test, train, and future</b>. The plots for testing and training are generated once every day while the future
                 plots are re-generated on an hourly basis. 
                 The plots utilize a secondary y-axis to illustrate the correlation, or lack of thereof, between an individual predictor and the target variable (water level).
                 Both axes are clearly labeled and pigmented to identify which line is represented by the axe. Below are sample images collected during training, testing, and prediction.
@@ -477,7 +477,7 @@ function Methodology(){
             <div className = "conclusion">
                 <div className='title'>Conclusion</div>
                 The Hydrological Forecasting Engine is designed to predict water levels in flooding-prone regions using machine learning technologies. The project outlines the four main parts
-                of any data science project: data collection, model training, model prediction, and evaluation. The source code for this project is open-source and is provided at Github in the affiliated 
+                of any data science project: data collection, model training, model prediction, and evaluation. The source code for this project available in the affiliated Github
                 links below. Any individual may propose updates to this project by emailing <a href='gracian.anton@gmail.com'>gracian.anton@gmail.com</a>.
                 <br/>
                 Github Repositories:

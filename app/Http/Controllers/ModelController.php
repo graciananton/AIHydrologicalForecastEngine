@@ -67,9 +67,8 @@ class ModelController{
     public function testSingle(Request $request)
     {
         try{
-            $rmse = $this->ModelService->testModel($request->stationId);
-            Log::channel("laravel")->info(sprintf("Test Single: %s RMSE score %f",$request->stationId, $rmse['RMSE']));
-            return response()->json(['RMSE'=>$rmse['RMSE']]);
+            $errors = $this->ModelService->testModel($request->stationId);
+            return response()->json(['RMSE'=>$errors['RMSE'], 'PercentError' => $errors['PercentError']]);
         }
         catch(\Throwable $e){
             Log::channel("laravel")->info($e->getMessage());

@@ -20,11 +20,15 @@ class TestEvaluationsService
             $params['to']
         ]);
 
-        $query->whereBetween('error', [
-            $params['minError'],
-            $params['maxError']
+        $query->whereBetween('percentError', [
+            $params['minPercentError'],
+            $params['maxPercentError']
         ]);
 
+        $query->whereBetween('RMSE', [
+            $params['minRMSE'],
+            $params['maxRMSE']
+        ]);
         $query->orderBy('updated_at', $params['order']);
 
         if ($params['limit'] !== null) {
@@ -40,9 +44,13 @@ class TestEvaluationsService
         return [
             'stationId' => $params['stationId'] ?? null,
 
-            'minError' => $params['minError'] ?? 0.0,
+            'minPercentError' => $params['minPercentError'] ?? 0.0,
 
-            'maxError' => $params['maxError'] ?? 100.0,
+            'maxPercentError' => $params['maxPercentError'] ?? 100.0,
+
+            'minRMSE' => $params['minRMSE'] ?? 0.0,
+
+            'maxRMSE' => $params['maxRMSE'] ?? 100.0,
             
             'from' => isset($params['from']) ? Carbon::parse($params['from']) : Carbon::createFromTimestamp(0), // start of time 1970-01-00
 

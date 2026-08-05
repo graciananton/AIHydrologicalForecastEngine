@@ -17,4 +17,13 @@ class UserStationService
         }
         return false;
     }
+    public function getUser(string $email):?User{
+        $query = User::query();
+        $query->where('email', $email);
+        
+        $user = $query->first();
+
+        return ($user) ? $user : null;
+    }
+
 }

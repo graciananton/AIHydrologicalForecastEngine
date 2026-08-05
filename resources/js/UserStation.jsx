@@ -85,7 +85,7 @@ function CurrentWeather({stationId}){
         return (
             <div id='currentWeather'>
                 <div id='image'>
-                    <img src={'../images/user/weather/'+image+'.png'} alt=''/>
+                    <img src={'/laravel/images/user/weather/'+image+'.png'} alt=''/>
                 </div>
                 <div id='title'>Current Weather:</div>
                 <div id='temperature'>{currentWeather.weather.temperature_2m} &deg;C</div>
@@ -133,7 +133,7 @@ function Weather({stationId}){
         <div id='weather'>
             <div id='title'>
                 <div>
-                    <img src='../images/user/weather.png' alt=''/>
+                    <img src='/laravel/images/user/weather.png' alt=''/>
                 </div>
                 <div>
                     Current Weather Details:
@@ -179,7 +179,7 @@ function Readings({stationId}){
         <div id='readings'>
             <div id='title'>
                 <div>
-                    <img src='../images/user/weather.png' alt=''/>
+                    <img src='/laravel/images/user/weather.png' alt=''/>
                 </div>
                 <div>
                     Latest Readings:
@@ -196,11 +196,16 @@ function Readings({stationId}){
                                 let prev = readings[index+1];
                                 console.log("Prev:");
                                 console.log(prev);
+                                let change = reading.level - prev.level
                                 return (
                                     <li key={index}>
                                         <span>{ convertUTCToFormattedTime(reading.measuredAt, ['month', 'date', 'hour', 'minute', 'timePeriod']) }</span>
                                         <span>{ reading.level } m</span>
-                                        <span>{ (String(Math.round((reading.level - prev.level)*1000)/1000)).padStart(4,"0") + " m"}</span>
+                                        <span>{ 
+                                            (change > 0) ?
+                                            "+"+((String(Math.round((change)*1000)/1000)).padStart(4,"0") + " m") :
+                                            "-"+((String(Math.round((change)*1000)/1000)).padStart(4,"0") + " m")
+                                        }</span>
                                     </li>
                                 );
                             }
@@ -242,7 +247,7 @@ function Station({stationId}){
         station && 
         <div id='station'>
             <div id='image'>
-                <img src='../images/user/station.png' alt='' />
+                <img src='/laravel/images/user/station.png' alt='' />
             </div>
             <div id='title'>Station:</div> 
             <div id='name'><a target="_blank" href={station.link}>{capitalizeFirstLetter(station.name)}</a></div>
@@ -331,7 +336,7 @@ function UpdatedAt({ stationId }){
         updatedAt && 
         <div id = 'updatedAt'>
             <div id='image'>
-                <img src='../images/user/updatedAt.png' alt='' />
+                <img src='/laravel/images/user/updatedAt.png' alt='' />
             </div>
             <div id='title'>Last Updated:</div> 
             <div id='ago'>{(Math.round((new Date() - new Date(updatedAt)) / (1000 * 60 * 60))*100)/100} hrs. ago</div>
@@ -340,13 +345,13 @@ function UpdatedAt({ stationId }){
     )
 }
 function Graph({ stationId }){
-    const [imageUrl, setImageUrl] = useState('../images/future/' + stationId + '_temperature.png')
+    const [imageUrl, setImageUrl] = useState('/laravel/images/future/' + stationId + '_temperature.png')
     const [backgroundColor, setBackgroundColor] = useState(["#3F76B8","#9FC2FB","#9FC2FB"]);
     return (
         <div className='graph'>
             <div className='title'>
                 <div>
-                    <img src='../images/user/forecast.png' alt=''/>
+                    <img src='/laravel/images/user/forecast.png' alt=''/>
                 </div>
                 <div>
                     Water Level Forecast
@@ -354,9 +359,9 @@ function Graph({ stationId }){
             </div>
             <div className='forecast'>
                 <div className='tabs'>
-                    <span style={{backgroundColor:backgroundColor[0]}} onClick={() => {setImageUrl('../images/future/' + stationId + '_temperature.png'); setBackgroundColor(["#3F76B8","#9FC2FB","#9FC2FB"]);}}>Temperature</span>
-                    <span style={{backgroundColor:backgroundColor[1]}} onClick={() => {setImageUrl('../images/future/' + stationId + '_precipitation.png'); setBackgroundColor();setBackgroundColor(["#9FC2FB","#3F76B8","#9FC2FB"]);}}>Precipitation</span>
-                    <span style={{backgroundColor:backgroundColor[2]}} onClick={() => {setImageUrl('../images/future/' + stationId + '_wind_speed.png'); setBackgroundColor();setBackgroundColor(["#9FC2FB","#9FC2FB","#3F76B8"]);}}>Wind Speed</span>
+                    <span style={{backgroundColor:backgroundColor[0]}} onClick={() => {setImageUrl('/laravel/images/future/' + stationId + '_temperature.png'); setBackgroundColor(["#3F76B8","#9FC2FB","#9FC2FB"]);}}>Temperature</span>
+                    <span style={{backgroundColor:backgroundColor[1]}} onClick={() => {setImageUrl('/laravel/images/future/' + stationId + '_precipitation.png'); setBackgroundColor();setBackgroundColor(["#9FC2FB","#3F76B8","#9FC2FB"]);}}>Precipitation</span>
+                    <span style={{backgroundColor:backgroundColor[2]}} onClick={() => {setImageUrl('/laravel/images/future/' + stationId + '_wind_speed.png'); setBackgroundColor();setBackgroundColor(["#9FC2FB","#9FC2FB","#3F76B8"]);}}>Wind Speed</span>
                 </div>
                 <div className='image'>
                     <img src={imageUrl} alt=''/>
@@ -442,7 +447,7 @@ function Predictions({ stationId }){
         <div id='predictions'> 
             <div id='title'>
                 <div>
-                    <img src='../images/user/predictions.png' alt=''/>
+                    <img src='/laravel/images/user/predictions.png' alt=''/>
                 </div>
                 <div>
                     Predictions:
@@ -513,7 +518,7 @@ function Stats({ stationId }){
         <div id='stats'>
             <div id='title'>
                 <div>
-                    <img src='../images/user/stats.png' alt=''/>
+                    <img src='/laravel/images/user/stats.png' alt=''/>
                 </div>
                 <div>
                     Stastics:
@@ -548,14 +553,16 @@ function StationMessage({ stationId }){
 
     useEffect(() => {
         async function getStationMessage(){
-            const data = await fetch("http://gracian.ca/laravel/public/api/stationMessage?stationId="+stationId+"&order=desc&limit=1")
+            const data = await fetch("https://gracian.ca/laravel/public/api/stationMessage?stationId="+stationId+"&order=desc&limit=1")
+            console.log(data);
             const message = await data.json();
             console.log("Message:");
             console.log(message);
             setMessage(message[0]);
         }
         getStationMessage();
-    })
+    },[])
+
     console.log("Messages:");
     console.log(message);
     return (
