@@ -2,7 +2,7 @@ import React from "react";
 import "../css/home.css";
 import { useRef, useEffect, useState, createContext} from 'react'
 
-const BaseUrl = createContext();
+const BaseUrl = createContext("");
 
 export default function Home({ data }){
     
@@ -23,6 +23,9 @@ export default function Home({ data }){
     )
 }
 function Menu({ request }){
+    const BaseUrl = useContext(BaseUrl);
+    console.log(BaseUrl);
+
     return (
         <header>
             <nav className="navbar">
