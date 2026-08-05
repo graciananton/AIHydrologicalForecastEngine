@@ -1,7 +1,7 @@
 import React from "react";
 import { useState, useEffect } from "react";
 import '../css/VerificationCode.css';
-
+import { BaseUrlContext } from "./BaseUrlContext";
 
 function distributeCode(e, index, boxes, setBoxes){
     console.log(e);
@@ -17,17 +17,19 @@ function distributeCode(e, index, boxes, setBoxes){
     setBoxes(boxesCopy);
 }
 export default function VerificationCode({ data }){
+    const base_url = useContext(BaseUrlContext);
+
     console.log(data);
     const [boxes, setBoxes] = useState(['','','','','','']);
     return (  
         <div class='page' id='verificationCode'>
             
-            <form class='card' action='/laravel/public/verificationCodeSubmit' method='POST'>
+            <form class='card' action={base_url + '/public/verificationCodeSubmit'} method='POST'>
                 <div className="logo">
                         <img src='../images/logo.png'/>
                         <div className='text'>
                             <h2>OTTAWA RIVER</h2>
-                            <span><a href='https://gracian.ca/laravel/public'>HYDROMETRIC STATION MAPS</a></span>
+                            <span><a href={base_url + "/public"}>HYDROMETRIC STATION MAPS</a></span>
                         </div>
                 </div>
                 <input type="hidden" name="_token" value={document.querySelector('meta[name="csrf-token"]').getAttribute("content")}/>

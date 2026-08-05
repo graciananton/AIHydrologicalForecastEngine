@@ -1,9 +1,11 @@
 import React from "react";
 import '../css/Register.css';
 import { useState, useEffect } from "react";
+import { BaseUrlContext } from "./BaseUrlContext";
 
 export default function Signup({ data }){
     console.log(data);
+    const base_url = useContext(BaseUrlContext);
     return (
         <div className='page'>
             <div className='card'>
@@ -12,7 +14,7 @@ export default function Signup({ data }){
                     <div className='error'>{data.error}</div>
                 )
                 }
-                <form className='form' method="POST" action={`/laravel/public/signupSubmit`}>
+                <form className='form' method="POST" action={base_url + '/public/signupSubmit'}>
                     <input type="hidden" name="_token" value={document.querySelector('meta[name="csrf-token"]').getAttribute("content")}/>
                         <div className='form-group'>
                             <label htmlFor='Email'>Email:</label><br/>

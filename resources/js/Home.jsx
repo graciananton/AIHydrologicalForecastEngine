@@ -1,11 +1,11 @@
 import React from "react";
 import "../css/home.css";
 import { useRef, useEffect, useState, useContext} from 'react'
-import { BaseUrl } from "./app.jsx";
+import { BaseUrlContext } from "./BaseUrlContext";
 
 export default function Home({ data }){
     console.log("Home");
-    console.log(useContext(BaseUrl));
+    console.log(useContext(BaseUrlContext));
     return (
         <div className='home'>
             <Menu request = {data.request}/>
@@ -21,7 +21,7 @@ export default function Home({ data }){
     )
 }
 function Menu({ request }){
-    const base_url = useContext(BaseUrl);
+    const base_url = useContext(BaseUrlContext);
     console.log("base_url");
     console.log(base_url);
 
@@ -39,9 +39,9 @@ function Menu({ request }){
 
                 <ul className="nav-links">
 
-                    <li><a className = {(request != "methodology")? 'active' : 'inactive'} href={base_url + "/public/home"}>Home</a></li>
+                    <li><a className = {(request != "methodology")? 'active' : 'inactive'} href={"/laravel/public/home"}>Home</a></li>
 
-                    <li><a className = {(request == "methodology")? 'active' : 'inactive'} href={base_url + "/public/methodology"}>Methodology</a></li>
+                    <li><a className = {(request == "methodology")? 'active' : 'inactive'} href={"/laravel/public/methodology"}>Methodology</a></li>
                     <li>              
                         <i class="fa-regular fa-user"></i>
   
@@ -58,7 +58,7 @@ function Menu({ request }){
     )
 }
 function Banner(){
-    const base_url = useContext(BaseUrl);
+    const base_url = useContext(BaseUrlContext);
     let dir = base_url + '/images/banner/';
     let images = [dir + 'slides1.png', dir + 'slides2.png'];
 
@@ -79,7 +79,7 @@ function Banner(){
     )
 }
 function Footer(){
-    const base_url = useContext(BaseUrl);
+    const base_url = useContext(BaseUrlContext);
     return (
         <footer className='footer'>
             <div className="footer-left">
@@ -125,7 +125,7 @@ function findMessageInStationMessages(stationMessages, stationId){
     return "Station Message not found";
 }
 function Map(){
-    const base_url = useContext(BaseUrl);
+    const base_url = useContext(BaseUrlContext);
     const map = useRef(null);
     const [station, setStation] = useState({});
     const [stationMessages, setStationMessages] = useState([]);
@@ -342,7 +342,7 @@ function format(string){
 }
 
 function PrivacyPolicy(){
-    const base_url = useContext(BaseUrl);
+    const base_url = useContext(BaseUrlContext);
     return (
         <div className='map-stations'>
             <h3>
@@ -372,7 +372,7 @@ function PrivacyPolicy(){
     );
 }
 function TermsOfUse(){
-    const base_url = useContext(BaseUrl);
+    const base_url = useContext(BaseUrlContext);
     return (
         <div className='map-stations'>
             <h3>
@@ -403,7 +403,7 @@ function TermsOfUse(){
     )
 }
 function Methodology(){
-    const base_url = useContext(BaseUrl);
+    const base_url = useContext(BaseUrlContext);
     return (
         <div className='methodology'>
             <div className = 'title'>Hydrological Forecasting Engine Methodology (Machine Learning):</div>

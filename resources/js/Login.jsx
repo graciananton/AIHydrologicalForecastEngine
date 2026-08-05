@@ -1,16 +1,18 @@
 import React from "react";
 import '../css/Register.css';
 import { useState, useEffect } from "react";
+import { BaseUrlContext } from "./BaseUrlContext";
 
 export default function Login({ data }){
+    const base_url = useContext(BaseUrlContext);
     return (
         <div className='page'>
             <div className='card'>
                 <div className='logo'>
-                    <img src='../images/logo.png'/>
+                    <img src={base_url + '/images/logo.png'}/>
                     <div className='text'>
                         <h2>OTTAWA RIVER</h2>
-                        <span><a href='/laravel/public'>HYDROMETRIC STATION MAPS</a></span>
+                        <span><a href={base_url + '/public'}>HYDROMETRIC STATION MAPS</a></span>
                     </div>
                 </div>
                 <div className='title'>Login</div>
@@ -18,7 +20,7 @@ export default function Login({ data }){
                     <div className='error'>{data.error}</div>
                 )
                 }
-                <form method="POST" className='form' action={`/laravel/public/loginSubmit`}>
+                <form method="POST" className='form' action={base_url + '/public/loginSubmit'}>
                     <input type="hidden" name="_token" value={document.querySelector('meta[name="csrf-token"]').getAttribute("content")}/>
                     <div className='form-group'>
                         <label htmlFor='Email'>Email:</label><br/>

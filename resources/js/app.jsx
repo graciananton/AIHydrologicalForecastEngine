@@ -19,7 +19,7 @@ export default function App() {
   var req = getReq(data);
 
   return (
-    <BaseUrl value= {import.meta.env.VITE_APP_BASE_URL}>
+    <BaseUrlContext value= {import.meta.env.VITE_APP_BASE_URL}>
       <div id='mainPage'>
         {(req == "home" || req == "privacyPolicy" || req == "termsOfUse" || req == "methodology") && <Home data={data}/>}
         {req === 'workflow' && <Workflow /> }
@@ -31,7 +31,7 @@ export default function App() {
         {req == "verificationMessage" && <VerificationMessage data={data} />}
         {req == "register" && <Register data={data}/>}
       </div>
-    </BaseUrl>
+    </BaseUrlContext>
   );
 }
 function getReq(data){

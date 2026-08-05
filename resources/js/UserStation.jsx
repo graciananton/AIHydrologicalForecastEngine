@@ -1,6 +1,7 @@
 import React from "react";
 import '../css/UserStation.css';
 import { useState, useEffect } from "react";
+import { BaseUrlContext } from "./BaseUrlContext";
 
 export default function UserStation({ data }){
     return (<Main {...data}/>); //sends data to Main component as object, not as property of object
@@ -29,6 +30,8 @@ function Footer(){
     )
 }
 function CurrentWeather({stationId}){
+    const base_url = useContext(BaseUrlContext);
+
     const [currentWeather, setCurrentWeather] = useState();
 
     useEffect(() => {
@@ -85,7 +88,7 @@ function CurrentWeather({stationId}){
         return (
             <div id='currentWeather'>
                 <div id='image'>
-                    <img src={'/laravel/images/user/weather/'+image+'.png'} alt=''/>
+                    <img src={base_url + '/images/user/weather/'+image+'.png'} alt=''/>
                 </div>
                 <div id='title'>Current Weather:</div>
                 <div id='temperature'>{currentWeather.weather.temperature_2m} &deg;C</div>
@@ -97,6 +100,8 @@ function CurrentWeather({stationId}){
     }
 }
 function Weather({stationId}){
+    const base_url = useContext(BaseUrlContext);
+
     const [weather, setWeather] = useState();
 
     useEffect(() => {
@@ -133,7 +138,7 @@ function Weather({stationId}){
         <div id='weather'>
             <div id='title'>
                 <div>
-                    <img src='/laravel/images/user/weather.png' alt=''/>
+                    <img src={base_url + '/images/user/weather.png'} alt=''/>
                 </div>
                 <div>
                     Current Weather Details:
@@ -152,6 +157,8 @@ function Weather({stationId}){
     );
 }
 function Readings({stationId}){
+    const base_url = useContext(BaseUrlContext);
+
     const [readings, setReadings] = useState();
 
     useEffect(() => {
@@ -179,7 +186,7 @@ function Readings({stationId}){
         <div id='readings'>
             <div id='title'>
                 <div>
-                    <img src='/laravel/images/user/weather.png' alt=''/>
+                    <img src={base_url + '/images/user/weather.png'} alt=''/>
                 </div>
                 <div>
                     Latest Readings:
@@ -217,6 +224,7 @@ function Readings({stationId}){
     )
 }
 function Station({stationId}){    
+    const base_url = useContext(BaseUrlContext);
 
     const [station, setStation] = useState();
 
@@ -247,7 +255,7 @@ function Station({stationId}){
         station && 
         <div id='station'>
             <div id='image'>
-                <img src='/laravel/images/user/station.png' alt='' />
+                <img src={base_url + '/images/user/station.png'} alt='' />
             </div>
             <div id='title'>Station:</div> 
             <div id='name'><a target="_blank" href={station.link}>{capitalizeFirstLetter(station.name)}</a></div>
@@ -307,6 +315,8 @@ function convertUTCToFormattedTime(UTCDate, options){
 
 
 function UpdatedAt({ stationId }){
+    const base_url = useContext(BaseUrlContext);
+
     const [updatedAt, setUpdatedAt] = useState() // gets the ISO864 format of 1970-01-01
 
     useEffect(() => {
@@ -336,7 +346,7 @@ function UpdatedAt({ stationId }){
         updatedAt && 
         <div id = 'updatedAt'>
             <div id='image'>
-                <img src='/laravel/images/user/updatedAt.png' alt='' />
+                <img src={base_url + '/images/user/updatedAt.png'} alt='' />
             </div>
             <div id='title'>Last Updated:</div> 
             <div id='ago'>{(Math.round((new Date() - new Date(updatedAt)) / (1000 * 60 * 60))*100)/100} hrs. ago</div>
@@ -345,13 +355,14 @@ function UpdatedAt({ stationId }){
     )
 }
 function Graph({ stationId }){
-    const [imageUrl, setImageUrl] = useState('/laravel/images/future/' + stationId + '_temperature.png')
+    const base_url = useContext(BaseUrlContext);
+    const [imageUrl, setImageUrl] = useState(base_url + '/images/future/' + stationId + '_temperature.png')
     const [backgroundColor, setBackgroundColor] = useState(["#3F76B8","#9FC2FB","#9FC2FB"]);
     return (
         <div className='graph'>
             <div className='title'>
                 <div>
-                    <img src='/laravel/images/user/forecast.png' alt=''/>
+                    <img src={base_url + '/images/user/forecast.png'} alt=''/>
                 </div>
                 <div>
                     Water Level Forecast
@@ -430,6 +441,8 @@ function correctlyCapitalize(label){
     return correctLabelChars.join("");
 }
 function Predictions({ stationId }){
+    const base_url = useContext(BaseUrlContext);
+
     const current = new Date().toISOString();
     const [predictions, setPredictions] = useState();
     useEffect(() => {
@@ -447,7 +460,7 @@ function Predictions({ stationId }){
         <div id='predictions'> 
             <div id='title'>
                 <div>
-                    <img src='/laravel/images/user/predictions.png' alt=''/>
+                    <img src={base_url + '/images/user/predictions.png'} alt=''/>
                 </div>
                 <div>
                     Predictions:
@@ -487,6 +500,7 @@ function Predictions({ stationId }){
 
 
 function Stats({ stationId }){
+    const base_url = useContext(BaseUrlContext);
 
     const [stats, setStats] = useState();
 
@@ -518,7 +532,7 @@ function Stats({ stationId }){
         <div id='stats'>
             <div id='title'>
                 <div>
-                    <img src='/laravel/images/user/stats.png' alt=''/>
+                    <img src={base_url + '/images/user/stats.png'} alt=''/>
                 </div>
                 <div>
                     Stastics:
@@ -549,6 +563,8 @@ function Stats({ stationId }){
 }
 
 function StationMessage({ stationId }){
+    const base_url = useContext(BaseUrlContext);
+
     const [message, setMessage] = useState("");
 
     useEffect(() => {

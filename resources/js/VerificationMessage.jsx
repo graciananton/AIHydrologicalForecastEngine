@@ -1,13 +1,16 @@
 import React from "react";
 import { useState, useEffect } from "react";
 import '../css/Register.css';
+import { BaseUrlContext } from "./BaseUrlContext";
 
 export default function VerificationMessage( {data} ){
+    const base_url = useContext(BaseUrlContext);
+
     return (
         <div className='page'>
             <div className='card'>
                 <div className='logo'>
-                    <img src='../images/logo.png'/>
+                    <img src={base_url + '/images/logo.png'}/>
                     <div className='text'>
                         <h2>OTTAWA RIVER</h2>
                         <span><a href='/laravel/public'>HYDROMETRIC STATION MAPS</a></span>

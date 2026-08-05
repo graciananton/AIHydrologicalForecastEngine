@@ -32,7 +32,7 @@ function Links(){
 function Image(){
     return (
         <div id='image' className='row'>
-            <img src='../images/workflow2.png'/>
+            <img src={base_url + '/images/workflow2.png'}/>
         </div>
     )
 }
