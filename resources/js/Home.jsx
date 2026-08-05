@@ -32,22 +32,22 @@ function Menu({ request }){
             <nav className="navbar">
 
                 <div className="logo">
-                    <img src='../images/logo.png'/>
+                    <img src={base_url + '/images/logo.png'}/>
                     <div className='text'>
                         <h2>OTTAWA RIVER</h2>
-                        <span><a href='/laravel/public/home'>HYDROMETRIC STATION MAPS</a></span>
+                        <span><a href={base_url + '/public/home'}>HYDROMETRIC STATION MAPS</a></span>
                     </div>
                 </div>
 
                 <ul className="nav-links">
 
-                    <li><a className = {(request != "methodology")? 'active' : 'inactive'} href="/laravel/public/home">Home</a></li>
+                    <li><a className = {(request != "methodology")? 'active' : 'inactive'} href={base_url + "/public/home"}>Home</a></li>
 
-                    <li><a className = {(request == "methodology")? 'active' : 'inactive'} href="../public/methodology">Methodology</a></li>
+                    <li><a className = {(request == "methodology")? 'active' : 'inactive'} href={base_url + "/public/methodology"}>Methodology</a></li>
                     <li>              
                         <i class="fa-regular fa-user"></i>
   
-                        <a target="_blank" href="../public/register" className="login-button">
+                        <a target="_blank" href={base_url + "/public/register"} className="login-button">
                             Login / Signup
                         </a>
                     </li>
@@ -60,7 +60,8 @@ function Menu({ request }){
     )
 }
 function Banner(){
-    let dir = '../images/banner/';
+    const base_url = useContext(BaseUrl);
+    let dir = base_url + '/images/banner/';
     let images = [dir + 'slides1.png', dir + 'slides2.png'];
 
     const [index, setIndex] = useState(0)
@@ -80,6 +81,7 @@ function Banner(){
     )
 }
 function Footer(){
+    const base_url = useContext(BaseUrl);
     return (
         <footer className='footer'>
             <div className="footer-left">
@@ -125,6 +127,7 @@ function findMessageInStationMessages(stationMessages, stationId){
     return "Station Message not found";
 }
 function Map(){
+    const base_url = useContext(BaseUrl);
     const map = useRef(null);
     const [station, setStation] = useState({});
     const [stationMessages, setStationMessages] = useState([]);
@@ -290,11 +293,11 @@ function Map(){
                     <div className='description'><span>Prediction Summary:</span> <br/>{findMessageInStationMessages(stationMessages, station.stationId)}</div>
                     <div className='view'>
                         <i class="fa-solid fa-chart-column"></i>
-                        <a href={'../public/userStation/'+ station.stationId} target='_blank'>View Station Dashboard</a>
+                        <a href={base_url + '/public/userStation/'+ station.stationId} target='_blank'>View Station Dashboard</a>
                     </div>
                     <div className='signup' style={{backgroundColor:"white"}}>
                         <i class="fa-regular fa-user"></i>
-                        <a href='../public/register' target="_blank">Login/Signup</a>
+                        <a href={base_url + '/public/register'} target="_blank">Login/Signup</a>
                     </div>
                 </div>
             ) :
@@ -341,6 +344,7 @@ function format(string){
 }
 
 function PrivacyPolicy(){
+    const base_url = useContext(BaseUrl);
     return (
         <div className='map-stations'>
             <h3>
@@ -370,6 +374,7 @@ function PrivacyPolicy(){
     );
 }
 function TermsOfUse(){
+    const base_url = useContext(BaseUrl);
     return (
         <div className='map-stations'>
             <h3>
@@ -400,6 +405,7 @@ function TermsOfUse(){
     )
 }
 function Methodology(){
+    const base_url = useContext(BaseUrl);
     return (
         <div className='methodology'>
             <div className = 'title'>Hydrological Forecasting Engine Methodology (Machine Learning):</div>
@@ -478,8 +484,8 @@ function Methodology(){
                 The plots utilize a secondary y-axis to illustrate the correlation, or lack of thereof, between an individual predictor and the target variable (water level).
                 Both axes are clearly labeled and pigmented to identify which line is represented by the axe. Below are sample images collected during training, testing, and prediction.
                <div className='images'>
-                <img src='../images/methodology/graph.png' alt='graph' width='353' height='250'/>
-                <img src='../images/methodology/graph2.png' alt='graph' width='353' height='250'/>
+                <img src={base_url + '/images/methodology/graph.png'} alt='graph' width='353' height='250'/>
+                <img src={base_url + '/images/methodology/graph2.png'} alt='graph' width='353' height='250'/>
                </div>
             </div>
             <div className = "conclusion">
