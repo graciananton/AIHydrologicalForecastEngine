@@ -1,21 +1,25 @@
 import React from "react";
 import "../css/home.css";
-import { useRef, useEffect, useState} from 'react'
+import { useRef, useEffect, useState, createContext} from 'react'
+
+const BaseUrl = createContext();
 
 export default function Home({ data }){
-    console.log("inside home");
+    
     return (
-        <div className='home'>
-            <Menu request = {data.request}/>
-            <Banner />
-            {
-                (data.request == "home" && <Map />) ||
-                (data.request == "methodology" && <Methodology />) ||
-                (data.request == "privacyPolicy" && <PrivacyPolicy />) || 
-                (data.request == "termsOfUse" && <TermsOfUse />) 
-            }
-            <Footer />
-        </div>
+        <BaseUrl value= {env('APP_BASE_URL')}>
+            <div className='home'>
+                <Menu request = {data.request}/>
+                <Banner />
+                {
+                    (data.request == "home" && <Map />) ||
+                    (data.request == "methodology" && <Methodology />) ||
+                    (data.request == "privacyPolicy" && <PrivacyPolicy />) || 
+                    (data.request == "termsOfUse" && <TermsOfUse />) 
+                }
+                <Footer />
+            </div>
+        </BaseUrl>
     )
 }
 function Menu({ request }){
