@@ -5,6 +5,7 @@ import { BaseUrlContext } from "./BaseUrlContext";
 
 export default function Home({ data }){
     console.log("Home");
+    console.log("Home - .env");
     console.log(useContext(BaseUrlContext));
     return (
         <div className='home'>
