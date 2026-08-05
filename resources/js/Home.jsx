@@ -22,7 +22,7 @@ export default function Home({ data }){
 }
 function Menu({ request }){
     const base_url = useContext(BaseUrlContext);
-    console.log("base_url");
+    console.log("base_urldsdsd");
     console.log(base_url);
 
     return (
@@ -39,9 +39,9 @@ function Menu({ request }){
 
                 <ul className="nav-links">
 
-                    <li><a className = {(request != "methodology")? 'active' : 'inactive'} href={"/laravel/public/home"}>Home</a></li>
+                    <li><a className = {(request != "methodology")? 'active' : 'inactive'} href={base_url + "/public/home"}>Home</a></li>
 
-                    <li><a className = {(request == "methodology")? 'active' : 'inactive'} href={"/laravel/public/methodology"}>Methodology</a></li>
+                    <li><a className = {(request == "methodology")? 'active' : 'inactive'} href={base_url + "/public/methodology"}>Methodology</a></li>
                     <li>              
                         <i class="fa-regular fa-user"></i>
   
@@ -60,6 +60,8 @@ function Menu({ request }){
 function Banner(){
     const base_url = useContext(BaseUrlContext);
     let dir = base_url + '/images/banner/';
+    console.log("Dir: " + dir);
+
     let images = [dir + 'slides1.png', dir + 'slides2.png'];
 
     const [index, setIndex] = useState(0)

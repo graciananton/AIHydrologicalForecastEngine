@@ -1,6 +1,6 @@
 import React from "react";
 import '../css/Register.css';
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import { BaseUrlContext } from "./BaseUrlContext";
 
 export default function Login({ data }){

@@ -1,6 +1,6 @@
 import React from "react";
 import '../css/Register.css';
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import { BaseUrlContext } from "./BaseUrlContext";
 
 export default function Register({ data }){
@@ -14,7 +14,7 @@ export default function Register({ data }){
                     <img src={base_url + '/images/logo.png'}/>
                     <div className='text'>
                         <h2>OTTAWA RIVER</h2>
-                        <span><a href='/laravel/public'>HYDROMETRIC STATION MAPS</a></span>
+                        <span><a href={base_url+'/public'}>HYDROMETRIC STATION MAPS</a></span>
                     </div>
                 </div>
                 <div className='title'>Register</div>
