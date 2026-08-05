@@ -66,10 +66,19 @@ Route::post('/registerSubmit', [RegisterController::class,'process']);
 Route::get('/statuses_sync',[StatusController::class,'sync'])->middleware('auth');
 
 #->middleware('auth')
+/*
+Route::match(['get'], ['/home','/'], function(){
+    return view('home', ['request' => 'home']);
 
+});
+*/
 Route::get('/home', function(){
     return view('home', ['request' => 'home']);
 });
+Route::get('/', function(){
+    return view('home', ['request' => 'home']);
+});
+
 
 Route::get('/privacyPolicy', function(){
     return view('home', ['request' => 'privacyPolicy']);
