@@ -10,25 +10,28 @@ import UserStation from "./UserStation";
 import Home from "./Home";
 import Signup from "./Signup";
 import Register from "./Register";
-import { useState, useEffect } from "react";
+import { useState, useEffect, createContext } from "react";
 import "../css/app.css";
+import { BaseUrlContext } from "./BaseUrlContext";
 
 export default function App() {
   const data = window.__REACT_DATA__ || {};
   var req = getReq(data);
 
   return (
-    <div id='mainPage'>
-      {(req == "home" || req == "privacyPolicy" || req == "termsOfUse" || req == "methodology") && <Home data={data}/>}
-      {req === 'workflow' && <Workflow /> }
-      {req == "login" && <Login data={data} />}
-      {req == "dashboard" && <Dashboard />}
-      {req == "verificationCode" && <VerificationCode data={data}/>}
-      {req == "userStation" && <UserStation data={data}/>}
-      {req == "signup" && <Signup data={data} />}
-      {req == "verificationMessage" && <VerificationMessage data={data} />}
-      {req == "register" && <Register data={data}/>}
-    </div>
+    <BaseUrl value= {import.meta.env.VITE_APP_BASE_URL}>
+      <div id='mainPage'>
+        {(req == "home" || req == "privacyPolicy" || req == "termsOfUse" || req == "methodology") && <Home data={data}/>}
+        {req === 'workflow' && <Workflow /> }
+        {req == "login" && <Login data={data} />}
+        {req == "dashboard" && <Dashboard />}
+        {req == "verificationCode" && <VerificationCode data={data}/>}
+        {req == "userStation" && <UserStation data={data}/>}
+        {req == "signup" && <Signup data={data} />}
+        {req == "verificationMessage" && <VerificationMessage data={data} />}
+        {req == "register" && <Register data={data}/>}
+      </div>
+    </BaseUrl>
   );
 }
 function getReq(data){

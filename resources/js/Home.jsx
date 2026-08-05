@@ -1,25 +1,23 @@
 import React from "react";
 import "../css/home.css";
-import { useRef, useEffect, useState, useContext, createContext} from 'react'
-
-const BaseUrl = createContext("");
+import { useRef, useEffect, useState, useContext} from 'react'
+import { BaseUrl } from "./app.jsx";
 
 export default function Home({ data }){
-    
+    console.log("Home");
+    console.log(useContext(BaseUrl));
     return (
-        <BaseUrl value= {import.meta.env.VITE_APP_BASE_URL}>
-            <div className='home'>
-                <Menu request = {data.request}/>
-                <Banner />
-                {
-                    (data.request == "home" && <Map />) ||
-                    (data.request == "methodology" && <Methodology />) ||
-                    (data.request == "privacyPolicy" && <PrivacyPolicy />) || 
-                    (data.request == "termsOfUse" && <TermsOfUse />) 
-                }
-                <Footer />
-            </div>
-        </BaseUrl>
+        <div className='home'>
+            <Menu request = {data.request}/>
+            <Banner />
+            {
+                (data.request == "home" && <Map />) ||
+                (data.request == "methodology" && <Methodology />) ||
+                (data.request == "privacyPolicy" && <PrivacyPolicy />) || 
+                (data.request == "termsOfUse" && <TermsOfUse />) 
+            }
+            <Footer />
+        </div>
     )
 }
 function Menu({ request }){
