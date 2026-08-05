@@ -1,13 +1,13 @@
 import React from "react";
 import "../css/home.css";
-import { useRef, useEffect, useState, createContext} from 'react'
+import { useRef, useEffect, useState, useContext, createContext} from 'react'
 
 const BaseUrl = createContext("");
 
 export default function Home({ data }){
     
     return (
-        <BaseUrl value= {env('APP_BASE_URL')}>
+        <BaseUrl value= {import.meta.env.VITE_APP_BASE_URL}>
             <div className='home'>
                 <Menu request = {data.request}/>
                 <Banner />
@@ -23,8 +23,9 @@ export default function Home({ data }){
     )
 }
 function Menu({ request }){
-    const BaseUrl = useContext(BaseUrl);
-    console.log(BaseUrl);
+    const base_url = useContext(BaseUrl);
+    console.log("base_url");
+    console.log(base_url);
 
     return (
         <header>
