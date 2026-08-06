@@ -91,6 +91,7 @@ class ChatQuery():
                 tools=self.tools,
                 input=messages
             )
+
             tool_calls = [
                 item for item in response.output
                 if item.type == "function_call"
@@ -104,6 +105,8 @@ class ChatQuery():
             tool_outputs = []
         
             for item in tool_calls:
+                #print("Tool call item:")
+                #print(item)
                 if item.name == "send_otp":
                     data = json.loads(item.arguments)
                     data['accept'] = 'json'
@@ -113,6 +116,10 @@ class ChatQuery():
                     data = json.loads(item.arguments)
                     data['accept'] = 'json'
                     result = self.verify_otp(data)
+                elif item.name == "get_user_details":
+                    result = self.get_user_details()
+                else:
+                    result = "Try again"
 
                 tool_outputs.append({
                     "type": "function_call_output",

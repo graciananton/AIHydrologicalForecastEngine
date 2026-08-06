@@ -31,7 +31,7 @@ function Menu({ request }){
             <nav className="navbar">
 
                 <div className="logo">
-                    <img src={base_url + '/images/logo.png'}/>
+                    <img src={base_url+'/images/logo.png'}/>
                     <div className='text'>
                         <h2>OTTAWA RIVER</h2>
                         <span><a href={base_url + '/public/home'}>HYDROMETRIC STATION MAPS</a></span>
