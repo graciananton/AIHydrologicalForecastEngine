@@ -323,7 +323,8 @@ function Map(){
                             </div>
                         </div>
                         <div className='jump-links'>
-                            
+                            <i class="fa-solid fa-message-bot"></i>
+                            <a onclick=''>Chatbot</a>
                         </div>
                     </div>
                 </div>
