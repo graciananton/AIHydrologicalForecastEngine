@@ -19,6 +19,7 @@ class ChatQuery():
         self.client = OpenAI(
             api_key=os.environ["OPENAI_API_KEY"]
         )
+        
     def tools(self):
         self.tools = [
             # each of these are functions
