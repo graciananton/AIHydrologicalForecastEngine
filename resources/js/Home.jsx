@@ -312,12 +312,19 @@ function Map(){
                             <li>3. Access real-time data, forecasts, and messages by using the supported links below.</li>
                         </ol>
                     </div>
-                    <div className='view'>                     
-                        <i class="fa-solid fa-chart-column"></i>
-                        <a href='../public/methodology' target="_blank">View Methodology</a></div>
-                    <div className='signup'>         
-                        <i class="fa-regular fa-user"></i>
-                        <a href='../public/register' target="_blank">Login/Signup </a>
+                    <div className='links'>
+                        <div className='page-links'>
+                            <div className='view'>                     
+                                <i class="fa-solid fa-chart-column"></i>
+                                <a href='../public/methodology' target="_blank">View Methodology</a></div>
+                            <div className='signup'>         
+                                <i class="fa-regular fa-user"></i>
+                                <a href='../public/register' target="_blank">Login/Signup </a>
+                            </div>
+                        </div>
+                        <div className='jump-links'>
+                            
+                        </div>
                     </div>
                 </div>
             )
