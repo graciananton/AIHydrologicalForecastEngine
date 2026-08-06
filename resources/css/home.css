@@ -227,11 +227,10 @@ i{
 }
 .methodology{
     display:flex;
-    width:100%;
     flex-direction:column;
     gap:5px;
     background-color:#F4F8FC;
-    border:0px solid red;
+    border:5px solid red;
     overflow-y:scroll;
     flex:5;
     padding:15px 15px 30px 15px;
