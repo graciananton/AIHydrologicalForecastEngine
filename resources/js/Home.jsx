@@ -132,6 +132,8 @@ function Map(){
     const map = useRef(null);
     const [station, setStation] = useState({});
     const [stationMessages, setStationMessages] = useState([]);
+    
+    const [option, setOption] = useState('page');
 
     useEffect(() => {
         async function processStations(){
@@ -234,7 +236,7 @@ function Map(){
                             autoPanPaddingBottomRight:[80,80],
                         }
                     ).openPopup();
-
+                    setOption('station');
                 });
             })
 
@@ -288,21 +290,31 @@ function Map(){
 
             </div>
             {
-            Object.keys(station).length > 0  ?
+            (option == 'station')  ?
             (   <div className='station'>
                     <div className='name'>{station.name}</div>
                     <div className='description'><span>Prediction Summary:</span> <br/>{findMessageInStationMessages(stationMessages, station.stationId)}</div>
-                    <div className='view'>
-                        <i class="fa-solid fa-chart-column"></i>
-                        <a href={base_url + '/public/userStation/'+ station.stationId} target='_blank'>View Station Dashboard</a>
-                    </div>
-                    <div className='signup' style={{backgroundColor:"white"}}>
-                        <i class="fa-regular fa-user"></i>
-                        <a href={base_url + '/public/register'} target="_blank">Login/Signup</a>
+                    <div className='links'>
+                        <div className='page-links'>
+                            <div className='view'>                     
+                                <i class="fa-solid fa-chart-column"></i>
+                                <a href='../public/methodology' target="_blank">View Methodology</a></div>
+                            <div className='signup'>         
+                                <i class="fa-regular fa-user"></i>
+                                <a href='../public/register' target="_blank">Login/Signup </a>
+                            </div>
+                        </div>
+                        <div className='jump-links'>
+                            <div className='chatbot'>
+                                <i class="fa-solid fa-message-bot"></i>
+                                <a href='#' onClick={() => setOption('chatbot')}>Chatbot</a>
+                            </div>
+                        </div>
                     </div>
                 </div>
-            ) :
-            (
+            ) 
+            :
+            (option == "page") ? (
                 <div className='station'>
                     <div className='name'>Ottawa River Station Maps</div>
                     <div className='description'>
@@ -323,10 +335,38 @@ function Map(){
                             </div>
                         </div>
                         <div className='jump-links'>
-                            <i class="fa-solid fa-message-bot"></i>
-                            <a onclick=''>Chatbot</a>
+                            <div className='chat'>
+                                <i class="fa-regular fa-user"></i>
+                                <a href='#' onClick={() => setOption('chatbot')}>Chatbot</a>
+                            </div>
                         </div>
                     </div>
+                </div>
+            ) : 
+            (
+                <div className='chatbot'>
+                    <div className='name'>
+                        <i class="fa-solid fa-comment"></i>
+                        Hydrometric Station Chatbot
+                    </div>
+                    <div className='screen'>
+                        <div className='messages'>
+                            <div className='user-message'>
+                                Hello, what does this system do
+                            </div>
+                            <div className='assistant-message'>
+                                This system manages water levels Lorem ipsum dolor, sit amet consectetur 
+                                adipisicing elit. Ratione, porro quia accusamus dolores aliquam voluptatem 
+                                aperiam quos odit soluta at quaerat harum repellendus expedita enim commodi 
+                                corrupti nemo veritatis iure.
+                            </div>
+                          
+                        </div>
+                        <div className='input'>
+                            <input placeholder='Ask Hydrometric Station Chatbot' name='input' value = ''/>
+                        </div>
+                    </div>
+                    
                 </div>
             )
             }
