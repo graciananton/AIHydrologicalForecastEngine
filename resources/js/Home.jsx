@@ -23,13 +23,10 @@ export default function Home({ data }){
 }
 function Menu({ request }){
     const base_url = useContext(BaseUrlContext);
-    console.log("base_urldsdsd");
-    console.log(base_url);
 
     return (
         <header>
             <nav className="navbar">
-
                 <div className="logo">
                     <img src={base_url+'/images/logo.png'}/>
                     <div className='text'>
@@ -371,22 +368,16 @@ function Map(){
                     <div className='screen'>
                         <div className='messages'>
                             {
-                                console.log("Messages:ddskls;d")
-                            }
-                            {
-                                console.log(allMessages)
-                            }
-                            {
-                                allMessages.map((message, index) => {
+                                allMessages.map((message, index) => (
                                     <div className = {message.role + '-message'} key={index}>
                                         {console.log(message)}
                                         {message.content}
                                     </div>
-                                })
+                                ))
                             }
                         </div>
                         <div className='input'>
-                            <input placeholder='Ask Hydrometric Station Chatbot' onKeyDown = {handleUserMessage} name='input' />
+                            <input placeholder='Ask Hydrometric Station Chatbot' onKeyDown = {handleUserMessage} defaultValue={userInput} name='input' />
                         </div>
                     </div>
                     
