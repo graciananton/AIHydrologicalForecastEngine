@@ -141,7 +141,7 @@ function Map(){
             setUserInput("");
         }
     }
-
+    
     useEffect(() => {
         async function getResponse(){
             console.log("Response Data:--");
@@ -153,16 +153,18 @@ function Map(){
                 headers: {
                     'Content-Type': 'application/json'
                 },
-                data: JSON.stringify({
-                    messages: [{ role: 'user', content: 'ldslksd' }]
-                })
+                body: JSON.stringify({'messages': allMessages})
             });
             
             console.log(response);
 
             const data = await response.json();
-            
-            const assistant = data[-1];
+
+            console.log(data);
+
+            const assistant = data[data.length-1];
+            let messagesCopy = [...allMessages]
+
             messagesCopy.push({'role':'assistant','content': assistant.content})
 
             setAllMessages(messagesCopy);
