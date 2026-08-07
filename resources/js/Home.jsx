@@ -379,6 +379,7 @@ function Map(){
                             {
                                 allMessages.map((message, index) => {
                                     <div className = {message.role + '-message'} key={index}>
+                                        {console.log(message)}
                                         {message.content}
                                     </div>
                                 })
