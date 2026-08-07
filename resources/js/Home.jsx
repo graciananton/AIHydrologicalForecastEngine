@@ -141,7 +141,17 @@ function Map(){
 
             let messagesCopy = [...allMessages];
             messagesCopy.push({'role':'user','content': userMessage.value});
-
+            
+            useEffect(() => {
+                const data = await fetch('https://gracian.ca/laravel/public/api/generate_response',{
+                    method: "POST",
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    data: JSON.stringify({'message': messageCopy})
+                });
+            }, [messageCopy]);
+            
             console.log("messagesCopy");
             console.log(messagesCopy);
 
