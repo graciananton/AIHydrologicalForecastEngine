@@ -135,8 +135,6 @@ function Map(){
     const [userInput, setUserInput] = useState("");
 
     const handleUserMessage = (event) => {
-        const [message, setMessage] = useState("");
-
         if(event.key == "Enter"){
             event.preventDefault();
             let userMessage = event.currentTarget;
@@ -154,7 +152,10 @@ function Map(){
                 });
 
                 const data = await response.json();
+                
+                const assistant = data[-1];
 
+                messagesCopy.push({'role':'assistant','content': assistant.content})
 
             }, [messageCopy]);
 
