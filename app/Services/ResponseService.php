@@ -8,7 +8,8 @@ use Illuminate\Support\Facades\Http;
 class ResponseService
 {
     public function sync($params){
-    
+        Log::channel('weather')->info($params);
+
         $response = Http::timeout(1200)->post("http://127.0.0.1:8000/generate_response", $params);
 
 

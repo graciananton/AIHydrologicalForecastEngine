@@ -146,14 +146,16 @@ function Map(){
         async function getResponse(){
             console.log("Response Data:--");
             console.log(allMessages);
-            console.log(JSON.stringify({'message': allMessages}));
+            console.log(JSON.stringify({'messages': allMessages}));
 
             const response = await fetch('http://localhost/laravel/public/api/generateResponse',{
                 method: "POST",
                 headers: {
                     'Content-Type': 'application/json'
                 },
-                data: JSON.stringify({'messages': allMessages})
+                data: JSON.stringify({
+                    messages: [{ role: 'user', content: 'ldslksd' }]
+                })
             });
             
             console.log(response);
