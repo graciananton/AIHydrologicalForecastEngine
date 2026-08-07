@@ -142,33 +142,35 @@ function Map(){
             let messagesCopy = [...allMessages];
             messagesCopy.push({'role':'user','content': userMessage.value});
             
-            useEffect(() => {
-                async function getResponse(){
-                    const response = await fetch('https://gracian.ca/laravel/public/api/generate_response',{
-                        method: "POST",
-                        headers: {
-                            'Content-Type': 'application/json'
-                        },
-                        data: JSON.stringify({'message': messageCopy})
-                    });
-
-                    const data = await response.json();
-                    
-                    const assistant = data[-1];
-
-                    messagesCopy.push({'role':'assistant','content': assistant.content})
-                }
-                getResponse();
-            }, [messageCopy]);
-
-            console.log("messagesCopy");
-            console.log(messagesCopy);
-
-            setAllMessages(messagesCopy)
+            setAllMessages(messagesCopy);
 
             setUserInput("");
         }
     }
+
+    useEffect(() => {
+        async function getResponse(){
+            const response = await fetch('https://gracian.ca/laravel/public/api/generate_response',{
+                method: "POST",
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                data: JSON.stringify({'message': allMessages})
+            });
+
+            const data = await response.json();
+            
+            const assistant = data[-1];
+
+            messagesCopy.push({'role':'assistant','content': assistant.content})
+            
+            setAllMessages(messagesCopy);
+        }
+        if(allMessages.length > 0){
+            getResponse();
+        }
+    }, [allMessages]);
+
 
     useEffect(() => {
         async function processStations(){
