@@ -3,13 +3,14 @@ namespace App\Services;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Http;
 
 class ResponseService
 {
-    public function sync($request){
+    public function sync($params){
 
-        $response = Http::post("https://fast-api-54so.onrender.com/generate_response", [
-            "messages" => $request->messages
+        $response = Http::timeout(1200)->post("https://fast-api-54so.onrender.com/generate_response", [
+            "messages" => json_encode($params['messages'])
         ]);
 
 
@@ -28,5 +29,11 @@ class ResponseService
         }
 
         return $data;
+    }
+
+    public function filter($params){
+        return [
+            'messages' => json_decode($params->messages, true)
+        ];
     }
 }

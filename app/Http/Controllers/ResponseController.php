@@ -4,17 +4,19 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Services\ResponseService;
 use App\Services\Formatter\ResponseFormatter;
+use Illuminate\Support\Facades\Log;
 
 class ResponseController extends Controller
 {
-    private array $params;
     private ResponseService $ResponseService;
-    private $request;
+    private $params;
     public function __construct(ResponseService $ResponseService, Request $request){
         $this->ResponseService = $ResponseService;
-        $this->request = $request;
+        $this->params = $request;
     }
     public function process(){
-       return response()->json($this->ResponseService->process($this->request));
+       $this->params = $this->ResponseService->filter($this->params);
+       Log::channel("laravel")->info($this->params['messages']);
+       return response()->json($this->ResponseService->sync($this->params));
     }
 }

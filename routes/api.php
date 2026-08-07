@@ -23,7 +23,7 @@ use App\Http\Controllers\StationMessageDailyReportController;
 use App\Http\Controllers\ResponseController;
 
 
-Route::get('/generateResponse',[ResponseController::class,'generateResponse']);
+Route::get('/generateResponse',[ResponseController::class,'process']);
 
 # get the RMSE score of the test set
 
