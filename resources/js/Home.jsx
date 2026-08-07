@@ -153,7 +153,7 @@ function Map(){
                 headers: {
                     'Content-Type': 'application/json'
                 },
-                data: {'messages': allMessages}
+                data: JSON.stringify({'messages': allMessages})
             });
             
             console.log(response);

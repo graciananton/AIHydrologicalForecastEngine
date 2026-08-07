@@ -15,6 +15,8 @@ class ResponseController extends Controller
         $this->params = $request;
     }
     public function process(){
+       Log::channel("weather")->info("ResponseController - params");
+       Log::channel("weather")->info($this->params);
        return response()->json($this->ResponseService->sync($this->params));
     }
 }
