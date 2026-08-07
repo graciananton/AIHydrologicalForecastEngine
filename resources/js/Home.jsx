@@ -371,7 +371,7 @@ function Map(){
                     <div className='screen'>
                         <div className='messages'>
                             {
-                                console.log("Messages:")
+                                console.log("Messages:ddskls;d")
                             }
                             {
                                 console.log(allMessages)
