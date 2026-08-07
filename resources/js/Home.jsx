@@ -4,9 +4,6 @@ import { useRef, useEffect, useState, useContext} from 'react'
 import { BaseUrlContext } from "./BaseUrlContext";
 
 export default function Home({ data }){
-    console.log("Home");
-    console.log("Home - .env");
-    console.log(useContext(BaseUrlContext));
     return (
         <div className='home'>
             <Menu request = {data.request}/>
@@ -58,16 +55,13 @@ function Menu({ request }){
 function Banner(){
     const base_url = useContext(BaseUrlContext);
     let dir = base_url + '/images/banner/';
-    console.log("Dir: " + dir);
 
     let images = [dir + 'slides1.png', dir + 'slides2.png'];
 
     const [index, setIndex] = useState(0)
 
     useEffect(() => {
-        console.log("calling useEffect");
         setTimeout(function(){
-            console.log("setting index"+String(index));
             setIndex((index + 1) % images.length);
         }, 3000);
     }, [index]);
@@ -150,6 +144,9 @@ function Map(){
 
     useEffect(() => {
         async function getResponse(){
+            console.log("Response Data:");
+            console.log(allMessages);
+
             const response = await fetch('https://gracian.ca/laravel/public/api/generate_response',{
                 method: "POST",
                 headers: {
@@ -161,9 +158,8 @@ function Map(){
             const data = await response.json();
             
             const assistant = data[-1];
-
             messagesCopy.push({'role':'assistant','content': assistant.content})
-            
+
             setAllMessages(messagesCopy);
         }
         if(allMessages.length > 0){
@@ -194,7 +190,6 @@ function Map(){
             let stationIdsCopy = await [...stationIds]
             
             let index = 0;
-            console.log(stationIdsCopy);
 
             while(stationIdsCopy.length > 0 && index < messages.length){
                 if(stationIdsCopy.includes(messages[index].stationId)){
@@ -213,18 +208,11 @@ function Map(){
                 }
                 index ++
             }
-            console.log("STation Messages --");
-            console.log(stationMessages);
             setStationMessages(stationMessages);
 
             const bounds = L.latLngBounds(stationCoordinates);
 
-            console.log("Bounds:");
-            console.log(bounds);
-
             const mapCenter = bounds.getCenter(); 
-            console.log("Map center: ");
-            console.log(mapCenter);
 
             var map = L.map('map').setView(mapCenter, 19);
             
@@ -249,12 +237,9 @@ function Map(){
                     map.invalidateSize();
 
                     setStation(station);
-                    console.log('Click action performed');
                     const targetLocation = L.latLng(station.latitude, station.longitude);
-                    console.log(targetLocation);
 
                     const bounds = targetLocation.toBounds(500);
-                    console.log(bounds);
 
                     const boundOptions = {
                         duration: 0.35,
@@ -262,9 +247,7 @@ function Map(){
                         paddingTopLeft: [50, 475],
                         paddingBottomRight: [50, 275]
                     };
-                    console.log("updated map");
                     const updatedMap = map.flyToBounds(bounds, boundOptions);
-                    console.log(updatedMap);
                     
 
                     marker.bindPopup(
@@ -287,14 +270,9 @@ function Map(){
                     reset.innerHTML = '<button>Reset</button>';
 
                     L.DomEvent.on(reset, 'click', function (event) {
-                        console.log("Button clicked");
 
                         L.DomEvent.stopPropagation(event);
                         
-                        console.log("Map center: ");
-
-                        console.log(mapCenter);
-
                         markerGroup.eachLayer(function (layer) {
                             if (layer instanceof L.Marker) {
                                 layer.closePopup();             
@@ -391,7 +369,6 @@ function Map(){
                             {
                                 allMessages.map((message, index) => (
                                     <div className = {message.role + '-message'} key={index}>
-                                        {console.log(message)}
                                         {message.content}
                                     </div>
                                 ))
@@ -423,7 +400,6 @@ function format(string){
         }
         stringList[i] = word;
     }
-    console.log(stringList.join(" "));
     return stringList.join(" ");
 }
 
