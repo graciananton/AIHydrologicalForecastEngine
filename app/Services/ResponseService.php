@@ -9,7 +9,7 @@ class ResponseService
 {
     public function sync($params){
 
-        $response = Http::timeout(1200)->post("https://fast-api-54so.onrender.com/generate_response", [
+        $response = Http::timeout(1200)->post("http://127.0.0.1:8000/generate_response", [
             "messages" => json_encode($params['messages'])
         ]);
 
@@ -29,11 +29,5 @@ class ResponseService
         }
 
         return $data;
-    }
-
-    public function filter($params){
-        return [
-            'messages' => json_decode($params->messages, true)
-        ];
     }
 }

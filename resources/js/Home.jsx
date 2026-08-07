@@ -144,10 +144,11 @@ function Map(){
 
     useEffect(() => {
         async function getResponse(){
-            console.log("Response Data:");
+            console.log("Response Data:--");
             console.log(allMessages);
+            console.log(JSON.stringify({'message': allMessages}));
 
-            const response = await fetch('https://gracian.ca/laravel/public/api/generate_response',{
+            const response = await fetch('https://localhost/laravel/public/api/generateResponse',{
                 method: "POST",
                 headers: {
                     'Content-Type': 'application/json'
