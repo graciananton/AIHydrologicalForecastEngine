@@ -30,4 +30,10 @@ class ResponseService
 
         return $data;
     }
+
+    public function filter($params){
+        return [
+            'messages' => $params->messages, true
+        ];
+    }
 }

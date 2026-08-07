@@ -15,6 +15,8 @@ class ResponseController extends Controller
         $this->params = $request;
     }
     public function process(){
+       $this->params = $this->ResponseService->filter($this->params);
+       Log::channel("laravel")->info($this->params['messages']);
        return response()->json($this->ResponseService->sync($this->params));
     }
 }
