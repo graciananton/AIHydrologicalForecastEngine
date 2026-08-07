@@ -135,6 +135,8 @@ function Map(){
     const [userInput, setUserInput] = useState("");
 
     const handleUserMessage = (event) => {
+        const [message, setMessage] = useState("");
+
         if(event.key == "Enter"){
             event.preventDefault();
             let userMessage = event.currentTarget;
@@ -143,15 +145,19 @@ function Map(){
             messagesCopy.push({'role':'user','content': userMessage.value});
             
             useEffect(() => {
-                const data = await fetch('https://gracian.ca/laravel/public/api/generate_response',{
+                const response = await fetch('https://gracian.ca/laravel/public/api/generate_response',{
                     method: "POST",
                     headers: {
                         'Content-Type': 'application/json'
                     },
                     data: JSON.stringify({'message': messageCopy})
                 });
+
+                const data = await response.json();
+
+
             }, [messageCopy]);
-            
+
             console.log("messagesCopy");
             console.log(messagesCopy);
 
