@@ -134,6 +134,25 @@ function Map(){
     const [stationMessages, setStationMessages] = useState([]);
     
     const [option, setOption] = useState('page');
+    const [allMessages, setAllMessages] = useState([]);
+    const [userInput, setUserInput] = useState("");
+
+    const handleUserMessage = (event) => {
+        if(event.key == "Enter"){
+            event.preventDefault();
+            let userMessage = event.currentTarget;
+
+            let messagesCopy = [...allMessages];
+            messagesCopy.push({'role':'user','content': userMessage.value});
+
+            console.log("messagesCopy");
+            console.log(messagesCopy);
+
+            setAllMessages(messagesCopy)
+
+            setUserInput("");
+        }
+    }
 
     useEffect(() => {
         async function processStations(){
@@ -351,19 +370,22 @@ function Map(){
                     </div>
                     <div className='screen'>
                         <div className='messages'>
-                            <div className='user-message'>
-                                Hello, what does this system do
-                            </div>
-                            <div className='assistant-message'>
-                                This system manages water levels Lorem ipsum dolor, sit amet consectetur 
-                                adipisicing elit. Ratione, porro quia accusamus dolores aliquam voluptatem 
-                                aperiam quos odit soluta at quaerat harum repellendus expedita enim commodi 
-                                corrupti nemo veritatis iure.
-                            </div>
-                          
+                            {
+                                console.log("Messages:")
+                            }
+                            {
+                                console.log(allMessages)
+                            }
+                            {
+                                allMessages.map((message, index) => {
+                                    <div className = {message.role + '-message'} key={index}>
+                                        {message.content}
+                                    </div>
+                                })
+                            }
                         </div>
                         <div className='input'>
-                            <input placeholder='Ask Hydrometric Station Chatbot' name='input' value = ''/>
+                            <input placeholder='Ask Hydrometric Station Chatbot' onKeyDown = {handleUserMessage} name='input' />
                         </div>
                     </div>
                     
