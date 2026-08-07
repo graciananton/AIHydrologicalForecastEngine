@@ -8,10 +8,8 @@ use Illuminate\Support\Facades\Http;
 class ResponseService
 {
     public function sync($params){
-
-        $response = Http::timeout(1200)->post("http://127.0.0.1:8000/generate_response", [
-            "messages" => json_encode($params['messages'])
-        ]);
+    
+        $response = Http::timeout(1200)->post("http://127.0.0.1:8000/generate_response", $params);
 
 
         if (!$response->successful()) { // this is for 200-299 (success)
@@ -29,11 +27,5 @@ class ResponseService
         }
 
         return $data;
-    }
-
-    public function filter($params){
-        return [
-            'messages' => $params->messages, true
-        ];
     }
 }
