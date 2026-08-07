@@ -20,6 +20,10 @@ use App\Http\Controllers\LevelController;
 use App\Http\Controllers\LevelAnalysisController;
 use App\Http\Controllers\StationMessageController;
 use App\Http\Controllers\StationMessageDailyReportController;
+use App\Http\Controllers\ResponseController;
+
+
+Route::get('/generateResponse',[ResponseController::class,'generateResponse']);
 
 # get the RMSE score of the test set
 
