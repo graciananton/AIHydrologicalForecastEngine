@@ -143,20 +143,22 @@ function Map(){
             messagesCopy.push({'role':'user','content': userMessage.value});
             
             useEffect(() => {
-                const response = await fetch('https://gracian.ca/laravel/public/api/generate_response',{
-                    method: "POST",
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    data: JSON.stringify({'message': messageCopy})
-                });
+                async function getResponse(){
+                    const response = await fetch('https://gracian.ca/laravel/public/api/generate_response',{
+                        method: "POST",
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        data: JSON.stringify({'message': messageCopy})
+                    });
 
-                const data = await response.json();
-                
-                const assistant = data[-1];
+                    const data = await response.json();
+                    
+                    const assistant = data[-1];
 
-                messagesCopy.push({'role':'assistant','content': assistant.content})
-
+                    messagesCopy.push({'role':'assistant','content': assistant.content})
+                }
+                getResponse();
             }, [messageCopy]);
 
             console.log("messagesCopy");
