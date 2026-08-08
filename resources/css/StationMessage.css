@@ -1,0 +1,19 @@
+.stationMessage{
+    width:100%;
+    height:auto;
+    display:flex;
+    flex-direction:column;
+    gap:clamp(12px, 15px, 18px);
+}
+.stationMessage div{
+    font-size:clamp(12px, 15px, 18px);
+}
+.stationMessage .title .createdAt{
+    font-weight:bold;
+}
+.stationMessage .graphs{
+    display:flex;
+    flex-direction:column;
+    gap:clamp(10px, 13px, 16px);
+}
+

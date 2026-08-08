@@ -18,7 +18,7 @@ class StationMessageMail extends Mailable
     /**
      * Create a new message instance.
      */
-    public function __construct(string $message, string $stationId)
+    public function __construct(string $stationId)
     {
         $this->stationId = $stationId;
         // internally calls envelope(), content(), attachments() even though not called in __construct()
@@ -46,6 +46,7 @@ class StationMessageMail extends Mailable
         return new Content(
             view: 'emails.stationMessage',
             with: [
+                'request' => 'stationMessage',
                 'stationId'=> $this->stationId
             ]
         );

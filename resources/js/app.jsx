@@ -10,6 +10,7 @@ import UserStation from "./UserStation";
 import Home from "./Home";
 import Signup from "./Signup";
 import Register from "./Register";
+import StationMessage from "./StationMessage";
 import { useState, useEffect, createContext } from "react";
 import "../css/app.css";
 import { BaseUrlContext } from "./BaseUrlContext";
@@ -32,6 +33,7 @@ export default function App() {
         {req == "signup" && <Signup data={data} />}
         {req == "verificationMessage" && <VerificationMessage data={data} />}
         {req == "register" && <Register data={data}/>}
+        {req == "stationMessage" && <StationMessage data={data} />}
       </div>
     </BaseUrlContext>
   );

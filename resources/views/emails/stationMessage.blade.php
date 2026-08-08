@@ -16,7 +16,6 @@
                 'stationId' => $stationId
             ]
         );
-        
         window.__REACT_DATA__ = data;
     </script>
     <div id="react-root"></div>
