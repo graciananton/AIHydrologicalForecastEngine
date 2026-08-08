@@ -10,7 +10,7 @@ Schedule::command('status:scheduler')->monthly()->withoutOverlapping();
 
 
 Schedule::command('userMessageReport:scheduler')
-    ->dailyAt('4:00')
+    ->dailyAt('2:57')
     ->withoutOverlapping();
 
 /* Running Jobs */

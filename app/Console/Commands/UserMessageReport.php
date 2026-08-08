@@ -5,7 +5,7 @@ use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Http;
 
-class DailyReportScheduler extends Command
+class UserMessageReport extends Command
 {
     protected $signature = 'userMessageReport:scheduler';
 

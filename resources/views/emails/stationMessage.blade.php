@@ -3,7 +3,9 @@
 <title>Station Message</title>
 
 <div class="stationMessage">
-
+    <div class="intro" style="margin-bottom:6px;">
+        Hello User, the following is the prediction for your selected station.
+    </div>
     <div class="title" style="margin-bottom:10px;">
 
         <div class="stationId">
