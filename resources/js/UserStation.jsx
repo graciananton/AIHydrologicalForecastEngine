@@ -587,7 +587,7 @@ function StationMessage({ stationId }){
             Station Message:
        </div>
        <div id='message'>
-        {message.message}
+        {message.message} <br/>- Updated At: {convertUTCToFormattedTime(message.created_at,['month','date','hour','minute','timePeriod'])}
         </div>
     </div>
     )

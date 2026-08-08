@@ -1,3 +1,5 @@
+
+
 /* These are the default variables for the entire page */
 :root{
 
@@ -314,6 +316,32 @@ i{
     gap:clamp(8px, 9px, 10px);
     padding:clamp(12px, 14px, 16px) clamp(12px, 14px, 16px) clamp(12px, 14px, 16px) clamp(12px, 14px, 16px);
 }
+.loader {
+  width: 15px;
+  aspect-ratio: 2/1;
+  border-radius: 50%;
+  animation: l5 1s infinite linear alternate;
+  padding:5px 5px 5px 5px;
+  margin-left:clamp(25px, 25px, 25px);
+}
+@keyframes l5 {
+    0% {
+    box-shadow: 20px 0 #2468D3, -20px 0 #B8CEF1;
+    background: #2468D3;
+    }
+    33% {
+        box-shadow: 20px 0 #2468D3, -20px 0 #B8CEF1;
+        background: #B8CEF1;
+    }
+    66% {
+        box-shadow: 20px 0 #B8CEF1, -20px 0 #2468D3;
+        background: #B8CEF1;
+    }
+    100% {
+        box-shadow: 20px 0 #B8CEF1, -20px 0 #2468D3;
+        background: #2468D3;
+    }
+}
 .chatbot .screen .input{
     flex:0 0 20%;
     border-top:4px solid #F4F8FC;
@@ -324,6 +352,10 @@ i{
     border-radius:clamp(8px, 10px, 12px);
     padding-left:clamp(6px, 8px, 10px);
     background-color:#1B67D1;
+}
+.chatbot .screen .messages > div[class = "assistant-message"]{
+    background-color:#EAF2FC;
+    color:#16324F;
 }
 
 .chatbot .screen .input input{

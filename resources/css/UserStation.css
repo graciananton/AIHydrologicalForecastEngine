@@ -1,7 +1,7 @@
 #main{
     display:grid;
     grid-template-columns: 1.5fr 1fr 1fr;
-    grid-template-rows: 1fr 5fr 2.5fr 2.0fr 0.5fr;
+    grid-template-rows: 1fr 5fr 2.9fr 2.0fr 0.5fr;
     grid-template-areas:
     "station updatedAt currentWeather"
     "graph stats predictions"

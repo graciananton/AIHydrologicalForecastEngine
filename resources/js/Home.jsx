@@ -130,6 +130,8 @@ function Map(){
 
     const [userSent, setUserSent] = useState({});
 
+    const loading = useRef(false);
+
     const handleUserMessage = (event) => {
         if(event.key == "Enter"){
             event.preventDefault();
@@ -140,6 +142,7 @@ function Map(){
             
             setUserInput("");
             console.log(userInput);
+            useRef.current = true;
             setAllMessages(messagesCopy);
 
             console.log("User entered message");
@@ -175,7 +178,8 @@ function Map(){
             let messagesCopy = [...allMessages]
 
             messagesCopy.push({'role':'assistant','content': assistant.content})
-
+            
+            useRef.current = false;
             setAllMessages(messagesCopy);
         }
         if(allMessages.length > 0){
@@ -384,6 +388,7 @@ function Map(){
                     </div>
                     <div className='screen'>
                         <div className='messages'>
+                            <>
                             {
                                 allMessages.map((message, index) => (
                                     <div className = {message.role + '-message'} key={index}>
@@ -391,6 +396,10 @@ function Map(){
                                     </div>
                                 ))
                             }
+                            
+                            {useRef.current && 
+                                <div class='loader'></div>}
+                            </>
                         </div>
                         <div className='input'>
                             <input 
