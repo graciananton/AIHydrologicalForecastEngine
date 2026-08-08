@@ -13,7 +13,6 @@
         data = @json(
             [
                 'request' => $request,
-                'email' => $email,
                 'stationId' => $stationId
             ]
         );
