@@ -2,9 +2,7 @@
     Hello user,
 </p>
 <p>
-    <span style="font-size:0.8rem;">
-        <b> {{ $stationMessage }} </b>
-    </span>
+    {{ $stationMessage }} 
 </p>
 <p>
     Thanks.
