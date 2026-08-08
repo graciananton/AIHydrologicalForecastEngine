@@ -9,6 +9,10 @@ Schedule::command('reading:scheduler')->hourly()->withoutOverlapping(expiresAt: 
 Schedule::command('status:scheduler')->monthly()->withoutOverlapping();
 
 
+Schedule::command('userMessageReport:scheduler')
+    ->dailyAt('4:00')
+    ->withoutOverlapping();
+
 /* Running Jobs */
 /*
 Schedule::command('plotTrain:scheduler')
@@ -46,8 +50,11 @@ Schedule::command('dailyReport:scheduler')
 Schedule::command('stationMessage:scheduler')
     ->dailyAt('03:30')
     ->withoutOverlapping();
-       
+   
+/*
 Schedule::command('stationMessageDailyReport:scheduler')
     ->dailyAt('3:53')
     ->withoutOverlapping();
+
+*/
 
