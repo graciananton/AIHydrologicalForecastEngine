@@ -4,35 +4,19 @@
 
 <div class="stationMessage">
 
-    <div class="title">
+    <div class="title" style="margin-bottom:10px;">
 
-        <div
-            class="stationId"
-            style="
-                font-size: clamp(12px, 15px, 18px);
-            "
-        >
+        <div class="stationId">
             Station {{ $stationMessage['stationId'] }}
         </div>
 
-        <div
-            class="createdAt"
-            style="
-                font-size: clamp(12px, 15px, 18px);
-                font-weight: bold;
-            "
-        >
-            - {{ $stationMessage['created_at'] }}
+        <div class="createdAt">
+            - {{ substr($stationMessage['created_at'],0, 10) }}
         </div>
 
     </div>
 
-    <div
-        class="content"
-        style="
-            font-size: clamp(12px, 15px, 18px);
-        "
-    >
+    <div class="content" style="margin-bottom:10px;">
         {{ $stationMessage['message'] }}
     </div>
     <?php
@@ -41,29 +25,17 @@
     <div class="graphs">
         <img
             src="https://gracian.ca/laravel/images/future/{{$stationId}}_temperature.png"
-            alt="Temperature Graph"
-            style="
-                width: 100%;
-                height: auto;
-            "
+            alt=""
         >
 
         <img
             src="https://gracian.ca/laravel/images/future/{{$stationId}}_wind_speed.png"
-            alt="Wind Speed Graph"
-            style="
-                width: 100%;
-                height: auto;
-            "
+            alt=""
         >
 
         <img
             src="https://gracian.ca/laravel/images/future/{{$stationId}}_precipitation.png"
-            alt="Precipitation Graph"
-            style="
-                width: 100%;
-                height: auto;
-            "
+            alt=""
         >
 
     </div>
