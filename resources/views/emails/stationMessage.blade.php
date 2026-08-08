@@ -10,6 +10,7 @@
 </head>
 <body>
     <script>
+        console.log("landed on stationmessage blade.php");
         data = @json(
             [
                 'request' => $request,
@@ -17,6 +18,7 @@
             ]
         );
         window.__REACT_DATA__ = data;
+        
     </script>
     <div id="react-root"></div>
 </body>
