@@ -6,7 +6,7 @@
     
     Options +FollowSymLinks
     RewriteEngine On
-    RewriteBase /laravel/public/
+    RewriteBase /forecasting/public/
 
 
     RewriteEngine On

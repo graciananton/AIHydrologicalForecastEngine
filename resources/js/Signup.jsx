@@ -40,7 +40,7 @@ function getStations(){
     useEffect(() => {
         console.log("inside useEffect");
         async function getStations(){
-            const url = "https://gracian.ca/laravel/public/api/stations";
+            const url = "https://gracian.ca/forecasting/public/api/stations";
             const data = await fetch(url);
             console.log(data);
             const stations = await data.json();            

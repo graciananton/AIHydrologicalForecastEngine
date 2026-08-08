@@ -12,7 +12,7 @@ class TrainScheduler extends Command
     public function handle()
     {        
         $response = Http::get(
-            'http://gracian.ca/laravel/public/api/trainAll',
+            'http://gracian.ca/forecasting/public/api/trainAll',
         );
     }
 }

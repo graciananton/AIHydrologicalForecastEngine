@@ -51,7 +51,7 @@ class OtpMailService{
             if($user){
                 return (object) [
                     'success' => false,
-                    'error' => $request->email . " already exists in the system, try re-logging in here https://gracian.ca/laravel/public/login"
+                    'error' => $request->email . " already exists in the system, try re-logging in here https://gracian.ca/forecasting/public/login"
                 ];
             }
             else if(!$exists){
@@ -269,7 +269,7 @@ class OtpMailService{
                     'success' => false,
                     'role' => 'user',
                     'loggedIn' => false,
-                    'error' => "Account not yet created for ".$request->email. ", go to https://gracian.ca/laravel/public/signup in order to create account"
+                    'error' => "Account not yet created for ".$request->email. ", go to https://gracian.ca/forecasting/public/signup in order to create account"
                 ];
                 // if user is null (first time creating account)
                 /*try{

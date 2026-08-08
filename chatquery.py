@@ -172,7 +172,7 @@ class ChatQuery():
     def send_otp(self,data:dict)->str:
         self.session = requests.Session()
 
-        response = self.session.get("https://gracian.ca/laravel/public/signup")
+        response = self.session.get("https://gracian.ca/forecasting/public/signup")
 
         soup = BeautifulSoup(response.text, "html.parser")
 
@@ -187,7 +187,7 @@ class ChatQuery():
         }
 
         response = self.session.post(
-            "https://gracian.ca/laravel/public/signupSubmit",
+            "https://gracian.ca/forecasting/public/signupSubmit",
             headers=headers,
             json = data
         )
@@ -203,7 +203,7 @@ class ChatQuery():
         if self.session == None:
             return "You have not sent your email address yet, send email address then we can send a verification code"
     
-        response = self.session.get("https://gracian.ca/laravel/public/verificationCode")
+        response = self.session.get("https://gracian.ca/forecasting/public/verificationCode")
 
         soup = BeautifulSoup(response.text, "html.parser")
 
@@ -217,14 +217,14 @@ class ChatQuery():
             "Accept": "application/json"
         }
         response = self.session.post(
-            "https://gracian.ca/laravel/public/verificationCodeSubmit",
+            "https://gracian.ca/forecasting/public/verificationCodeSubmit",
             headers=headers,
             json = data
         )
         response = response.json()
 
         if response['success']:
-            return "Your account has been created, to access it, click https://gracian.ca/laravel/public/login"
+            return "Your account has been created, to access it, click https://gracian.ca/forecasting/public/login"
         else:
             return "Your account has not been created, to verify, re-enter your email address"
 

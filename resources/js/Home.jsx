@@ -91,11 +91,11 @@ function Footer(){
                 </div>
             </div>
             <div className="footer-right">
-                <a href="/laravel/public/privacyPolicy">
+                <a href="/forecasting/public/privacyPolicy">
                     <i class="fa-regular fa-book-open"></i>
                     Privacy Policy
                 </a>
-                <a href="/laravel/public/termsOfUse">
+                <a href="/forecasting/public/termsOfUse">
                     <i class="fa-solid fa-shield-halved"></i>
                     Terms of Use
                 </a>
@@ -160,7 +160,7 @@ function Map(){
             console.log(allMessages);
             console.log(JSON.stringify({'messages': allMessages}));
 
-            const response = await fetch('https://gracian.ca/laravel/public/api/generateResponse',{
+            const response = await fetch('https://gracian.ca/forecasting/public/api/generateResponse',{
                 method: "POST",
                 headers: {
                     'Content-Type': 'application/json'
@@ -190,7 +190,7 @@ function Map(){
 
     useEffect(() => {
         async function processStations(){
-            const data = await fetch('https://gracian.ca/laravel/public/api/stations');
+            const data = await fetch('https://gracian.ca/forecasting/public/api/stations');
             const stations = await data.json();
             
             const stationIds = [];
@@ -201,7 +201,7 @@ function Map(){
                 stationCoordinates.push([station.latitude, station.longitude])
             }, []);
 
-            const result = await fetch("https://gracian.ca/laravel/public/api/stationMessage?order=desc&limit=10000");
+            const result = await fetch("https://gracian.ca/forecasting/public/api/stationMessage?order=desc&limit=10000");
 
             const messages = await result.json();
 

@@ -18,7 +18,7 @@ class StationMessageDailyReportService{
             for($i=0;$i<count($users);$i++){
                 $user = $users[$i];
                 $stationId = $user['stationId'];
-                $url = "http://gracian.ca/laravel/public/api/stationMessage?stationId=".$stationId."&order=desc&limit=1&role=user";
+                $url = "http://gracian.ca/forecasting/public/api/stationMessage?stationId=".$stationId."&order=desc&limit=1&role=user";
                 $stationMessage = Http::get($url);
                 $stationMessage = json_decode($stationMessage, true)[0];
 

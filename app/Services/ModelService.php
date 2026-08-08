@@ -152,7 +152,7 @@ class ModelService{
                 $day = $time->day;
                 $month = $time->month;
 
-                $url = "http://gracian.ca/laravel/public/api/levelAnalysis?stationId=".$futurePrediction['stationId'].
+                $url = "http://gracian.ca/forecasting/public/api/levelAnalysis?stationId=".$futurePrediction['stationId'].
                        "&level=".$futurePrediction['levelAtHour']."
                         &time=".$time."&mode=percentile";
                 
@@ -284,7 +284,7 @@ class ModelService{
     }
     
     public function getStationIds(){
-        $stations = Http::timeout(1200)->get("http://gracian.ca/laravel/public/api/stations");
+        $stations = Http::timeout(1200)->get("http://gracian.ca/forecasting/public/api/stations");
 
         $stations = json_decode($stations,true);
         $stationIds = [];

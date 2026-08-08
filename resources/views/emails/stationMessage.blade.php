@@ -26,17 +26,17 @@
     ?>
     <div class="graphs">
         <img
-            src="https://gracian.ca/laravel/images/future/{{$stationId}}_temperature.png"
+            src="https://gracian.ca/forecasting/images/future/{{$stationId}}_temperature.png"
             alt=""
         >
 
         <img
-            src="https://gracian.ca/laravel/images/future/{{$stationId}}_wind_speed.png"
+            src="https://gracian.ca/forecasting/images/future/{{$stationId}}_wind_speed.png"
             alt=""
         >
 
         <img
-            src="https://gracian.ca/laravel/images/future/{{$stationId}}_precipitation.png"
+            src="https://gracian.ca/forecasting/images/future/{{$stationId}}_precipitation.png"
             alt=""
         >
 

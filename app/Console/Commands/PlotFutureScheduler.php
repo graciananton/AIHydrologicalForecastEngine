@@ -12,7 +12,7 @@ class PlotFutureScheduler extends Command
     public function handle()
     {        
         $response = Http::get(
-            'http://gracian.ca/laravel/public/api/plotFutureAll',
+            'http://gracian.ca/forecasting/public/api/plotFutureAll',
         );
     }
 }

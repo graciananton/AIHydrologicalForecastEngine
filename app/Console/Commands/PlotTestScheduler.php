@@ -12,7 +12,7 @@ class PlotTestScheduler extends Command
     public function handle()
     {        
         $response = Http::get(
-            'http://gracian.ca/laravel/public/api/plotTestAll',
+            'http://gracian.ca/forecasting/public/api/plotTestAll',
         );
     }
 }

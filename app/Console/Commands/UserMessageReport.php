@@ -13,7 +13,7 @@ class UserMessageReport extends Command
     {        
         Log::channel("laravel")->info("Test scheduler running ");
         $response = Http::get(
-            'http://gracian.ca/laravel/public/api/stationMessageDailyReport',
+            'http://gracian.ca/forecasting/public/api/stationMessageDailyReport',
         );
     }
 }

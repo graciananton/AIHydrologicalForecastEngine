@@ -13,7 +13,7 @@ class PlotTrainScheduler extends Command
     public function handle()
     {        
         $response = Http::get(
-            'http://gracian.ca/laravel/public/api/plotTrainAll',
+            'http://gracian.ca/forecasting/public/api/plotTrainAll',
         );
     }
 }

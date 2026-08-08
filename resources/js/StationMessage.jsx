@@ -9,7 +9,7 @@ export default function StationMessage({ data }){
 
     useEffect(() => {
         async function getStationMessage(){
-            const url = "https://gracian.ca/laravel/public/api/stationMessage?stationId=" + data.stationId + "&order=desc&limit=1";
+            const url = "https://gracian.ca/forecasting/public/api/stationMessage?stationId=" + data.stationId + "&order=desc&limit=1";
             const response = await fetch(url);
             let data = await response.json();
             data = data[0];

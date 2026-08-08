@@ -8,7 +8,7 @@ use App\Models\User;
 class UserStationService
 {
     public function validStationId($stationId){
-        $response = Http::get("https://gracian.ca/laravel/public/api/stations");
+        $response = Http::get("https://gracian.ca/forecasting/public/api/stations");
         $stations = $response->json();
         foreach($stations as $station){
             if($stationId == $station->stationId){

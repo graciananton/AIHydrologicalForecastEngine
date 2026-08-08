@@ -1,5 +1,5 @@
 <?php
-$file = "http://gracian.ca/laravel//storage/logs/weather.log";
+$file = "http://gracian.ca/forecasting//storage/logs/weather.log";
 
 $lines = file($file);
 $total = count($lines);

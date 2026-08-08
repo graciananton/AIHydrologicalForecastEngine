@@ -44,7 +44,7 @@ class StatsService
             ->where('predictedFor', $currentHour)
             ->first();
         
-        /*$url = "http://gracian.ca/laravel/public/api/levelAnalysis?stationId=".$params['stationId']."&level=".$currentLevel->prediction."
+        /*$url = "http://gracian.ca/forecasting/public/api/levelAnalysis?stationId=".$params['stationId']."&level=".$currentLevel->prediction."
                                &time=".$currentHour."&mode=percentile";
 
         Log::channel("laravel")->info("URL:");

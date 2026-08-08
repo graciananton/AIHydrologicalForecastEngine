@@ -4,7 +4,7 @@ import '../css/Dashboard.css';
 import dayjs from 'dayjs';
 
 function Stations({stations, setStations}){
-    const url = "https://gracian.ca/laravel/public/api/stations";
+    const url = "https://gracian.ca/forecasting/public/api/stations";
 
     useEffect(() => {
         const fetchStations = async () => {
@@ -43,16 +43,16 @@ function MetricCells({section, stations}){
     let type;
     let param;
     if(section == 'test'){
-        createEndpoint = (stationId) => `https://gracian.ca/laravel/public/api/test?stationId=${stationId}&order=desc`
+        createEndpoint = (stationId) => `https://gracian.ca/forecasting/public/api/test?stationId=${stationId}&order=desc`
         param = 'error';
     }
     else if(section == 'train'){
         // this is for re-training the model
-        createEndpoint = (stationId) => `https://gracian.ca/laravel/public/api/train?stationId=${stationId}&order=desc`
+        createEndpoint = (stationId) => `https://gracian.ca/forecasting/public/api/train?stationId=${stationId}&order=desc`
         param = 'error';
     }
     else if(section == 'future'){
-        createEndpoint = (stationId) => `https://gracian.ca/laravel/public/api/future?stationId=${stationId}&order=desc`
+        createEndpoint = (stationId) => `https://gracian.ca/forecasting/public/api/future?stationId=${stationId}&order=desc`
         param = 'prediction';
     }
     
@@ -169,7 +169,7 @@ function Header({ categories }) {
 }
 
 function ServiceRow({ category }){
-    const createEndpoint = (category) => `http://gracian.ca/laravel/public/api/${category}?order=desc&limit=1`;
+    const createEndpoint = (category) => `http://gracian.ca/forecasting/public/api/${category}?order=desc&limit=1`;
     const [updated, setUpdated] = useState([]);
 
     useEffect(() => {
