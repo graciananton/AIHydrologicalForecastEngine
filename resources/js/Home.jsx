@@ -398,6 +398,7 @@ function Map(){
                             onChange = {(event) => setUserInput(event.target.value)} 
                             value={userInput} 
                             name='input' 
+                            autoFocus
                             />
                         </div>
                     </div>

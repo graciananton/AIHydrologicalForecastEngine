@@ -8,7 +8,11 @@ Schedule::command('weather:scheduler')->hourly()->withoutOverlapping();
 Schedule::command('reading:scheduler')->hourly()->withoutOverlapping(expiresAt: 30);
 Schedule::command('status:scheduler')->monthly()->withoutOverlapping();
 
+Schedule::command('awake:scheduler')
+    ->cron("*/13 * * * *")
+    ->withoutOverlapping();
 
+    
 Schedule::command('userMessageReport:scheduler')
     ->dailyAt('2:57')
     ->withoutOverlapping();
