@@ -17,9 +17,6 @@
             ]
         );
         
-        console.log("Data");
-        console.log(data);
-
         window.__REACT_DATA__ = data;
     </script>
     <div id="react-root"></div>
