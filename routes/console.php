@@ -46,7 +46,7 @@ Schedule::command('dailyReport:scheduler')
 Schedule::command('stationMessage:scheduler')
     ->dailyAt('03:30')
     ->withoutOverlapping();
-                   
+       
 Schedule::command('stationMessageDailyReport:scheduler')
     ->dailyAt('3:53')
     ->withoutOverlapping();
