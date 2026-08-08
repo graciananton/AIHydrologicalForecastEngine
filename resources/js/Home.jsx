@@ -335,10 +335,10 @@ function Map(){
                         <div className='page-links'>
                             <div className='view'>                     
                                 <i class="fa-solid fa-chart-column"></i>
-                                <a href={'../public/userStation/'+station.stationId} target="_blank">User Station</a></div>
+                                <a href={base_url+'/public/userStation/'+station.stationId} target="_blank">User Station</a></div>
                             <div className='signup'>         
                                 <i class="fa-regular fa-user"></i>
-                                <a href='../public/register' target="_blank">Login/Signup </a>
+                                <a href={base_url + '/public/register'} target="_blank">Login/Signup </a>
                             </div>
                         </div>
                         <div className='jump-links'>
@@ -365,10 +365,10 @@ function Map(){
                         <div className='page-links'>
                             <div className='view'>                     
                                 <i class="fa-solid fa-chart-column"></i>
-                                <a href='../public/methodology' target="_blank">View Methodology</a></div>
+                                <a href={base_url + '/public/methodology'} target="_blank">View Methodology</a></div>
                             <div className='signup'>         
                                 <i class="fa-regular fa-user"></i>
-                                <a href='../public/register' target="_blank">Login/Signup </a>
+                                <a href={base_url + '/public/register'} target="_blank">Login/Signup </a>
                             </div>
                         </div>
                         <div className='jump-links'>
