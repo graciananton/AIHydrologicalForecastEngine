@@ -126,7 +126,9 @@ function Map(){
     
     const [option, setOption] = useState('page');
     const [allMessages, setAllMessages] = useState([]);
-    const [userInput, setUserInput] = useState("");
+    const [userInput, setUserInput] = useState("What does this system do?");
+
+    const [userSent, setUserSent] = useState({});
 
     const handleUserMessage = (event) => {
         if(event.key == "Enter"){
@@ -136,19 +138,26 @@ function Map(){
             let messagesCopy = [...allMessages];
             messagesCopy.push({'role':'user','content': userMessage.value});
             
+            setUserInput("");
+            console.log(userInput);
             setAllMessages(messagesCopy);
 
-            setUserInput("");
+            console.log("User entered message");
+            console.log(allMessages);
+
+            setUserSent({});
         }
     }
-    
+
     useEffect(() => {
         async function getResponse(){
+            console.log("getting response data");
+
             console.log("Response Data:--");
             console.log(allMessages);
             console.log(JSON.stringify({'messages': allMessages}));
 
-            const response = await fetch('http://localhost/laravel/public/api/generateResponse',{
+            const response = await fetch('https://gracian.ca/laravel/public/api/generateResponse',{
                 method: "POST",
                 headers: {
                     'Content-Type': 'application/json'
@@ -172,7 +181,7 @@ function Map(){
         if(allMessages.length > 0){
             getResponse();
         }
-    }, [allMessages]);
+    }, [userSent]);
 
 
     useEffect(() => {
@@ -263,6 +272,7 @@ function Map(){
                             autoPanPaddingBottomRight:[80,80],
                         }
                     ).openPopup();
+
                     setOption('station');
                 });
             })
@@ -277,6 +287,7 @@ function Map(){
                     reset.innerHTML = '<button>Reset</button>';
 
                     L.DomEvent.on(reset, 'click', function (event) {
+                        console.log("clicking on reset");
 
                         L.DomEvent.stopPropagation(event);
                         
@@ -290,8 +301,8 @@ function Map(){
                         map.fitBounds(stationCoordinates, {
                             padding: [35,35] 
                         });
-                        
 
+                        setOption('page');
                     });
                 
                     return reset;
@@ -320,15 +331,15 @@ function Map(){
                         <div className='page-links'>
                             <div className='view'>                     
                                 <i class="fa-solid fa-chart-column"></i>
-                                <a href='../public/methodology' target="_blank">View Methodology</a></div>
+                                <a href={'../public/userStation/'+station.stationId} target="_blank">User Station</a></div>
                             <div className='signup'>         
                                 <i class="fa-regular fa-user"></i>
                                 <a href='../public/register' target="_blank">Login/Signup </a>
                             </div>
                         </div>
                         <div className='jump-links'>
-                            <div className='chatbot'>
-                                <i class="fa-solid fa-message-bot"></i>
+                            <div className='chat'>
+                                <i class="fa-regular fa-user"></i>
                                 <a href='#' onClick={() => setOption('chatbot')}>Chatbot</a>
                             </div>
                         </div>
@@ -382,7 +393,12 @@ function Map(){
                             }
                         </div>
                         <div className='input'>
-                            <input placeholder='Ask Hydrometric Station Chatbot' onKeyDown = {handleUserMessage} defaultValue={userInput} name='input' />
+                            <input 
+                            onKeyDown = {handleUserMessage} 
+                            onChange = {(event) => setUserInput(event.target.value)} 
+                            value={userInput} 
+                            name='input' 
+                            />
                         </div>
                     </div>
                     
@@ -475,13 +491,13 @@ function Methodology(){
     const base_url = useContext(BaseUrlContext);
     return (
         <div className='methodology'>
-            <div className = 'title'>Hydrological Forecasting Engine Methodology (Machine Learning):</div>
+            <div className = 'title'>Hydrological Forecasting Engine Methodology (Machine Learning & Data Visualization):</div>
             <div className = 'goal'>
                 <div className='title'>Goal:</div>
                 The goal of the hydrological forecasting engine is <b>to predict water levels along the Ottawa and Mississippi Rivers 
                 at hydrometric stations</b>. The project was created due to a need by residentials in flooding-prone regions to access
                 accurate water level predictions during peak time periods. (i.e. early summary). 
-                <img src='../images/methodology/process.png' alt='Process' style={{margin:"auto"}}/>
+                <img src='../images/methodology/process2.png' alt='Process' style={{margin:"auto"}}/>
             </div>
             <div className = 'training'>
                 <div className='title'>Training:</div>
@@ -555,10 +571,16 @@ function Methodology(){
                 <img src={base_url + '/images/methodology/graph2.png'} alt='graph' width='353' height='250'/>
                </div>
             </div>
+            <div className='userDashboard'>
+                <div className='title'>User Dashboard & Signup/Login</div>
+                Any individual may view the dashboard for a selected hydrometric station. The station dashboard <b>deliniates the current weather, recent water levels, predicted water levels, statistics, and graph visualizations</b>.
+                These tools provide a thorough overview of current and predicted information. Users may also signup to our system by providing their email address along with a one-time authentication code. This allows users to view their own dashboard
+                without navigating the website, and <b>receive daily predictions with graphs, statistics, and AI-generated summaries at their inbox</b>.
+            </div>
             <div className = "conclusion">
                 <div className='title'>Conclusion</div>
-                The Hydrological Forecasting Engine is designed to predict water levels in flooding-prone regions using machine learning technologies. The project outlines the four main parts
-                of any data science project: data collection, model training, model prediction, and evaluation. The source code for this project available in the affiliated Github
+                The Hydrological Forecasting Engine is designed to predict water levels in flooding-prone regions using machine learning technologies. The project outlines the five main parts
+                of any data science project: data collection, model training, model prediction, evaluation, and presentation. The source code for this project available in the affiliated Github
                 links below. Any individual may propose updates to this project by emailing <a href='gracian.anton@gmail.com'>gracian.anton@gmail.com</a>.
                 <br/>
                 Github Repositories:

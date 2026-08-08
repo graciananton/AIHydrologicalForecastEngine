@@ -230,7 +230,7 @@ i{
     flex-direction:column;
     gap:5px;
     background-color:#F4F8FC;
-    border:5px solid red;
+    border:0px solid red;
     overflow-y:scroll;
     flex:5;
     padding:15px 15px 30px 15px;
@@ -330,9 +330,12 @@ i{
     width:100%;
     height:100%;
     overflow:hidden;
-    padding-left:clamp(4px, 5px, 6px);
+    font-size:clamp(12px, 14px, 16px);
+    padding-left:clamp(6px, 8px, 10px);
 }
-
+.chatbot .screen .input input:focus{
+    outline:0px solid black;
+}
 
 .station {
     display:flex;
