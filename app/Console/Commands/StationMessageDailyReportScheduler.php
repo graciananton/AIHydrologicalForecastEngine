@@ -8,11 +8,11 @@ use Illuminate\Support\Facades\Http;
 class StationMessageDailyReport extends Command
 {
     protected $signature = 'stationMessageDailyReport:scheduler';
-
+                            
     public function handle()
     {        
-        $response = Http::get(
-            'http://gracian.ca/laravel/public/api/stationMessageDailyReport',
+        $response = Http::timeout(1200)->get(
+            'https://gracian.ca/laravel/public/api/stationMessageDailyReport',
         );
     }
 }

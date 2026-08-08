@@ -25,6 +25,9 @@ class StationMessageDailyReportService{
 
                 $usersList[] = $user['name'];
 
+                Log::channel('weather')->info($user['email']);
+                Log::channel('weather')->info($message);
+                
                 Mail::to($user['email'])->send(new StationMessageMail($message));
             }
 
