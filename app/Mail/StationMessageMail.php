@@ -14,15 +14,12 @@ use Illuminate\Support\Facades\Log;
 class StationMessageMail extends Mailable
 {
     use Queueable, SerializesModels;
-    private string $message;
     private string $stationId;
     /**
      * Create a new message instance.
      */
     public function __construct(string $message, string $stationId)
     {
-        Log::channel("laravel")->info("OtpMail class initialization");
-        $this->message = $message;
         $this->stationId = $stationId;
         // internally calls envelope(), content(), attachments() even though not called in __construct()
     }
@@ -49,7 +46,7 @@ class StationMessageMail extends Mailable
         return new Content(
             view: 'emails.stationMessage',
             with: [
-                'stationMessage'=> $this->message
+                'stationId'=> $this->stationId
             ]
         );
     }
