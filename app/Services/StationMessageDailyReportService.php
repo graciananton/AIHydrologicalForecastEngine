@@ -16,20 +16,13 @@ class StationMessageDailyReportService{
 
             $usersList = [];
             for($i=0;$i<count($users);$i++){
-                Log::channel("weather")->info($i);
                 $user = $users[$i];
                 $stationId = $user['stationId'];
-               // $url = "http://gracian.ca/laravel/public/api/stationMessage?stationId=".$stationId."&order=desc&limit=1&role=user";
-               // $stationMessage = Http::get($url);
-               // $stationMessage = json_decode($stationMessage, true)[0];
-               // $message = $stationMessage['message'];
+                $url = "http://gracian.ca/laravel/public/api/stationMessage?stationId=".$stationId."&order=desc&limit=1&role=user";
+                $stationMessage = Http::get($url);
+                $stationMessage = json_decode($stationMessage, true)[0];
 
-               // $usersList[] = $user['name'];
-
-               // Log::channel('weather')->info($user['email']);
-               // Log::channel('weather')->info($message);
-
-                Mail::to($user['email'])->send(new StationMessageMail($stationId));
+                Mail::to($user['email'])->send(new StationMessageMail($stationMessage));
             }
 
            // $errors = ApplicationErrors::where('created_at', '>', Carbon::now()->subDay())->get()->toArray();
