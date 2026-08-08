@@ -497,7 +497,7 @@ function Methodology(){
                 The goal of the hydrological forecasting engine is <b>to predict water levels along the Ottawa and Mississippi Rivers 
                 at hydrometric stations</b>. The project was created due to a need by residentials in flooding-prone regions to access
                 accurate water level predictions during peak time periods. (i.e. early summary). 
-                <img src='../images/methodology/process2.png' alt='Process' style={{margin:"auto"}}/>
+                <img src='../images/methodology/process3.png' alt='Process' style={{margin:"auto"}}/>
             </div>
             <div className = 'training'>
                 <div className='title'>Training:</div>
