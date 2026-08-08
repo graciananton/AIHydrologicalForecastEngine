@@ -11,6 +11,7 @@ class StationMessageDailyReport extends Command
                             
     public function handle()
     {        
+        Log::channel("weather")->info("hanldign station message dialy report");
         $response = Http::timeout(1200)->get(
             'https://gracian.ca/laravel/public/api/stationMessageDailyReport',
         );

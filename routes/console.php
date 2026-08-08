@@ -50,6 +50,6 @@ Schedule::command('stationMessage:scheduler')
     ->withoutOverlapping();
 
 Schedule::command('stationMessageDailyReport:scheduler')
-    ->dailyAt('11:17')
+    ->dailyAt('3:46')
     ->withoutOverlapping();
 
