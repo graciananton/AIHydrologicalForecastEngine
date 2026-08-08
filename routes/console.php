@@ -39,8 +39,6 @@ Schedule::command('plotFuture:scheduler')
     ->cron('0 */12 * * *')
     ->withoutOverlapping();
  
-
-
 Schedule::command('dailyReport:scheduler')
     ->dailyAt('03:00')
     ->withoutOverlapping();
