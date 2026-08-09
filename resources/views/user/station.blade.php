@@ -1,12 +1,11 @@
 <!doctype html>
 <html>
-<title>AI Forecast Engine - Station Message</title>
 <head>
     @vite([
         'resources/css/app.css',
         'resources/js/app.jsx'
     ])
-
+    <title>AI Forecast Engine - User Station</title>
 </head>
 <body>
     <script>

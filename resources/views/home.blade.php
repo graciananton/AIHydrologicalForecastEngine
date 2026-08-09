@@ -32,7 +32,23 @@
 </head>
 <body>
     <script>
-    console.log("home.blade.php")
+    let request = <?php echo json_encode($request); ?>;
+    console.log(request);
+    
+    let elements = document.getElementsByTagName("title");
+    console.log("Elements: ");
+    console.log(elements);
+
+    let element = elements[0]
+
+    request = request.split("")
+    request[0] = request[0].toUpperCase();
+    requestStr = request.join("");
+
+    element.innerHTML = "Hydrological Forecasting Systems - " + requestStr;
+
+    </script>
+    <script>
     window.__REACT_DATA__ = @json([
                         'request'  => $request
                     ]);
