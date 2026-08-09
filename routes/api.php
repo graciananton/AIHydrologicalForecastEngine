@@ -68,7 +68,7 @@ Route::get('/fine_tuning',[ModelController::class, 'fine_tune_model']);
 
 #Route::middleware(['web', 'auth'])->group(function () {
     Route::get('/readings',[ReadingsController::class,'process']);
-    Route::get('/readingsProcessing',[WeatherController::class, 'sync']);
+    Route::get('/readingsProcessing',[ReadingsController::class, 'sync']);
 
     Route::get('/weather',[WeatherController::class,'process']);
     Route::get('/weatherProcessing',[WeatherController::class, 'sync']);
