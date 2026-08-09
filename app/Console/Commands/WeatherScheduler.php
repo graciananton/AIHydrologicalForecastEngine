@@ -8,8 +8,9 @@ use Illuminate\Support\Facades\Http;
 class WeatherScheduler extends Command
 {
     protected $signature = 'weatherProcessing:scheduler';
-    public function handle(WeatherService $weatherService)
+    public function handle()
     {
+        
         $response = Http::get(
             'https://gracian.ca/forecasting/public/api/weatherProcessing',
         );

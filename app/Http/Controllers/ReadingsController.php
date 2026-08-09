@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Services\ReadingService;
 use App\Services\Formatter\ResponseFormatter;
+use Illuminate\Support\Facades\Log;
 
 class ReadingsController extends Controller
 {
@@ -17,6 +18,7 @@ class ReadingsController extends Controller
        return response()->json($this->ReadingService->filter($this->params));
     }
     public function sync(){
+        Log::channel("weather")->info("syncing data");
         if($this->ReadingService->sync()){
             return redirect()->back()->with(
                 'success',
