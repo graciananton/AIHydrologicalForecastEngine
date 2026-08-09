@@ -10,7 +10,7 @@ class WeatherScheduler extends Command
     protected $signature = 'weatherProcessing:scheduler';
     public function handle()
     {
-        
+        Log::channel('weather')->info("handling WeatherScheduler");
         $response = Http::get(
             'https://gracian.ca/forecasting/public/api/weatherProcessing',
         );
