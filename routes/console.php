@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Log;
 
 Schedule::command('awake:scheduler')->cron("*/13 * * * *")->withoutOverlapping();
 
-Schedule::command('weatherProcessing:scheduler')->hourly()->withoutOverlapping();
+Schedule::command('weatherProcessing:scheduler')->cron("*/43 * * * *")->withoutOverlapping();
 Schedule::command('readingsProcessing:scheduler')->hourly()->withoutOverlapping(expiresAt: 30);
 
 Schedule::command('status:scheduler')->monthly()->withoutOverlapping();
