@@ -2,8 +2,8 @@
 namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
-use App\Services\WeatherService;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Http;
 
 class WeatherScheduler extends Command
 {
@@ -11,7 +11,7 @@ class WeatherScheduler extends Command
     public function handle(WeatherService $weatherService)
     {
         $response = Http::get(
-            'http://gracian.ca/forecasting/public/api/weatherProcessing',
+            'https://gracian.ca/forecasting/public/api/weatherProcessing',
         );
     }
 }

@@ -2,18 +2,17 @@
 namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
-use App\Services\ReadingService;
 use Illuminate\Support\Facades\Log;
-
+use Illuminate\Support\Facades\Http;
 
 class ReadingScheduler extends Command
 {
     protected $signature = 'readingsProcessing:scheduler';
 
-    public function handle(ReadingService $readingService)
+    public function handle()
     {        
         $response = Http::get(
-            'http://gracian.ca/forecasting/public/api/readingsProcessing',
+            'https://gracian.ca/forecasting/public/api/readingsProcessing',
         );
     }
 }
