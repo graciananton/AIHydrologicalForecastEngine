@@ -4,8 +4,8 @@ use Illuminate\Support\Facades\Log;
 
 Log::channel("weather")->info("Console readings");
 
-Schedule::command('weatherProcessing:scheduler')->hourly()->withoutOverlapping();
-Schedule::command('readingsProcessing:scheduler')->cron('55 */1 * * *')->withoutOverlapping(expiresAt: 30);
+Schedule::command('weatherProcessing:scheduler')->cron('29 * * * *')->withoutOverlapping();
+Schedule::command('readingsProcessing:scheduler')->cron('15 * * * *')->withoutOverlapping(expiresAt: 30);
 
 Schedule::command('status:scheduler')->monthly()->withoutOverlapping();
 
