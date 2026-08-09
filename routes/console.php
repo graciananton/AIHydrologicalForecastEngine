@@ -2,7 +2,7 @@
 use Illuminate\Support\Facades\Schedule;
 use Illuminate\Support\Facades\Log;
 
-Schedule::command('awake:scheduler')->cron("*/12 * * * *")->withoutOverlapping();
+Schedule::command('awake:scheduler')->cron("*/16 * * * *")->withoutOverlapping();
 
 Schedule::command('weatherProcessing:scheduler')->cron("*/47 * * * *")->withoutOverlapping();
 Schedule::command('readingsProcessing:scheduler')->hourly()->withoutOverlapping(expiresAt: 30);
