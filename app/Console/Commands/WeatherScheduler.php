@@ -7,10 +7,11 @@ use Illuminate\Support\Facades\Log;
 
 class WeatherScheduler extends Command
 {
-    protected $signature = 'weather:scheduler';
+    protected $signature = 'weatherProcessing:scheduler';
     public function handle(WeatherService $weatherService)
     {
-
-        $weatherService->sync();
+        $response = Http::get(
+            'http://gracian.ca/forecasting/public/api/weatherProcessing',
+        );
     }
 }

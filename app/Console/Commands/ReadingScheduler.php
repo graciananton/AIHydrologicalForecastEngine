@@ -8,10 +8,12 @@ use Illuminate\Support\Facades\Log;
 
 class ReadingScheduler extends Command
 {
-    protected $signature = 'reading:scheduler';
+    protected $signature = 'readingsProcessing:scheduler';
 
     public function handle(ReadingService $readingService)
     {        
-        $readingService->sync();
+        $response = Http::get(
+            'http://gracian.ca/forecasting/public/api/readingsProcessing',
+        );
     }
 }
