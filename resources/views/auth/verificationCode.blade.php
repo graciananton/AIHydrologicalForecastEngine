@@ -1,6 +1,6 @@
 <!doctype html>
 <html>
-<title>AI Forecast Engine - Verification Code</title>
+<title>Hydrological Forecast Engine - Verification Code</title>
 <head>
     @vite([
         'resources/css/app.css',

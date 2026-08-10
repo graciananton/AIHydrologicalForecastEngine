@@ -5,7 +5,7 @@
         'resources/css/app.css',
         'resources/js/app.jsx'
     ])
-    <title>AI Forecast Engine - Login</title>
+    <title>Hydrological Forecast Engine - Login</title>
 </head>
 <body>
     <?php

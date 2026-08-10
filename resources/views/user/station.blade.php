@@ -5,7 +5,7 @@
         'resources/css/app.css',
         'resources/js/app.jsx'
     ])
-    <title>AI Forecast Engine - User Station</title>
+    <title>Hydrological Forecast Engine - User Station</title>
 </head>
 <body>
     <script>

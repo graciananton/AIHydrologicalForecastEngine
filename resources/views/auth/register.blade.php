@@ -1,6 +1,6 @@
 <!doctype html>
 <html>
-<title>AI Forecast Engine - Register</title>
+<title>Hydrological Forecast Engine - Register</title>
 <head>
     @vite([
         'resources/css/app.css',
