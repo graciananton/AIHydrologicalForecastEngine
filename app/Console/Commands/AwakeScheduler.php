@@ -17,4 +17,5 @@ class AwakeScheduler extends Command
         );
     }
 }
+
 #* * * * * cd /kunden/homepages/3/d1017242952/htdocs/forecasting && /usr/bin/php8.3-cli artisan queue:work --stop-when-empty
