@@ -398,34 +398,37 @@ class OtpMailService{
         //return (object) $otpSubmit;
     }
     private function extract_name_from_email(string $email):string{
-        $emailStr = str_split(trim($email));
-        // [G,r,a,c,i,a,n,A,n,t,o,n]
-        //basil_anton
-        //psanthia
-        //GracianAnton
-        // split by _
-        // capitalize first letter
-        // if letter is capitalized, separate it
-        $charStr = [];
-        for($i = 0;$i<count($emailStr);$i++){
-            $char = $emailStr[$i];
+        //"  basil_anton@yahoo.ca  "
 
-            if(strtoupper($char) == $char && $i > 0){
-                $charStr[] = " ";
-                $charStr[] = $char;
-            }
-            else if($char == "_"){
-                $charStr[] = " ";
-            }
-            else if($char == "@"){
-                break;
+        $email = trim($email);
+        $parts = explode("@", $email);
+        $domain = $parts[0];
+        
+        $domain = strtolower($domain);
+
+        $domainChars = str_split($domain);
+        
+        $domainResultChars = [];
+
+        $capitalize = true;
+        for($i = 0;$i<count($domainChars);$i++){
+            $domainChar = $domainChars[$i];
+            if($capitalize){
+                $domainResultChars[] = strtoupper($domainChar);
+                $capitalize = false;
             }
             else{
-                $charStr[] = $char;
+                if($domainChar == "_" || $domainChar == "."){
+                    $domainResultChars[] = " ";
+                    $capitalize = true;
+                }
+                else{
+                    $domainResultChars[] = $domainChar;
+                }
             }
         }
 
-        return ucfirst(join("", $charStr));
+        return implode("", $domainResultChars);
     } 
 
     private function getEmailVerification(string $email){
