@@ -109,10 +109,16 @@ function Footer(){
 }
 
 function findMessageInStationMessages(stationMessages, stationId){
+    console.log("find message in station Messages");
+    console.log(stationMessages);
+
     for(let i = 0;i < stationMessages.length;i++){
-        let stationMessage = stationMessages[i]
+        let stationMessage = stationMessages[i];
         if(stationId == stationMessage.stationId){
-            return stationMessage.message
+
+            console.log("Station Message");
+            console.log(stationMessage);
+            return stationMessage;
         }
     }
 
@@ -215,7 +221,8 @@ function Map(){
                 if(stationIdsCopy.includes(messages[index].stationId)){
                     stationMessages.push({
                         'stationId': messages[index].stationId,
-                        'message': messages[index].message
+                        'message': messages[index].message,
+                        'created_at': messages[index].created_at
                     });
                     
                     let indexOfStation = stationIdsCopy.indexOf(messages[index].stationId);
@@ -321,10 +328,19 @@ function Map(){
         processStations();
     },[])
 
-    if(option == 'station'){
-        let time = new Date(station.created_at);
+    if(option == "station"){
+        console.log("option == station");
+
+        const stationMessage = findMessageInStationMessages(stationMessages, station.stationId);
+        console.log("STATION Message:");
+        console.log(stationMessage);
+
+        let time = 
+            (typeof stationMessage == "object") ? 
+            String(new Date(stationMessage.created_at).getFullYear()) + "-" + String(new Date(stationMessage.created_at).getMonth()) + "-" + String(new Date(stationMessage.created_at).getDate()) : "";
+        
+        console.log(time);
     }
-    
     return (
         <div className='map-stations'>
             <div id='map' ref={map}>
@@ -334,7 +350,15 @@ function Map(){
             (option == 'station')  ?
             (   <div className='station'>
                     <div className='name'>{station.name}</div>
-                    <div className='description'><span>Prediction Summary:</span> <br/>{findMessageInStationMessages(stationMessages, station.stationId)} - {String(time.getFullYear()) + "-" + String(time.getMonth()) + "-" + String(time.getDate())}</div>
+                    <div className='description'><span>Prediction Summary:</span> 
+                    <br/>
+                    {
+                        stationMessage.message 
+                    }
+                    {
+                        time
+                    }
+                    </div>
                     <div className='links'>
                         <div className='page-links'>
                             <div className='view'>                     
