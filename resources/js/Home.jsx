@@ -334,6 +334,7 @@ function Map(){
         const stationMessage = findMessageInStationMessages(stationMessages, station.stationId);
         console.log("STATION Message:");
         console.log(stationMessage);
+        console.log("after stationMessage");
 
         let time = 
             (typeof stationMessage == "object") ? 
