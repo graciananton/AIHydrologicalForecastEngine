@@ -535,7 +535,7 @@ function Stats({ stationId }){
                     <img src={base_url + '/images/user/stats.png'} alt=''/>
                 </div>
                 <div>
-                    Stastics:
+                    Statistics:
                 </div>
             </div>
             <div id='stastics'>
@@ -546,11 +546,18 @@ function Stats({ stationId }){
                                 <span>{correctlyCapitalize(key)}: </span>
                                 <span>
                                 {
-                                    (isNumeric(stats[key]) && !Number.isNaN(stats[key])) 
-                                    ? 
-                                    (Math.round(stats[key]*10000)/10000 + " m.")
-                                    : 
-                                    stats[key].slice(0,16)
+                                    (Number.isNaN(Number(stats[key]))) ? (
+                                        (new Date(stats[key]) > 0) ?
+                                        (
+                                            convertUTCToFormattedTime(new Date(stats[key]).toISOString(), ['month','date','hour','minute','timePeriod'])
+                                        ) :
+                                        (
+                                            stats[key]
+                                        )
+                                    ) :
+                                    (
+                                        String(Math.round((Number(stats[key])) * 1000) / 1000) + " m."
+                                    )
                                 }
                                 </span>
                             </li>
@@ -587,7 +594,7 @@ function StationMessage({ stationId }){
             Station Message:
        </div>
        <div id='message'>
-        {message.message} <br/>- Updated At: {convertUTCToFormattedTime(message.created_at,['month','date','hour','minute','timePeriod'])}
+        {message.message} <br/>- Updated At: {convertUTCToFormattedTime(message.created_at, ['month','date','hour','minute','timePeriod'])}
         </div>
     </div>
     )

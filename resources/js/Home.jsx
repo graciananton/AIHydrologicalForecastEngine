@@ -108,6 +108,28 @@ function Footer(){
     )
 }
 
+function convertUTCToFormattedTime(UTCDate, options){
+    let dateObject = new Date(UTCDate); // convert to ISO format
+    let timeZoneOffset = dateObject.getTimezoneOffset();
+    dateObject.setMinutes(dateObject.getMinutes() - (timeZoneOffset));
+
+    const getAMPM = (hour) => hour >= 12 ? "PM" : "AM";
+    
+    const getTimeOffset = (hour) => hour > 12 ? hour - 12 : hour;
+
+    const monthName = dateObject.toLocaleString("en-US", {
+        month: "long"
+    });
+    
+    console.log("Options");
+    console.log(options);
+    return (
+        <>
+        {options.includes("month") ? String(monthName) + " ": ""}{options.includes("date") ? String(dateObject.getUTCDate()) + ", ": ""}{options.includes("hour") ? String(getTimeOffset(dateObject.getUTCHours())): ""}:{options.includes("minute") ? String(String(dateObject.getMinutes()).padStart(2,"0")) + " ":""}{options.includes("timePeriod") ? getAMPM(dateObject.getUTCHours()): ""}
+        </>
+    )
+}
+
 function findMessageInStationMessages(stationMessages, stationId){
     console.log("find message in station Messages");
     console.log(stationMessages);
@@ -115,14 +137,11 @@ function findMessageInStationMessages(stationMessages, stationId){
     for(let i = 0;i < stationMessages.length;i++){
         let stationMessage = stationMessages[i];
         if(stationId == stationMessage.stationId){
-
-            console.log("Station Message");
-            console.log(stationMessage);
             return stationMessage;
         }
     }
 
-    return "Station Message not found";
+    return {"message":"Station Message not found", "created_at": (new Date()).toISOString(), "stationId": stationId};
 }
 function Map(){
     const base_url = useContext(BaseUrlContext);
@@ -328,19 +347,10 @@ function Map(){
         processStations();
     },[])
 
+    let stationMessage;
+
     if(option == "station"){
-        console.log("option == station");
-
-        const stationMessage = findMessageInStationMessages(stationMessages, station.stationId);
-        console.log("STATION Message:");
-        console.log(stationMessage);
-        console.log("after stationMessage");
-
-        let time = 
-            (typeof stationMessage == "object") ? 
-            String(new Date(stationMessage.created_at).getFullYear()) + "-" + String(new Date(stationMessage.created_at).getMonth()) + "-" + String(new Date(stationMessage.created_at).getDate()) : "";
-        
-        console.log(time);
+        stationMessage = findMessageInStationMessages(stationMessages, station.stationId);
     }
     return (
         <div className='map-stations'>
@@ -356,9 +366,8 @@ function Map(){
                     {
                         stationMessage.message 
                     }
-                    {
-                        time
-                    }
+                    
+                    - {convertUTCToFormattedTime(stationMessage.created_at, ['month', 'date', 'hour', 'minute', 'timePeriod'])}
                     </div>
                     <div className='links'>
                         <div className='page-links'>
