@@ -321,6 +321,10 @@ function Map(){
         processStations();
     },[])
 
+    if(option == 'station'){
+        let time = new Date(station.created_at);
+    }
+    
     return (
         <div className='map-stations'>
             <div id='map' ref={map}>
@@ -330,7 +334,7 @@ function Map(){
             (option == 'station')  ?
             (   <div className='station'>
                     <div className='name'>{station.name}</div>
-                    <div className='description'><span>Prediction Summary:</span> <br/>{findMessageInStationMessages(stationMessages, station.stationId)}</div>
+                    <div className='description'><span>Prediction Summary:</span> <br/>{findMessageInStationMessages(stationMessages, station.stationId)} - {String(time.getFullYear()) + "-" + String(time.getMonth()) + "-" + String(time.getDate())}</div>
                     <div className='links'>
                         <div className='page-links'>
                             <div className='view'>                     
