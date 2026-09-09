@@ -86,11 +86,16 @@ class ModelService{
                 );
             }
 
-            TestEvaluations::create([
+
+            $testEvaluation = TestEvaluations::create([
                 'stationId' => $stationId,
                 'percentError' => $errors['PercentError'],
                 'RMSE' => $errors['RMSE']
             ]);
+
+            Log::channel("weather")->info(
+                "Test Evaluations: stationId => ". $stationId . ", percentError => ". $testEvaluation->percentError . ", RMSE: ". $testEvaluation->RMSE
+            );
 
             return $errors;
         }

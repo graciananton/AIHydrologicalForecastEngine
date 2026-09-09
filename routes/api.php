@@ -23,6 +23,10 @@ use App\Http\Controllers\StationMessageDailyReportController;
 use App\Http\Controllers\ResponseController;
 
 
+Route::get('/', function () {
+    return 'Hello World';
+});
+
 Route::post('/generateResponse',[ResponseController::class,'process']);
 
 # get the RMSE score of the test set

@@ -6,6 +6,7 @@
         'resources/js/app.jsx'
     ])
     <title>Hydrological Forecast Engine - User Station</title>
+    <link rel="icon" type="image/x-icon" href="https://gracian.ca/forecasting/images/favicon/favicon.png">
 </head>
 <body>
     <script>

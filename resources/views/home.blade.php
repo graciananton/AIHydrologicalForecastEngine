@@ -29,7 +29,7 @@
     
 
     <title>AI Forecast Engine - Home</title>
-    <link rel="icon" type="image/x-icon" href="/../../images/favicon/logo.ico">
+    <link rel="icon" type="image/x-icon" href="https://gracian.ca/forecasting/images/favicon/favicon.png">
 </head>
 <body>
     <script>

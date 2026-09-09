@@ -66,6 +66,7 @@ class ModelController{
 
     public function testSingle(Request $request)
     {
+        
         try{
             $errors = $this->ModelService->testModel($request->stationId);
             return response()->json(['RMSE'=>$errors['RMSE'], 'PercentError' => $errors['PercentError']]);
