@@ -11,12 +11,14 @@ class TestEvaluations extends Model
     // sets the fillable columns in the table
     protected $fillable = [
         'stationId',
-        'error',
+        'percentError',
+        'RMSE'
     ];
     // sets the data type for each fillable column
     protected $casts = [
         'stationId' => 'string',
-        'error' => 'double',
+        'percentError' => 'decimal:38',
+        'RMSE' => 'decimal:38'
     ];
 
 }
