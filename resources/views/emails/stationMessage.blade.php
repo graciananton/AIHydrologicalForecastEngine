@@ -3,6 +3,9 @@
 <title>Station Message</title>
 
 <div class="stationMessage">
+    <div class='visualization' style='margin-bottom:6px;'>
+        <img src='https://gracian.ca/forecasting/images/banner/slides1.png' alt=''/>
+    </div>
     <div class="intro" style="margin-bottom:6px;">
         Hello {{$user}},
     </div>
@@ -16,7 +19,8 @@
         </div>
 
         <div class="createdAt">
-            Generated At: {{ $date }}
+            Generated at: {{ $date }}<br/>
+            Graphical Visualization: Included as attachments below
         </div>
 
     </div>
@@ -27,22 +31,5 @@
     <?php
     $stationId = $stationMessage['stationId'];
     ?>
-    <div class="graphs">
-        <img
-            src="https://gracian.ca/forecasting/images/future/{{$stationId}}_temperature.png"
-            alt=""
-        >
-
-        <img
-            src="https://gracian.ca/forecasting/images/future/{{$stationId}}_wind_speed.png"
-            alt=""
-        >
-
-        <img
-            src="https://gracian.ca/forecasting/images/future/{{$stationId}}_precipitation.png"
-            alt=""
-        >
-
-    </div>
 
 </div>

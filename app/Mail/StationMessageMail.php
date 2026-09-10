@@ -5,6 +5,7 @@ namespace App\Mail;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
+use Illuminate\Mail\Mailables\Attachment;
 use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
@@ -70,8 +71,15 @@ class StationMessageMail extends Mailable
      */
     public function attachments(): array
     {
-        Log::channel("laravel")->info("Creating attachments details");
-        return [];
+        Log::channel("weather")->info("Creating attachments details");
+        return [
+            Attachment::fromPath('https://gracian.ca/forecasting/images/future/'.$this->stationMessage['stationId'].'_temperature.png')
+                ->as($this->stationMessage['stationId'].'_temperature.png'),
+            Attachment::fromPath('https://gracian.ca/forecasting/images/future/'.$this->stationMessage['stationId'].'_wind_speed.png')
+                ->as($this->stationMessage['stationId'].'_wind_speed.png'),
+            Attachment::fromPath('https://gracian.ca/forecasting/images/future/'.$this->stationMessage['stationId'].'_precipitation.png')
+                ->as($this->stationMessage['stationId'].'_precipitation.png')
+        ];
     }
     
 }
