@@ -14,13 +14,22 @@ use Illuminate\Support\Facades\Log;
 class StationMessageMail extends Mailable
 {
     use Queueable, SerializesModels;
+    private array $user;
+    private string $station;
+    private string $date;
     private $stationMessage;
+
+
     /**
      * Create a new message instance.
      */
-    public function __construct($stationMessage)
+    public function __construct($user, $station, $date, $stationMessage)
     {
+        $this->user = $user;
+        $this->station = $station;
+        $this->date = $date;
         $this->stationMessage = $stationMessage;
+
         // internally calls envelope(), content(), attachments() even though not called in __construct()
     }
 
@@ -32,7 +41,7 @@ class StationMessageMail extends Mailable
     {
         Log::channel("laravel")->info("Creating envelope header details");
         return new Envelope(
-            subject: 'AI Hydrological Forecasting Engine Message',
+            subject: 'ML Hydrological Forecasting Engine Message',
         );
     }
 
@@ -46,6 +55,9 @@ class StationMessageMail extends Mailable
         return new Content(
             view: 'emails.stationMessage',
             with: [
+                'user' => $this->user['name'],
+                'station' => $this->station,
+                'date' => $this->date,
                 'stationMessage'=> $this->stationMessage
             ]
         );

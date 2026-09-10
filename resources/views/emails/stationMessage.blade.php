@@ -4,16 +4,19 @@
 
 <div class="stationMessage">
     <div class="intro" style="margin-bottom:6px;">
-        Hello User, the following is the prediction for your selected station.
+        Hello {{$user}},
     </div>
     <div class="title" style="margin-bottom:10px;">
 
         <div class="stationId">
-            Station {{ $stationMessage['stationId'] }}
+             {{ $station }}
+            <?php
+                
+            ?>
         </div>
 
         <div class="createdAt">
-            - {{ substr($stationMessage['created_at'],0, 10) }}
+            Generated At: {{ $date }}
         </div>
 
     </div>

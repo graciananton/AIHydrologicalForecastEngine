@@ -22,7 +22,12 @@ class StationMessageDailyReportService{
                 $stationMessage = Http::get($url);
                 $stationMessage = json_decode($stationMessage, true)[0];
 
-                Mail::to($user['email'])->send(new StationMessageMail($stationMessage));
+                $url = "http://gracian.ca/forecasting/public/api/stations?stationId=".$stationId;
+
+                $station = Http::get($url);
+                $station = json_decode($station, true)[0];
+
+                Mail::to($user['email'])->send(new StationMessageMail($user, $this->convertToSentenceCase($station['name']), $this->convertUTCToFormattedTime($stationMessage['created_at'], ['month', 'date', 'hour', 'minute', 'timePeriod']), $stationMessage));
             }
 
            // $errors = ApplicationErrors::where('created_at', '>', Carbon::now()->subDay())->get()->toArray();
@@ -33,4 +38,51 @@ class StationMessageDailyReportService{
             throw $e;
         }
     }
+    private function convertToSentenceCase(string $station):string{
+        $station_list = explode(" ", trim($station)); // ['HELLO','THERE']
+
+        for($i = 0; $i<count($station_list);$i++){
+            $station_element = strtolower($station_list[$i]);
+            $station_element[0] = strtoupper($station_element[0]);
+            $station_list[$i] = $station_element;
+        }
+        return join(" ", $station_list);
+    }
+    private function convertUTCToFormattedTime($UTCDate, $options)
+    {
+        $dateObject = new \DateTime($UTCDate, new \DateTimeZone('UTC'));
+
+        $dateObject->setTimezone(new \DateTimeZone(date_default_timezone_get()));
+
+        $monthName = $dateObject->format('F');
+
+        $hour = (int) $dateObject->format('g');
+
+        $timePeriod = $dateObject->format('A');
+
+        $result = '';
+
+        if (in_array('month', $options)) {
+            $result .= $monthName . ' ';
+        }
+
+        if (in_array('date', $options)) {
+            $result .= $dateObject->format('j') . ', ';
+        }
+
+        if (in_array('hour', $options)) {
+            $result .= $hour;
+        }
+
+        if (in_array('minute', $options)) {
+            $result .= ':' . $dateObject->format('i') . ' ';
+        }
+
+        if (in_array('timePeriod', $options)) {
+            $result .= $timePeriod;
+        }
+
+        return trim($result);
+    }
+
 }
