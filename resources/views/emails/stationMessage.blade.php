@@ -4,7 +4,7 @@
 
 <div class="stationMessage">
     <div class='visualization' style='margin-bottom:6px;'>
-        <img src='https://gracian.ca/forecasting/images/banner/slides1.png' alt=''/>
+        <img src='https://gracian.ca/forecasting/images/banner/slides1.png' alt='' width='100%'/>
     </div>
     <div class="intro" style="margin-bottom:6px;">
         Hello {{$user}},
