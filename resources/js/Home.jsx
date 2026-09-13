@@ -378,7 +378,7 @@ function Map(){
                         <div className='page-links'>
                             <div className='view'>                     
                                 <i class="fa-solid fa-chart-column"></i>
-                                <a href={base_url+'/public/userStation/'+station.stationId} target="_blank">User Station</a></div>
+                                <a href={base_url+'/public/userStation/'+station.stationId}>User Station</a></div>
                             <div className='signup'>         
                                 <i class="fa-regular fa-user"></i>
                                 <a href={base_url + '/public/register'} target="_blank">Login/Signup </a>

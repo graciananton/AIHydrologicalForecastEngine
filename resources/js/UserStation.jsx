@@ -3,26 +3,16 @@ import '../css/UserStation.css';
 import { useState, useEffect, useContext } from "react";
 import { BaseUrlContext } from "./BaseUrlContext";
 
-export default function UserStation({ data }){
-    console.log("data in userStation")
-    console.log(data);
-    //console.log(...data);
-    //return (<></>)
-    
+export default function UserStation({ data }){    
     return (<Main data = {data} />); //sends data to Main component as object, not as property of object
 }
 
 
 function getStationName(stationId){
-    const [station, setStation] = useState({});
-
+    const [station, setStation] = useState();
     useEffect(() => {
         async function getStation(){
-            console.log("async - getStation");
-
             const data = await fetch("https://gracian.ca/forecasting/public/api/stations?stationId="+stationId);
-            console.log("data in getStation function");
-            console.log(data);
             let station = await data.json();
             station = station[0];
             setStation(station);
@@ -30,34 +20,30 @@ function getStationName(stationId){
         getStation();
     },[]);
 
-    console.log("before returning");
-    return (station) && <>{formatIntoWordCase(station.name)}</>;
+    return (station) && formatIntoWordCase(station.name);
 }
 
 function formatIntoWordCase(stationName){
-    console.log("formatting in word case");
-    //let stationNameList = stationName.split(" ");
-    console.log(stationName);
-
-    return stationName;
-
-    console.log(stationNameList)
+    let stationNameList = stationName.split();
     let updatedStationNameList = [];
+    let stationNameElement = "";
     for(let i = 0;i<(stationNameList).length;i++){
-        let stationNameElement =  stationNameList[i].toLowerCase();
+        stationNameElement =  stationNameList[i].toLowerCase();
         stationNameElement = stationNameElement.substring(0,1).toUpperCase() + stationNameElement.substring(1,stationNameElement.length);
         updatedStationNameList.push(stationNameElement);
     }
-    return (<>{updatedStationNameList.join(" ")}</>);
+    return updatedStationNameList.join(" ");
 }
+
+
+
+
+
+
 
 function Main(station){
     station = station.data
-    console.log(station);
     const stationId = station.stationId;
-    console.log("station Id");
-    console.log(stationId);
-    console.log("User Station.jsx");
     return (
         <>
         <div className = 'title'>User Station - {getStationName(stationId)}</div>
@@ -72,7 +58,7 @@ function Main(station){
             <StationMessage stationId={stationId} />
             <Weather stationId = {stationId} />
             <Readings stationId = {stationId} />
-            <Footer />
+            {/*<Footer />*/}
         </div>
         </>
     )
@@ -100,8 +86,6 @@ function CurrentWeather({stationId}){
 
                 const response = await fetch('https://gracian.ca/forecasting/public/api/weather?stationId='+ stationId+'&from='+from+'&to='+to);
                 
-                console.log("Url")
-                console.log('https://gracian.ca/forecasting/public/api/weather?stationId='+ stationId+'&from='+from+'&to='+to)
                 if(!response.ok){
                     throw new Error("Failed to fetch");
                 }
@@ -120,8 +104,6 @@ function CurrentWeather({stationId}){
         getCurrentWeather(stationId);
     },[stationId]);
 
-    console.log("Current Weather");
-    console.log(currentWeather);
     if(currentWeather){
         const rain = currentWeather.weather.rain
         let message;
@@ -250,12 +232,7 @@ function Readings({stationId}){
                     {
                         readings.map((reading,index) => {
                             if(index + 1 < readings.length){
-                                console.log("Reading:");
-                                console.log(reading);
-                                console.log(index);
                                 let prev = readings[index+1];
-                                console.log("Prev:");
-                                console.log(prev);
                                 let change = reading.level - prev.level
                                 return (
                                     <li key={index}>
@@ -357,8 +334,6 @@ function convertUTCToFormattedTime(UTCDate, options){
         month: "long"
     });
     
-    console.log("Options");
-    console.log(options);
     return (
         <>
         {options.includes("month") ? String(monthName) + " ": ""}{options.includes("date") ? String(dateObject.getUTCDate()) + ", ": ""}{options.includes("hour") ? String(getTimeOffset(dateObject.getUTCHours())): ""}:{options.includes("minute") ? String(String(dateObject.getMinutes()).padStart(2,"0")) + " ":""}{options.includes("timePeriod") ? getAMPM(dateObject.getUTCHours()): ""}
@@ -630,17 +605,12 @@ function StationMessage({ stationId }){
     useEffect(() => {
         async function getStationMessage(){
             const data = await fetch("https://gracian.ca/forecasting/public/api/stationMessage?stationId="+stationId+"&order=desc&limit=1")
-            console.log(data);
             const message = await data.json();
-            console.log("Message:");
-            console.log(message);
             setMessage(message[0]);
         }
         getStationMessage();
     },[])
 
-    console.log("Messages:");
-    console.log(message);
     return (
     <div id='stationMessage'>
        <div id='title'>
