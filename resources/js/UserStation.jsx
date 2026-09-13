@@ -11,24 +11,41 @@ export default function UserStation({ data }){
     
     return (<Main data = {data} />); //sends data to Main component as object, not as property of object
 }
+
+
 function getStationName(stationId){
     const [station, setStation] = useState({});
-    
+    console.log("getStationName");
     useEffect(() => {
         async function getStation(){
-            const data = await fetch("http://gracian.ca/forecasting/public/api/stations?stationId="+stationId);
+            const data = await fetch("https://gracian.ca/forecasting/public/api/stations?stationId="+stationId);
             console.log("data in getStation function");
             console.log(data);
-            const station = await data.json()[0];
+            let station = await data.json();
+            station = station[0];
             setStation(station);
         }
         getStation();
     },[]);
-    
+
     console.log(station);
 
-    return (station) && station.name;
+    return (station) && formatWordCase(station.name);
 }
+
+function formatWordCase(stationName){
+    console.log("formatwordcase");
+    console.log(stationName);
+    let stationNameList = stationName.split(" ");
+    let updatedStationNameList = [];
+    for(let i = 0;i<(stationNameList).length;i++){
+        let stationNameElement =  stationNameList[i].toLowerCase();
+        stationNameElement = stationNameElement.substring(0,1).toUpperCase() + stationNameElement.substring(1,stationNameElement.length);
+        updatedStationNameList.push(stationNameElement);
+    }
+    return updatedStationNameList.join(" ");
+}
+
 function Main(station){
     station = station.data
     console.log(station);
