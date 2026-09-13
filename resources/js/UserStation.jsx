@@ -15,9 +15,11 @@ export default function UserStation({ data }){
 
 function getStationName(stationId){
     const [station, setStation] = useState({});
-    console.log("getStationName");
+
     useEffect(() => {
         async function getStation(){
+            console.log("async - getStation");
+
             const data = await fetch("https://gracian.ca/forecasting/public/api/stations?stationId="+stationId);
             console.log("data in getStation function");
             console.log(data);
@@ -28,22 +30,25 @@ function getStationName(stationId){
         getStation();
     },[]);
 
-    console.log(station);
-
-    return (station) && formatWordCase(station.name);
+    console.log("before returning");
+    return (station) && <>{formatIntoWordCase(station.name)}</>;
 }
 
-function formatWordCase(stationName){
-    console.log("formatwordcase");
+function formatIntoWordCase(stationName){
+    console.log("formatting in word case");
+    //let stationNameList = stationName.split(" ");
     console.log(stationName);
-    let stationNameList = stationName.split(" ");
+
+    return stationName;
+
+    console.log(stationNameList)
     let updatedStationNameList = [];
     for(let i = 0;i<(stationNameList).length;i++){
         let stationNameElement =  stationNameList[i].toLowerCase();
         stationNameElement = stationNameElement.substring(0,1).toUpperCase() + stationNameElement.substring(1,stationNameElement.length);
         updatedStationNameList.push(stationNameElement);
     }
-    return updatedStationNameList.join(" ");
+    return (<>{updatedStationNameList.join(" ")}</>);
 }
 
 function Main(station){
