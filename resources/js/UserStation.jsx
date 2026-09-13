@@ -4,6 +4,8 @@ import { useState, useEffect, useContext } from "react";
 import { BaseUrlContext } from "./BaseUrlContext";
 
 export default function UserStation({ data }){
+    console.log("data: ")
+    console.log(data)
     return (<Main {...data}/>); //sends data to Main component as object, not as property of object
 }
 function Main(station){

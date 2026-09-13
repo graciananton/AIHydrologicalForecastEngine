@@ -2,6 +2,7 @@ import React from "react";
 import "../css/home.css";
 import { useRef, useEffect, useState, useContext} from 'react'
 import { BaseUrlContext } from "./BaseUrlContext";
+import UserStation from "./UserStation";
 
 export default function Home({ data }){
     return (
@@ -10,6 +11,7 @@ export default function Home({ data }){
             <Banner />
             {
                 (data.request == "home" && <Map />) ||
+                (data.request == "userStation" && <UserStation data = {data} />)
                 (data.request == "methodology" && <Methodology />) ||
                 (data.request == "privacyPolicy" && <PrivacyPolicy />) || 
                 (data.request == "termsOfUse" && <TermsOfUse />) 

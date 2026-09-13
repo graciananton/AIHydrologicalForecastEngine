@@ -6,7 +6,7 @@ import Workflow from "./Workflow";
 import Header from "./Header";
 import Dashboard from "./Dashboard";
 import VerificationCode from "./VerificationCode";
-import UserStation from "./UserStation";
+import UserStation from "./UserStation"; // we can get rid of this maybe
 import Home from "./Home";
 import Signup from "./Signup";
 import Register from "./Register";
@@ -24,12 +24,13 @@ export default function App() {
   return (
     <BaseUrlContext value= {import.meta.env.VITE_APP_BASE_URL}>
       <div id='mainPage'>
-        {(req == "home" || req == "privacyPolicy" || req == "termsOfUse" || req == "methodology") && <Home data={data}/>}
+        {(req == "home" || req == "userStation" ||  req == "privacyPolicy" || req == "termsOfUse" || req == "methodology") && <Home data={data}/>}
         {req === 'workflow' && <Workflow /> }
         {req == "login" && <Login data={data} />}
         {req == "dashboard" && <Dashboard />}
         {req == "verificationCode" && <VerificationCode data={data}/>}
-        {req == "userStation" && <UserStation data={data}/>}
+        {/*req == "userStation" && <UserStation data={data}/>*/}
+
         {req == "signup" && <Signup data={data} />}
         {req == "verificationMessage" && <VerificationMessage data={data} />}
         {req == "register" && <Register data={data}/>}

@@ -12,6 +12,7 @@
     <div class="title" style="margin-bottom:10px;">
 
         <div class="stationId">
+            Report Summary:<br/>
              {{ $station }}
             <?php
                 
