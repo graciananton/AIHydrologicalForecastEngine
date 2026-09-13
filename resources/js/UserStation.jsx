@@ -8,12 +8,38 @@ export default function UserStation({ data }){
     console.log(data);
     //console.log(...data);
     //return (<></>)
-    return (<Main {...data}/>); //sends data to Main component as object, not as property of object
+    
+    return (<Main data = {data} />); //sends data to Main component as object, not as property of object
+}
+function getStationName(stationId){
+    const [station, setStation] = useState({});
+    
+    useEffect(() => {
+        async function getStation(){
+            const data = await fetch("http://gracian.ca/forecasting/public/api/stations?stationId="+stationId);
+            console.log("data in getStation function");
+            console.log(data);
+            const station = await data.json()[0];
+            setStation(station);
+        }
+        getStation();
+    },[]);
+    
+    console.log(station);
+
+    return (station) && station.name;
 }
 function Main(station){
+    station = station.data
+    console.log(station);
     const stationId = station.stationId;
+    console.log("station Id");
+    console.log(stationId);
     console.log("User Station.jsx");
     return (
+        <>
+        <div className = 'title'>User Station - {getStationName(stationId)}</div>
+        
         <div id='main'>
             <Station stationId = {stationId}/>
             <UpdatedAt stationId = {stationId} />
@@ -26,6 +52,7 @@ function Main(station){
             <Readings stationId = {stationId} />
             <Footer />
         </div>
+        </>
     )
 }
 function Footer(){

@@ -14,7 +14,7 @@ export default function Home({ data }){
             <Banner />
             {
                 (data.request == "home" && <Map />) ||
-                (data.request == "userStation" && <UserStation data = {data} />)
+                (data.request == "userStation" && <UserStation data = {data} />) || 
                 (data.request == "methodology" && <Methodology />) ||
                 (data.request == "privacyPolicy" && <PrivacyPolicy />) || 
                 (data.request == "termsOfUse" && <TermsOfUse />) 
