@@ -17,7 +17,10 @@ import { BaseUrlContext } from "./BaseUrlContext";
 export default function App() {
   const data = window.__REACT_DATA__ || {};
   var req = getReq(data);
-
+  console.log("req");
+  console.log(req);
+  console.log(data);
+  
   console.log("Vite app base url");
   console.log(import.meta.env.VITE_APP_BASE_URL);
   console.log(import.meta.env);

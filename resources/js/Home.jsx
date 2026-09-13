@@ -5,6 +5,9 @@ import { BaseUrlContext } from "./BaseUrlContext";
 import UserStation from "./UserStation";
 
 export default function Home({ data }){
+    console.log("inside Home function inside Home.jsx");
+    console.log(data);
+    
     return (
         <div className='home'>
             <Menu request = {data.request}/>
