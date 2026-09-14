@@ -5,7 +5,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use App\Models\User;
 
-class UserDashboardService
+class UserHistoryService
 {   
     public function getUser(string $email):?User{
         $query = User::query();

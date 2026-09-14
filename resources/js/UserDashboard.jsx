@@ -9,6 +9,6 @@ export default function StationMessage({ data }){
 
 function Header(){
     return (
-        
+        <></>
     )
 }

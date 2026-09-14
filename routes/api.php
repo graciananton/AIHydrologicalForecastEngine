@@ -21,10 +21,10 @@ use App\Http\Controllers\LevelAnalysisController;
 use App\Http\Controllers\StationMessageController;
 use App\Http\Controllers\StationMessageDailyReportController;
 use App\Http\Controllers\ResponseController;
-
+use App\Http\Controllers\UserHistoryController;
 
 Route::get('/', function () {
-    return 'Hello World';
+    return "Email Address:". session('email');
 });
 
 Route::post('/generateResponse',[ResponseController::class,'process']);
@@ -102,4 +102,4 @@ Route::get('/stationMessage', [StationMessageController::class, 'process']);
 
 Route::get('/stationMessageDailyReport', [StationMessageDailyReportController::class, 'process']);
 
-Route::get('/userHistory/{collection}',[UserHistoryController::class, 'process'])->middleware('auth');
+Route::get('/userHistory/{collection}',[UserHistoryController::class, 'process']);

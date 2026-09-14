@@ -8,6 +8,8 @@ use App\Http\Controllers\WorkflowController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\UserStationController;
+use App\Http\Controllers\UserDashboardController;
+
 use App\Http\Controllers\StationMessagesController;
 use App\Http\Controllers\RegisterController;
 
@@ -41,7 +43,7 @@ Route::get('/userStation/{id?}', [UserStationController::class,'process'])->wher
 
 Route::get('/stationMessages', [StationMessagesController::class,'process'])->middleware('auth');
 
-Route::get('/userDashboard', [UserDashboardController::class,'process'])->middleware('auth');
+Route::get('/userDashboard', [UserDashboardController::class,'process']);
 
 Route::get('/status', [StatusController::class, 'process'])->middleware('auth');
 

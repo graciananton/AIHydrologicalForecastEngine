@@ -1,17 +1,17 @@
 <?php
 namespace App\Http\Controllers;
 use Illuminate\Http\Request;
-use App\Services\UserHistoryService;
 use Illuminate\Support\Facades\DB;
+use App\Services\UserHistoryService;
 
-class UserDashboardController{
+class UserHistoryController{
     public function __construct(){
 
     }
-    public function process(){
+    public function process(UserHistoryService $UserHistoryService){
         $email = session('email');
 
-        $user = $UserDashboardService->getUser($email);
+        $user = $UserHistoryService->getUser($email);
         
         $query =  "SELECT * FROM job_statuses WHERE type LIKE '%StationMessageJob%' AND created_at > (SELECT created_at FROM users WHERE email = ". $email.')';
 
