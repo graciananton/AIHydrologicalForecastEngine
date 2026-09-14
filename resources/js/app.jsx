@@ -26,7 +26,7 @@ export default function App() {
         {req == "dashboard" && <Dashboard />}
         {req == "verificationCode" && <VerificationCode data={data}/>}
         {/*req == "userStation" && <UserStation data={data}/>*/}
-
+        {req == "userDashboard" && <UserDashboard data = {data} />}
         {req == "signup" && <Signup data={data} />}
         {req == "verificationMessage" && <VerificationMessage data={data} />}
         {req == "register" && <Register data={data}/>}

@@ -41,6 +41,8 @@ Route::get('/userStation/{id?}', [UserStationController::class,'process'])->wher
 
 Route::get('/stationMessages', [StationMessagesController::class,'process'])->middleware('auth');
 
+Route::get('/userDashboard', [UserDashboardController::class,'process'])->middleware('auth');
+
 Route::get('/status', [StatusController::class, 'process'])->middleware('auth');
 
 Route::get('/weather_sync',[WeatherController::class,'sync'])->middleware('auth');
