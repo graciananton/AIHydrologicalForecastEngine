@@ -102,4 +102,4 @@ Route::get('/stationMessage', [StationMessageController::class, 'process']);
 
 Route::get('/stationMessageDailyReport', [StationMessageDailyReportController::class, 'process']);
 
-Route::get('/userHistory',[UserHistoryController::class,'process'])->middleware('auth');
+Route::get('/userHistory/{collection}',[UserHistoryController::class, 'process'])->middleware('auth');
