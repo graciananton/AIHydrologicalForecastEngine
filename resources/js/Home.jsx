@@ -4,10 +4,7 @@ import { useRef, useEffect, useState, useContext} from 'react'
 import { BaseUrlContext } from "./BaseUrlContext";
 import UserStation from "./UserStation";
 
-export default function Home({ data }){
-    console.log("inside Home function inside Home.jsx");
-    console.log(data);
-    
+export default function Home({ data }){    
     return (
         <div className='home'>
             <Menu request = {data.request}/>
@@ -126,8 +123,6 @@ function convertUTCToFormattedTime(UTCDate, options){
         month: "long"
     });
     
-    console.log("Options");
-    console.log(options);
     return (
         <>
         {options.includes("month") ? String(monthName) + " ": ""}{options.includes("date") ? String(dateObject.getUTCDate()) + ", ": ""}{options.includes("hour") ? String(getTimeOffset(dateObject.getUTCHours())): ""}:{options.includes("minute") ? String(String(dateObject.getMinutes()).padStart(2,"0")) + " ":""}{options.includes("timePeriod") ? getAMPM(dateObject.getUTCHours()): ""}
@@ -136,8 +131,6 @@ function convertUTCToFormattedTime(UTCDate, options){
 }
 
 function findMessageInStationMessages(stationMessages, stationId){
-    console.log("find message in station Messages");
-    console.log(stationMessages);
 
     for(let i = 0;i < stationMessages.length;i++){
         let stationMessage = stationMessages[i];
@@ -171,12 +164,9 @@ function Map(){
             messagesCopy.push({'role':'user','content': userMessage.value});
             
             setUserInput("");
-            console.log(userInput);
             useRef.current = true;
             setAllMessages(messagesCopy);
 
-            console.log("User entered message");
-            console.log(allMessages);
 
             setUserSent({});
         }
@@ -184,11 +174,6 @@ function Map(){
 
     useEffect(() => {
         async function getResponse(){
-            console.log("getting response data");
-
-            console.log("Response Data:--");
-            console.log(allMessages);
-            console.log(JSON.stringify({'messages': allMessages}));
 
             const response = await fetch('https://gracian.ca/forecasting/public/api/generateResponse',{
                 method: "POST",
@@ -198,11 +183,9 @@ function Map(){
                 body: JSON.stringify({'messages': allMessages})
             });
             
-            console.log(response);
 
             const data = await response.json();
 
-            console.log(data);
 
             const assistant = data[data.length-1];
             let messagesCopy = [...allMessages]
@@ -322,7 +305,6 @@ function Map(){
                     reset.innerHTML = '<button>Reset</button>';
 
                     L.DomEvent.on(reset, 'click', function (event) {
-                        console.log("clicking on reset");
 
                         L.DomEvent.stopPropagation(event);
                         
@@ -378,7 +360,7 @@ function Map(){
                         <div className='page-links'>
                             <div className='view'>                     
                                 <i class="fa-solid fa-chart-column"></i>
-                                <a href={base_url+'/public/userStation/'+station.stationId}>User Station</a></div>
+                                <a href={base_url+'/public/userStation/'+station.stationId}>Station Dashboard</a></div>
                             <div className='signup'>         
                                 <i class="fa-regular fa-user"></i>
                                 <a href={base_url + '/public/register'} target="_blank">Login/Signup </a>

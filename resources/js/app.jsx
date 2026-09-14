@@ -17,13 +17,6 @@ import { BaseUrlContext } from "./BaseUrlContext";
 export default function App() {
   const data = window.__REACT_DATA__ || {};
   var req = getReq(data);
-  console.log("req");
-  console.log(req);
-  console.log(data);
-  
-  console.log("Vite app base url");
-  console.log(import.meta.env.VITE_APP_BASE_URL);
-  console.log(import.meta.env);
   return (
     <BaseUrlContext value= {import.meta.env.VITE_APP_BASE_URL}>
       <div id='mainPage'>
@@ -42,7 +35,6 @@ export default function App() {
   );
 }
 function getReq(data){
-  console.log(data);
   const result = Object.entries(data).find(([key, value]) => {
     return key == "request";
   });

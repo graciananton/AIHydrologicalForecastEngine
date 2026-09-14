@@ -24,29 +24,25 @@ function getStationName(stationId){
 }
 
 function formatIntoWordCase(stationName){
-    let stationNameList = stationName.split();
+    let stationNameList = stationName.split(" ");
     let updatedStationNameList = [];
     let stationNameElement = "";
-    for(let i = 0;i<(stationNameList).length;i++){
+    for(let i = 0; i < (stationNameList).length; i++){
         stationNameElement =  stationNameList[i].toLowerCase();
+
         stationNameElement = stationNameElement.substring(0,1).toUpperCase() + stationNameElement.substring(1,stationNameElement.length);
         updatedStationNameList.push(stationNameElement);
     }
+
     return updatedStationNameList.join(" ");
 }
-
-
-
-
-
-
 
 function Main(station){
     station = station.data
     const stationId = station.stationId;
     return (
         <>
-        <div className = 'title'>User Station - {getStationName(stationId)}</div>
+        <div className = 'title'>Station Dashboard - {getStationName(stationId)}</div>
         
         <div id='main'>
             <Station stationId = {stationId}/>
