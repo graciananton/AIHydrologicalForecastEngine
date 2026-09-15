@@ -8,22 +8,15 @@ class UserHistoryController{
     public function __construct(){
 
     }
-    public function process(UserHistoryService $UserHistoryService){
-        $email = session('email');
+    public function process(){
+        $UserHistoryService = new UserHistoryService(session('email'));
 
-        $user = $UserHistoryService->getUser($email);
+        $user = $UserHistoryService->getUser();
         
-        $query =  "SELECT * FROM job_statuses WHERE type LIKE '%StationMessageDailyReportJob%' AND created_at > (SELECT created_at FROM users WHERE email = ?)";
+        $jobs = $UserHistoryService->getJobs();
 
-        $jobs = DB::select($query, [$email]);
-        
         $route = request()->segment(2);
 
-        if($route == "jobs"){
-            return response()->json($jobs);
-        }
-        else if($route == "user"){
-            return response()->json($user);
-        }  
+        return ($route == "jobs") ? response()->json($jobs) : (($route == "user") ? response()->json($user) : response()->json(new \stdClass()));
     }
 }
