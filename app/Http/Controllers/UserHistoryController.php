@@ -13,9 +13,9 @@ class UserHistoryController{
 
         $user = $UserHistoryService->getUser($email);
         
-        $query =  "SELECT * FROM job_statuses WHERE type LIKE '%StationMessageJob%' AND created_at > (SELECT created_at FROM users WHERE email = ". $email.')';
+        $query =  "SELECT * FROM job_statuses WHERE type LIKE '%StationMessageJob%' AND created_at > (SELECT created_at FROM users WHERE email = ?)";
 
-        $jobs = DB::select($query);
+        $jobs = DB::select($query, [$email]);
         
         $route = request()->segment(2);
 

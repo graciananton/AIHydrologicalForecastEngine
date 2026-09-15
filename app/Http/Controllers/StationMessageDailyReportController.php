@@ -9,7 +9,12 @@ class StationMessageDailyReportController extends Controller
     public function __construct(Request $request){
         
     }
-    public function process(StationMessageDailyReportService $stationMessageDailyReportService){
-        return $stationMessageDailyReportService->sendStationMessageDailyReport();
+    public function sync(){
+        $users = User::where('role','user')->get()->toArray();
+        $results = [];
+        foreach ($users as $user) {
+            StationMessageDailyReportJob::dispatch($user);
+        }
     }
+
 }

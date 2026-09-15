@@ -85,6 +85,7 @@ class AuthController extends Controller
                 }
                 else if($result->role == "user"){
                     $user = User::where('email', session('email'))->first();
+                    
                     Log::channel("laravel")->info("Email address:".  session('email'));
 
                     if($user->verified){

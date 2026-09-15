@@ -12,6 +12,7 @@ use App\Http\Controllers\UserDashboardController;
 
 use App\Http\Controllers\StationMessagesController;
 use App\Http\Controllers\RegisterController;
+use App\Http\Controllers\UserHistoryController;
 
 use App\Services\OtpMailService;
 use Illuminate\Http\Request;
@@ -95,3 +96,10 @@ Route::get('/termsOfUse', function(){
 Route::get('/methodology', function(){
     return view('home', ['request' => 'methodology']);
 });
+
+
+Route::get('/', function () {
+    return "Email Address:". session('email');
+});
+
+Route::get('/userHistory/{collection}',[UserHistoryController::class, 'process']);

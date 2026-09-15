@@ -10,29 +10,19 @@ use App\Models\ApplicationErrors;
 use Illuminate\Support\Facades\Http;
 
 class StationMessageDailyReportService{
-    public function sendStationMessageDailyReport(){
+    public function sendStationMessageDailyReport($user){
         try{
-            $users = User::where('role','user')->get()->toArray();
+            $stationId = $user['stationId'];
+            $url = "http://gracian.ca/forecasting/public/api/stationMessage?stationId=".$stationId."&order=desc&limit=1&role=user";
+            $stationMessage = Http::get($url);
+            $stationMessage = json_decode($stationMessage, true)[0];
 
-            $usersList = [];
-            for($i=0;$i<count($users);$i++){
-                $user = $users[$i];
-                $stationId = $user['stationId'];
-                $url = "http://gracian.ca/forecasting/public/api/stationMessage?stationId=".$stationId."&order=desc&limit=1&role=user";
-                $stationMessage = Http::get($url);
-                $stationMessage = json_decode($stationMessage, true)[0];
+            $url = "http://gracian.ca/forecasting/public/api/stations?stationId=".$stationId;
 
-                $url = "http://gracian.ca/forecasting/public/api/stations?stationId=".$stationId;
+            $station = Http::get($url);
+            $station = json_decode($station, true)[0];
 
-                $station = Http::get($url);
-                $station = json_decode($station, true)[0];
-
-                Mail::to($user['email'])->send(new StationMessageMail($user, $this->convertToSentenceCase($station['name']), $this->convertUTCToFormattedTime($stationMessage['created_at'], ['month', 'date', 'hour', 'minute', 'timePeriod']), $stationMessage));
-            }
-
-           // $errors = ApplicationErrors::where('created_at', '>', Carbon::now()->subDay())->get()->toArray();
-           // Mail::to("GracianAnton@cmail.carleton.ca")->send(new StationMessageMail($errors));
-            $usersListStr = join(', ',$usersList);
+            Mail::to($user['email'])->send(new StationMessageMail($user, $this->convertToSentenceCase($station['name']), $this->convertUTCToFormattedTime($stationMessage['created_at'], ['month', 'date', 'hour', 'minute', 'timePeriod']), $stationMessage));
         }
         catch(\Throwable $e){
             throw $e;
