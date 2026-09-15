@@ -99,5 +99,5 @@ Route::get('/levelAnalysis', [LevelAnalysisController::class, 'process']);
 
 Route::get('/stationMessage', [StationMessageController::class, 'process']);
 
-Route::get('/stationMessageDailyReport', [StationMessageDailyReportController::class, 'process']);
+Route::get('/stationMessageDailyReport', [StationMessageDailyReportController::class, 'sync']);
 

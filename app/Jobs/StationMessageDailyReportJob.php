@@ -42,9 +42,9 @@ class StationMessageDailyReportJob implements ShouldQueue
                 'started_at' => now()
             ]);
 
-            $this->setInput(['stationId' => $this->user->name]);
+            $this->setInput(['stationId' => $this->user['name']]);
 
-            $StationMessageDailyReportService->sendStationMessageDailyReport($user);
+            $StationMessageDailyReportService->sendStationMessageDailyReport($this->user);
 
             $this->update([
                 'job_id' => $this->getJobStatusId()
@@ -68,8 +68,8 @@ class StationMessageDailyReportJob implements ShouldQueue
 
             $error = ApplicationErrors::create(
                 [
-                    'message' => "StationMessageDailyReportJob - finished for user ". $this->user->name,
-                    'category' => 'App\Jobs\StationMessageJob',
+                    'message' => "StationMessageDailyReportJob - finished for user ". $this->user['name'],
+                    'category' => 'App\Jobs\StationMessageDailyReportJob',
                     'status' => 'success'
                 ]
             );
@@ -84,7 +84,7 @@ class StationMessageDailyReportJob implements ShouldQueue
             ApplicationErrors::create(
                 [
                     'message' => $e->getMessage(),
-                    'category' => 'App\Jobs\StationMessageService',
+                    'category' => 'App\Jobs\StationMessageDailyReportJob',
                     'status' => 'failed'
                 ]
             );
